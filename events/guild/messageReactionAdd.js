@@ -29,7 +29,7 @@ module.exports = class messageReactionAddListener extends Listener {
 			}
 
 			if (message.guild.me.permissions.has('SEND_MESSAGES') && message.channel.name.includes('test')) {
-                if (message.author.id === user.id)	errormessage = await message.channel.send(`${user}, you may not star your own message.`);
+                if (message.author.id === user.id)  errormessage = await message.channel.send(`${user}, you may not star your own message.`);
                 else								errormessage = await message.channel.send(`${user}, you may not star bot messages.`);
 
 				return errormessage.delete({timeout: 5000});
@@ -43,7 +43,7 @@ module.exports = class messageReactionAddListener extends Listener {
 		const reacount = await (await reaction.users.fetch()).filter(r => r.id !== message.author.id && !r.bot).size;
 		if (reacount < 3) return;
 
-		const starChannel = channel // message.guild.channels.find("name", "starboard");
+		const starChannel = channel; // message.guild.channels.find("name", "starboard");
 		if (starChannel && starChannel.permissionsFor(this.client.user).has('SEND_MESSAGES')) {
 			let PostMessage = true;
 
@@ -87,17 +87,16 @@ module.exports = class messageReactionAddListener extends Listener {
 			}
 		}
 
-		let key = `${message.guild.id}-${message.author.id}`;
-		this.client.db.points.ensure(key, {user: message.author.id, guild: message.guild.id, points: 0, level: 1 });
-		let currentPoints = this.client.db.points.getProp(key, "points");
+        let pointsUser = this.client.db.points.findOne({guild: message.guild.id, member: message.author.id}) || this.client.db.points.insert({guild: message.guild.id, member: message.author.id, points: 0, level: 0});
 
-		if(reacount == 3) {
-			//If the reaction count is 3, the user gets 20 points
-			this.client.db.points.setProp(key, "points", currentPoints + 20);
-		} else if (reacount > 3) {
-			// Anything above that will get 5
-			this.client.db.points.setProp(key, "points", currentPoints + 5);
-		}
+        if(reacount == 3) {
+            //If the reaction count is 3, the user gets 20 points
+            pointsUser.points = 20 + user.points;
+        } else if (reacount > 3) {
+            pointsUser.points = 5 + user.points;
+        }
+
+        this.client.db.points.update(pointsUser);
 	}
 }
 
