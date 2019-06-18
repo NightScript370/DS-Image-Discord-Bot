@@ -1,19 +1,19 @@
 const { Listener } = require('discord-akairo');
 
 module.exports = class messageReactionRemoveListener extends Listener {
-  constructor() {
-    super('messageReactionRemove', {
-      emitter: 'client',
-      event: 'messageReactionRemove',
-      category: 'guild'
-    });
-  }
+    constructor() {
+        super('messageReactionRemove', {
+            emitter: 'client',
+            event: 'messageReactionRemove',
+            category: 'guild'
+        });
+      }
 
-  async exec(reaction, user) {
-    const client = await this.client;
+    async exec(reaction, user) {
+        const client = await this.client;
 		const message = reaction.message;
-    const channel = require("./../../Configuration").getKey(client, message, "starboardchannel");
-    if (message.partial) await reaction.message.fetch();
+        const channel = require("./../../Configuration").getKey(client, message, "starboardchannel");
+        if (message.partial) await reaction.message.fetch();
 
 		if (!message.guild) return;
 		if (message.author.bot) return;
@@ -63,17 +63,24 @@ module.exports = class messageReactionRemoveListener extends Listener {
 			}
 		}
 
-		let key = `${message.guild.id}-${message.author.id}`;
-		this.client.points.ensure(key, {user: message.author.id, guild: message.guild.id, points: 0, level: 1 });
-		let currentPoints = this.client.points.getProp(key, "points");
+        let pointsUser = this.client.db.points.findOne({guild: message.guild.id, member: message.author.id}) || this.client.db.points.insert({guild: message.guild.id, member: message.author.id, points: 0, level: 0});
+
+        if(reacount == 3) {
+            //If the reaction count is 3, the user gets 20 points
+            pointsUser.points = 20 + user.points;
+        } else if (reacount > 3) {
+            pointsUser.points = 5 + user.points;
+        }
 
 		if((reacount+1) > 3) {
-			// If the reaction count was 3, the user gets -5 points
-			this.client.points.setProp(key, "points", currentPoints - 5);
+			// If the reaction count was above 3, the user gets -5 points
+			pointsUser.points = user.points - 5;
 		} else if ((reacount+1) == 3) {
-			// If it was above 3, they will get -20 points
-			this.client.points.setProp(key, "points", currentPoints - 20);
+			// If it was 3, they will get -20 points
+			pointsUser.points = user.points - 20;
 		}
+
+        this.client.db.points.update(pointsUser);
 	}
 }
 
