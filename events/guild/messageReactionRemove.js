@@ -19,7 +19,7 @@ module.exports = class messageReactionRemoveListener extends Listener {
 		if (message.author.bot) return;
 		if (reaction.emoji.name !== '⭐') return;
 		if (message.author.id === user.id) return;
-		if (message.channel.id == channel.id) return;
+		if (channel && message.channel.id == channel.id) return;
 
 		const reacount = await (await reaction.users.fetch()).filter(r => r.id !== message.author.id && !r.bot).size;
 
