@@ -1,0 +1,14 @@
+{
+  "MakerBoard Connectivity": {
+    color: "BLUE",
+    description: "Connect your discord experience to a makerboard website."
+  },
+  "Game Server Statistics": {
+    color: "GREEN",
+    description: "Get statistics on servers for games such as Minecraft, Call Of Duty and much more"
+  },
+  "EXP": {
+    color: "YELLOW",
+    description: "Allows users to earn experience points on servers as they send messages."
+  }
+}

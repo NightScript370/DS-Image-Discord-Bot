@@ -1,0 +1,151 @@
+
+
+/* Depot Grid */
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto;
+        grid-gap: 10px;
+        padding: 10px;
+        width: 100%;
+    }
+
+    @media only screen and (min-width: 1000px) {
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto;
+            grid-gap: 10px;
+            padding: 10px;
+        }
+        
+        .grid-container > table {
+            max-width:325px;
+        }
+
+        .grid-container #userListing {
+            max-width:200px;
+        }
+    }
+
+    @media only screen and (min-width: 1200px) {
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            grid-gap: 10px;
+            padding: 10px;
+        }
+
+        .grid-container > table {
+            max-width:325px;
+        }
+    }
+
+			#boardHeader {
+				position: relative
+			}
+
+			#userPanel {
+				position: absolute;
+				top: 0;
+				right: 3px;
+			}
+
+			#headerNavigation {
+				position: absolute;
+				bottom: 0;
+				right: 0;
+			}
+			
+			#headerNavigation:before {
+				content: '';
+				position: absolute;
+				top: 0;
+				right: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #FFDA00;
+				-webkit-transform-origin: 100% 0;
+				-ms-transform-origin: 100% 0;
+				transform-origin: 100% 0;
+				-webkit-transform: skew(-45deg);
+				-ms-transform: skew(-45deg);
+				-webkit-transform: skew(-45deg);
+				-ms-transform: skew(-45deg);
+				transform: skew(-45deg);
+				z-index: 1;
+			}
+			
+			#navigationContainer {
+			  position: relative;
+				background-color: #FFDA00;
+				z-index: 7550;
+				padding-right: 6px;
+				padding-left: 2px;
+        font-size: 1.2rem;
+			}
+
+			.navigationLinks {
+				padding-right: 10px;
+				padding-left: 1px;
+			}
+			
+			.navigationLinks:hover {
+				text-shadow: 2px 2px 3px rgba(0,0,0,0.5)
+			}
+
+#img-logo {
+  max-height: 150px;
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#featuresHeader {
+  text-decoration: none;
+  position: relative;
+  /*
+    webkit-transition: all 0.15s ease-out;
+    -moz-transition: all 0.15s ease-out;
+    -o-transition: all 0.15s ease-out;
+    -ms-transition: all 0.15s ease-out;
+    transition: all 0.15s ease-out;
+  */
+}
+#featuresHeader:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  background-color: #f00;
+  visibility: hidden;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transition: all 0.5s cubic-bezier(1, 0.25, 0, 0.75) 0s;
+  transition: all 0.5s cubic-bezier(1, 0.25, 0, 0.75) 0s;
+}
+#featuresHeader:hover:before {
+  visibility: visible;
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+}
+
+#tab-sidebar .nav-link {
+    margin: 5px;
+    border: 1px solid lightgray;
+    
+    /* This is just to center text in pills */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#tab-sidebar .nav-link.col-6 {
+    /* 10px is just double the size of 5px margin set on .nav-link */
+    max-width: calc(100% / 2 - 10px);
+}
+
+#tab-sidebar .nav-link.col-12 {
+    max-width: calc(100% - 10px);
+}

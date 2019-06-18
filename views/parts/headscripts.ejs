@@ -1,0 +1,31 @@
+<!-- Useful code-->
+<!-- How so? How will this be used? -->
+<!-- I don't know, but maybe we'll want to have this and we'll have this ready. Ok, lets delete these notes cause glitch is complaining -->
+<!-- It's not about that; to prevent the page from updating constantly I've renamed the file to .js, thus enabling errors. I see, anyways, do you think you can help me with turndown in rpg.js?
+<!-- sure -->
+<script>
+  function createCookie(options) {
+    var date = new Date();
+    let cookietext = `${options.key}=${options.value};`;
+    if (options.expirydate) cookietext += ` expires= ${options.expirydate.toGMTString()} ;`
+    cookietext += ` path=${options.path || "/"}`
+    document.cookie = cookietext// `${cookieName}=${cookieValue}; expires= ${date.toGMTString()} ; path=/ `;
+  } //document.cookie = "cookiename=cookievalue; expires= Thu, 21 Aug 2014 20:00:00 UTC; path=/ "
+  
+  function getCookies() {
+    return document.cookie
+      .split(';')
+      .reduce((res, c) => {
+        const [key, val] = c.trim().split('=').map(decodeURIComponent)
+        try {
+          return Object.assign(res, { [key]: JSON.parse(val) })
+        } catch (e) {
+          return Object.assign(res, { [key]: val })
+        }
+      }, {});
+  }
+
+  if (getCookies().darkmode) {
+    document.querySelector("#darkmode").href = "/dark.css"
+  }
+</script>

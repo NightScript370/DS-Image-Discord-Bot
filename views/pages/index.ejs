@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <% var subtitle = "Home" %>
+  <% include ../parts/head %>
+  <!-- Start content -->
+  
+  <div class="jumbotron text-center">
+    <h1 class="display-4">Introducing <%= client.user.username %></h1>
+    <p class="lead">
+      Yamamura is a Discord bot focused on fufilling your server's needs as well as your wants.<br>
+      The Yamamura bot was originally only available for the Mario Making Mods Discord Server, however, it is now available to be used on any Discord Server
+    </p>
+  </div>
+  
+      <div class=container>
+        
+        <% const features = [
+          {
+            icon: "level-up",
+            text: "Leveling system with configurable point multipliers"
+          },
+          {
+            icon: "cogs",
+            text: "Powerful per-server settings system"
+          },
+          {
+            icon: "gamepad",
+            text: "Tons of fun games"
+          },
+          {
+            icon: "star",
+            text: "Starboard system (if you're into that thing)"
+          },
+          {
+            icon: "key",
+            text: "Strong Server Management Tools"
+          },
+          {
+            icon: "file-code-o",
+            text: "New features added regularly"
+          }
+        ] %>
+        
+        <h2 class="text-center" id="featuresHeader">Features</h2>
+        <br />
+
+        <div class="row">
+          
+          <% for (feature of features) { %>
+          <div class="col-<%= feature.col || 4 %> text-center">
+            <div class="hoverable">
+              <h2>
+                <i class="fa fa-<%= feature.icon %>"></i>
+              </h2>
+              <p><%= feature.text %></p>
+            </div>
+          </div>
+          <% } %>
+        </div>
+      </div>
+
+  <!-- End content -->
+  <% include ../parts/footer %>
+</html>

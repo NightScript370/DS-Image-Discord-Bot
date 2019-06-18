@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <% var subtitle = "Support" %>
+  <% include ../parts/head %>
+
+  <br><br>
+
+  <style>
+    .iframe-container {
+      position: relative;
+      overflow: hidden;
+      padding-top: 150%;
+    }
+
+    .iframe-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+
+    .padding-bottom a img {
+      padding-bottom: 5px;
+    }
+  </style>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-9 col-lg-8 col-md-7">
+        <h2 class="text-center">Support Bot Development</h2>
+        <p class="text-center">
+          Do you want to help make Yamamura the best bot possible?<br>
+          If so, here's how you can help us out:
+
+          <ul>
+            <li>Find a bug? Report it! Our developers will take care of it as soon as possible</li>
+            <li>Join our Discord Server!</li>
+            <li>Spread the word! The more servers the bots are in, the more people will experience the bot</li>
+            <li>Let us know what you think of the bot, and what we should add or change! We take your opinion seriously</li>
+            <li>Upvote the bots on <a href="https://discordbotlist.com/bots/<%= client.user.id %>">discordbotlist.com</a> and <a href="https://discordbots.org/bot/<%= client.user.id %>">discordbots.org</a></li>
+            <li>Help us out get a proffesional VPS. We are currently running into bottlenecks here on Glitch (if you can help us out, please send a Direct message to NightYoshi370#5597 on Discord)</li>
+          </ul>
+        </p>
+      </div>
+      <div class="col-xl-3 col-lg-4 col-md-5">
+        <div class="iframe-container">
+          <iframe src="https://discordapp.com/widget?id=562822754395619360&theme=dark" width="350" height="500" allowtransparency="true"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br>
+  <br>
+
+  <div class="text-center image-container">
+    <a href="https://discordbotlist.com/bots/<%= client.user.id %>"><img width="380" height="150" src="https://discordbotlist.com/bots/<%= client.user.id %>/widget" alt="<%= client.user.username%> stats on discordbotlist.com"></a>
+    <a href="https://discordbots.org/bot/<%= client.user.id %>"><img src="https://discordbots.org/api/widget/<%= client.user.id %>.svg?usernamecolor=FFFFFF&topcolor=000000" alt="<%= client.user.username%> stats on discordbots.org"></a>
+  </div>
+
+  <!-- End content -->
+  <% include ../parts/footer %>
+</html>
