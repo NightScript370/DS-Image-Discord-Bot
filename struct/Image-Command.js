@@ -7,6 +7,8 @@ class CustomCommand extends Command {
     super(id, options);
   }
 
+  // Todo: Get the other image commands in here (used for the mass edit command)
+
   async stepInShit(image, overlay) {
     const base = await loadImage(path.join(__dirname, '..', 'assets', 'images', 'stepinshit.png'));
 
@@ -32,7 +34,24 @@ class CustomCommand extends Command {
     return canvas.toBuffer();
   }
 
-  
+  LargestSize(images) {
+    let currentimage;
+
+    let height = 0;
+    let width = 0;
+
+    for (var image of images) {
+      currentimage = await loadImage(image);
+
+      if (height < currentimage.height)
+        height = currentimage.height;
+
+      if (width < currentimage.width)
+        width = currentimage.width;
+    }
+
+    return {width: width, height: height}
+  }
 }
 
 module.exports = CustomCommand;

@@ -10,7 +10,6 @@ module.exports = class LeaderboardCommand extends Command {
         usage: 'num:<optional field> guild:<optional field. This is available for viewing a specific guild\'s user point>',
         examples: ['5', '5 guild:318882333312679936']
       },
-      guildOnly: true,
       args: [
         {
           id: 'guild',

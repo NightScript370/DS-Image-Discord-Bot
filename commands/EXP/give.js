@@ -39,12 +39,18 @@ module.exports = class ServerPointsCommand extends Command {
           match: 'option',
           flag: 'guild:',
           unordered: true
-        }
+        },
+        {
+          id: 'setNotAdd',
+          match: 'flag',
+          flag: '--set',
+          unordered: true
+        },
       ],
 		});
 	}
 
-	async exec(message, { user, pointsToDonate, guild }) {
+	async exec(message, { user, pointsToDonate, guild, setNotAdd }) {
     const client = await this.client
     let guildFound;
 
@@ -85,11 +91,15 @@ module.exports = class ServerPointsCommand extends Command {
       DBAuthor.level = Math.floor(DBAuthor.points / 350);
     }
 
-    DBuser.points = DBuser.points + pointsToDonate;
+    if (message.author.id == message.guild.ownerID && setNotAdd) {
+      DBuser.points = pointsToDonate;
+    } else {
+      DBuser.points = DBuser.points + pointsToDonate;
+    }
+
     DBuser.level = Math.floor(DBuser.points / 350);
 
     let BotThanks = `thank you so much for donating ${pointsToDonate} points to ${user.tag}. He's now at level ${DBuser.level}.`;
-
     if(message.author.id !== message.guild.ownerID) {
 			BotThanks += `\n Unfortunately, that also means you're now down to ${DBAuthor.points} points, and are now at level ${DBAuthor.level}`;
 		}

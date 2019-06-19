@@ -114,8 +114,10 @@ class MyClient extends AkairoClient {
         }
       }
 
-      if (target) // Oh XD
+      if (target) {
+        console.log(msg)
         return target.cleanContent;
+      }
 
 			return null;
 		});
@@ -176,7 +178,7 @@ class MyClient extends AkairoClient {
           `${mem.username.toLowerCase()}#${mem.discriminator}`.includes(search.toLowerCase());
       }
 		});
-    this.commandHandler.resolver.addType('image', async (message, what) => {
+    this.commandHandler.resolver.addType('image', async (message, argument) => {
       const fileTypeRe = /\.(jpe?g|png|gif|bmp)$/i;
       const base64 = /data:image\/(jpe?g|png|gif|bmp);base64,([^\"]*)/;
       const attachment = message.attachments.first();
@@ -187,16 +189,24 @@ class MyClient extends AkairoClient {
         if (attachment.size > 8e+6) return false;
         if (!fileTypeRe.test(attachment.name)) return false;
 
-        return attachment.url;
+        return [ attachment.url ];
       }
 
       if (attachment && validateAttachment(attachment)) {
-        return attachment.url;
-      } else if (!isEmpty(what)) {
-        let user = await client.commandHandler.resolver.types.get("user-commando")(message, what);
+        return [ attachment.url ];
+      } else if (argument && !isEmpty(argument)) {
+        let user = await client.commandHandler.resolver.types.get("user-commando")(message, argument);
 
-        if (fileTypeRe.test(what.split(/[#?]/gmi)[0])) {
-          return what;
+        let splittedarguments = argument.split(' ');
+        let returnargument = [];
+
+        for (var splittedargument of splittedarguments) {
+          if (fileTypeRe.test(splittedargument.split(/[#?]/gmi)[0]))
+            returnargument.push(splittedargument);
+        }
+
+        if (!isEmpty(returnargument)) {
+          return returnargument;
         } else if (user && !isEmpty(user.displayAvatarURL({format: 'png'}))) {
           return user.displayAvatarURL({ format: 'png', size: 512 });
         }

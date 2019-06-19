@@ -7,11 +7,11 @@ module.exports = class Number8ballCommand extends Command {
 			aliases: ['8-ball', "8ball"],
 			category: 'Fun',
 			description: {
-        content: 'Ask your question to the magical 8 ball.',
-        usage: '<question>',
-        examples: 'Should I play Super Mario Bros today?'
-      },
-      args: [
+                content: 'Ask your question to the magical 8 ball.',
+                usage: '<question>',
+                examples: 'Should I play Super Mario Bros today?'
+            },
+            args: [
                 {
                     id: 'question',
                     type: 'question',
@@ -26,16 +26,16 @@ module.exports = class Number8ballCommand extends Command {
 	}
 
 	async exec(message, { question }) {
-    const client = await this.client;
-    let username = message.member ? message.member.displayName : message.author.username;
-    
-    question = question.replace(/<@!?([0-9]*)>/g, (something, id) => {
-      let user = client.users.get(id);
-      return user ? user.tag : global.getString(message.author.lang, "User not found");
-    });
+        const client = await this.client;
+        let username = message.member ? message.member.displayName : message.author.username;
+
+        question = question.replace(/<@!?([0-9]*)>/g, (something, id) => {
+            let user = client.users.get(id);
+            return user ? user.tag : global.getString(message.author.lang, "User not found");
+        });
     
 		let response = `❓ **${username}'s Question:** ${question}\n🎱 **Answer:** ${answers[Math.floor(Math.random() * answers.length)]}`;
-    if (response > 2000) return message.util.reply('Too long');
-    message.util.send(response);
+        if (response > 2000) return message.util.reply('Too long');
+        message.util.send(response);
 	}
 };

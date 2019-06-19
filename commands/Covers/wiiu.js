@@ -16,8 +16,9 @@ module.exports = class NintendoWiiUCommand extends Command {
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
 				{
-					id: 'image',
-					type: 'image'
+					id: 'images',
+					type: 'image',
+          match: 'rest'
 				},
         {
 					id: 'rating',
@@ -47,13 +48,10 @@ module.exports = class NintendoWiiUCommand extends Command {
 		});
 	}
 
-	async exec(msg, { image, rating, padding, forcestretch, pattern }) {
-		let boxrating = '';
-    let BG = '';
+	async exec(msg, { images, rating, padding, forcestretch, pattern }) {
+		let boxrating, BG, currentimage;
 
     try {
-      let base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'wiiu', 'WiiU_Case.png'));
-
       /* if (pattern) {
         switch (pattern.toLowerCase()) {
           case 'wifi':
@@ -110,7 +108,7 @@ module.exports = class NintendoWiiUCommand extends Command {
         }
       } */
 
-			const data = await loadImage(image);
+      const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'wiiu', 'WiiU_Case.png'));
 			const canvas = createCanvas(base.width, base.height);
 			const ctx = canvas.getContext('2d');
       
@@ -118,13 +116,16 @@ module.exports = class NintendoWiiUCommand extends Command {
       /* if (!isEmpty(BG)) {
 			  ctx.drawImage(BG, 0, 0, base.width, base.height);
       } */
-      
-      if((data.width == data.height || (base.height/4) > data.height) && !forcestretch) {
-        ctx.drawImage(data, padding, (base.height / 4)+padding, base.width-padding, (base.height/1.5)-padding);
-      } else if ((base.height/3) > data.height && !forcestretch) {
-        ctx.drawImage(data, padding, (base.height / 3)+padding, base.width-padding, (base.height/2)-padding);
-      } else {
-        ctx.drawImage(data, padding, padding, base.width-padding, base.height-padding);
+
+      for (var image of images) {
+        currentimage = loadImage(image);
+        if((currentimage.width == currentimage.height || (base.height/4) > currentimage.height) && !forcestretch) {
+          ctx.drawImage(currentimage, padding, (base.height / 4)+padding, base.width-padding, (base.height/1.5)-padding);
+        } else if ((base.height/3) > currentimage.height && !forcestretch) {
+          ctx.drawImage(currentimage, padding, (base.height / 3)+padding, base.width-padding, (base.height/2)-padding);
+        } else {
+          ctx.drawImage(currentimage, padding, padding, base.width-padding, base.height-padding);
+        }
       }
 
       /*if (!isEmpty(boxrating)) {
@@ -135,7 +136,7 @@ module.exports = class NintendoWiiUCommand extends Command {
 
       const attachment = canvas.toBuffer();
       if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-			return msg.util.send({ files: [{ attachment, name: 'WiiU.png' }] });
+			return msg.util.send({ files: [{ attachment: attachment, name: 'Nintendo-WiiU.png' }] });
 		} catch (err) {
 			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);
 		}

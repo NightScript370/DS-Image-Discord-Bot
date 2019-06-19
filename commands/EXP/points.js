@@ -37,7 +37,7 @@ module.exports = class ServerPointsCommand extends Command {
     if (user.bot) return message.reply("bots do not collect Experience Points! Please try this command on a different user");
     
     if (guild) {
-      if(message.guild.id !== guild.id) {
+      if(!message.guild || (message.guild && message.guild.id !== guild.id)) {
         let guildFind = client.guilds.get(guild.id)
         if (!guildFind) return message.reply("Yamamura is not in that server. Therefore, I cannot get that server's points");
 
@@ -48,28 +48,39 @@ module.exports = class ServerPointsCommand extends Command {
         guildFound = message.guild
       }
 
+      let guildMember = guild.members.get(user.id)
       let DBuser = await this.client.db.points.findOne({guild: guildFound.id, member: user.id});
+
       if (!DBuser) {
-        if (guildFound.members.get(user.id)) // If you're looking for a user whose ID is wìequal to something, you might as well .get() it
+        if (guildMember)
           DBuser = await this.client.db.points.insert({guild: guildFound.id, member: user.id, points: 0, level: 0});
         else
           return message.reply("you can't see the points of a user who is/was not in the server. Please try again on a different user.");
       }
 
-			let nextlvl = (DBuser.level + 1) * 350;
-			let diff = nextlvl - DBuser.points;
-
 			let GuildPointsEmbed = this.client.util.embed()
-				.setAuthor(`Showing stats for ${user.username}`, user.displayAvatarURL({format: 'png'}))
-				.addInline("Points", DBuser.points)
-				.addInline("Level", DBuser.level)
-				.setThumbnail(guildFound.iconURL({format: 'png'})) //Why doesn't this work sometimes?
-				.setDescription(`${diff} more points until level up!`)
-        .setColor("#FFFF00")
+				.setAuthor(`Showing stats for ${guildMember.displayName}`, user.displayAvatarURL({format: 'png'}))
+				.setThumbnail(guildFound.iconURL({format: 'png'}))
+        .setColor(guildMember.displayHexColor)
         .setYamamuraCredits(true)
         .setTimestamp(new Date());
 
-      return await message.util.send({embed: GuildPointsEmbed});
+      if (DBuser.points === Infinity) {
+        GuildPointsEmbed
+          .addInline("Points", "Infinity")
+          .addInline("Level", "Infinity")
+          .setDescription("There's no higher level that this user can reach. He is already at his maximum level possible.")
+      } else {
+        let nextlvl = (DBuser.level + 1) * 350;
+			  let diff = nextlvl - DBuser.points;
+
+        GuildPointsEmbed
+          .addInline("Points", DBuser.points)
+          .addInline("Level", DBuser.level)
+          .setDescription(`${diff} more points until level up!`)
+      }
+
+      return await message.util.send(`${guildMember.displayName} is currently standing at level ${DBuser.level} with ${DBuser.points} points.`, {embed: GuildPointsEmbed});
 		}
 
     let guildsShare = false;

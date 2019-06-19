@@ -109,7 +109,7 @@ module.exports = class NintendoDSCommand extends Command {
                     break;
             } */
 
-            let base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'ds', 'DS_Case.png'));
+            const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'ds', 'DS_Case.png'));
 			const canvas = createCanvas(base.width, base.height);
 			const ctx = canvas.getContext('2d');
       
@@ -118,7 +118,6 @@ module.exports = class NintendoDSCommand extends Command {
                 ctx.drawImage(BG, 0, 0, base.width, base.height);
             }
 
-            images = await images.split(' ');
             for (var image of images) {
                 currentimage = await loadImage(image);
                 await ctx.drawImage(currentimage, padding, padding, base.width-padding, base.height-padding);

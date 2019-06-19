@@ -15,8 +15,9 @@ module.exports = class WiiCommand extends Command {
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
 				{
-					id: 'image',
-					type: 'image'
+					id: 'images',
+					type: 'image',
+          match: 'rest'
 				},
         {
 					id: 'rating',
@@ -56,12 +57,10 @@ module.exports = class WiiCommand extends Command {
 		});
 	}
 
-	async exec(msg, { image, rating, forcestretch, nintendoselects, nintendologo, padding, pattern }) {
-		let boxrating = '';
-    let BG = '';
+	async exec(msg, { images, rating, forcestretch, nintendoselects, nintendologo, padding, pattern }) {
+		let boxrating, BG, currentimage;
 
     try {
-      let base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'wii', 'wii_case.png'));
       let nintendoselectborder = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'wii', 'Nintendo_Selects_BG.png'));
       let nintendologoImage = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'nintendologo.png'));
 
@@ -139,7 +138,7 @@ module.exports = class WiiCommand extends Command {
         }
       }
 
-			const data = await loadImage(image);
+      const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'wii', 'wii_case.png'));
 			const canvas = createCanvas(base.width, base.height);
 			const ctx = canvas.getContext('2d');
       
@@ -148,12 +147,15 @@ module.exports = class WiiCommand extends Command {
 			  ctx.drawImage(BG, 0, 0, base.width, base.height);
       }
 
-      if((data.width == data.height || (base.height/4) > data.height) && !forcestretch) {
-        ctx.drawImage(data, padding, (base.height / 4)+padding, base.width-padding, (base.height/2)-padding);
-      } else if ((base.height/3) > data.height && !forcestretch) {
-        ctx.drawImage(data, padding, (base.height / 3)+padding, base.width-padding, (base.height/2)-padding);
-      } else {
-        ctx.drawImage(data, padding, padding, base.width-padding, base.height-padding);
+      for (var image of images) {
+        currentimage = await loadImage(image);
+        if((currentimage.width == currentimage.height || (base.height/4) > currentimage.height) && !forcestretch) {
+          ctx.drawImage(currentimage, padding, (base.height / 4)+padding, base.width-padding, (base.height/2)-padding);
+        } else if ((base.height/3) > currentimage.height && !forcestretch) {
+          ctx.drawImage(currentimage, padding, (base.height / 3)+padding, base.width-padding, (base.height/2)-padding);
+        } else {
+          ctx.drawImage(currentimage, padding, padding, base.width-padding, base.height-padding);
+        }
       }
 
       if (nintendoselects) {
@@ -161,7 +163,7 @@ module.exports = class WiiCommand extends Command {
       }
 
       if (!isEmpty(boxrating)) {
-        // There's the raatingtype variable if you want to adjust the settings based on the rating system ("ESRB", "PEGI")
+        // There's the ratingtype variable if you want to adjust the settings based on the rating system ("ESRB", "PEGI")
         ctx.drawImage(boxrating, 36, 1900, 171, 251);
       }
 
@@ -173,7 +175,7 @@ module.exports = class WiiCommand extends Command {
 
       const attachment = canvas.toBuffer();
       if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-			return msg.util.send({ files: [{ attachment, name: 'Wii.png' }] });
+			return msg.util.send({ files: [{ attachment: attachment, name: 'Nintendo-Wii-boxart.png' }] });
 		} catch (err) {
 			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);
 		}

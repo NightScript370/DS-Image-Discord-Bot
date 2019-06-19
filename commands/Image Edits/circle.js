@@ -14,16 +14,16 @@ module.exports = class CircleCommand extends Command {
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
         {
-					id: 'image',
+					id: 'images',
 					type: 'image'
 				}
 			]
 		});
 	}
 
-	async exec(msg, { level, image }) {
+	async exec(msg, { images }) {
 		try {
-			const data = await loadImage(image);
+			const data = await loadImage(image[0]);
 			const canvas = createCanvas(data.width, data.height);
 			const ctx = canvas.getContext('2d');
 

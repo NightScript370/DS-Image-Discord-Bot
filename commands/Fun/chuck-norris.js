@@ -7,20 +7,20 @@ module.exports = class ChuckNorrisCommand extends Command {
 			aliases: ["chuck-norris", 'norris'],
 			category: 'Fun',
 			description: {
-        content: 'Says a random chuck noris joke.'
-      },
+				content: 'Says a random chuck noris joke.'
+			},
 			credit: [
 				{
 					name: 'The Internet Chuck Norris Database API',
 					url: 'http://www.icndb.com/api/'
-        }
+				}
 			],
 			args: [
 				{
 					id: 'name',
-          type: 'string',
-          match: 'content',
-          default: 'Chuck'
+					type: 'string',
+					match: 'content',
+					default: 'Chuck'
 				}
 			]
 		});
@@ -34,7 +34,7 @@ module.exports = class ChuckNorrisCommand extends Command {
 					escape: 'javascript',
 					firstName: name
 				});
-      return msg.channel.send(body.value.joke);
+      		return msg.util.send(body.value.joke);
 		} catch (err) {
 			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);
 		}

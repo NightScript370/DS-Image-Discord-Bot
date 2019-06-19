@@ -3,7 +3,7 @@ const { createCanvas, loadImage } = require('canvas');
 const path = require('path');
 
 module.exports = class NintendoSwitchCommand extends Command {
-	constructor() {
+  constructor() {
 		super('switch', {
 			aliases: ['switch'],
 			category: 'Covers',
@@ -16,8 +16,9 @@ module.exports = class NintendoSwitchCommand extends Command {
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
 				{
-					id: 'image',
-					type: 'image'
+					id: 'images',
+					type: 'image',
+          match: 'rest'
 				},
         {
 					id: 'rating',
@@ -55,15 +56,10 @@ module.exports = class NintendoSwitchCommand extends Command {
 		});
 	}
 
-	async exec(msg, { image, rating, chubby, forcestretch, internet, funky, pattern }) {
-		let boxrating = '';
-    let BG = '';
+	async exec(msg, { images, rating, chubby, forcestretch, internet, funky, pattern }) {
+		let boxrating, BG, currentimage;
 
     try {
-      let base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'switch_case.png'));
-      let internetImg = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'internet_download.png'));
-      let funkyImg = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'funky_mode.png'));
-
       if (pattern) {
         switch (pattern.toLowerCase()) {
           case 'wifi':
@@ -138,41 +134,46 @@ module.exports = class NintendoSwitchCommand extends Command {
         }
       }
 
-			const data = await loadImage(image);
+      const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'switch_case.png'));
 			const canvas = createCanvas(base.width, base.height);
 			const ctx = canvas.getContext('2d');
       
       // Draw background
-      if (!isEmpty(BG)) {
+      if (BG) {
 			  ctx.drawImage(BG, 0, 0, base.width, base.height);
       }
 
-      if((data.width == data.height || (base.height/4) > data.height) && !forcestretch) {
-        if (chubby) {
-          ctx.drawImage(data, 0, (base.height / 4), base.width, (base.height/2));
+      for (var image of images) {
+        currentimage = await loadImage(image);
+        if((data.width == data.height || (base.height/4) > data.height) && !forcestretch) {
+          if (chubby) {
+            ctx.drawImage(data, 0, (base.height / 4), base.width, (base.height/2));
+          } else {
+            ctx.drawImage(data, 15, (base.height / 4), (base.width-35), (base.height/2));
+          }
+        } else if ((base.height/3) > data.height && !forcestretch) {
+          if (chubby) {
+            ctx.drawImage(data, 0, (base.height / 3), base.width, (base.height/2));
+          } else {
+            ctx.drawImage(data, 15, (base.height / 3), (base.width-35), (base.height/2));
+          }
         } else {
-          ctx.drawImage(data, 15, (base.height / 4), (base.width-35), (base.height/2));
+          ctx.drawImage(data, 0, 0, base.width, base.height);
         }
-      } else if ((base.height/3) > data.height && !forcestretch) {
-        if (chubby) {
-          ctx.drawImage(data, 0, (base.height / 3), base.width, (base.height/2));
-        } else {
-          ctx.drawImage(data, 15, (base.height / 3), (base.width-35), (base.height/2));
-        }
-      } else {
-        ctx.drawImage(data, 0, 0, base.width, base.height);
       }
 
-      if (!isEmpty(boxrating)) {
-        // There's the raatingtype variable if you want to adjust the settings based on the rating system ("ESRB", "PEGI")
+      if (boxrating) {
+        // There's the ratingtype variable if you want to adjust the settings based on the rating system ("ESRB", "PEGI")
         ctx.drawImage(boxrating, 22, 810, 62, 94);
       }
 
       if (internet) {
+        let internetImg = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'internet_download.png'));
         ctx.drawImage(internetImg, 0, 0, base.width, base.height)
       }
 
       if (funky) {
+        let funkyImg = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'funky_mode.png'));
         ctx.drawImage(funkyImg, 0, 0, base.width, base.height)
       }
 
@@ -180,7 +181,7 @@ module.exports = class NintendoSwitchCommand extends Command {
 
       const attachment = canvas.toBuffer();
       if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-			return msg.util.send({ files: [{ attachment, name: 'switch.png' }] });
+			return msg.util.send({ files: [{ attachment: attachment, name: 'nintendo-switch-boxart.png' }] });
 		} catch (err) {
 			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);
 		}

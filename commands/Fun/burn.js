@@ -1,7 +1,8 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/Image-Command');
 const { createCanvas, loadImage } = require('canvas');
 const path = require('path');
 const { drawImageWithTint } = require('../../utils/Canvas');
+const { stripIndents } = require('common-tags');
 
 module.exports = class BurnCommand extends Command {
 	constructor() {
@@ -14,29 +15,39 @@ module.exports = class BurnCommand extends Command {
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
         {
-					id: 'image',
+					id: 'images',
 					type: 'image'
 				}
 			]
 		});
 	}
 
-	async exec(msg, { image }) {
-		try {
-			const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'fire.png'));
+	async exec(msg, { images }) {
+		let currentimage, widthpad, heightpad;
 
-			const data = await loadImage(image);
-			const canvas = createCanvas(data.width, data.height);
+		try {
+			const imagessize = await this.largestSize(images);
+			const canvas = await createCanvas(imagessize.width, imagessize.height);
 			const ctx = canvas.getContext('2d');
 
-      drawImageWithTint(ctx, data, '#fc671e', 0, 0, data.width, data.height);
-			ctx.drawImage(base, 0, 0, data.width, data.height);
-			
-      const attachment = canvas.toBuffer();
+			for (var image of images) {
+				currentimage = await loadImage(image);
+
+				widthpad = (imagessize.width - currentimage.width) / 2;
+				heightpad = (imagessize.height - currentimage.height) / 2;
+
+				drawImageWithTint(ctx, currentimage, '#fc671e', widthpad, heightpad, currentimage.width, currentimage.height);
+			}
+
+			const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'fire.png'));
+			ctx.drawImage(base, 0, 0, imagessize.width, imagessize.height);
+
+			const attachment = canvas.toBuffer();
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-      return msg.channel.send({ files: [{ attachment: attachment, name: 'fire.png' }] });
+			return msg.channel.send({ files: [{ attachment: attachment, name: 'fire.png' }] });
 		} catch (err) {
-			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);
+			return msg.reply(stripIndents`Oh no, now the bot is on fire.
+																		Ok, seriously speaking, an error has occurred: \`${err.message}\`. Please report this to the Yamamura developers!`);
 		}
 	}
 };

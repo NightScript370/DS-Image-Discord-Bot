@@ -47,9 +47,9 @@ module.exports = class ImageCommand extends Command {
         url = 'https://random.dog/woof.json';
         break;
       case 'cat':
-        //API = true;
-        //url = 'http://aws.random.cat/meow';
-        url = 'https://cataas.com/cat';
+        API = true;
+        url = 'http://aws.random.cat/meow';
+        //url = 'https://cataas.com/cat';
         break;
       case 'toad':
         API = true;

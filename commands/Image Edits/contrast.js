@@ -1,4 +1,4 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/Image-Command');
 const { createCanvas, loadImage } = require('canvas');
 const { contrast } = require('../../utils/Canvas');
 
@@ -15,21 +15,31 @@ module.exports = class ContrastCommand extends Command {
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
         {
-					id: 'image',
+					id: 'images',
 					type: 'image'
 				}
 			]
 		});
 	}
 
-	async exec(msg, { image }) {
+	async exec(msg, { images }) {
+		let currentimage, widthpad, heightpad;
+
 		try {
-			const data = await loadImage(image);
-			const canvas = createCanvas(data.width, data.height);
+			const imagessize = await this.largestSize(images);
+			const canvas = await createCanvas(imagessize.width, imagessize.height);
 			const ctx = canvas.getContext('2d');
 
-      ctx.drawImage(data, 0, 0);
-			contrast(ctx, 0, 0, data.width, data.height);
+			for (var image of images) {
+				currentimage = await loadImage(image);
+
+				widthpad = (imagessize.width - currentimage.width) / 2;
+				heightpad = (imagessize.height - currentimage.height) / 2;
+
+				ctx.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
+			}
+
+			contrast(ctx, 0, 0, imagessize.width, imagessize.height);
 
       const attachment = canvas.toBuffer();
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
