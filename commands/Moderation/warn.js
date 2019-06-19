@@ -6,8 +6,8 @@ module.exports = class WarnCommand extends Command {
 			aliases: ["warn"],
 			category: 'Moderation',
 			description: {
-        content: 'Warns a member via mention, saying their name or inputting the server member\'s ID. You may also specify a reason to the kick'
-      },
+				content: 'Warns a member via mention, saying their name or inputting the server member\'s ID. You may also specify a reason to the kick'
+			},
 			examples: ["warn @InfamousGuy003 spamming in #general-talk"],
 			channelRestriction: 'guild',
 			userPermissions: ["KICK_MEMBERS"],
@@ -16,18 +16,18 @@ module.exports = class WarnCommand extends Command {
 					id: "member",
 					type: "member",
 					prompt: {
-            start: 'Who would you like to warn?',
-            retry: 'That\'s not a valid member! Try again.'
-          },
+						start: 'Who would you like to warn?',
+						retry: 'That\'s not a valid member! Try again.'
+					},
 				},
 				{
 					id: "reason",
 					prompt: {
-            start: 'Why are you warning this member?',
-            retry: 'That\'s not a valid reason! Try again.'
+						start: 'Why are you warning this member?',
+						retry: 'That\'s not a valid reason! Try again.'
           },
 					type: "string",
-          match: 'content'
+          match: 'rest'
 				}
 			]
 		});
@@ -45,7 +45,7 @@ module.exports = class WarnCommand extends Command {
 
     try {
 		  this.client.moderation.warn(this.client, member, reason, msg.member, msg);
-      msg.reply(`${member.tag} was warned!`);
+      msg.reply(`${member.displayName} was warned!`);
     } catch(e) {
       console.error(e);
     }
