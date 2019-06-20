@@ -52,7 +52,12 @@ module.exports = class BanCommand extends Command {
 		}
 
     this.client.moderation.ban(this.client, user, reason, msg.member, msg)
-      .then(msg.reply(`${user.tag} was banned!`))
+      .then(banned => {
+		  if (banned)
+		  	msg.reply(`${user.tag} was banned!`)
+		  else
+		  	msg.reply(`${user.tag} was **not** banned, because of an error.`)
+	  })
       .catch((e) => {
         console.error(e);
         msg.reply(`an error occured when trying to ban a member.`)
