@@ -41,7 +41,7 @@ module.exports = class ContrastCommand extends Command {
 
 			contrast(ctx, 0, 0, imagessize.width, imagessize.height);
 
-      const attachment = canvas.toBuffer();
+			const attachment = canvas.toBuffer();
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
 			return msg.util.send({ files: [{ attachment: attachment, name: 'contrast.png' }] });
 		} catch (err) {
