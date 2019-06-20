@@ -28,7 +28,7 @@ module.exports = (client, member, reason, moderator, msg) => {
 
   // Alright, I did everything BUT the log sending. I'll let you handle it because you redid the DB stuff
   // OK
-  //const logs = msg.guild.channels.find(logchan => logchan.name === client.serverconfig.getProp(member.guild.id, "logchannel"));
+  // const logs = msg.guild.channels.find(logchan => logchan.name === client.serverconfig.getProp(member.guild.id, "logchannel"));
 
   /*
   let data = client.db.serverconfig.findOne(member.guild.id);

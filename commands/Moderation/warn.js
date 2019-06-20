@@ -25,16 +25,16 @@ module.exports = class WarnCommand extends Command {
 					prompt: {
 						start: 'Why are you warning this member?',
 						retry: 'That\'s not a valid reason! Try again.'
-          },
+					},
 					type: "string",
-          match: 'rest'
+					match: 'rest'
 				}
 			]
 		});
 	}
 
 	exec(msg, { member, reason }) {
-    if (msg.member.roles.highest.position <= member.roles.highest.position)
+		if (msg.member.roles.highest.position <= member.roles.highest.position)
 			return msg.reply("You can't warn someone who has a higher role position than you.");
 
 		if (member.hasPermission("MANAGE_MESSAGES") && !msg.member.hasPermission("ADMINISTRATOR"))
@@ -43,11 +43,11 @@ module.exports = class WarnCommand extends Command {
 		if (member.hasPermission("ADMINISTRATOR") && msg.guild.owner.id != msg.member.id)
 			return msg.reply("You need to be the server owner in order to warn Administrators")
 
-    try {
-		  this.client.moderation.warn(this.client, member, reason, msg.member, msg);
-      msg.reply(`${member.displayName} was warned!`);
-    } catch(e) {
-      console.error(e);
-    }
-  }
+		try {
+			this.client.moderation.warn(this.client, member, reason, msg.member, msg);
+			msg.reply(`${member.displayName} was warned!`);
+		} catch(e) {
+			console.error(e);
+		}
+	}
 };
