@@ -46,6 +46,9 @@ module.exports = class BanCommand extends Command {
 
 			if (user.hasPermission("ADMINISTRATOR") && msg.guild.ownerId !== msg.member.id)
 				return msg.reply("You need to be the server owner in order to ban Administrators")
+			
+			if (msg.author.id == user.user.id)
+				return msg.reply("You can't ban yourself!");
 		}
 
     this.client.moderation.ban(this.client, user, reason, msg.member, msg)
