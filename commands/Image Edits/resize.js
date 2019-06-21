@@ -1,4 +1,4 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/Image-Command');
 const { createCanvas, loadImage } = require('canvas');
 
 module.exports = class ResizeCommand extends Command {
@@ -39,13 +39,27 @@ module.exports = class ResizeCommand extends Command {
     if (width < 1) return msg.reply('Sorry, but the width is too small');
     if (height < 1) return msg.reply('Sorry, but the height is too small');
 
+		let currentimage, widthpad, heightpad;
+
 		try {
-			const data = await loadImage(image);
-			const canvas = createCanvas(width, height);
+			// Create canvas and canvas2 (the latter is a temporary one)
+			const imagessize = await this.largestSize(images);
+			const canvas = await createCanvas(width, height);
 			const ctx = canvas.getContext('2d');
+			const canvas2 = await createCanvas(imagessize.width, imagessize.height);
+			const ctx2 = canvas.getContext('2d');
 
-			ctx.drawImage(data, 0, 0, width, height);
+			for (var image of images) {
+				currentimage = await loadImage(image);
 
+				widthpad = (imagessize.width - currentimage.width) / 2;
+				heightpad = (imagessize.height - currentimage.height) / 2;
+
+				ctx2.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
+			}
+
+			ctx.drawImage(canvas2, 0, 0, imagessize.width, imagessize.height, 0, 0, width, height);
+			
       const attachment = canvas.toBuffer();
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
 			return msg.util.send({ files: [{ attachment: attachment, name: 'stretch.png' }] });

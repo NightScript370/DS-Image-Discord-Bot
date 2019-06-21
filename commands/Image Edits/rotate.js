@@ -1,4 +1,4 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/Image-Command');
 const { createCanvas, loadImage } = require('canvas');
 
 module.exports = class RotateCmmand extends Command {
@@ -28,12 +28,21 @@ module.exports = class RotateCmmand extends Command {
 	}
 
 	async exec(msg, { level, image }) {
+		let currentimage, widthpad, heightpad;
+
 		try {
-			const data = await loadImage(image);
-			const canvas = createCanvas(data.width, data.height);
+			const imagessize = await this.largestSize(images);
+			const canvas = await createCanvas(imagessize.width, imagessize.height);
 			const ctx = canvas.getContext('2d');
 
-			ctx.drawImage(data, 0, 0, data.width, data.height);
+			for (var image of images) {
+				currentimage = await loadImage(image);
+
+				widthpad = (imagessize.width - currentimage.width) / 2;
+				heightpad = (imagessize.height - currentimage.height) / 2;
+
+				ctx.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
+			}
       ctx.rotate(level * Math.PI / 180)
 
       const attachment = canvas.toBuffer();

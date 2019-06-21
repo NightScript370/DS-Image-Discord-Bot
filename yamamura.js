@@ -185,7 +185,7 @@ class MyClient extends AkairoClient {
       const fileTypeRe = /\.(jpe?g|png|gif|bmp)$/i;
       const base64 = /data:image\/(jpe?g|png|gif|bmp);base64,([^\"]*)/;
       const attachment = message.attachments.first();
-      
+
       function validateAttachment(attachment) {
         if (!attachment) return false;
         if (!attachment.height || !attachment.width) return false;
@@ -211,7 +211,7 @@ class MyClient extends AkairoClient {
         if (!isEmpty(returnargument)) {
           return returnargument;
         } else if (user && !isEmpty(user.displayAvatarURL({format: 'png'}))) {
-          return user.displayAvatarURL({ format: 'png', size: 512 });
+          return [ user.displayAvatarURL({ format: 'png', size: 512 }) ];
         }
       } else {
         // Check previous messages
@@ -224,7 +224,7 @@ class MyClient extends AkairoClient {
           att = validateAttachment(msg.attachments.first());
         });
         if (!att) return null;
-        return att;
+        return [ att ];
       }
 
       return null
@@ -232,7 +232,7 @@ class MyClient extends AkairoClient {
     this.commandHandler.resolver.addType('rps', (message, move) => {
 			let returnvalue = false;
       if (!move) return null;
-      
+
       let possible = [
         '🤚', '✋', '🙌', '📰', '🗞', 'p', 'paper', '🙋', '🖐', // Paper
         '🖖', '✌', '✂', 'scissors', 's',
@@ -254,7 +254,7 @@ class MyClient extends AkairoClient {
       if (!/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(:0*(?:6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[0-9]))?$/.test(address)) {
         return null;
       }
-			
+
       if (address.split(':')[0] == '127.0.0.1') {
         return null;
       }
@@ -378,7 +378,7 @@ global.List = List;
 
 setTimeout(function(){
   module.exports = client;
-  
+
   // Actually start the server
   require('./server.js')
 }, 2000);

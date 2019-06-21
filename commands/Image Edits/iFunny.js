@@ -1,4 +1,4 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/Image-Command');
 const { createCanvas, loadImage } = require('canvas');
 const path = require('path');
 
@@ -19,21 +19,31 @@ module.exports = class IfunnyCommand extends Command {
 			],
 			args: [
 				{
-					id: 'image',
+					id: 'images',
 					type: 'image'
 				}
 			]
 		});
 	}
 
-	async exec(msg, { image }) {
+	async exec(msg, { images }) {
+		let currentimage, widthpad, heightpad;
+
 		try {
 			const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'ifunny.png'));
 
-			const data = await loadImage(image);
-			const canvas = createCanvas(data.width, data.height);
+			const imagessize = await this.largestSize(images);
+			const canvas = await createCanvas(imagessize.width, imagessize.height);
 			const ctx = canvas.getContext('2d');
 
+			for (var image of images) {
+				currentimage = await loadImage(image);
+
+				widthpad = (imagessize.width - currentimage.width) / 2;
+				heightpad = (imagessize.height - currentimage.height) / 2;
+
+				ctx.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
+			}
 			ctx.drawImage(data, 0, 0);
 			ctx.fillStyle = '#181619';
 			ctx.fillRect(0, canvas.height - base.height, canvas.width, base.height);

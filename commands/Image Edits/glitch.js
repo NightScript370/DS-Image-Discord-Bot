@@ -1,4 +1,4 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/Image-Command');
 const { createCanvas, loadImage } = require('canvas');
 const { distort } = require('../../utils/Canvas');
 
@@ -13,26 +13,37 @@ module.exports = class GlitchCommand extends Command {
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
         {
-					id: 'image',
+					id: 'images',
 					type: 'image'
 				}
 			]
 		});
 	}
 
-	async exec(msg, { level, image }) {
+	async exec(msg, {  images }) {
+		let currentimage, widthpad, heightpad;
+
 		try {
-			const data = await loadImage(image);
+			const imagessize = await this.largestSize(images);
 			const canvas = createCanvas(data.width, data.height);
 			const ctx = canvas.getContext('2d');
 
-      ctx.drawImage(data, 0, 0);
+			for (var image of images) {
+				currentimage = await loadImage(image);
+
+				widthpad = (imagessize.width - currentimage.width) / 2;
+				heightpad = (imagessize.height - currentimage.height) / 2;
+
+				ctx.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
+			}
+
 			distort(ctx, 20, 0, 0, data.width, data.height, 5);
 
 			const attachment = canvas.toBuffer();
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
 			return msg.util.send({ files: [{ attachment: attachment, name: 'distort.png' }] });
 		} catch (err) {
+			console.error(err);
 			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);
 		}
 	}
