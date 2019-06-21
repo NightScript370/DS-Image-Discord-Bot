@@ -194,8 +194,8 @@ module.exports = class CommandsCommand extends Command {
       let prefix = await this.handler.prefix(msg);
 
       let e = this.client.util.embed()
-        .setAuthor(__('Command Listing'), this.client.user.displayAvatarURL({format: 'png'}), "https://yamamura.glitch.me/commands")
-        .setDescription(__('To view a list of all the commands, go to the [Yamamura Website Command Page]({0}).', "https://yamamura.glitch.me/commands") + " \n"
+        .setAuthor(__('Command Listing'), this.client.user.displayAvatarURL({format: 'png'}), `${this.client.URL}/commands`)
+        .setDescription(__('To view a list of all the commands, go to the [Yamamura Website Command Page]({0}).', `${this.client.URL}/commands`) + " \n"
                       + __("To view a list of a command of a specific category, type `{0}commands (category name)`.", prefix));
 
       

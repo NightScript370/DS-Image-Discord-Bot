@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler, ClientUtil } = require('discord-akairo');
 const config = require("./config.js");
 const List = require("list-array");
@@ -52,6 +54,7 @@ class MyClient extends AkairoClient {
     }
 
     this.dbl = new DBL(config.DBLtoken, this);
+    this.URL = config.url;
 
 		this.commandHandler = new CommandHandler(this, {
 			directory: './commands/',

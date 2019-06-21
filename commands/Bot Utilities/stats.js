@@ -50,7 +50,7 @@ module.exports = class StatsCommand extends Command {
     console.log('Free Yamamura: ', totalMem)
   
     let embed = this.client.util.embed()
-      .setTitle(__("Welcome to {0}", this.client.user.username), 'https://yamamura.glitch.me/')
+      .setTitle(__("Welcome to {0}", this.client.user.username), this.client.URL)
       .setThumbnail(this.client.user.displayAvatarURL({ format: 'png' }))
       .setDescription(__('This is a discord bot made in Discord-Akairo written for MakerBoard connectivity.') + "\n"
                     + __("If you'd like to see all the available commands, please take a look at our website or type {0}commands", prefix))
@@ -58,10 +58,9 @@ module.exports = class StatsCommand extends Command {
 • ${this.client.channels.size.toLocaleString()} Channels
 • ${this.client.guilds.size.toLocaleString()} Servers`)
       .addInline("🔢 " + __("Backends"), `**• Discord.js**: v${djsversion}
-**• Akairo**: v${version}
-**• Node**: ${process.version}
-**• ${__("Database System")}**: lokijs
-**• Host**: Glitch`)
+**• Discord-Akairo**: v${version}
+**• Node.JS Version**: v${process.version}
+**• ${__("Database System")}**: lokijs`)
       .addInline("⚙️ " + __("Resource Usage"), `**• Memory**: ${usedMem} MB/${totalMem} MB 
 **• CPU**: ${osv.toFixed(2)} MB`)
       .addInline(__("Total Events"), `• ${__("{0} total commands", cmds.length)}

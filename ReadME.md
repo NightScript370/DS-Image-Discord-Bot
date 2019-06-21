@@ -24,7 +24,7 @@ That isn't even talking about the commands which you can perform on the bot. The
 - Get information on Game Servers
 - There's much more to be found
 
-Here's a website where you can see more information about Yamamura: https://yamamura.glitch.me/
+Here's a website where you can see more information about Yamamura: https://yamamura-bot.tk/
 
 If you need anything, join the support server found on our website. We hope to see you soon!
 ~NightYoshi370, owner of Yamamura

@@ -90,9 +90,3 @@ routes(app, client);
 // ================================================================
 // start our server
 // ================================================================
-app.listen(port, function() {
-  console.log('Server listening on port ' + port + '…');
-});
-setInterval(() => {
-  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
-}, 280000);
