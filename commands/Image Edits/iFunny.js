@@ -8,8 +8,8 @@ module.exports = class IfunnyCommand extends Command {
 			aliases: ['ifunny'],
 			category: 'Image Edits',
 			description: 'Draws an image with the iFunny logo.',
-      cooldown: 10000,
-      ratelimit: 1,
+			cooldown: 10000,
+			ratelimit: 1,
 			clientPermissions: ['ATTACH_FILES'],
 			credit: [
 				{

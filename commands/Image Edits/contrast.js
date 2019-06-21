@@ -8,13 +8,13 @@ module.exports = class ContrastCommand extends Command {
 			aliases: ["contrast"],
 			category: 'Image Edits',
 			description: {
-        content: 'Draws an image, but with increased contrast.'
-      },
-      cooldown: 10000,
-      ratelimit: 1,
+				content: 'Draws an image, but with increased contrast.'
+			},
+			cooldown: 10000,
+			ratelimit: 1,
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
-        {
+				{
 					id: 'images',
 					type: 'image'
 				}
@@ -45,8 +45,8 @@ module.exports = class ContrastCommand extends Command {
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
 			return msg.util.send({ files: [{ attachment: attachment, name: 'contrast.png' }] });
 		} catch (err) {
-      console.error(err);
-			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);
+			console.error(err);
+			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Please report this error to the Yamamura developers!`);
 		}
 	}
 };

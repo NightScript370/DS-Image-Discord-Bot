@@ -33,34 +33,42 @@ module.exports = class BanCommand extends Command {
 
 	exec(msg, { user, reason }) {
 		if (msg.guild.members.has(user)) {
-			user = msg.guild.members.get(user.id);
+			let member = msg.guild.members.get(user.id);
+			let author = msg.member;
 
-			if (!user.bannable)
+			if (!member.bannable)
 				return msg.reply("I cannot ban this user");
 
-			if (msg.member.roles.highest <= user.roles.highest)
+			if (author.roles.highest <= member.roles.highest)
 				return msg.reply("You can't ban someone who has a higher role position than you.");
 
-			if (user.hasPermission("MANAGE_MESSAGES") && !msg.member.hasPermission("ADMINISTRATOR"))
+			if (member.hasPermission("MANAGE_MESSAGES") && !author.hasPermission("ADMINISTRATOR"))
 				return msg.reply("You need to have the `Administrator` permission in order to ban moderators");
 
-			if (user.hasPermission("ADMINISTRATOR") && msg.guild.ownerId !== msg.member.id)
+			if (member.hasPermission("ADMINISTRATOR") && msg.guild.ownerId !== author.id)
 				return msg.reply("You need to be the server owner in order to ban Administrators")
 			
-			if (msg.author.id == user.user.id)
+			if (member.id == author.id)
 				return msg.reply("You can't ban yourself!");
 		}
 
-    this.client.moderation.ban(this.client, user, reason, msg.member, msg)
-      .then(banned => {
-		  if (banned)
-		  	msg.reply(`${user.tag} was banned!`)
-		  else
-		  	msg.reply(`${user.tag} was **not** banned, because of an error.`)
-	  })
-      .catch((e) => {
-        console.error(e);
-        msg.reply(`an error occured when trying to ban a member.`)
-      })
+		try {
+			let ban = await this.client.moderation.ban(this.client, user, reason, msg.member, msg)
+			if (ban) {
+				let banList = await msg.guild.fetchBans();
+				if (banList.get(user.id))
+					msg.reply(`${user.tag} was banned`)
+				else
+					msg.reply(`Error in checking whether user was banned.`)
+			}	else {
+				if (ban == "no perms")
+					msg.reply(`I do not have the permission to ban ${user.tag}`);
+				else
+					msg.reply(`The user was not banned due to an internal error`)
+			}
+		} catch (e) {
+			console.error(e);
+			msg.reply(`an error occured while trying to ban the user.`)
+		}
   }
 };
