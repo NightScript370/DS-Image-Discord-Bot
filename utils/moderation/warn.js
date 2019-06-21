@@ -39,9 +39,9 @@ module.exports = (client, member, reason, moderator, msg) => {
   
   let embed = client.util.embed()
     .setColor(15844367)
-    .setAuthor(`:warning: ${member.user.username} was warned`, member.user.displayAvatarURL)
+    .setAuthor(`:warning: ${member.user.username} was warned`, member.user.displayAvatarURL({format: 'png'}))
     .setDescription(reason)
-    .setThumbnail(msg.guild.iconURL)
+    .setThumbnail(msg.guild.iconURL({format: 'png'}))
     .setTimestamp(new Date())
     .addField(":cop: Moderator", `${moderator.user.username} (#${moderator.id})`)
     .addField(":bookmark_tabs: Channel", `${msg.channel.name} (#${msg.channel.id})`)

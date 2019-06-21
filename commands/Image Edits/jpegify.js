@@ -11,7 +11,7 @@ module.exports = class JPEGifyCommand extends Command {
       ratelimit: 1,
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
-        {
+				{
 					id: 'image',
 					type: 'image'
 				},
@@ -25,17 +25,17 @@ module.exports = class JPEGifyCommand extends Command {
 	}
 
 	async exec(msg, { image, level }) {
-    if (level < 0.01) level = 0.01;
-    if (level > 10) level = 10;
+		if (level < 0.01) level = 0.01;
+		if (level > 10) level = 10;
 
 		try {
 			const data = await loadImage(image);
-      const canvas = createCanvas(data.width, data.height);
+			const canvas = createCanvas(data.width, data.height);
 			const ctx = canvas.getContext('2d');
 
-      ctx.drawImage(data, 0, 0, data.width, data.height)
+			ctx.drawImage(data, 0, 0, data.width, data.height)
 
-      const attachment = canvas.toBuffer('image/jpeg', { quality: level / 10 });
+			const attachment = canvas.toBuffer('image/jpeg', { quality: level / 10 });
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
 			return msg.channel.send({ files: [{ attachment, name: 'image.jpg' }] });
 		} catch (err) {

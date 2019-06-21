@@ -6,7 +6,7 @@ module.exports = class PNGifyCommand extends Command {
 		super('PNGify', {
 			aliases: ["pngify", "needs-more-png", "png"],
 			category: 'Image Edits',
-			description: 'Draws an image as a PNG.',
+			description: 'Draws an image as a PNG. Made to convert DS Homebrew BMPs to a format viewable on Discord.',
       cooldown: 10000,
       ratelimit: 1,
 			clientPermissions: ['ATTACH_FILES'],

@@ -7,20 +7,25 @@ module.exports = class PixelizeCommand extends Command {
 			aliases: ["pixelize", "censor"],
 			category: 'Image Edits',
 			description: 'Draws an image with a pixelation effect.',
-      cooldown: 10000,
-      ratelimit: 1,
+			cooldown: 10000,
+			ratelimit: 1,
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
-        {
+				{
 					id: 'image',
 					type: 'image'
 				},
 				{
 					id: 'level',
-					type: "integer",
-          prompt: {
-            start: "What level of pixelation do you want to apply to the image?",
-            retry: "That's not a valid level we can apply."
+					type: (msg, phrase) => {
+						if (!phrase || isNaN(phrase)) return null;
+						const num = parseInt(phrase);
+						if (num < 1 || num > 100) return null;
+						return num;
+					},
+					prompt: {
+						start: "What level of pixelation do you want to apply to the image?",
+						retry: "That's not a valid level we can apply."
           }
 				}
 			]
@@ -28,8 +33,6 @@ module.exports = class PixelizeCommand extends Command {
 	}
 
 	async exec(msg, { level, image }) {
-    if (level < 1) level = 1;
-    if (level > 100) level = 100;
 		try {
 			const data = await loadImage(image);
 

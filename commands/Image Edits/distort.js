@@ -8,19 +8,19 @@ module.exports = class DistortCommand extends Command {
 			aliases: ["distort"],
 			category: 'Image Edits',
 			description: 'Draws an image with a distortion effect.',
-      cooldown: 10000,
-      ratelimit: 1,
+			cooldown: 10000,
+			ratelimit: 1,
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
 				{
 					id: 'level',
 					type: 'integer',
-          prompt: {
-            start: "What level of distortion do you want to apply to the image?",
-            retry: "That's not a valid level we can apply."
-          }
+					prompt: {
+						start: "What level of distortion do you want to apply to the image?",
+						retry: "That's not a valid level we can apply."
+					}
 				},
-        {
+				{
 					id: 'image',
 					type: 'image'
 				}
@@ -37,7 +37,7 @@ module.exports = class DistortCommand extends Command {
 			ctx.drawImage(data, 0, 0);
 			distort(ctx, level, 0, 0, data.width, data.height);
 
-      const attachment = canvas.toBuffer();
+			const attachment = canvas.toBuffer();
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
 			return msg.util.send({ files: [{ attachment: attachment, name: 'distort.png' }] });
 		} catch (err) {

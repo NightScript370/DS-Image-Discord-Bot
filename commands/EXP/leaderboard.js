@@ -23,8 +23,7 @@ module.exports = class LeaderboardCommand extends Command {
         },
         {
           id: 'numberofresults',
-          type: phrase => {
-            phrase = phrase.util.parsed.content;
+          type: (msg, phrase) => {
             if (!phrase || isNaN(phrase)) return null;
             const num = parseInt(phrase);
             if (num < 3 || num > 25) return null;

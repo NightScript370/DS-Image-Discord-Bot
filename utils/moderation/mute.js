@@ -1,23 +1,23 @@
 const client = require('../../yamamura')
 
-module.exports = (member, reason, moderator, msg) => {
+module.exports = (client, member, reason, moderator, msg) => {
   let logembed;
 
-  if(!msg.guild) return;
-  if(!msg.guild.me.hasPermission('MANAGE_ROLES')) return; 
-  if(!msg.guild.members.has(member.id)) return;
+  if (!member) return "no member";
+  if (!member.guild) return "not guild";
+  if (!member.guild.me.hasPermission('MANAGE_ROLES')) return "no perms";
 
   const logchan = msg.guild.channels.find(logchan => logchan.name === this.client.serverconfig.getProp(member.guild.id, "logchannel"));
   const mutedRole = msg.guild.roles.find(muteRole => muteRole.name === this.client.serverconfig.getProp(member.guild.id, "muteRole"));
-  if (!mutedRole) return;
+  if (!mutedRole) return "role doesn't exist";
 
   if(member.roles.has(mutedRole.id)) {
     member.removeRole(mutedRole);
 
     logembed = client.util.embed()
       .setColor(0xe00b0b)
-      .setAuthor(`${member.user.username}'s mute was removed`, member.user.displayAvatarURL)
-      .setThumbnail(msg.guild.iconURL)
+      .setAuthor(`${member.user.username}'s mute was removed`, member.user.displayAvatarURL({format: 'png'}))
+      .setThumbnail(msg.guild.iconURL({format: 'png'}))
       .setDescription(reason)
       .setTimestamp(new Date())
       .addField(":cop: Moderator", `${moderator.user.tag} (#${moderator.id})`)

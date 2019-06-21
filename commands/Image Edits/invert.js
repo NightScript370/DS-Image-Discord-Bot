@@ -20,20 +20,20 @@ module.exports = class InvertCommand extends Command {
 		});
 	}
 
-	async exec(msg, { level, image }) {
+	async exec(msg, { image }) {
 		try {
 			const data = await loadImage(image);
 			const canvas = createCanvas(data.width, data.height);
 			const ctx = canvas.getContext('2d');
-			
-      ctx.drawImage(data, 0, 0);
+
+			ctx.drawImage(data, 0, 0);
 			invert(ctx, 0, 0, data.width, data.height);
-			
-      const attachment = canvas.toBuffer();
+
+			const attachment = canvas.toBuffer();
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
 			return msg.util.send({ files: [{ attachment: attachment, name: 'invert.png' }] });
 		} catch (err) {
-      console.error(err);
+			console.error(err);
 			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);
 		}
 	}
