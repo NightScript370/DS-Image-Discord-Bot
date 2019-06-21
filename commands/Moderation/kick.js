@@ -6,8 +6,8 @@ module.exports = class KickCommand extends Command {
 			aliases: ["boot", 'kick'],
 			category: 'Moderation',
 			description: {
-        content: 'Kick a member via mention, saying their name or inputting the server member\'s ID. You may also specify a reason to the kick'
-      },
+                content: 'Kick a member via mention, saying their name or inputting the server member\'s ID. You may also specify a reason to the kick'
+            },
 			examples: ["kick @InfamousGuy003 spamming in #general-talk"],
 			channelRestriction: 'guild',
 			clientPermissions: ["KICK_MEMBERS"],
@@ -17,18 +17,18 @@ module.exports = class KickCommand extends Command {
 					id: "member",
 					type: "member",
 					prompt: {
-            start: 'Who would you like to kick?',
-            retry: 'That\'s not a valid member! Try again.'
-          },
+                        start: 'Who would you like to kick?',
+                        retry: 'That\'s not a valid member! Try again.'
+                    },
 				},
 				{
 					id: "reason",
 					prompt: {
-            start: 'Why are you kicking this member?',
-            retry: 'That\'s not a valid reason! Try again.'
-          },
+                        start: 'Why are you kicking this member?',
+                        retry: 'That\'s not a valid reason! Try again.'
+                    },
 					type: "string",
-          match: 'content'
+                    match: 'rest'
 				}
 			]
 		});
@@ -47,11 +47,11 @@ module.exports = class KickCommand extends Command {
 		if (member.hasPermission("ADMINISTRATOR") && msg.guild.ownerId !== msg.member.id)
 			return msg.reply("You need to be the server owner in order to kick Administrators")
 
-    this.client.moderation.kick(this.client, member, reason, msg.member, msg)
-      .then(msg.reply(`${member.tag} was kicked!`))
-      .catch((e) => {
-        console.error(e);
-        msg.reply(`an error occured when trying to kick a member.`)
-      })
-  }
+        this.client.moderation.kick(this.client, member, reason, msg.member, msg)
+            .then(msg.reply(`${member.user.tag} was kicked!`))
+            .catch((e) => {
+                console.error(e);
+                msg.reply(`an error occured when trying to kick a member.`)
+            })
+    }
 };
