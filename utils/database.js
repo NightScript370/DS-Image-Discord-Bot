@@ -3,7 +3,7 @@ const loki = require('lokijs')
 const db = new loki('database.db', {
   autoload: true,
   autosave: true,
-  autosaveInterval: 1000,
+  autosaveInterval: 25000,
   autoloadCallback: loadCollections,
 })
 
