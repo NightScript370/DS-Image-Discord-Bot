@@ -162,7 +162,7 @@ function spamchannel(channelName) {
 			'your-escape-phoneline' // NightYoshi island (Yggdrasil)
 		];
 
-		for (var spamchannel of spamchannels) {
+		for (var spamchannel of listNoPointNames) {
 			if(channel == spamchannel)
 				return true;
 		}
