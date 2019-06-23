@@ -12,14 +12,14 @@ module.exports = class PNGifyCommand extends Command {
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
         {
-					id: 'image',
+					id: 'images',
 					type: 'image'
 				}
 			]
 		});
 	}
 
-	async exec(msg, { image }) {
+	async exec(msg, { images }) {
 		let currentimage, widthpad, heightpad;
 
 		try {

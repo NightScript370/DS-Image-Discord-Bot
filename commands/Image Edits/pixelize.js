@@ -26,7 +26,7 @@ module.exports = class PixelizeCommand extends Command {
 					prompt: {
 						start: "What level of pixelation do you want to apply to the image?",
 						retry: "That's not a valid level we can apply."
-          }
+          			}
 				}
 			]
 		});
@@ -63,7 +63,7 @@ module.exports = class PixelizeCommand extends Command {
 			
 			ctx.drawImage(canvas2, 0, 0, width, height, 0, 0, canvas.width, canvas.height);
 
-      const attachment = canvas.toBuffer();
+			const attachment = canvas.toBuffer();
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
 			return msg.channel.send({ files: [{ attachment, name: 'pixelize.png' }] });
 		} catch (err) {
