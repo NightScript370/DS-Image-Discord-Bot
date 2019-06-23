@@ -6,8 +6,8 @@ module.exports = class BanCommand extends Command {
 			aliases: ["ban-hammer", "b-h", 'ban'],
 			category: 'Moderation',
 			description: {
-        content: 'Bans a user via a mention or user ID. You can use it on users not even in the serve.'
-      },
+                content: 'Bans a user via a mention or user ID. You can use it on users not even in the serve.'
+            },
 			examples: ["ban @InfamousGuy003 spamming in #general-talk"],
 			channelRestriction: 'guild',
 			clientPermissions: ["BAN_MEMBERS"],
@@ -17,21 +17,21 @@ module.exports = class BanCommand extends Command {
 					id: "user",
 					type: "user-commando",
 					prompt: {
-            start: 'Who would you like to ban?',
-            retry: 'That\'s not a valid user! Try again.'
-          },
+                        start: 'Who would you like to ban?',
+                        retry: 'That\'s not a valid user! Try again.'
+                    },
 				},
 				{
 					id: "reason",
 					default: "No reason.",
 					type: "string",
-          match: 'content'
+                    match: 'rest'
 				}
 			]
 		});
 	}
 
-	exec(msg, { user, reason }) {
+	async exec(msg, { user, reason }) {
 		if (msg.guild.members.has(user)) {
 			let member = msg.guild.members.get(user.id);
 			let author = msg.member;
@@ -46,29 +46,29 @@ module.exports = class BanCommand extends Command {
 				return msg.reply("You need to have the `Administrator` permission in order to ban moderators");
 
 			if (member.hasPermission("ADMINISTRATOR") && msg.guild.ownerId !== author.id)
-				return msg.reply("You need to be the server owner in order to ban Administrators")
+				return msg.reply("You need to be the server owner in order to ban Administrators");
 			
 			if (member.id == author.id)
 				return msg.reply("You can't ban yourself!");
 		}
 
 		try {
-			let ban = await this.client.moderation.ban(this.client, user, reason, msg.member, msg)
+			let ban = await this.client.moderation.ban(this.client, user, reason, msg.member, msg);
 			if (ban) {
 				let banList = await msg.guild.fetchBans();
 				if (banList.get(user.id))
-					msg.reply(`${user.tag} was banned`)
+					msg.reply(`${user.tag} was banned`);
 				else
-					msg.reply(`Error in checking whether user was banned.`)
-			}	else {
+					msg.reply(`Error in checking whether user was banned.`);
+			} else {
 				if (ban == "no perms")
 					msg.reply(`I do not have the permission to ban ${user.tag}`);
 				else
-					msg.reply(`The user was not banned due to an internal error`)
+					msg.reply(`The user was not banned due to an internal error`);
 			}
 		} catch (e) {
 			console.error(e);
-			msg.reply(`an error occured while trying to ban the user.`)
+			msg.reply(`an error occured while trying to ban the user.`);
 		}
   }
 };
