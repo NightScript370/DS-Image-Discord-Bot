@@ -59,7 +59,7 @@ module.exports = class StatsCommand extends Command {
 • ${this.client.guilds.size.toLocaleString()} Servers`)
       .addInline("🔢 " + __("Backends"), `**• Discord.js**: v${djsversion}
 **• Discord-Akairo**: v${version}
-**• Node.JS Version**: v${process.version}
+**• Node.JS Version**: ${process.version}
 **• ${__("Database System")}**: lokijs`)
       .addInline("⚙️ " + __("Resource Usage"), `**• Memory**: ${usedMem} MB/${totalMem} MB 
 **• CPU**: ${osv.toFixed(2)} MB`)
