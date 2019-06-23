@@ -30,11 +30,11 @@ module.exports = class MessageDeleteListener extends Listener {
         this.log();
         let messageDeleteEmbed = this.client.util.embed()
           .setColor("#ff0000")
-          .setThumbnail(message.author.displayAvatarURL({format: 'png'}))
+          .setThumbnail(message.guild.iconURL({format: 'png'}))
           .setDescription(message.content)
           .addField(":bookmark_tabs: Channel", `${message.channel.name} (#${message.channel.id})`)
           .addField(":id: Message ID", message.id)
-          .setFooter(`${message.author.tag} (#${message.author.id})`)
+          .setFooter(`${message.author.tag} (#${message.author.id})`, message.author.displayAvatarURL({format: 'png'}))
           .setTimestamp(new Date());
 
         const image = message.attachments.size > 0 ? extension(message.attachments.array()[0].url) : '';
