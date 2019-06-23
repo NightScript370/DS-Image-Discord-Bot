@@ -34,7 +34,7 @@ class CustomCommand extends Command {
     return canvas.toBuffer();
   }
 
-  largestSize(images) {
+  async largestSize(images) {
     let currentimage;
 
     let height = 0;
@@ -50,7 +50,7 @@ class CustomCommand extends Command {
         width = currentimage.width;
     }
 
-    return {width: width, height: height}
+    return {width: width, height: height};
   }
 }
 
