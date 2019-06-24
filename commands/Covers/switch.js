@@ -17,8 +17,7 @@ module.exports = class NintendoSwitchCommand extends Command {
 			args: [
 				{
 					id: 'images',
-					type: 'image',
-          match: 'rest'
+					type: 'image'
 				},
         {
 					id: 'rating',

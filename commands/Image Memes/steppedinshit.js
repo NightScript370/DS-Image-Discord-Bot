@@ -14,8 +14,7 @@ module.exports = class SteppedInShitCommand extends Command {
       args: [
 	      {
 	  			id: "images",
-					type: "image",
-          match: 'rest'
+					type: "image"
 				},
         {
           id: 'overlay',

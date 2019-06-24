@@ -12,11 +12,6 @@ module.exports = class PixelizeCommand extends Command {
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
 				{
-					id: 'images',
-					type: 'image',
-					match: 'rest'
-				},
-				{
 					id: 'level',
 					type: (msg, phrase) => {
 						if (!phrase || isNaN(phrase)) return null;
@@ -28,7 +23,11 @@ module.exports = class PixelizeCommand extends Command {
 						start: "What level of pixelation do you want to apply to the image?",
 						retry: "That's not a valid level we can apply."
           			}
-				}
+				},
+				{
+					id: 'images',
+					type: 'image'
+				},
 			]
 		});
 	}

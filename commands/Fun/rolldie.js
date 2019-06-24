@@ -7,13 +7,13 @@ module.exports = class RollDieCommand extends Command {
 			aliases: ['rolldie'],
 			category: 'Fun',
 			description: {
-        content: 'Rolls a die'
-      },
+				content: 'Rolls a die'
+			},
 		});
 	}
 
 	exec(msg) {
-    let fellon = random(6, 1)
-    msg.util.reply(`Cool, you landed on a ${fellon}!`);
+		let fellon = random(6, 1)
+		msg.util.reply(`Cool, you landed on a ${fellon}!`);
 	}
 };

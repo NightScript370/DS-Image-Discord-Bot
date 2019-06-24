@@ -19,21 +19,33 @@ module.exports = class ShieldsIoBadgeCommand extends Command {
 			args: [
 				{
 					id: 'subject',
-					prompt: 'What is the subject of the badge?',
-					type: 'string',
-					parse: subject => encodeURIComponent(subject.replace(/-/g, '--').replace(/_/g, '__'))
+					prompt: {
+						start: "What should be the subject of the badge?",
+						retry: "That's not a subject that you can apply. Try again!"
+					},
+					type: 'string'
 				},
 				{
 					id: 'status',
-					prompt: 'What is the status of the badge?',
-					type: 'string',
-					parse: status => encodeURIComponent(status.replace(/-/g, '--').replace(/_/g, '__'))
+					prompt: {
+						start: "What should be the status of the badge?",
+						retry: "That's not a status that you can apply. Try again!"
+					},
+					type: 'string'
 				},
 				{
-					id: 'color',
-					prompt: 'What is the color of the badge?',
+					id: 'rightColor',
 					type: 'string',
+					match: 'option',
+					flag: 'rightColor:',
 					default: 'brightgreen'
+				},
+				{
+					id: 'leftColor',
+					type: 'string',
+					match: 'option',
+					flag: 'leftColor:',
+					default: '555555'
 				}
 			]
 		});

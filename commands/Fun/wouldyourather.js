@@ -7,8 +7,8 @@ module.exports = class WouldYouRatherCommand extends Command {
 			aliases: ['would-you-rather', 'wy-rather', 'wyr'],
 			category: 'Fun',
 			description: {
-        content: 'Responds with a random "Would you rather ...?" question. Credits to dragonfire535 for making the json file'
-      },
+				content: 'Responds with a random "Would you rather ...?" question. Credits to dragonfire535 for making the json file'
+			},
 		});
 	}
 

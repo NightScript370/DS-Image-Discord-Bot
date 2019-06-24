@@ -13,7 +13,7 @@ module.exports = class VirtualRealityCommand extends Command {
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
 				{
-					id: 'image',
+					id: 'images',
 					type: 'image'
 				},
         {
@@ -27,28 +27,31 @@ module.exports = class VirtualRealityCommand extends Command {
 		});
 	}
 
-	async exec(msg, { image, display }) {
+	async exec(msg, { images, display }) {
 		try {
 			const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'vr.png'));
-
-			const data = await loadImage(image);
 			const canvas = createCanvas(base.width, base.height);
 			const ctx = canvas.getContext('2d');
 
-      switch (display) {
-        case 'twice':
-        default:
-          ctx.drawImage(data, 44, 482, 154, 157)
-          ctx.drawImage(data, 197, 482, 154, 157)
-          break;
-        case 'stretched':
-          ctx.drawImage(data, 44, 482, 308, 157)
-          break;
-        case 'square':
-          ctx.drawImage(data, 30, 385, 337, 337)
-          break;
-      }
-      ctx.drawImage(base, 0, 0, base.width, base.height)
+			let data;
+			for (var image of images) {
+				data = await loadImage(image);
+				switch (display) {
+					case 'twice':
+					default:
+						ctx.drawImage(data, 44, 482, 154, 157)
+						ctx.drawImage(data, 197, 482, 154, 157)
+						break;
+					case 'stretched':
+						ctx.drawImage(data, 44, 482, 308, 157)
+						break;
+					case 'square':
+						ctx.drawImage(data, 30, 385, 337, 337)
+						break;
+				}
+			}
+
+			ctx.drawImage(base, 0, 0, base.width, base.height)
 
       const attachment = canvas.toBuffer();
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');

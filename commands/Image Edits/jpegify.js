@@ -12,22 +12,24 @@ module.exports = class JPEGifyCommand extends Command {
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
 				{
-					id: 'images',
-					type: 'image',
-					match: 'rest'
+					id: 'level',
+					type: (msg, phrase) => {
+						if (!phrase || isNaN(phrase)) return null;
+						const num = parseFloat(phrase);
+						if (num < 0.01 || num > 10) return null;
+						return num;
+					},
+					default: 0.5
 				},
 				{
-					id: 'level',
-					type: 'float',
-					default: 0.5
+					id: 'images',
+					type: 'image'
 				}
 			]
 		});
 	}
 
 	async exec(msg, { images, level }) {
-		if (level < 0.01) level = 0.01;
-		if (level > 10) level = 10;
 
 		let currentimage, widthpad, heightpad;
 

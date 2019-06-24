@@ -10,11 +10,11 @@ module.exports = class BurnCommand extends Command {
 			aliases: ["fire", "hell", "burn"],
 			category: 'Fun',
 			description: 'Draws an image with a destructive fire effect.',
-      cooldown: 10000,
-      ratelimit: 1,
+			cooldown: 10000,
+			ratelimit: 1,
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
-        {
+				{
 					id: 'images',
 					type: 'image'
 				}
@@ -46,8 +46,9 @@ module.exports = class BurnCommand extends Command {
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
 			return msg.channel.send({ files: [{ attachment: attachment, name: 'fire.png' }] });
 		} catch (err) {
-			return msg.reply(stripIndents`Oh no, now the bot is on fire.
-																		Ok, seriously speaking, an error has occurred: \`${err.message}\`. Please report this to the Yamamura developers!`);
+			return msg.reply(
+				stripIndents`Oh no, now the bot is on fire.
+							 Ok, seriously speaking, an error has occurred: \`${err.message}\`. Please report this to the Yamamura developers!`);
 		}
 	}
 };

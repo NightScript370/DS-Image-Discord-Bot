@@ -14,8 +14,7 @@ module.exports = class BowserMemeCommand extends Command {
       args: [
 	      {
           id: "watches",
-          type: "image",
-          match: 'rest'
+          type: "image"
         },
         {
           id: 'forcestretch',
@@ -32,7 +31,7 @@ module.exports = class BowserMemeCommand extends Command {
 			const canvas = createCanvas(bowserhide.width, bowserhide.height);
 			const ctx = canvas.getContext('2d');
 
-      let currentimage;
+      let currentwatch;
       for (var watching of watches) {
         currentwatch = await loadImage(watching);
         if (currentwatch.width == currentwatch.height && !forcestretch) {
