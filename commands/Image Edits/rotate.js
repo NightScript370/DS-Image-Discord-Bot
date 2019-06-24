@@ -20,14 +20,14 @@ module.exports = class RotateCmmand extends Command {
           }
 				},
         {
-					id: 'image',
+					id: 'images',
 					type: 'image'
 				}
 			]
 		});
 	}
 
-	async exec(msg, { level, image }) {
+	async exec(msg, { level, images }) {
 		let currentimage, widthpad, heightpad;
 
 		try {
