@@ -36,7 +36,7 @@ module.exports = class DidYouMeanCommand extends Command {
         });
     }
 
-	async exec(msg, { text }) {
+	async exec(msg, { top, bottom }) {
 		try {
             const { body } = await request
                 .get('https://api.alexflipnote.xyz/didyoumean')
