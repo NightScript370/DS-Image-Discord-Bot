@@ -12,16 +12,19 @@ module.exports = class CourseCommand extends Command {
 			category: 'Useful',
             clientPermissions: ['EMBED_LINKS'],
 			description: {
-                content: 'Searches a Super Mario Maker course from MakersOfMario. Also allows you to search via ID',
+                content: 'Search a Super Mario Maker course, either via name or ID.',
                 usage: '<level ID or name>',
                 examples: ['SMB 1-1']
             },
 			examples: ['level XXXX-XXXX-XXXX', 'level SMB1 1-1'],
 			args: [
 				{
-					id: 'level',
-					prompt: 'Please specify a level',
-					type: 'string',
+				    id: 'level',
+				    prompt: {
+                        start: "Which Super Mario Maker level would you like to get information from?",
+                        retry: "There is not a thing we can get information for. Try again."
+                    },
+				    type: 'string',
                     match: 'rest'
 				},
                 {
@@ -33,10 +36,10 @@ module.exports = class CourseCommand extends Command {
 		});
 	}
 
-	async exec(msg, { level, makerOfMario }) {
-		const ID = /(([A-Z0-9]{4})-([A-Z0-9]{4})-([A-Z0-9]{4})-([A-Z0-9]{4}))/gi;
-		if (level.match(ID))
-			return this.handleLevel(this.client, msg, level.toUpperCase());
+    async exec(msg, { level, makerOfMario }) {
+        const ID = /(?:(?:https?:\/\/)?(?:www\.)?supermariomakerbookmark\.nintendo\.net\/courses\/)?(([A-Z0-9]{4})-([A-Z0-9]{4})-([A-Z0-9]{4})-([A-Z0-9]{4}))/gi;
+        if (level.match(ID))
+            return this.handleLevel(msg, level.toUpperCase());
 
         let url = `http://smm-db.glitch.me/levels/${level}`
         if (makerOfMario)
