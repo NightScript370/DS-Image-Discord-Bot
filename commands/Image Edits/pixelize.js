@@ -12,7 +12,7 @@ module.exports = class PixelizeCommand extends Command {
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
 				{
-					id: 'image',
+					id: 'images',
 					type: 'image'
 				},
 				{
@@ -32,7 +32,7 @@ module.exports = class PixelizeCommand extends Command {
 		});
 	}
 
-	async exec(msg, { level, image }) {
+	async exec(msg, { level, images }) {
 		let currentimage, widthpad, heightpad;
 
 		try {

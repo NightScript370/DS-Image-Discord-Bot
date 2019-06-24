@@ -28,14 +28,14 @@ module.exports = class ResizeCommand extends Command {
           }
 				},
         {
-					id: 'image',
+					id: 'images',
 					type: 'image'
 				}
 			]
 		});
 	}
 
-	async exec(msg, { width, height, image }) {
+	async exec(msg, { width, height, images }) {
     if (width < 1) return msg.reply('Sorry, but the width is too small');
     if (height < 1) return msg.reply('Sorry, but the height is too small');
 

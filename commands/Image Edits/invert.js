@@ -13,14 +13,14 @@ module.exports = class InvertCommand extends Command {
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
         {
-					id: 'image',
+					id: 'images',
 					type: 'image'
 				}
 			]
 		});
 	}
 
-	async exec(msg, { image }) {
+	async exec(msg, { images }) {
 		let currentimage, widthpad, heightpad;
 		try {
 			const imagessize = await this.largestSize(images);
