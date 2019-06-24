@@ -193,7 +193,7 @@ class MyClient extends AkairoClient {
         if (attachment.size > 8e+6) return false;
         if (!fileTypeRe.test(attachment.name)) return false;
 
-        return [ attachment.url ];
+        return attachment.url;
       }
 
       if (attachment && validateAttachment(attachment)) {
