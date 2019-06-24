@@ -34,7 +34,7 @@ module.exports = class CourseCommand extends Command {
 	}
 
 	async exec(msg, { level, makerOfMario }) {
-		const ID = /(?:(?:https?:\/\/)?(?:www\.)?supermariomakerbookmark\.nintendo\.net\/courses\/)?(([A-Z0-9]{4})-([A-Z0-9]{4})-([A-Z0-9]{4})-([A-Z0-9]{4}))/gi;
+		const ID = /(([A-Z0-9]{4})-([A-Z0-9]{4})-([A-Z0-9]{4})-([A-Z0-9]{4}))/gi;
 		if (level.match(ID))
 			return this.handleLevel(this.client, msg, level.toUpperCase());
 
