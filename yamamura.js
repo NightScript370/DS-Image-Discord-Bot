@@ -14,11 +14,12 @@ require("./struct/Guild.js");
 require("./language-framework.js");
 
 const DBL = require("dblapi.js");
+console.log(config.owners)
 
 class MyClient extends AkairoClient {
 	constructor() {
 		super({
-			ownerID: config.ownerID,
+			ownerID: config.owners,
 		}, {
 			disableEveryone: true,
 			disabledEvents: ['TYPING_START'],
