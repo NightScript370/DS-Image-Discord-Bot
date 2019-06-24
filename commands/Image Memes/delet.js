@@ -11,8 +11,9 @@ module.exports = class DeleteCommand extends Command {
       clientPermissions: ['ATTACH_FILES'],
       args: [
 	      {
-	  			id: "image",
-					type: "image"
+					id: 'images',
+					type: 'image',
+					match: 'rest'
 				}
 			],
     });

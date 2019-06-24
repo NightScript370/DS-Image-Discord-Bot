@@ -17,7 +17,8 @@ module.exports = class NintendoDSCommand extends Command {
 			args: [
 				{
 					id: 'images',
-					type: 'image'
+					type: 'image',
+                    match: 'rest'
 				},
                 {
 					id: 'rating',
@@ -53,8 +54,6 @@ module.exports = class NintendoDSCommand extends Command {
 	}
 
 	async exec(msg, { images, rating, padding, internet, funky, pattern }) {
-        msg.channel.send(`Link: ${images} /n TypeOf: ${typeof images}`); // Done as test
-
 		let boxrating, BG, currentimage;
 
         try {

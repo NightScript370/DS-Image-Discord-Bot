@@ -16,7 +16,8 @@ module.exports = class BurnCommand extends Command {
 			args: [
 				{
 					id: 'images',
-					type: 'image'
+					type: 'image',
+					match: 'rest'
 				}
 			]
 		});

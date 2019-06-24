@@ -20,18 +20,19 @@ module.exports = class ToBeContinuedCommand extends Command {
 			],
 			args: [
 				{
-					id: 'image',
-					type: 'image'
+					id: 'images',
+					type: 'image',
+					match: 'rest'
 				}
 			]
 		});
 	}
 
-	async exec(msg, { image }) {
+	async exec(msg, { images }) {
 		try {
 			const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'to-be-continued.png'));
 
-			const data = await loadImage(image);
+			const data = await loadImage(images);
 			const canvas = createCanvas(data.width, data.height);
 			const ctx = canvas.getContext('2d');
 

@@ -26,7 +26,8 @@ module.exports = class PixelizeCommand extends Command {
 				},
 				{
 					id: 'images',
-					type: 'image'
+					type: 'image',
+					match: 'rest'
 				},
 			]
 		});

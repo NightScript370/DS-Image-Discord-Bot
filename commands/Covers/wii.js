@@ -16,7 +16,8 @@ module.exports = class WiiCommand extends Command {
 			args: [
 				{
 					id: 'images',
-					type: 'image'
+					type: 'image',
+          match: 'rest'
 				},
         {
 					id: 'rating',

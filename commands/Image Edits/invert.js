@@ -14,7 +14,8 @@ module.exports = class InvertCommand extends Command {
 			args: [
         		{
 					id: 'images',
-					type: 'image'
+					type: 'image',
+					match: 'rest'
 				}
 			]
 		});

@@ -14,7 +14,8 @@ module.exports = class VirtualRealityCommand extends Command {
 			args: [
 				{
 					id: 'images',
-					type: 'image'
+					type: 'image',
+					match: 'rest'
 				},
         {
 					id: 'display',

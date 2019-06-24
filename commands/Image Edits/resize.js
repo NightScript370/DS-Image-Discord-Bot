@@ -39,7 +39,8 @@ module.exports = class ResizeCommand extends Command {
 				},
         {
 					id: 'images',
-					type: 'image'
+					type: 'image',
+					match: 'rest'
 				}
 			]
 		});

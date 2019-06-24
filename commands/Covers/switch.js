@@ -8,8 +8,7 @@ module.exports = class NintendoSwitchCommand extends Command {
 			aliases: ['switch'],
 			category: 'Covers',
 			description: {
-        content: 'Draws an image stretched under the Switch Box-Art.',
-        examples: ["switch rating:esrb:m17"]
+        content: 'Draws an image stretched under the Switch Box-Art.'
       },
       cooldown: 10000,
       ratelimit: 1,
@@ -17,7 +16,8 @@ module.exports = class NintendoSwitchCommand extends Command {
 			args: [
 				{
 					id: 'images',
-					type: 'image'
+					type: 'image',
+          match: 'rest'
 				},
         {
 					id: 'rating',

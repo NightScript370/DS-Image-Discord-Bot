@@ -23,14 +23,14 @@ module.exports = class JPEGifyCommand extends Command {
 				},
 				{
 					id: 'images',
-					type: 'image'
+					type: 'image',
+					match: 'rest'
 				}
 			]
 		});
 	}
 
 	async exec(msg, { images, level }) {
-
 		let currentimage, widthpad, heightpad;
 
 		try {

@@ -21,7 +21,8 @@ module.exports = class RotateCmmand extends Command {
 				},
         {
 					id: 'images',
-					type: 'image'
+					type: 'image',
+					match: 'rest'
 				}
 			]
 		});

@@ -13,27 +13,30 @@ module.exports = class BobRossCommand extends Command {
       clientPermissions: ['ATTACH_FILES'],
       args: [
 	      {
-	  			id: "image",
-					type: "image"
+					id: 'images',
+					type: 'image',
+					match: 'rest'
 				}
 			],
     });
   }
 
-  async exec(message, { image }) {
+  async exec(message, { images }) {
     try {
       const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'bob-ross.png'));
-
-			const data = await loadImage(image);
 			const canvas = createCanvas(base.width, base.height);
 			const ctx = canvas.getContext('2d');
-
       ctx.fillStyle = 'white';
 
 			ctx.rotate(0.05);
-			ctx.drawImage(data, 30, 19, 430, 430);
-			ctx.rotate(-0.05);
 
+      let currentcanvas;
+			for (var image of images) {
+        currentcanvas = loadImage(image);
+        ctx.drawImage(currentcanvas, 30, 19, 430, 430);
+      }
+
+			ctx.rotate(-0.05);
       ctx.drawImage(base, 0, 0, base.width, base.height);
 
       const attachment = canvas.toBuffer();

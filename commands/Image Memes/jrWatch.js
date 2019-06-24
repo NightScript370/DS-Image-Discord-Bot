@@ -14,7 +14,8 @@ module.exports = class BowserMemeCommand extends Command {
       args: [
 	      {
           id: "watches",
-          type: "image"
+					type: 'image',
+					match: 'rest'
         },
         {
           id: 'forcestretch',

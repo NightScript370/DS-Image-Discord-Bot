@@ -15,7 +15,8 @@ module.exports = class CircleCommand extends Command {
 			args: [
         		{
 					id: 'images',
-					type: 'image'
+					type: 'image',
+					match: 'rest'
 				}
 			]
 		});

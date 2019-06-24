@@ -22,7 +22,8 @@ module.exports = class DistortCommand extends Command {
 				},
 				{
 					id: 'images',
-					type: 'image'
+					type: 'image',
+					match: 'rest'
 				}
 			]
 		});

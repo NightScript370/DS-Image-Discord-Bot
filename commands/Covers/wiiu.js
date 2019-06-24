@@ -8,8 +8,7 @@ module.exports = class NintendoWiiUCommand extends Command {
 			aliases: ['wiiu', 'wii-u'],
 			category: 'Covers',
 			description: {
-        content: 'Draws an image under the Nintendo Wii U Box-Art.',
-        usage: '<link to image>'
+        content: 'Draws an image under the Nintendo Wii U Box-Art.'
       },
       cooldown: 10000,
       ratelimit: 1,
@@ -17,7 +16,8 @@ module.exports = class NintendoWiiUCommand extends Command {
 			args: [
 				{
 					id: 'images',
-					type: 'image'
+					type: 'image',
+          match: 'rest'
 				},
         {
 					id: 'rating',

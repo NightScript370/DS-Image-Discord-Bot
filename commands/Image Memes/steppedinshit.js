@@ -13,8 +13,9 @@ module.exports = class SteppedInShitCommand extends Command {
       clientPermissions: ['ATTACH_FILES'],
       args: [
 	      {
-	  			id: "images",
-					type: "image"
+					id: 'images',
+					type: 'image',
+					match: 'rest'
 				},
         {
           id: 'overlay',

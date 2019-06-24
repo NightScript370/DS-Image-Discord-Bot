@@ -8,30 +8,34 @@ module.exports = class FortniteItemCommand extends Command {
 			aliases: ['fortniteitem'],
 			category: 'Image Memes',
 			description: 'Draws a new fortnite item of your choice.',
-      cooldown: 10000,
-      ratelimit: 1,
+			cooldown: 10000,
+			ratelimit: 1,
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
 				{
-					id: 'image',
-					type: 'image'
+					id: 'images',
+					type: 'image',
+					match: 'rest'
 				}
 			]
 		});
 	}
 
-	async exec(msg, { image }) {
+	async exec(msg, { images }) {
 		try {
 			const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'fortniteitem.png'));
-
-			const data = await loadImage(image);
 			const canvas = createCanvas(base.width, base.height);
 			const ctx = canvas.getContext('2d');
 
-      ctx.drawImage(data, 60, 43, 165, 165);
-      ctx.drawImage(base, 0, 0, base.width, base.height)
+			let currentitem;
+			for (var image of images) {
+				currentitem = loadImage(image);
+				ctx.drawImage(currentitem, 60, 43, 165, 165);
+			}
 
-      const attachment = canvas.toBuffer();
+			ctx.drawImage(base, 0, 0)
+
+			const attachment = canvas.toBuffer();
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
 			return msg.util.send({ files: [{ attachment: attachment, name: 'ifunny.png' }] });
 		} catch (err) {
