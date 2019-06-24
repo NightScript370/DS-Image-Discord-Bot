@@ -38,7 +38,8 @@ module.exports = class DidYouMeanCommand extends Command {
 
 	async exec(msg, { text }) {
 		try {
-            const { body } = await get('https://api.alexflipnote.xyz/didyoumean')
+            const { body } = await request
+                .get('https://api.alexflipnote.xyz/didyoumean')
                 .query({ top, bottom });
 			return msg.channel.send({ files: [{ attachment: body, name: 'didyoumean.png' }] });
 		} catch (err) {
