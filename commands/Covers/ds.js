@@ -53,6 +53,8 @@ module.exports = class NintendoDSCommand extends Command {
 	}
 
 	async exec(msg, { images, rating, padding, internet, funky, pattern }) {
+        msg.channel.send(images); // Done as test
+
 		let boxrating, BG, currentimage;
 
         try {
