@@ -57,7 +57,7 @@ module.exports = class MinecraftBedrockServerCommand extends Command {
       if (!isEmpty(data.raw.gametype)) embed.addInline(`Gametype`, data.raw.gametype)
 
       if (data.password) {
-        embed.setFooter(`Private Server • Version: ${data.raw.version}`, 'https://resources.bastionbot.org/images/lock.png')
+        embed.setFooter(`Private Server • Version: ${data.raw.version}`, `${this.client.URL}/lock.png`)
       } else {
         embed.setFooter(`Version: ${data.raw.version}`)
       }

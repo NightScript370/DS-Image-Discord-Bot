@@ -74,14 +74,14 @@ module.exports = class COD4Command extends Command {
         }
         
         embed
-          .addInline('Player', `\`\`\`http\n${players.join('\n')}\`\`\``)
-          .addInline('Score', `\`\`\`http\n${scores.join('\n')}\`\`\``)
-          .addInline('Ping', `\`\`\`http\n${pings.join('\n')}\`\`\``)
+          .addInline('Player', '```http'+players.join('\n')+'```')
+          .addInline('Score', '```http\n'+scores.join('\n')+'```')
+          .addInline('Ping', '```http\n'+pings.join('\n')+'```')
           .addField('Join', `<cod4://${host}:${port}>`)
       }
 
       if (data.password) {
-        embed.setFooter(`Private Server • Uptime: ${data.raw.uptime}`, 'https://resources.bastionbot.org/images/lock.png')
+        embed.setFooter(`Private Server • Uptime: ${data.raw.uptime}`, `${this.client.URL}/lock.png`)
       } else {
         embed.setFooter(`Server Uptime: ${data.raw.uptime}`)
       }

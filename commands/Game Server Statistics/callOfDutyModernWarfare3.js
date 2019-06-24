@@ -65,7 +65,7 @@ module.exports = class COD4Command extends Command {
       }
 
       if (data.password) {
-        embed.setFooter(`Private Server`, 'https://resources.bastionbot.org/images/lock.png')
+        embed.setFooter(`Private Server`, `${this.client.URL}/lock.png`)
       }
 
       message.channel.send({embed});

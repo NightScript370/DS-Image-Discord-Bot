@@ -59,14 +59,14 @@ module.exports = class BF1942Command extends Command {
         }
 
         embed
-          .addInline('Player', `\`\`\`http\n${players.join('\n')}\`\`\``)
-          .addInline('Score', `\`\`\`http\n${scores.join('\n')}\`\`\``)
-          .addInline('Ping', `\`\`\`http\n${pings.join('\n')}\`\`\``)
+          .addInline('Player', '```http'+players.join('\n')+'```')
+          .addInline('Score', '```http\n'+scores.join('\n')+'```')
+          .addInline('Ping', '```http\n'+pings.join('\n')+'```')
           .addField('Join', `<steam://connect/${host}:${port}>`)
       } 
 
       if (data.password) {
-        embed.setFooter(`Private Server`, 'https://resources.bastionbot.org/images/lock.png')
+        embed.setFooter(`Private Server`, `${this.client.URL}/lock.png`)
       }
 
       message.channel.send({embed});

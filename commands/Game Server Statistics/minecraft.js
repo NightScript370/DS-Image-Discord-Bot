@@ -92,8 +92,8 @@ module.exports = class MinecraftServerCommand extends Command {
           if (!isEmpty(data.raw.gametype)) embed.addInline(`Gametype`, data.raw.gametype)
 
           if (data.password) {
-            if (!isEmpty(data.raw.version.name)) embed.setFooter(`Private Server • Version: ${data.raw.version.name}`, 'https://resources.bastionbot.org/images/lock.png')
-            else if (!isEmpty(data.raw.version)) embed.setFooter(`Private Server • Version: ${data.raw.version}`, 'https://resources.bastionbot.org/images/lock.png')
+            if (!isEmpty(data.raw.version.name)) embed.setFooter(`Private Server • Version: ${data.raw.version.name}`, `${this.client.URL}/lock.png`)
+            else if (!isEmpty(data.raw.version)) embed.setFooter(`Private Server • Version: ${data.raw.version}`, `${this.client.URL}/lock.png`)
           } else {
             if (!isEmpty(data.raw.version.name)) embed.setFooter(`Version: ${data.raw.version.name}`)
             else if (!isEmpty(data.raw.version)) embed.setFooter(`Version: ${data.raw.version}`)

@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://yamamura-bot.tk"><img src="https://yamamura-bot.tk/Yamamura.png"></a>
+    <a href="https://yamamura-bot.tk"><img src="https://yamamura-bot.tk/logo.png"></a>
     Yamamura, the Discord Bot for Hacking Communities!
 </p>
 

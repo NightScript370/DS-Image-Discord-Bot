@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
   <% var subtitle = "Home" %>
-  <% include ../parts/head %><br>
+  <% include ../parts/head %>
   <!-- Start content -->
+
   <% if (!!id) { %>
     <%
       var guild = client.guilds.get(id)

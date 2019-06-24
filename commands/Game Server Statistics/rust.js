@@ -60,14 +60,14 @@ module.exports = class RustCommand extends Command {
         }
 
         embed
-          .addInline('Player', `\`\`\`http\n${players.join('\n')}\`\`\``)
+          .addInline('Player', '```http'+players.join('\n')+'```')
           .addInline('Score', '```http\n'+scores.join('\n')+'```')
           .addInline('PlayTime', '```http\n'+playtimes.join('\n')+'```')
           .addField('Join', `<steam://connect/${host}:${port}>`)
       }
 
       if (data.password) {
-        embed.setFooter(`Private Server`, 'https://resources.bastionbot.org/images/lock.png')
+        embed.setFooter(`Private Server`, `${this.client.URL}/lock.png`)
       }
 
       message.channel.send({embed});
