@@ -9,14 +9,12 @@ module.exports = class UpdateCommand extends Command {
 			category: 'Bot Utilities',
 			description: {
 				content: 'Updates the bot to the latest commit.',
-				usage: '',
-				examples: ''
 			},
 			ownerOnly: true,
 		});
 	}
 
-	exec(message, { script }) {
+	exec(message) {
 		let responce = message.channel.send('Updating bot');
 		
 		try {

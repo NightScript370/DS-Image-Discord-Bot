@@ -13,7 +13,12 @@ module.exports = class ResizeCommand extends Command {
 			args: [
 				{
 					id: 'width',
-					type: 'integer',
+					type: (msg, phrase) => {
+            if (!phrase || isNaN(phrase)) return null;
+            const num = parseInt(phrase);
+            if (num < 1) return null;
+            return num;
+          },
           prompt: {
             start: "What width do you want to apply to the image?",
             retry: "That's not a valid width we can apply."
@@ -21,7 +26,12 @@ module.exports = class ResizeCommand extends Command {
 				},
 				{
 					id: 'height',
-					type: 'integer',
+					type: (msg, phrase) => {
+            if (!phrase || isNaN(phrase)) return null;
+            const num = parseInt(phrase);
+            if (num < 1) return null;
+            return num;
+          },
           prompt: {
             start: "What height of distortion do you want to apply to the image?",
             retry: "That's not a valid height we can apply."
@@ -29,16 +39,14 @@ module.exports = class ResizeCommand extends Command {
 				},
         {
 					id: 'images',
-					type: 'image'
+					type: 'image',
+					match: 'rest'
 				}
 			]
 		});
 	}
 
 	async exec(msg, { width, height, images }) {
-    if (width < 1) return msg.reply('Sorry, but the width is too small');
-    if (height < 1) return msg.reply('Sorry, but the height is too small');
-
 		let currentimage, widthpad, heightpad;
 
 		try {

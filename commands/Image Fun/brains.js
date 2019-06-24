@@ -22,7 +22,7 @@ module.exports = class BrainsCommand extends Command {
               'Type `stop` when you are done.'
             ],
             infinite: true,
-            limit: 3
+            limit: 11
           }
         }
       ]
@@ -32,7 +32,7 @@ module.exports = class BrainsCommand extends Command {
   async exec(message, { items }) {
     console.log(items);
 
-    const fileTypeRe = /\.(jpe?g|png|gif)$/i;
+    const fileTypeRe = /\.(jpe?g|png|gif|bmp)$/i;
     let endimage;
     let loadimage;
 

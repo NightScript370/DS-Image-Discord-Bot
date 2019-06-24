@@ -7,8 +7,8 @@ module.exports = class ShieldsIoBadgeCommand extends Command {
 			aliases: ['shields-io', 'shields-io-badge'],
 			category: 'Image Fun',
 			description: {
-        content: 'Creates a badge from shields.io.'
-      },
+        		content: 'Creates a badge from shields.io.'
+      		},
 			clientPermissions: ['ATTACH_FILES'],
 			credit: [
 				{

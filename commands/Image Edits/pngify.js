@@ -13,7 +13,8 @@ module.exports = class PNGifyCommand extends Command {
 			args: [
         {
 					id: 'images',
-					type: 'image'
+					type: 'image',
+					match: 'rest'
 				}
 			]
 		});

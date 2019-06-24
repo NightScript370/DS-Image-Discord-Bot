@@ -13,7 +13,8 @@ module.exports = class PixelizeCommand extends Command {
 			args: [
 				{
 					id: 'images',
-					type: 'image'
+					type: 'image',
+					match: 'rest'
 				},
 				{
 					id: 'level',
