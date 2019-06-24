@@ -8,19 +8,20 @@ module.exports = class InvertCommand extends Command {
 			aliases: ["invert"],
 			category: 'Image Edits',
 			description: 'Draws the negative of an image.',
-      cooldown: 10000,
-      ratelimit: 1,
+			cooldown: 10000,
+			ratelimit: 1,
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
-        {
-					id: 'image',
-					type: 'image'
+        		{
+					id: 'images',
+					type: 'image',
+					match: 'rest'
 				}
 			]
 		});
 	}
 
-	async exec(msg, { image }) {
+	async exec(msg, { images }) {
 		let currentimage, widthpad, heightpad;
 		try {
 			const imagessize = await this.largestSize(images);

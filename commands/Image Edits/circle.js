@@ -7,13 +7,13 @@ module.exports = class CircleCommand extends Command {
 			aliases: ["circle"],
 			category: 'Image Edits',
 			description: {
-        content: 'Draws an image, but with a circle around it.'
-      },
-      cooldown: 10000,
-      ratelimit: 1,
+				content: 'Draws an image, but with a circle around it.'
+      		},
+      		cooldown: 10000,
+      		ratelimit: 1,
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
-        {
+        		{
 					id: 'images',
 					type: 'image',
 					match: 'rest'

@@ -8,19 +8,20 @@ module.exports = class GlitchCommand extends Command {
 			aliases: ["glitch"],
 			category: 'Image Edits',
 			description: 'Draws an image with a glitch effect.',
-      cooldown: 10000,
-      ratelimit: 1,
+      		cooldown: 10000,
+      		ratelimit: 1,
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
-        {
+        		{
 					id: 'images',
-					type: 'image'
+					type: 'image',
+					match: 'rest'
 				}
 			]
 		});
 	}
 
-	async exec(msg, {  images }) {
+	async exec(msg, { images }) {
 		let currentimage, widthpad, heightpad;
 
 		try {

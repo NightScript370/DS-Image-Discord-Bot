@@ -7,13 +7,14 @@ module.exports = class JPEGifyCommand extends Command {
 			aliases: ["jpegify", "needs-more-jpeg", "jpeg"],
 			category: 'Image Edits',
 			description: 'Draws an image as a low quality JPEG.',
-      cooldown: 10000,
-      ratelimit: 1,
+			cooldown: 10000,
+			ratelimit: 1,
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
 				{
 					id: 'images',
-					type: 'image'
+					type: 'image',
+					match: 'rest'
 				},
 				{
 					id: 'level',

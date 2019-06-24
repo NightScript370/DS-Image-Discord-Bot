@@ -90,7 +90,7 @@ module.exports = class CourseCommand extends Command {
 
         CourseEmbed.addInline('World Record', `${levelinfo.world_record.time} by [${levelinfo.world_record.name}](${levelinfo.world_record.user_url})`)
                    .addInline('First Clear', global.getString(msg.author.lang, "by {0}", `[${levelinfo.first_clear.name}](${levelinfo.first_clear.user_url})`));
-        msg.channel.send({embed: SMMCourseEmbed})
+        msg.channel.send({embed: CourseEmbed})
     } catch (e) {
         console.error(e);
         msg.channel.send('An unknown error has occured. Please report it to the Yamamura developers')
