@@ -10,7 +10,6 @@ module.exports = class CommandBlockedListener extends Listener {
     }
 
     exec(message, command, reason) {
-        console.log(this.client.ownerID);
         const text = {
 			owner: () => "we're sorry, but the " + command.id + " command may only be used by the bot owners.",
 			guild: () => "we're sorry, but the " + command.id + " command may only be used in a server."
