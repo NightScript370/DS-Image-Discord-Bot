@@ -36,6 +36,7 @@ module.exports = class RotateCmmand extends Command {
 			const canvas = await createCanvas(imagessize.width, imagessize.height);
 			const ctx = canvas.getContext('2d');
 
+			ctx.rotate(-level * Math.PI / 180)
 			for (var image of images) {
 				currentimage = await loadImage(image);
 

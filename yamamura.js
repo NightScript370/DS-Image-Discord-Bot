@@ -141,20 +141,20 @@ class MyClient extends AkairoClient {
 
             let userFound = null;
 
-            if (userSearch(user.toLowerCase())) return userSearch(user);
+            if (userSearch(message, user.toLowerCase())) return userSearch(message, user.toLowerCase());
             let tmp_user = user.split(" ")
             while (!userFound && tmp_user.length > 1) {
                 tmp_user.pop()
-                userFound = userSearch(tmp_user.join(" ").toLowerCase());
+                userFound = userSearch(message, tmp_user.join(" ").toLowerCase());
             }
 
             return userFound;
 
-            function userSearch(term) {
+            function userSearch(message, term) {
                 if(message.guild) {
                     let guildMember = message.guild.members.find(mem => mem.displayName.toLowerCase() === term);
                     if (guildMember) {
-                        console.log(`I found ${guildMember.displayName} (#${guildMember.user.id}) from the current guild (${message.guild.name}) using the term "${term}" for ${message.author.username} (${message.author.id})`)
+                        console.log(`I found ${guildMember.displayName} (#${guildMember.user.id}) from the current guild (${message.guild.name}) using the term "${term}" for ${message.author.username} (#${message.author.id})`)
                         return guildMember.user;
                     }
                 }

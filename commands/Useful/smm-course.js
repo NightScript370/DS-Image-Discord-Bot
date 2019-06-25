@@ -58,9 +58,31 @@ module.exports = class CourseCommand extends Command {
         if (result) return this.handleLevel(msg, result.id)
 	}
 
+    filterID (string) {
+        return string
+            .replace('https://www.supermariomakerbookmark.nintendo.net/courses/'.toUpperCase(), '')
+            .replace('https://supermariomakerbookmark.nintendo.net/courses/'.toUpperCase(), '')
+            .replace('www.supermariomakerbookmark.nintendo.net/courses/'.toUpperCase(), '')
+            .replace('supermariomakerbookmark.nintendo.net/courses/'.toUpperCase(), '')
+            .replace('https://www.supermariomakerbookmark.nintendo.com/courses/'.toUpperCase(), '')
+            .replace('https://supermariomakerbookmark.nintendo.com/courses/'.toUpperCase(), '')
+            .replace('www.supermariomakerbookmark.nintendo.com/courses/'.toUpperCase(), '')
+            .replace('supermariomakerbookmark.nintendo.com/courses/'.toUpperCase(), '')
+    }
+
     async handleLevel(msg, ID) {
         try {
             let levelinfo = await getCourseP(ID)
+
+            let clears = `${levelinfo.clears}/${levelinfo.attempts} (${levelinfo.clear_rate}%)`;
+
+            if (levelinfo.world_record)
+                clears += `\n **World Record:** ${levelinfo.world_record.time} by [${levelinfo.world_record.name}](${levelinfo.world_record.user_url})`;
+
+            if (levelinfo.first_clear)
+                clears += `\n **First Clear:** ${global.getString(msg.author.lang, "by {0}", `[${levelinfo.first_clear.name}](${levelinfo.first_clear.user_url})`)}`
+
+            let levelstats = `**Difficulty:** ${levelinfo.difficulty} \n **Stars:** ${levelinfo.stars} \n **Game Style:** ${levelinfo.game_style}`;
 
             let CourseEmbed = this.client.util.embed()
                 .setTitle(levelinfo.course_title)
@@ -69,36 +91,29 @@ module.exports = class CourseCommand extends Command {
 				.setThumbnail(levelinfo.course_img)
 				.setTimestamp(new Date())
 				.setFooter(`Created by ${levelinfo.creator_name} on ${levelinfo.created_at}`, levelinfo.creator_img_url)
-				.addInline('Difficulty', levelinfo.difficulty)
-                .addInline('Stars', levelinfo.stars)
-                .addInline('Clears', `${levelinfo.clears}/${levelinfo.attempts} (${levelinfo.clear_rate}%)`);
+				.addInline('Clears', clears)
+                .addInline('Level information', levelstats);
 
             switch(levelinfo.game_style_raw) {
 		        case "sb":
-                    CourseEmbed.addInline("Game Style", "Super Mario Bros.")
-				               .setColor("#D54B00");
+                    CourseEmbed.setColor("#D54B00");
                     break;
                 case "sb3":
-                    CourseEmbed.addInline("Game Style", "Super Mario Bros. 3")
-                               .setColor("#FAEBD6");
+                    CourseEmbed.setColor("#FAEBD6");
                     break;
                 case "sw":
-                    CourseEmbed.addInline("Game Style", "Super Mario World")
-                               .setColor("#01F406");
+                    CourseEmbed.setColor("#01F406");
                     break;
                 case "sbu":
-                    CourseEmbed.addField("Game Style", "New Super Mario Bros. U")
-                               .setColor("#0096C8");
-		  }
+                    CourseEmbed.setColor("#0096C8");
+		    }
 
-        CourseEmbed.addInline('World Record', `${levelinfo.world_record.time} by [${levelinfo.world_record.name}](${levelinfo.world_record.user_url})`)
-                   .addInline('First Clear', global.getString(msg.author.lang, "by {0}", `[${levelinfo.first_clear.name}](${levelinfo.first_clear.user_url})`));
-        msg.channel.send({embed: CourseEmbed})
-    } catch (e) {
-        console.error(e);
-        msg.channel.send('An unknown error has occured. Please report it to the Yamamura developers')
+            msg.channel.send({embed: CourseEmbed})
+        } catch (e) {
+            console.error(e);
+            msg.channel.send('An unknown error has occured. Please report it to the Yamamura developers')
+        }
     }
-  }
 
     async handleSelector(levels, index, embed=null, language=null) {
         if (embed) {

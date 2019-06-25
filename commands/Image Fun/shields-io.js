@@ -53,7 +53,7 @@ module.exports = class ShieldsIoBadgeCommand extends Command {
 
 	async exec(msg, { subject, status, color }) {
 		try {
-			const { body } = await request.get(`https://img.shields.io/badge/${subject}-${status}-${color}.png`);
+			const { body } = await request.get(`https://img.shields.io/static/v1.svg?label=${subject}&message=${status}&color=${rightColor}&=`);
 			return msg.util.send({ files: [{ attachment: body, name: 'badge.png' }] });
 		} catch (err) {
 			if (err.status === 404) return msg.reply('Could not create the badge...');
