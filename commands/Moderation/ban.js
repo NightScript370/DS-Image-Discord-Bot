@@ -70,5 +70,5 @@ module.exports = class BanCommand extends Command {
 			console.error(e);
 			msg.reply(`an error occured while trying to ban the user.`);
 		}
-  }
+	}
 };

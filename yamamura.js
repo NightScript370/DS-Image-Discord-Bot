@@ -320,7 +320,7 @@ class MyClient extends AkairoClient {
         }
 
         // YTDL is for downloading while Youtube is for info, since ytdl-discord doesn't have info
-        data.dispatcher = data.connection.play(await YTDL(data.queue[0].url), { type: 'opus', volume: false })
+        data.dispatcher = data.connection.play(await YTDL(data.queue[0].url), { type: 'opus', volume: false, passes: 3, highWaterMark: 50 })
                             .on('error', err => {
                                 console.error('Error occurred in stream dispatcher:', err);
                                 playing.edit(`An error occurred while playing the song: ${err}`);

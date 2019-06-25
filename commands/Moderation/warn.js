@@ -6,7 +6,7 @@ module.exports = class WarnCommand extends Command {
 			aliases: ["warn"],
 			category: 'Moderation',
 			description: {
-				content: 'Warns a member via mention, saying their name or inputting the server member\'s ID. You may also specify a reason to the kick'
+				content: 'Warns a member via mention, saying their name or inputting the server member\'s ID. You may also specify a reason to the warn.'
 			},
 			examples: ["warn @InfamousGuy003 spamming in #general-talk"],
 			channelRestriction: 'guild',
