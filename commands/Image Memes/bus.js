@@ -19,12 +19,15 @@ module.exports = class BusCommand extends Command {
               start: 'Who would you like to throw under the bus?',
               retry: 'That\'s not something we can throw! Try again.'
           },
-					type: "user"
+					type: "user",
+          match: 'rest'
 				},
         {
           id: "thrower",
           type: "user",
-          default: msg => msg.author
+          default: msg => msg.author,
+          match: "option",
+          flag: "thrower:"
         }
 			],
     });

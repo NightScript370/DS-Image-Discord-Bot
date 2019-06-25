@@ -32,7 +32,7 @@ module.exports = class BobRossCommand extends Command {
 
       let currentcanvas;
 			for (var image of images) {
-        currentcanvas = loadImage(image);
+        currentcanvas = await loadImage(image);
         ctx.drawImage(currentcanvas, 30, 19, 430, 430);
       }
 
