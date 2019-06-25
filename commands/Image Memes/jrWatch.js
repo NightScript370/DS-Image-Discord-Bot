@@ -36,9 +36,9 @@ module.exports = class BowserMemeCommand extends Command {
       for (var watching of watches) {
         currentwatch = await loadImage(watching);
         if (currentwatch.width == currentwatch.height && !forcestretch) {
-          ctx.drawImage(data, 253, 41, 552, 552);
+          ctx.drawImage(currentwatch, 253, 41, 552, 552);
         } else {
-          ctx.drawImage(data, 43, 41, 972, 552);
+          ctx.drawImage(currentwatch, 43, 41, 972, 552);
         }
       }
 

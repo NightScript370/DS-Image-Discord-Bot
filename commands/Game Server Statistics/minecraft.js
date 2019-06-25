@@ -34,7 +34,7 @@ module.exports = class MinecraftServerCommand extends Command {
     let embed = await this.client.util.embed()
 
     IP = IP.split(':');
-    let fullIP = IP.join(':')
+    let fullIP = IP.join(':');
 
     let host = IP[0];
     let port = IP[1] ? parseInt(IP[1]) : 25565;
@@ -46,7 +46,7 @@ module.exports = class MinecraftServerCommand extends Command {
             embed
               .setAuthor(`Minecraft Server Stats: ${result.address}:${result.port}`, 'http://www.rw-designer.com/icon-image/5547-256x256x32.png')
               .setColor(`GREEN`)
-              .setImage('https://cache.gametracker.com/server_info/'+host+':'+port+'/b_560_95_1.png')
+              .setImage('https://cache.gametracker.com/server_info/'+host+':'+port+'/b_560_95_1.png');
 
             if(result.online) {
               embed
@@ -57,10 +57,10 @@ module.exports = class MinecraftServerCommand extends Command {
                 embed.addField("Message of the Day", removeMinecraftColor(result.motd));
               }
             } else {
-              embed.setDescription(`:red_circle: Server is offline`)
+              embed.setDescription(`:red_circle: Server is offline`);
             }
 
-            message.channel.send({embed})
+            message.channel.send({embed});
           });
           break;
         case 'gamedig':
@@ -73,30 +73,30 @@ module.exports = class MinecraftServerCommand extends Command {
           if (!isEmpty(data.name)) {
             embed
               .setAuthor(`Minecraft Server Stats: ${data.name}`, 'http://www.rw-designer.com/icon-image/5547-256x256x32.png')
-              .addInline(`Server`, `\`${data.connect}\``)
+              .addInline(`Server`, `\`${data.connect}\``);
           } else {
             embed
-              .setAuthor(`Minecraft Server Stats: ${data.connect}`, 'http://www.rw-designer.com/icon-image/5547-256x256x32.png')
+              .setAuthor(`Minecraft Server Stats: ${data.connect}`, 'http://www.rw-designer.com/icon-image/5547-256x256x32.png');
           }
 
           embed
             .setColor(`GREEN`)
             .addInline(`Players`, `${data.players.length}/${data.maxplayers}`)
-            .setImage('https://cache.gametracker.com/server_info/'+host+':'+port+'/b_560_95_1.png')
-        
+            .setImage('https://cache.gametracker.com/server_info/'+host+':'+port+'/b_560_95_1.png');
+
           if (!isEmpty(removeMinecraftColor(data.raw.description.text))) {
-            embed.setDescription(removeMinecraftColor(data.raw.description.text))
+            embed.setDescription(removeMinecraftColor(data.raw.description.text));
           }
 
-          if (!isEmpty(data.raw.map))      embed.addInline('Map', data.raw.map)
-          if (!isEmpty(data.raw.gametype)) embed.addInline(`Gametype`, data.raw.gametype)
+          if (!isEmpty(data.raw.map))      embed.addInline('Map', data.raw.map);
+          if (!isEmpty(data.raw.gametype)) embed.addInline(`Gametype`, data.raw.gametype);
 
           if (data.password) {
-            if (!isEmpty(data.raw.version.name)) embed.setFooter(`Private Server • Version: ${data.raw.version.name}`, `${this.client.URL}/lock.png`)
-            else if (!isEmpty(data.raw.version)) embed.setFooter(`Private Server • Version: ${data.raw.version}`, `${this.client.URL}/lock.png`)
+            if (!isEmpty(data.raw.version.name)) embed.setFooter(`Private Server • Version: ${data.raw.version.name}`, `${this.client.URL}/lock.png`);
+            else if (!isEmpty(data.raw.version)) embed.setFooter(`Private Server • Version: ${data.raw.version}`, `${this.client.URL}/lock.png`);
           } else {
-            if (!isEmpty(data.raw.version.name)) embed.setFooter(`Version: ${data.raw.version.name}`)
-            else if (!isEmpty(data.raw.version)) embed.setFooter(`Version: ${data.raw.version}`)
+            if (!isEmpty(data.raw.version.name)) embed.setFooter(`Version: ${data.raw.version.name}`);
+            else if (!isEmpty(data.raw.version)) embed.setFooter(`Version: ${data.raw.version}`);
           }
 
           await message.channel.send({embed});
@@ -108,27 +108,27 @@ module.exports = class MinecraftServerCommand extends Command {
               if (!isEmpty(body.hostname)) {
                 embed
                   .setAuthor(`Minecraft Server Stats: ${body.hostname}`, (!isEmpty(body.icon) && body.icon.length < 2000) ? body.icon : 'http://www.rw-designer.com/icon-image/5547-256x256x32.png')
-                  .addInline(`Server IP`, '`'+fullIP+'`')
+                  .addInline(`Server IP`, '`'+fullIP+'`');
               } else {
                 embed
-                  .setAuthor(`Minecraft Server Stats: ${fullIP}`, body.icon ? body.icon : 'http://www.rw-designer.com/icon-image/5547-256x256x32.png')
+                  .setAuthor(`Minecraft Server Stats: ${fullIP}`, body.icon ? body.icon : 'http://www.rw-designer.com/icon-image/5547-256x256x32.png');
               }
 
               if (!isEmpty(body.motd)) {
-                embed.setDescription(body.motd.clean)
+                embed.setDescription(body.motd.clean);
               }
 
               if (!isEmpty(body.players)) {
                 let players = `${body.players.online}/${body.players.max}`;
                 if (!isEmpty(body.players.list)) {
-                  players += `\n\`\`\`http\n${body.players.list.join('\n')}\`\`\``
+                  players += '\n```http\n'+body.players.list.join('\n')+'```';
                 }
-                embed.addField("Players", players)
+                embed.addField("Players", players);
               }
 
               embed
                 .setColor('GREEN')
-                .setImage('https://cache.gametracker.com/server_info/'+host+':'+port+'/b_560_95_1.png')
+                .setImage('https://cache.gametracker.com/server_info/'+host+':'+port+'/b_560_95_1.png');
 
               message.channel.send({embed});
             } else {

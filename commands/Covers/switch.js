@@ -148,7 +148,7 @@ module.exports = class NintendoSwitchCommand extends Command {
           if (chubby) {
             ctx.drawImage(currentimage, 0, (base.height / 4), base.width, (base.height/2));
           } else {
-            ctx.drawImage(current, 15, (base.height / 4), (base.width-35), (base.height/2));
+            ctx.drawImage(currentimage, 15, (base.height / 4), (base.width-35), (base.height/2));
           }
         } else if ((base.height/3) > currentimage.height && !forcestretch) {
           if (chubby) {

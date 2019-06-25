@@ -51,9 +51,9 @@ module.exports = class PickCommand extends Command {
           .addInline("Remaining Attempts", rAtt)
           .addField("Guessed letters", game.guessedLetters.join(", ") || "None")
           .addInline("Right guesses", game.guessedLetters.filter(gl => game.hiddenWord.map(l => l.toLowerCase()).includes(gl)).join(", ") || "None")
-          .addInline("Wrong guesses", game.guessedLetters.filter(gl => !game.hiddenWord.map(l => l.toLowerCase()).includes(gl)).join(", ") || "None")
+          .addInline("Wrong guesses", game.guessedLetters.filter(gl => !game.hiddenWord.map(l => l.toLowerCase()).includes(gl)).join(", ") || "None");
 
-        return msg.channel.send({embed: embed})
+        return msg.channel.send({embed: embed});
       }
       const words = require("./../../assets/JSON/hangman.json")
       let word = words.random()

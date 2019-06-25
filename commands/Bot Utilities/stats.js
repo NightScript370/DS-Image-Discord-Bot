@@ -7,19 +7,21 @@ const djsversion = require("discord.js").version
 module.exports = class StatsCommand extends Command {
 	constructor() {
 		super('stats', {
-      aliases: ["info", 'stats', 'yamamura-help'],
+      aliases: ['stats', 'statistics', 'status'],
 			category: 'Bot Utilities',
       clientPermissions: ['EMBED_LINKS'],
 			description: {
         content: "Displays overall information about the bot, such as statistics, publicity and more."
       },
+      args: [
+        {
+          id: 'section',
+          type: ['resources', 'ping', 'publicity', 'backends', 'events', 'dates', 'uptime', 'creation'],
+          default: null
+        }
+      ]
 		});
 	}
-  
-  regex(message) {
-      // Do some code...
-      return new RegExp(`^<@!?${this.client.user.id}>( |)$`);
-  }
 
 	async exec(message) {
     const __ = (k, ...v) => global.getString(message.author.lang, k, ...v)
@@ -50,10 +52,8 @@ module.exports = class StatsCommand extends Command {
     console.log('Free Yamamura: ', totalMem)
   
     let embed = this.client.util.embed()
-      .setTitle(__("Welcome to {0}", this.client.user.username), this.client.URL)
+      .setTitle(__("{0} Statistics", this.client.user.username), this.client.URL)
       .setThumbnail(this.client.user.displayAvatarURL({ format: 'png' }))
-      .setDescription(__('This is a discord bot made in Discord-Akairo written for MakerBoard connectivity.') + "\n"
-                    + __("If you'd like to see all the available commands, please take a look at our website or type {0}commands", prefix))
       .addInline("🌍 " + __("Publicity"), `• ${this.client.guilds.reduce((total, server) => total + server.memberCount, 0).toLocaleString()} Users
 • ${this.client.channels.size.toLocaleString()} Channels
 • ${this.client.guilds.size.toLocaleString()} Servers`)
@@ -61,7 +61,7 @@ module.exports = class StatsCommand extends Command {
 **• Discord-Akairo**: v${version}
 **• Node.JS Version**: ${process.version}
 **• ${__("Database System")}**: lokijs`)
-      .addInline("⚙️ " + __("Resource Usage"), `**• Memory**: ${usedMem} MB/${totalMem} MB 
+      .addInline("⚙️ " + __("Resource Usage"), `**• Memory**: ${usedMem}/${totalMem}
 **• CPU**: ${osv.toFixed(2)} MB`)
       .addInline(__("Total Events"), `• ${__("{0} total commands", cmds.length)}
 • ${__("{0} total listeners", this.client._eventsCount)}`)

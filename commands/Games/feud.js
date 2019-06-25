@@ -78,7 +78,7 @@ module.exports = class FeudCommand extends Command {
       if (this.playing.has(msg.channel.id))
   			this.playing.delete(msg.channel.id);
 
-      console.error(err)
+      console.error(err);
 			return msg.util.send(`Oh no, an error occurred: \`${err.message}\`. Please report this to the Yamamura developers!`);
 		}
 	}

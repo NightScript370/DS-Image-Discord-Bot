@@ -117,7 +117,7 @@ module.exports = class NintendoWiiUCommand extends Command {
       } */
 
       for (var image of images) {
-        currentimage = loadImage(image);
+        currentimage = await loadImage(image);
         if((currentimage.width == currentimage.height || (base.height/4) > currentimage.height) && !forcestretch) {
           ctx.drawImage(currentimage, padding, (base.height / 4)+padding, base.width-padding, (base.height/1.5)-padding);
         } else if ((base.height/3) > currentimage.height && !forcestretch) {

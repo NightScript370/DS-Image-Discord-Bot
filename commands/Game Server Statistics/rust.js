@@ -28,7 +28,7 @@ module.exports = class RustCommand extends Command {
     let embed = this.client.util.embed()
 
     IP = IP.split(':');
-    let fullIP = IP.join(':')
+    let fullIP = IP.join(':');
 
     let host = IP[0];
     let port = IP[1] ? parseInt(IP[1]) : 28015;
@@ -47,7 +47,7 @@ module.exports = class RustCommand extends Command {
         .addInline('Server IP', `\`${host}:${port}\``)
         .addInline('Players', `${data.players.length}/${data.maxplayers}`)
         .addField('Map', data.map)
-        .setImage('https://cache.gametracker.com/server_info/'+host+':'+port+'/b_560_95_1.png')
+        .setImage('https://cache.gametracker.com/server_info/'+host+':'+port+'/b_560_95_1.png');
 
       if (data.players.length) {
         let players = [];
@@ -63,11 +63,11 @@ module.exports = class RustCommand extends Command {
           .addInline('Player', '```http'+players.join('\n')+'```')
           .addInline('Score', '```http\n'+scores.join('\n')+'```')
           .addInline('PlayTime', '```http\n'+playtimes.join('\n')+'```')
-          .addField('Join', `<steam://connect/${host}:${port}>`)
+          .addField('Join', `<steam://connect/${host}:${port}>`);
       }
 
       if (data.password) {
-        embed.setFooter(`Private Server`, `${this.client.URL}/lock.png`)
+        embed.setFooter(`Private Server`, `${this.client.URL}/lock.png`);
       }
 
       message.channel.send({embed});
@@ -75,15 +75,15 @@ module.exports = class RustCommand extends Command {
       if (e.toString().includes('UDP Watchdog Timeout')) {
         message.reply("The game server is offline. Please try connecting at a later date");
       } else if (e.stack.includes('ENOTFOUND')) {
-        message.reply("The game server was not found. Please try again.")
+        message.reply("The game server was not found. Please try again.");
       } else if (e.stack.includes('TCP Connection Refused')) {
-        message.reply("The game server refused the connection. Please try again.")
+        message.reply("The game server refused the connection. Please try again.");
       } else {
         console.log('An unidentified error has occured');
         console.log(`Error type: ${typeof e}`);
         console.log(`Error toString(): ${e.toString()}`);
-        console.log(`Errormessage: ${e.message}`)
-        console.log(`ErrorStack: ${e.stack}`)
+        console.log(`Errormessage: ${e.message}`);
+        console.log(`ErrorStack: ${e.stack}`);
       }
     }
   }

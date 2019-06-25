@@ -85,33 +85,30 @@ module.exports = class TTTCommand extends Command {
 
     // where is matchRe defined?
     // On top of the class definition
-    var parsed = matchRe.exec(action)
-    // console.log(matchRe, parseInt(action), parsed)
-    var [column, row] = [parsed[1], 4-parseInt(parsed[2])]
+    var parsed = matchRe.exec(action);
+    var [column, row] = [parsed[1], 4 - parseInt(parsed[2])];
     game.turn(); // first move will be X
     game.move(column, row);
-    
-    games[key] = game
-    
+
+    games[key] = game;
+
     if (game.status() != "in progress") {
-      // client.ttt.status.delete(msg.author.id)
-      return this.deleteGame(msg, key)
+      return this.deleteGame(msg, key);
     }
-    
-    game.turn()
-    game.randomMove()
-    
-    games[key] = game
-    
+
+    game.turn();
+    game.randomMove();
+
+    games[key] = game;
+
     if (game.status() != "in progress") {
-      // client.ttt.status.delete(msg.author.id)
-      return this.deleteGame(msg, key)
+      return this.deleteGame(msg, key);
     }
-    
-    games[key] = game
+
+    games[key] = game;
     embed
-      .setDescription(`\`\`\`${game.ascii()}\`\`\``)
-    msg.channel.send({embed: embed})
+      .setDescription(`\`\`\`${game.ascii()}\`\`\``);
+    msg.channel.send({embed: embed});
   }
   
   checkStatus(game) {
@@ -135,7 +132,7 @@ module.exports = class TTTCommand extends Command {
       .setAuthor(msg.guild ? msg.member.displayName : msg.author.username, msg.author.displayAvatarURL({format: 'png'}))
       .setTitle("Tic-Tac-Toe game results")
     let d = this.checkStatus(game);
-    d +=`\`\`\`${game.ascii()}\`\`\``
+    d += '**```' + game.ascii() + '```**';
     e.setDescription(d)
     return msg.channel.send(e)
   }

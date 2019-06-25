@@ -4,7 +4,7 @@ const { Command } = require('discord-akairo');
 module.exports = class CommandsCommand extends Command {
 	constructor() {
 		super('commands', {
-			aliases: ["help", 'commands', "cmds"],
+			aliases: ['commands', "cmds"],
 			category: 'Bot Utilities',
       clientPermissions: ['EMBED_LINKS'],
 			description: {
