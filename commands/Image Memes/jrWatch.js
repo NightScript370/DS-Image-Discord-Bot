@@ -42,7 +42,7 @@ module.exports = class BowserMemeCommand extends Command {
         }
       }
 
-      ctx.drawImage(bowserimage, 0, 0, bowserimage.width, bowserimage.height)
+      ctx.drawImage(bowserhide, 0, 0)
 
       const attachment = canvas.toBuffer();
       if (Buffer.byteLength(attachment) > 8e+6) return message.reply('Resulting image was above 8 MB.');
