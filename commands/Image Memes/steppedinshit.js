@@ -36,10 +36,8 @@ module.exports = class SteppedInShitCommand extends Command {
     }
   }
 
-  async stepInShit(image, overlay) {
+  async stepInShit(images, overlay) {
     const base = await loadImage(path.join(__dirname, '..', 'assets', 'images', 'stepinshit.png'));
-
-		const data = await loadImage(image);
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 
@@ -51,7 +49,13 @@ module.exports = class SteppedInShitCommand extends Command {
     }
 
 		ctx.rotate(-0.6);
-		ctx.drawImage(data, -350, 800, 430, 170);
+
+    let currentshit;
+    for (var image of images) {
+				currentshit = await loadImage(image);
+				ctx.drawImage(currentshit, -350, 800, 430, 170);
+    }
+
 		ctx.rotate(0.6);
 
     if (!overlay) {

@@ -1,4 +1,4 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/Image-Command');
 const { createCanvas, loadImage } = require('canvas');
 const path = require('path');
 
@@ -29,7 +29,7 @@ module.exports = class FortniteItemCommand extends Command {
 
 			let currentitem;
 			for (var image of images) {
-				currentitem = loadImage(image);
+				currentitem = await loadImage(image);
 				ctx.drawImage(currentitem, 60, 43, 165, 165);
 			}
 
