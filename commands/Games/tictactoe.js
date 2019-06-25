@@ -53,41 +53,36 @@ module.exports = class TTTCommand extends Command {
   }
 
   async exec(msg, { moveOrCmd: action }) {
-    let name = msg.member ? msg.member.displayName : msg.author.username;
     const client = await this.client;
     const matchRe = /([1-3])(?: )*(?:|,|\$|\-|\.|\\|\/|\||&)?(?: )*([1-3])/;
+
+    let embed = this.client.util.embed()
+      .setAuthor(msg.guild ? msg.member.displayName : msg.author.username, msg.author.displayAvatarURL({format: 'png'}))
+      .setTitle("Showing Tic-Tac-Toe game")
 
     let games = this.games;
     var game;
     const key = `${msg.author.id}`
     const shouldMove = matchRe.test(action) // matches "1,3", "1, 3", "1|3" and "13"
-    if (!shouldMove || (shouldMove && !games[key])) {
-      action = games[key] ? "grid" : "new"
+    if (!shouldMove || (shouldMove && !this.games[key])) {
+      action = this.games[key] ? "grid" : "new"
       if (action == "new") {
-        if (games[key]) return msg.reply("a game is already in progress. Finish that first!")
-        game = new TicTacToe()
-        let e = client.util.embed()
-          .setAuthor(name, msg.author.displayAvatarURL({format: 'png'}))
-          .setTitle("Showing Tic-Tac-Toe game")
-          .setDescription(`\`\`\`${game.ascii()}\`\`\``)
-        msg.channel.send(e)
-        games[key] = game
-      } else if (action == "grid") {
-        let e = client.util.embed()
-          .setAuthor(name, msg.author.displayAvatarURL)
-          .setTitle("Showing Tic-Tac-Toe game")
-          .setDescription(`\`\`\`${games[key].ascii()}\`\`\``)
-        msg.channel.send(e)
+        if (this.games[key]) return msg.reply("a game with your name is already in progress. Finish that first!")
+        this.games[key] = new TicTacToe()
+
+        embed.setTitle('New Tic-Tac-Toe game')
       }
-      return
+
+      embed.setDescription(`\`\`\`${games[key].ascii()}\`\`\``)
+      return msg.channel.send({embed: embed});
     }
     game = games[key]
-    
+  
     if (game.status() != "in progress") {
       // client.ttt.status.delete(msg.author.id)
       return this.deleteGame(msg, key)
     }
-    
+
     // where is matchRe defined?
     // On top of the class definition
     var parsed = matchRe.exec(action)
@@ -114,11 +109,9 @@ module.exports = class TTTCommand extends Command {
     }
     
     games[key] = game
-    let e = client.util.embed()
-      .setAuthor(name, msg.author.displayAvatarURL)
-      .setTitle("Showing Tic-Tac-Toe game")
+    embed
       .setDescription(`\`\`\`${game.ascii()}\`\`\``)
-    msg.channel.send(e)
+    msg.channel.send({embed: embed})
   }
   
   checkStatus(game) {
@@ -139,7 +132,7 @@ module.exports = class TTTCommand extends Command {
     let game = this.games[key];
     delete this.games[key]
     let e = this.client.util.embed()
-      .setAuthor(msg.member.displayName, msg.author.displayAvatarURL)
+      .setAuthor(msg.guild ? msg.member.displayName : msg.author.username, msg.author.displayAvatarURL({format: 'png'}))
       .setTitle("Tic-Tac-Toe game results")
     let d = this.checkStatus(game);
     d +=`\`\`\`${game.ascii()}\`\`\``
