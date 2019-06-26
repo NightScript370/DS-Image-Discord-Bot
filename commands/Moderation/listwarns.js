@@ -23,7 +23,7 @@ module.exports = class WarnCommand extends Command {
 		});
 	}
 
-	exec(msg, { user }) {
+	async exec(msg, { user }) {
         if (msg.guild.members.has(user)) {
 			let member = msg.guild.members.get(user.id);
 			let author = msg.member;
@@ -38,7 +38,7 @@ module.exports = class WarnCommand extends Command {
 				return msg.reply("You need to be the server owner in order to list an Administrators warning")
 		}
 
-		let warns = this.client.db.infractions.find({guild: msg.guild.id, user: user.id});
+		let warns = await this.client.db.infractions.find({guild: msg.guild.id, user: user.id});
         let description = '';
 
         let text = `${user.username}'s warning count - **${warns.length}**`;
@@ -50,15 +50,15 @@ module.exports = class WarnCommand extends Command {
         let moderator;
 		for(var index in warns) {
             if(this.client.users.get(warns[index].moderator))
-                moderator = this.client.users.get(warns[index].moderator)
+                moderator = await this.client.users.get(warns[index].moderator)
             else
-                moderator = this.client.fetchUser(warns[index].moderator).catch((e), console.log(e))
+                moderator = await this.client.users.fetch(warns[index].moderator).catch((e), console.log(e))
 
             if (warns.length > 10) {
                 if (moderator)
-                    embed.addField(`${index + 1}. Warned by ${moderator.tag} (at ${warns[index].time}`, warns[index].reason);
+                    await embed.addField(`${index + 1}. Warned by ${moderator.tag} (at ${warns[index].time}`, warns[index].reason);
                 else
-                    embed.addField(`${index + 1}. ${warns[index].reason}`, `by ${warns[index].moderator} (at ${warns[index].time})`);
+                	await embed.addField(`${index + 1}. ${warns[index].reason}`, `by ${warns[index].moderator} (at ${warns[index].time})`);
             } else {
                 if(moderator)
                     description += `\n **${index + 1}.** ${warns[index].reason} (by ${moderator} (at ${warns[index].time})`;
