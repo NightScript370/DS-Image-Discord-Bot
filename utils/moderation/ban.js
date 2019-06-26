@@ -36,8 +36,8 @@ module.exports = async (client, member, reason, moderator, msg = null, days = nu
       else            moderator.send("I couldn't alert him that he was banned. Please notify him manually").catch();
     }
 
-    if (days)	member.ban({days: days, reason: reason}).catch((error) => { console.error(error); return "error when ban";});
-    else      member.ban(reason).catch((error) => { console.error(error); return "error when ban";});
+    if (days)	await member.ban({days: days, reason: reason}).catch((error) => { console.error(error); return "error when ban";});
+    else      await member.ban(reason).catch((error) => { console.error(error); return "error when ban";});
   }
 
   if (logChannel) logChannel.send({embed: BanLogEmbed});

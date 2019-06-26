@@ -3,7 +3,7 @@ const { Command } = require('discord-akairo');
 module.exports = class LeaderboardCommand extends Command {
 	constructor() {
 		super('leaderboard', {
-			aliases: ['leaderboard', "lb"],
+			aliases: ['leaderboard', "lb", 'top'],
 			category: 'Experience Points',
 			description: {
         content: 'Know your way (to dem max points)',
@@ -136,10 +136,10 @@ module.exports = class LeaderboardCommand extends Command {
                   medal = ":nine:";
                   break;
                 default:
-                  medal = i;
+                  medal = i + 1;
               }
 
-              uData += `**${i + 1}. <@${lbdata.member}>**: ${lbdata.points} points (level ${lbdata.level}) \n`;
+              uData += `**${medal}. <@${lbdata.member}>**: ${lbdata.points} points (level ${lbdata.level}) \n`;
               
               i = i + 1;
               

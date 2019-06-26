@@ -32,6 +32,8 @@ module.exports = class BanCommand extends Command {
 	}
 
 	async exec(msg, { user, reason }) {
+		let banList;
+
 		if (msg.guild.members.has(user)) {
 			let member = msg.guild.members.get(user.id);
 			let author = msg.member;
@@ -50,16 +52,20 @@ module.exports = class BanCommand extends Command {
 			
 			if (member.id == author.id)
 				return msg.reply("You can't ban yourself!");
+		} else {
+			banList = await msg.guild.fetchBans();
+			if (banList.get(user.id))
+				msg.reply(`${user.tag} was already banned`)
 		}
 
 		try {
 			let ban = await this.client.moderation.ban(this.client, user, reason, msg.member, msg);
-			if (ban) {
-				let banList = await msg.guild.fetchBans();
+			if (typeof ban == "boolean" && ban) {
+				banList = await msg.guild.fetchBans();
 				if (banList.get(user.id))
 					msg.reply(`${user.tag} was banned`);
 				else
-					msg.reply(`Error in checking whether user was banned.`);
+					msg.reply(`The bot replied that the user was banned but Discord's ban list says otherwise. You should never see this error. Please report this issue to the yamamura developers.`);
 			} else {
 				if (ban == "no perms")
 					msg.reply(`I do not have the permission to ban ${user.tag}`);
@@ -68,7 +74,7 @@ module.exports = class BanCommand extends Command {
 			}
 		} catch (e) {
 			console.error(e);
-			msg.reply(`an error occured while trying to ban the user.`);
+			msg.reply(`an unidentifiable error occured while trying to ban the user.`);
 		}
 	}
 };

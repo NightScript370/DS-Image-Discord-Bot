@@ -93,7 +93,7 @@ module.exports = class PickCommand extends Command {
     this.games[key] = game
     const [fAtt, rAtt] = [game.failedGuesses, game.config.maxAttempt-game.failedGuesses]
     
-    let e = this.client.util.embed()
+    embed
       .setTitle("Showing Hangman game")
       .setDescription(`\`\`\`${game.hiddenWord.join("")}\`\`\``)
       .addInline("Failed Guesses", fAtt)
@@ -101,8 +101,8 @@ module.exports = class PickCommand extends Command {
       .addField("Guessed letters", game.guessedLetters.join(", ") || "None")
       .addInline("Right guesses", game.guessedLetters.filter(gl => game.hiddenWord.map(l => l.toLowerCase()).includes(gl)).join(", ") || "None")
       .addInline("Wrong guesses", game.guessedLetters.filter(gl => !game.hiddenWord.map(l => l.toLowerCase()).includes(gl)).join(", ") || "None")
-    
-    msg.channel.send(e)
+
+    msg.channel.send(embed)
   }
   
   endgame(msg, game) {
