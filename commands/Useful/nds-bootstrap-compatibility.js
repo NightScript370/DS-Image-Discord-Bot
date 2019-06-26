@@ -52,7 +52,7 @@ module.exports = class NDSBCompatCommand extends Command {
             embed.setTitle(body.title);
 
         if (body.cardID)
-            embed.setThumbnail(body.cardID);
+            embed.setThumbnail(`https://art.gametdb.com/ds/coverS/US/${body.cardID}.png`);
 
         if (flashcard) {
             if (this.hasNoInfo(body['nds-bootstrap'].flashcard))
