@@ -52,7 +52,7 @@ module.exports = class WarnCommand extends Command {
             if(this.client.users.get(warns[index].moderator))
                 moderator = await this.client.users.get(warns[index].moderator)
             else
-                moderator = await this.client.users.fetch(warns[index].moderator).catch((e), console.log(e))
+                moderator = await this.client.users.fetch(warns[index].moderator).catch((e) => console.error(e, warns[index].moderator))
 
             if (warns.length > 10) {
                 if (moderator)
