@@ -51,6 +51,9 @@ module.exports = class NDSBCompatCommand extends Command {
         if (body.title)
             embed.setTitle(body.title);
 
+        if (body.cardID)
+            embed.setThumbnail(body.cardID);
+
         if (flashcard) {
             if (this.hasNoInfo(body['nds-bootstrap'].flashcard))
                 return msg.channel.send('This Nintendo-DS title does not have any nds-bootstrap compatibility information for flashcards. Please try again');

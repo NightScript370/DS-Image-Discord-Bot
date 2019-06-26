@@ -14,15 +14,15 @@ module.exports = class UpdateCommand extends Command {
 		});
 	}
 
-	exec(message) {
-		let responce = message.channel.send('Updating bot');
+	async exec(message) {
+		let responce = await message.channel.send('Updating bot');
 		
 		try {
-			execSync('git fetch origin && git reset --hard origin/master')
-			responce.edit('Bot edited successfully, please reload the changes')
+			execSync('git fetch origin && git reset --hard origin/master');
+			responce.edit('Bot edited successfully, please reload the changes');
 		} catch (e) {
-			console.error(e)
-			responce.edit('There was an error when updating the bot. Please try again')
+			console.error(e);
+			responce.edit('There was an error when updating the bot. Please try again');
 		}
 	}
 };
