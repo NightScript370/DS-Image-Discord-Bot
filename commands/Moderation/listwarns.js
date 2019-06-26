@@ -25,16 +25,17 @@ module.exports = class WarnCommand extends Command {
 
 	exec(msg, { user }) {
         if (msg.guild.members.has(user)) {
-			user = msg.guild.members.get(user.id);
+			let member = msg.guild.members.get(user.id);
+			let author = msg.member;
 
-			if (msg.member.roles.highest <= user.roles.highest)
+			if (author.roles.highest <= members.roles.highest)
 				return msg.reply("You can't list the warnings of someone who has a higher role position than you.");
 
-			if (user.hasPermission("MANAGE_MESSAGES") && !msg.member.hasPermission("ADMINISTRATOR"))
+			if (member.hasPermission("MANAGE_MESSAGES") && !author.hasPermission("ADMINISTRATOR"))
 				return msg.reply("You need to have the `Administrator` permission in order to look at a moderators warnings");
 
-			if (user.hasPermission("ADMINISTRATOR") && msg.guild.ownerId !== msg.member.id)
-				return msg.reply("You need to be the server owner in order to list the Administrators warning")
+			if (member.hasPermission("ADMINISTRATOR") && msg.guild.ownerId !== author.id)
+				return msg.reply("You need to be the server owner in order to list an Administrators warning")
 		}
 
 		let warns = this.client.db.infractions.find({guild: msg.guild.id, user: user.id});
