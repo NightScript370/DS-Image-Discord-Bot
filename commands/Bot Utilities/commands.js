@@ -39,7 +39,8 @@ module.exports = class CommandsCommand extends Command {
         let command = cmds.filter(cmd => cmd.aliases.includes(commandName))[0];
 
         let commandEmbed = this.client.util.embed()
-          .setTitle(__('Help for command "{0}"', command.id));
+          .setTitle(__('Help for command "{0}"', command.id))
+          .setImage(`${this.client.URL}/examples/${command.id}`);
 
         if (command.category)
           commandEmbed.addInline(__("Category"), __(command.category.id))

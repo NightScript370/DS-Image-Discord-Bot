@@ -37,8 +37,7 @@ module.exports = class LanguageCommand extends Command {
               }
 
               return `That is an invalid language. Here are the available languages: \n \n ${s.join("\n")}`;
-            },
-            optional: true
+            }
           },
           default: null,
           type: langs.map(l => l.code)
