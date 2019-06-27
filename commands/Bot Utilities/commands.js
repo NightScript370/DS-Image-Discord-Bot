@@ -40,7 +40,7 @@ module.exports = class CommandsCommand extends Command {
 
         let commandEmbed = this.client.util.embed()
           .setTitle(__('Help for command "{0}"', command.id))
-          .setImage(`${this.client.URL}/examples/${command.id}`);
+          .setImage(`${this.client.URL}/examples/${command.id}.png`);
 
         if (command.category)
           commandEmbed.addInline(__("Category"), __(command.category.id))
