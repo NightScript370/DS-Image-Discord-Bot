@@ -39,7 +39,7 @@ module.exports = class CourseCommand extends Command {
     async exec(msg, { level, makerOfMario }) {
         const ID = /(?:(?:https?:\/\/)?(?:www\.)?supermariomakerbookmark\.nintendo\.net\/courses\/)?(([A-Z0-9]{4})-([A-Z0-9]{4})-([A-Z0-9]{4})-([A-Z0-9]{4}))/gi;
         if (level.match(ID))
-            return this.handleLevel(msg, filterID(level.toUpperCase()));
+            return this.handleLevel(msg, this.filterID(level.toUpperCase()));
 
         let url = `http://smm-db.glitch.me/levels/${level}`
         if (makerOfMario)
