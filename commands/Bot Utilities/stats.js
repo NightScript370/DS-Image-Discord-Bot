@@ -23,7 +23,7 @@ module.exports = class StatsCommand extends Command {
 		});
 	}
 
-	async exec(message) {
+    async exec(message) {
         const __ = (k, ...v) => global.getString(message.author.lang, k, ...v);
         const pingMsg = await message.reply('Pinging...');
 
@@ -56,7 +56,7 @@ module.exports = class StatsCommand extends Command {
 **• Discord-Akairo**: v${version}
 **• Node.JS Version**: ${process.version}
 **• ${__("Database System")}**: lokijs (v${this.client.db.engineVersion})`)
-            .addInline("⚙️ " + __("Resource Usage"), `**• Allocated Memory**: ${usedMem}/${totalMem}
+            .addInline("⚙️ " + __("Resource Usage"), `**• Allocated Memory**: ${Math.round(usedMem * 100) / 100} MB/${Math.round(totalMem * 100) / 100} MB
 **• CPU**: ${osv.toFixed(2)} MB`)
             .addInline(__("Total Events"), `• ${__("{0} total commands", cmds.length)}
 • ${__("{0} total listeners", this.client._eventsCount)}`)
