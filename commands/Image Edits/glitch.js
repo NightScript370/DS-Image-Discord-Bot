@@ -26,7 +26,7 @@ module.exports = class GlitchCommand extends Command {
 
 		try {
 			const imagessize = await this.largestSize(images);
-			const canvas = createCanvas(data.width, data.height);
+			const canvas = createCanvas(imagessize.width, imagessize.height);
 			const ctx = canvas.getContext('2d');
 
 			for (var image of images) {
@@ -38,7 +38,7 @@ module.exports = class GlitchCommand extends Command {
 				ctx.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
 			}
 
-			distort(ctx, 20, 0, 0, data.width, data.height, 5);
+			distort(ctx, 20, 0, 0, imagessize.width, imagessize.height, 5);
 
 			const attachment = canvas.toBuffer();
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');

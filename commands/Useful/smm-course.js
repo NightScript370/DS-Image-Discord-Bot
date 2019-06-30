@@ -74,15 +74,13 @@ module.exports = class CourseCommand extends Command {
         try {
             let levelinfo = await getCourseP(ID)
 
-            let clears = `${levelinfo.clears}/${levelinfo.attempts} (${levelinfo.clear_rate}%)`;
+            let clears = `**__${levelinfo.clears}/${levelinfo.attempts} (${levelinfo.clear_rate}%)__** \n`;
 
             if (levelinfo.world_record)
                 clears += `\n **World Record:** ${levelinfo.world_record.time} by [${levelinfo.world_record.name}](${levelinfo.world_record.user_url})`;
 
             if (levelinfo.first_clear)
                 clears += `\n **First Clear:** ${global.getString(msg.author.lang, "by {0}", `[${levelinfo.first_clear.name}](${levelinfo.first_clear.user_url})`)}`
-
-            let levelstats = `**Difficulty:** ${levelinfo.difficulty} \n **Stars:** ${levelinfo.stars} \n **Game Style:** ${levelinfo.game_style}`;
 
             let CourseEmbed = this.client.util.embed()
                 .setTitle(levelinfo.course_title)
@@ -92,7 +90,7 @@ module.exports = class CourseCommand extends Command {
 				.setTimestamp(new Date())
 				.setFooter(`Created by ${levelinfo.creator_name} on ${levelinfo.created_at}`, levelinfo.creator_img_url)
 				.addInline('Clears', clears)
-                .addInline('Level information', levelstats);
+                .addInline('Level information', `**Difficulty:** ${levelinfo.difficulty} \n **Stars:** ${levelinfo.stars} \n **Game Style:** ${levelinfo.game_style}`);
 
             switch(levelinfo.game_style_raw) {
 		        case "sb":
