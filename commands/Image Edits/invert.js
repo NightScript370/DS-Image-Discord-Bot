@@ -37,7 +37,7 @@ module.exports = class InvertCommand extends Command {
 				ctx.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
 			}
 
-			invert(ctx, 0, 0, imagesize.width, imagessize.height);
+			invert(ctx, 0, 0, imagessize.width, imagessize.height);
 
 			const attachment = canvas.toBuffer();
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');

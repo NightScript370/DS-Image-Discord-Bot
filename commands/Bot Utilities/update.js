@@ -19,7 +19,7 @@ module.exports = class UpdateCommand extends Command {
 		
 		try {
 			execSync('git fetch origin && git reset --hard origin/master');
-			responce.edit('Bot edited successfully, please reload the changes');
+			responce.edit('Bot updated successfully, please reload the changes');
 		} catch (e) {
 			console.error(e);
 			responce.edit('There was an error when updating the bot. Please try again');
