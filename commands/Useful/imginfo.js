@@ -1,4 +1,4 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/Image-Command');
 const { loadImage } = require('canvas');
 
 module.exports = class ImgInfoCommand extends Command {
@@ -14,33 +14,55 @@ module.exports = class ImgInfoCommand extends Command {
 			clientPermissions: ['EMBED_LINKS'],
 			args: [
         {
-					id: 'image',
+					id: 'images',
 					type: 'image',
 				}
 			]
 		});
 	}
 
-	async exec(msg, { image }) {
+	async exec(msg, { images }) {
+		let currentimage, widthpad, heightpad;
 		try {
-			const data = await loadImage(image);
-      
-      let filenameSplit = image.split(/[#?]/)[0].split("/");
-      let ext = filenameSplit[filenameSplit.length-1].split(".")[1]
-      
+			const imagessize = await this.largestSize(images);
+			const canvas = await createCanvas(imagessize.width, imagessize.height);
+			const ctx = canvas.getContext('2d');
+
+			var ext;
+			if (typeof images == "string" || (images instanceof Array && images.length == 1)) {
+	      let filenameSplit = (images instanceof Array ? images[0] : images).split(/[#?]/)[0].split("/");
+	      ext = filenameSplit[filenameSplit.length-1].split(".")[1]
+			} else {
+				// The buffer would be created in PNG anyway
+				ext = "png";
+			}
+
+			for (var image of images) {
+				currentimage = await loadImage(image);
+
+				widthpad = (imagessize.width - currentimage.width) / 2;
+				heightpad = (imagessize.height - currentimage.height) / 2;
+
+				ctx.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
+			}
+
       let ImageInfoEmbed = this.client.util.embed()
         .setColor("BLUE")
         .addInline(global.getString(msg.author.lang, "Format"), `\`.${ext}\``)
         .addInline(global.getString(msg.author.lang, "Dimentions"),
-                      `**${global.getString(msg.author.lang, "Width")}**: ${global.getString(msg.author.lang, "{0} pixels", data.width)} \n`
-                    + `**${global.getString(msg.author.lang, "Height")}**: ${global.getString(msg.author.lang, "{0} pixels", data.height)}`
+                      `**${global.getString(msg.author.lang, "Width")}**: ${global.getString(msg.author.lang, "{0} pixels", ctx.width)} \n`
+                    + `**${global.getString(msg.author.lang, "Height")}**: ${global.getString(msg.author.lang, "{0} pixels", ctx.height)}`
         )
-        .setImage(image)
         .setFooter(global.getString(msg.author.lang, "Image information requested by {0}", msg.author.tag))
+
+				// Avoids an "error" in which you can only add URLs to embed images
+				if (typeof images == "string" || (images instanceof Array && images.length == 1))
+        	ImageInfoEmbed.setImage(images instanceof Array ? images[0] : images)
+
 			return msg.util.send({ embed: ImageInfoEmbed });
 		} catch (err) {
       console.error(err);
-			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);
+			return msg.reply(global.getString(msg.author.lang, "Oh no, an error occurred: `{0}`. Try again later!", err.message));
 		}
 	}
 };
