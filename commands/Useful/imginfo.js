@@ -1,5 +1,5 @@
 const Command = require('../../struct/Image-Command');
-const { loadImage } = require('canvas');
+const { createCanvas, loadImage } = require('canvas');
 
 module.exports = class ImgInfoCommand extends Command {
 	constructor() {
