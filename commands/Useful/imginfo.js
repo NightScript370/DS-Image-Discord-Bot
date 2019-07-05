@@ -7,62 +7,83 @@ module.exports = class ImgInfoCommand extends Command {
 			aliases: ["imginfo"],
 			category: 'Useful',
 			description: {
-        content: 'Displays information on an image.'
-      },
-      cooldown: 10000,
-      ratelimit: 1,
+                content: 'Displays information on either an entire image or individual layers.'
+            },
+            cooldown: 10000,
+            ratelimit: 1,
 			clientPermissions: ['EMBED_LINKS'],
 			args: [
-        {
+                {
 					id: 'images',
 					type: 'image',
+					match: 'rest'
+				},
+				{
+				    id: 'perlayerView',
+				    match: 'flag',
+				    flag: '--separate'
 				}
 			]
 		});
 	}
 
-	async exec(msg, { images }) {
-		let currentimage, widthpad, heightpad;
+	async exec(msg, { images, perlayerView }) {
+		let currentimage, widthpad, heightpad, fielddescription, description = '';
+
+        if (perlayerView && images instanceof Array && images.length > 8) {
+            return msg.reply('Up to 20 layers may be viewed individually')
+        }
+
 		try {
 			const imagessize = await this.largestSize(images);
-			const canvas = await createCanvas(imagessize.width, imagessize.height);
-			const ctx = canvas.getContext('2d');
 
-			var ext;
-			if (typeof images == "string" || (images instanceof Array && images.length == 1)) {
-	      let filenameSplit = (images instanceof Array ? images[0] : images).split(/[#?]/)[0].split("/");
-	      ext = filenameSplit[filenameSplit.length-1].split(".")[1]
-			} else {
-				// The buffer would be created in PNG anyway
-				ext = "png";
-			}
+            let ImageInfoEmbed = this.client.util.embed()
+                .setColor("BLUE")
+                .setFooter(global.getString(msg.author.lang, "Image information requested by {0}", msg.author.tag), msg.author.displayAvatarURL());
 
-			for (var image of images) {
-				currentimage = await loadImage(image);
+            if (typeof images == "string" || (images instanceof Array && images.length == 1)) {
+                ImageInfoEmbed
+                    .setImage(images instanceof Array ? images[0] : images)
+                    .addInline("Format Extention", this.getExtention(images instanceof Array ? images[0] : images))
+                    .addInline(global.getString(msg.author.lang, "Dimentions"),
+                      `**${global.getString(msg.author.lang, "Width")}**: ${global.getString(msg.author.lang, "{0} pixels", imagessize.width)} \n`
+                    + `**${global.getString(msg.author.lang, "Height")}**: ${global.getString(msg.author.lang, "{0} pixels", imagessize.height)}`);
+            } else {
+                let layerList = "";
+                for (var image of images) {
+                    if(layerList.length > 1000) break;
+                    layerList += image + '\n';
+                }
 
-				widthpad = (imagessize.width - currentimage.width) / 2;
-				heightpad = (imagessize.height - currentimage.height) / 2;
+                ImageInfoEmbed.addField(`Layers (${images.length})`, layerList);
 
-				ctx.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
-			}
+                if (perlayerView) {
+                    for (var index in images) {
+                        currentimage = await loadImage(images[index]);
 
-      let ImageInfoEmbed = this.client.util.embed()
-        .setColor("BLUE")
-        .addInline(global.getString(msg.author.lang, "Format"), `\`.${ext}\``)
-        .addInline(global.getString(msg.author.lang, "Dimentions"),
-                      `**${global.getString(msg.author.lang, "Width")}**: ${global.getString(msg.author.lang, "{0} pixels", ctx.width)} \n`
-                    + `**${global.getString(msg.author.lang, "Height")}**: ${global.getString(msg.author.lang, "{0} pixels", ctx.height)}`
-        )
-        .setFooter(global.getString(msg.author.lang, "Image information requested by {0}", msg.author.tag))
-
-				// Avoids an "error" in which you can only add URLs to embed images
-				if (typeof images == "string" || (images instanceof Array && images.length == 1))
-        	ImageInfoEmbed.setImage(images instanceof Array ? images[0] : images)
+                        fielddescription = '';
+                        fielddescription += `**Format:** ${this.getExtention(images[index])} \n`;
+                        fielddescription += `**${global.getString(msg.author.lang, "Width")}**: ${global.getString(msg.author.lang, "{0} pixels", currentimage.width)} \n`;
+                        fielddescription += `**${global.getString(msg.author.lang, "Height")}**: ${global.getString(msg.author.lang, "{0} pixels", currentimage.height)} \n`;
+    
+                        ImageInfoEmbed.addInline(`Layer #(${images[index]})`, fielddescription);
+                    }
+                } else {
+                    ImageInfoEmbed.addInline(global.getString(msg.author.lang, "Dimentions"),
+                      `**${global.getString(msg.author.lang, "Width")}**: ${global.getString(msg.author.lang, "{0} pixels", imagessize.width)} \n`
+                    + `**${global.getString(msg.author.lang, "Height")}**: ${global.getString(msg.author.lang, "{0} pixels", imagessize.height)}`);
+                }
+            }
 
 			return msg.util.send({ embed: ImageInfoEmbed });
 		} catch (err) {
-      console.error(err);
-			return msg.reply(global.getString(msg.author.lang, "Oh no, an error occurred: `{0}`. Try again later!", err.message));
+            console.error(err);
+			return msg.reply(global.getString(msg.author.lang, "Oh no, an error occurred: `{0}`. Please report your error to the Yamamura developers!", err.message));
 		}
 	}
+
+    getExtention(link) {
+        let filenameSplit = link.split(/[#?]/)[0].split("/");
+        return filenameSplit[filenameSplit.length-1].split(".")[1];
+    }
 };
