@@ -7,16 +7,16 @@ module.exports = class RomanCommand extends Command {
 			aliases: ['roman-numeral', 'roman'],
 			category: 'Text Edits',
 			description: {
-        content: 'Converts a number to roman numerals.',
-        usage: '<number you want to convert>'
-      },
+				content: 'Converts a number to roman numerals.',
+				usage: '<number you want to convert>'
+			},
 			args: [
 				{
 					id: 'number',
 					prompt: {
-              start: 'What would you like to translate to a roman numeral?',
-              retry: 'That\'s not something we can translate! Try again.'
-          },
+						start: 'What would you like to translate to a roman numeral?',
+						retry: 'That\'s not something we can translate! Try again.'
+					},
 					type: 'integer',
 					min: 1,
 					max: 4999

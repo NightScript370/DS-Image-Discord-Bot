@@ -11,25 +11,27 @@ module.exports = class ConfigCommand extends Command {
       clientPermissions: ['EMBED_LINKS'],
       // userPermissions: ['ADMINISTRATOR'],
       description: {
-        content: `View and set your server's config for the bot.`,
+        content: `View and set the server configuration for the bot.`,
         examples: ['config', "config get prefix", "config set prefix !"],
         usage: 'config ["view"|"get"|"set"|"clear"] (key) (value)',
       },
       args: [
         {
           id: 'action',
+          description: "The action you would like to perform. If you do not specify this or it's invalid, you will view the configuration instead",
           default: "view",
           type: [["view", ""], ["get"], ["set"], ["clear"]]
         },
         {
           id: 'key',
+          description: "This will be the key you would like to modify.",
           default: null,
           type: 'string'
         },
         {
           id: 'value',
+          description: "This will be the value of the key you set before.",
           default: null,
-          type: 'string',
           match: "rest"
         }
       ]

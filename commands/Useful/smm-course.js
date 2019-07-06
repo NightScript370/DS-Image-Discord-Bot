@@ -37,7 +37,13 @@ module.exports = class CourseCommand extends Command {
 	}
 
     async exec(msg, { level, makerOfMario }) {
+//        const SMM2ID = /(([ABCDEFGHJKLMNPQRSTUVWXY0-9]{3})-([ABCDEFGHJKLMNPQRSTUVWXY0-9]{3})-([ABCDEFGHJKLMNPQRSTUVWXY0-9]{3}))/gi;
+        const SMM2ID = /((?:(?![OIZ])[A-Z0-9]){3}-(?:(?![OIZ])[A-Z0-9]){3}-(?:(?![OIZ])[A-Z0-9]){3})/gi;
         const ID = /(?:(?:https?:\/\/)?(?:www\.)?supermariomakerbookmark\.nintendo\.net\/courses\/)?(([A-Z0-9]{4})-([A-Z0-9]{4})-([A-Z0-9]{4})-([A-Z0-9]{4}))/gi;
+
+        if (level.match(SMM2ID))
+            return msg.channel.send('This bot command does not work with levels from Super Mario Maker 2.');
+
         if (level.match(ID))
             return this.handleLevel(msg, this.filterID(level.toUpperCase()));
 

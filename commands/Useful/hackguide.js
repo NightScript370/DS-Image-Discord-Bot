@@ -7,14 +7,14 @@ module.exports = class HackingGuidesCommand extends Command {
       aliases: ['consolehackguide'],
       category: 'Useful',
       description: {
-				content: 'Returns a link to a Nintendo Hacking Guide.',
-        usage: '',
+				content: 'Returns a link to a Hacking Guide.',
+        usage: '<console you\'d like to hack>',
         example: ''
 			},
 			args: [
         {
-					id: 'guideLink',
-					type: ['3ds', 'dsi', 'flashcard', 'wii', 'wiiu', 'switch'],
+					id: 'guide',
+					type: ['3ds', 'dsi', 'flashcard', 'wii', 'wiiu', ['switch', 'nx']],
           prompt: {
             start: "What's the Nintendo Console Hacking Guide you'd like to see?",
             retry: "There is not a thing we can get a guide for. Try again."
@@ -31,14 +31,14 @@ module.exports = class HackingGuidesCommand extends Command {
     switch (guideLink.toLowerCase()) {
       case '3ds':
         embed
-          .setTitle('3DS Hacking Guide', 'https://3ds.hacks.guide')
+          .setTitle('Nintendo 3DS Hacking Guide', 'https://3ds.hacks.guide')
           .setColor(49151)
           .setThumbnail('https://cdn.bulbagarden.net/upload/0/0f/Nintendo_3DS_Aqua_Blue.png')
           .addField('Do you need help modding your 3DS?', 'Follow [this](https://3ds.hacks.guide) 3DS guide, which will take you from a regular stock 3DS to a full Boot9Strap modified console.')
           .addField('Advantages to modding a 3DS', stripIndents`
                     - Run any software compatible, regardless of if Nintendo signed it or if it was made for your region
                     - Run game backups without requiring a physical cartridge
-                    - Redirect the Software Data to the SD card, used for game modification.
+                    - Redirect the Software Data to the SD card, used for software modification.
                     - Customize your HOME Menu with user-created themes
                     - Experience software the way you'd like it with screenshots and cheat codes
                     - Backup, edit, and restore save data
@@ -48,7 +48,7 @@ module.exports = class HackingGuidesCommand extends Command {
         break;
       case 'dsi':
           embed
-            .setTitle('DSi Hacking Guide', 'https://dsi.cfw.guide')
+            .setTitle('Nintendo DSi Hacking Guide', 'https://dsi.cfw.guide')
             .setColor(16776918)
             .setThumbnail('https://upload.wikimedia.org/wikipedia/commons/8/8b/Nintendo_dsi.png')
             .addField('Do you need help modding your Nintendo DSi?', 'Follow [this](https://dsi.cfw.guide) DSi guide, which will take you from regular stock DSi to a full HiyaCFW modified console.')
@@ -64,7 +64,7 @@ module.exports = class HackingGuidesCommand extends Command {
         break;
       case 'flashcard':
         embed
-          .setTitle('Flashcard Setup guide', 'https://ds-homebrew.github.io/flashcard')
+          .setTitle('Nintendo DS Flashcard Setup guide', 'https://ds-homebrew.github.io/flashcard')
           .setColor(16767232)
           .setThumbnail('https://cdn.discordapp.com/attachments/472516090711375872/584841742772076575/flashcard.png')
           .addField('Do you need help setting up your flashcard?', 'Follow [this](https://ds-homebrew.github.io/flashcard) guide for setup and find out its compatibility on 3DS and DSi')
@@ -77,7 +77,7 @@ module.exports = class HackingGuidesCommand extends Command {
         break;
       case 'wii':
         embed
-          .setTitle('Wii Hacking Guide', 'https://wii.guide/')
+          .setTitle('Nintendo Wii Hacking Guide', 'https://wii.guide/')
           .setColor(16711731)
           .setThumbnail('https://www.nintendoservicecentre.co.uk/images/products/2100866A.png')
           .addField('Do you need help modding your Nintendo Wii?', 'Follow [this](https://wii.guide/) Wii guide, which will take you from regular stock Wii to a full Homebrew modified console.')
@@ -88,15 +88,15 @@ module.exports = class HackingGuidesCommand extends Command {
                     - Redirect Software data to the SD card to play Game Modifications
                     - Customize the functionality of the Wii Menu
                     - Play retro software using their respective emulator`)
-          .setFooter('Guide by Plailect', 'https://pbs.twimg.com/profile_images/698944593715310592/wTDlD5rA_400x400.png')
+          .setFooter('Guide by Team RiiConnect24', 'https://pbs.twimg.com/profile_images/698944593715310592/wTDlD5rA_400x400.png')
         break;
       case 'wiiu':
         embed
-          .setTitle('Wii U Hacking Guide', 'https://wiiu.hacks.guide/')
+          .setTitle('Nintendo Wii U Hacking Guide', 'https://wiiu.hacks.guide/')
           .setColor(1050)
           .setThumbnail('https://cdn.discordapp.com/attachments/472516090711375872/584854074617233424/unknown_1.png')
           .addField('Do you need help modding your Nintendo Wii U?', 'Follow [this](https://wiiu.hacks.guide/) Wii U guide, which will take you from regular stock Wii U to a full Coldboot Haxchi modified console.')
-          .addField('Advantages to modding a Wii U', stripIndents`
+          .addField('Advantages to modding a Nintendo Wii U', stripIndents`
                     - Play all game discs and eShop games, regardless of region
                     - Backup, edit, and restore saves for many games
                     - Play games for older systems with various emulators, using RetroArch or other standalone emulators.
@@ -106,11 +106,11 @@ module.exports = class HackingGuidesCommand extends Command {
         break;
       case 'switch':
         embed
-          .setTitle('Switch Hacking Guide', 'https://nh-server.github.io/switch-guide/')
+          .setTitle('Nintendo Switch Hacking Guide', 'https://nh-server.github.io/switch-guide/')
           .setColor(1179392)
           .setThumbnail('https://cdn.discordapp.com/attachments/472516090711375872/584859910882328674/switch.png')
           .addField('Do you need help modding your Nintendo Switch?', 'Follow [this](https://nh-server.github.io/switch-guide/) Switch guide, which will take you from regular stock Switch to a full Atmosphere CFW modified console.')
-          .addField('Advantages to modding a Switch', stripIndents`
+          .addField('Advantages to modding a Nintendo Switch', stripIndents`
                     - Customize your HOME Menu with user-created themes and splash screens
                     - Use “ROM hacks” for games that you own
                     - Backup, edit, and restore saves for many games

@@ -4,17 +4,18 @@ const { stripIndents } = require('common-tags');
 module.exports = class HackingGuidesCommand extends Command {
   constructor() {
     super('dshomebrew', {
-      aliases: ['dshomebrew'],
+      aliases: ['dshomebrew', 'dshax'],
       category: 'Useful',
       description: {
 				content: 'Returns information on Nintendo DS Homebrew.',
-        usage: '',
-        example: ''
+        usage: '[The specific homebrew you would like to view information on]',
+        example: ['twilightmenu++']
 			},
 			args: [
         {
-					id: 'guideLink',
-					type: [['twlmenu', 'twilight', 'twilightmenu', 'twlmenu++', 'twilightmenu++'], 'nds-bootstrap', 'rocketvideoplayer'],
+					id: 'homebrew',
+          description: 'List the specific homebrew you would like to view information on.',
+					type: [['twlmenu', 'twilight', 'twilightmenu', 'twlmenu++', 'twilightmenu++'], 'nds-bootstrap', 'rocketvideoplayer', 'lolsnes', 'nesDS'],
           prompt: {
             start: "What's the Nintendo DS Homebrew you'd like to see?",
             retry: "There is not a thing we can get information for. Try again."
@@ -25,10 +26,10 @@ module.exports = class HackingGuidesCommand extends Command {
     });
   }
 
-  async exec(msg, { guideLink }) {
+  async exec(msg, { homebrew }) {
     let embed = this.client.util.embed()
 
-    switch (guideLink.toLowerCase()) {
+    switch (homebrew.toLowerCase()) {
       case 'twlmenu':
         embed
           .setTitle('TWiLight Menu++')
@@ -68,8 +69,19 @@ module.exports = class HackingGuidesCommand extends Command {
       case 'lolsnes':
         embed
           .setTitle('lolsnes')
-          
+          .setThumbnail('https://cdn.discordapp.com/attachments/283770736215195648/596832265971957761/image.jpg')
+          .setDescription('**lolSnes** is an open-source Super Nintendo Enterntainment System (SNES for short) emulator for a Nintendo DS flashcard or a DSi/3DS SD card using nds-bootstrap with RAM Disks.')
+          .addField('Social Links', '[Website](http://lolsnes.kuribo64.net/) | [Github Repository](https://github.com/Arisotura/lolSnes)')
+          .setColor('#F8E800')
+          .setImage('http://lolsnes.kuribo64.net/img/lolsnes/lolsnes_release.png')
           .setFooter('Made by Arisotura', 'http://kuribo64.net/board/userpic/1_1533043859.png')
+        break;
+      case 'nesDS':
+        embed
+          .setTitle('nesDS')
+          .setDescription('**nesDS** is an open-source Nintendo Enterntainment System (NES for short) emulator for a Nintendo DS flashcard or a DSi/3DS SD card.')
+          .addField('Social Links', '[Github Repository](https://github.com/RocketRobz/NesDS) ([DSi Edition](https://github.com/ApacheThunder/NesDS))')
+          .setFooter('Made by loopy, FluBBa, Dwedit, tepples, kuwanger, chishm, Mamiya, minitroopa, huiminghao, CotoDev & ApacheThunder')
     }
 
     msg.channel.send({embed})

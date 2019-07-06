@@ -112,6 +112,8 @@ module.exports = class NDSBCompatCommand extends Command {
             case 'works.':
             case 'finally works.':
             case 'finally works':
+            case 'Without an AP patch, game does not save, and is unable to progress past first zone.':
+            case 'Without an AP patch, game does not save, and is unable to progress past first zone':
                 embed.setColor('GREEN');
                 break;
             case 'works, however the top screen is not displayed.':
@@ -136,7 +138,7 @@ module.exports = class NDSBCompatCommand extends Command {
         }
 
         return embed
-  }
+    }
 
     hasNoInfo(testagainst) {
         return (!testagainst || (testagainst && !testagainst.compatibility && !testagainst.testers));
