@@ -21,7 +21,7 @@ module.exports = class LevelIdeaCommand extends Command {
 	}
 
 	async exec(message, { smm2 }) {
-    let phrase = this.levelIdea()
+    let phrase = this.levelIdea(smm2)
     message.util.send(phrase)
 	}
 
