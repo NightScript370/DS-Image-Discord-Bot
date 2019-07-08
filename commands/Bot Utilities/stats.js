@@ -48,7 +48,7 @@ module.exports = class StatsCommand extends Command {
 
         let embed = this.client.util.embed()
             .setAuthor(__("{0} Statistics", this.client.user.username), this.client.user.displayAvatarURL({ format: 'png' }), this.client.URL)
-            .setThumbnail('https://i.kinja-img.com/gawker-media/image/upload/s--PV1kbdsL--/c_scale,f_auto,fl_progressive,q_80,w_800/sv7xsk8eqglhkjug3erd.jpg')
+            .setThumbnail('https://cdn.discordapp.com/attachments/562823556157800458/597604585330442256/dbtif5j-60306864-d6b7-44b6-a9ff-65e8adcfb911.png')
             .addInline("🌍 " + __("Publicity"), `• ${this.client.guilds.reduce((total, server) => total + server.memberCount, 0).toLocaleString()} Users
 • ${this.client.channels.size.toLocaleString()} Channels
 • ${this.client.guilds.size.toLocaleString()} Servers`)
@@ -61,13 +61,12 @@ module.exports = class StatsCommand extends Command {
             .addInline(__("Total Events"), `• ${__("{0} total commands", cmds.length)}
 • ${__("{0} total listeners", this.client._eventsCount)}`)
             .addInline("🏓 " + __("Ping"), __("The message round-trip took {0}", __("{0}ms", msgrt)) + " " +  hbping)
-      .addField("⏱️ " + __("Uptime"), global.lang.getDuration(message.author.lang, this.client.uptime))
-      .addField("🎂 " + __("Creation date"), global.lang.getDuration(message.author.lang, moment().diff(moment(this.client.user.createdAt))) + " " + __("ago"))
-      .setYamamuraCredits(false)
+            .addField("⏱️ " + __("Uptime"), global.lang.getDuration(message.author.lang, this.client.uptime))
+            .addField("🎂 " + __("Creation date"), global.lang.getDuration(message.author.lang, moment().diff(moment(this.client.user.createdAt))) + " " + __("ago"))
+            .setYamamuraCredits(false)
 
-    pingMsg.edit('', {embed: embed});
+        pingMsg.edit('', {embed: embed});
 	}
-
 };
 
 function totalmem(){
