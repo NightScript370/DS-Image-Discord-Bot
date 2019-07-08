@@ -23,7 +23,6 @@ function stripHTML(text) {
 	return text;
 }
 
-const { makerboard_args } = require('../../utils/websites.js')
 module.exports = class RPGCommand extends Command {
   constructor() {
     super('profile', {
@@ -31,7 +30,24 @@ module.exports = class RPGCommand extends Command {
         aliases: ['user', 'profile'],
         clientPermissions: ['EMBED_LINKS'],
         description: 'Returns a user\'s profile from a MakerBoard website.',
-	  		args: makerboard_args
+	  		args: [
+          {
+            id: 'name',
+            type: 'string',
+            default: 'mine'
+          },
+          {
+            id: 'makerBoardToPick',
+            match: 'option',
+            type: 'string',
+            flag: ['makerBoardURL:', 'url:', 'makerboard:', 'website:'],
+            default: msg => {
+              if (!msg.guild) return null;
+              let serverconfig = client.db.serverconfig.findOne({guildID: msg.guild.id}) || client.setDefaultSettings(msg, client);
+              return serverconfig.makerboard.value;
+            }
+          }
+        ]
       });
     }
 
