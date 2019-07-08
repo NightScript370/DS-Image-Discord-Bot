@@ -1,3 +1,5 @@
+const client = require("../yamamura.js")
+
 module.exports = {
   makerboard_args: [
     {
@@ -12,7 +14,7 @@ module.exports = {
 			flag: ['makerBoardURL:', 'url:', 'makerboard:', 'website:'],
 			default: msg => {
         if (!msg.guild) return null;
-        let serverconfig = this.client.db.serverconfig.findOne({guildID: msg.guild.id}) || this.client.setDefaultSettings(msg, this.client);
+        let serverconfig = client.db.serverconfig.findOne({guildID: msg.guild.id}) || client.setDefaultSettings(msg, client);
         return serverconfig.makerboard.value;
       }
     }
