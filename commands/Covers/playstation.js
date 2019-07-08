@@ -143,16 +143,16 @@ module.exports = class PlayStationCommand extends Command {
                 await ctx.drawImage(currentimage, padding, padding, base.width-padding, base.height-padding);
             }
 
-            if (boxrating) {
-                await ctx.drawImage(boxrating, 38, 194, 22, 33);
-            }
-
             /* if (funky) {
                 let funkyImg = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'ds', 'funkymode.png'));
                 await ctx.drawImage(funkyImg, 0, 0, base.width, base.height);
             } */
 
             await ctx.drawImage(base, 0, 0, base.width, base.height);
+
+            if (boxrating) {
+                await ctx.drawImage(boxrating, 38, 194, 22, 33);
+            }
 
             const attachment = canvas.toBuffer();
             if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
