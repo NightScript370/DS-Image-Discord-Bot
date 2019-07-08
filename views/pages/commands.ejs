@@ -78,28 +78,35 @@
                       cmDescription = cmd.description.content;
                       //s.push(`<b>${cmd.id}</b>: ${cmd.description.content}`)
                     }
-                  } else {
-                    //s.push(`<b>${cmd.id}</b>`)
                   }
 
                   permissions = permissions.join('')
 
-                  table = `<table class="table table-bordered table-sm">
-                            <tr><td>
-                              <span style="float: left; font-weight:bold;">${cmd.id}</span>
-                              <span style="float: right;">${permissions}</span>
-                            </td></tr>`;
-                  if (cmDescription !== null) {
-                    table += `<tr><td>${cmDescription}</td></tr>`;
+                  table = `
+                        <div class="card">
+                            <a class="card-header collapsed card-link" data-toggle="collapse" href="#collapse${cmd.id}">
+                                <b>${cmd.id}</b>
+                                <span style="float: right;">${permissions}</span>
+                            </a>
+                            <div id="collapse${cmd.id}" class="collapse" data-parent="#accordion">
+				                ${cmDescription ? `<div class="card-body">${cmDescription}</div>` : ''}`;
+
+                  if (cmd.args) {
+                    table += '<ul class="list-group list-group-flush">';
+                        for (var arg of cmd.args) {
+                            table += `<li class="list-group-item"><b>${arg.id}</b> ${arg.description ? `- ${arg.description}` : ''}</li>`;
+                        }
+                    table += '</ul>';
                   }
 
-                  table += '</table>';
+                  table += '</div></div>';
                   s.push(table)
               });
               s = s.join("");
               if (s.length > 0) {
                 %><%- `<div class="tab-pane fade ${category == defaultcategory ? 'show active' : ''}" id="${category}" role="tabpanel" aria-labelledby="${category}-tab">
-                        <h1> ${category} [${catCmds.length}] </h1>${s}
+                        <h1> ${category} [${catCmds.length}] </h1>
+                        <div id="accordion">${s}</div>
                        </div>` %><%
               }
             });
