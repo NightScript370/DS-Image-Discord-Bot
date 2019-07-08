@@ -11,6 +11,7 @@ const active = new Map();
 
 require("./struct/User.js");
 require("./struct/Guild.js");
+require("./struct/TextChannel.js");
 require("./language-framework.js");
 
 const DBL = require("dblapi.js");

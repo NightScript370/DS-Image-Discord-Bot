@@ -34,8 +34,7 @@ module.exports = class NDSBCompatCommand extends Command {
     }
 
     async exec(msg, { gametitle, flashcard }) {
-        let embed = this.client.util.embed();
-        let text, compatibilitystatus;
+        let infoEmbed = this.client.util.embed();
 
         let { body, statusCode, responce } = await req({ url: `http://nds-library-api.glitch.me/${encodeURIComponent(gametitle)}`, json: true });
         if (statusCode !== 200) {
@@ -46,61 +45,42 @@ module.exports = class NDSBCompatCommand extends Command {
         }
 
         if (!body['nds-bootstrap'])
-            return msg.channel.send('This Nintendo-DS title does not have any nds-boostrap compatibility information. Please try again');
+            return msg.channel.send('This Nintendo-DS title does not have any nds-bootstrap compatibility information. Please try again');
 
         if (body.title)
-            embed.setTitle(body.title);
+            infoEmbed.setTitle(body.title);
 
         if (body.cardID)
-            embed.setThumbnail(`https://art.gametdb.com/ds/coverS/US/${body.cardID}.png`);
+            infoEmbed.setThumbnail(`https://art.gametdb.com/ds/coverS/US/${body.cardID}.png`);
 
-        if (flashcard) {
-            if (this.hasNoInfo(body['nds-bootstrap'].flashcard))
-                return msg.channel.send('This Nintendo-DS title does not have any nds-bootstrap compatibility information for flashcards. Please try again');
+        let { embed, text } = this.getCompat(flashcard ? body['nds-bootstrap'].flashcard : body['nds-bootstrap']['sd-card'], infoEmbed)
 
-            if (body['nds-bootstrap'].flashcard.compatibility) {
-                embed = this.handleCompatibility(body['nds-bootstrap'].flashcard.compatibility, embed);
-
-                if (!isEmpty(body['nds-bootstrap'].flashcard.notes))
-                    embed.addInline('Compatibility', body['nds-bootstrap'].flashcard.notes);
-                else
-                    embed.addInline('Compatibility', body['nds-bootstrap'].flashcard.compatibility);
-
-                if (body.title)
-                    text = `**${body.title}** - ${body['nds-bootstrap'].flashcard.compatibility}`;
-            }
-
-            if (body['nds-bootstrap'].flashcard.testers)
-                embed.setFooter(`Tested by ${body['nds-bootstrap'].flashcard.testers.join(", ")}`);
+        if (msg.sendable()) {
+            if (text)
+                msg.channel.send(text, (msg.embedable() && embed) ? {embed} : {});
+            else if (!text && msg.embedable() && embed)
+                msg.channel.send({embed: embed});
+            else if (!text && !embed)
+                msg.channel.send("An error has occured: `Empty message trying to send for the nds-bootstrap-compatibility command`. Please report this to the Yamamura developers")
+            else if (!text && !msg.embedable() && embed)
+                msg.channel.send('Please tell an administrator to enable the `EMBED_LINKS` permission in order for this command to work')
+            else
+                msg.channel.send('An unknown error has occured. Please report this to the Yamamura developers')
         } else {
-            if (this.hasNoInfo(body['nds-bootstrap']['sd-card']))
-                return msg.channel.send('This Nintendo-DS title does not have any nds-bootstrap compatibility information for SD Cards. Please try again');
-
-            if (body['nds-bootstrap']['sd-card'].compatibility) {
-                embed = this.handleCompatibility(body['nds-bootstrap']['sd-card'].compatibility, embed);
-
-                if (!isEmpty(body['nds-bootstrap']['sd-card'].notes))
-                    embed.addInline('Compatibility', body['nds-bootstrap']['sd-card'].notes);
-                else
-                    embed.addInline('Compatibility', body['nds-bootstrap']['sd-card'].compatibility);
-
-                if (body.title)
-                    text = `**${body.title}** - ${body['nds-bootstrap']['sd-card'].compatibility}`;
+            try {
+                if (text)
+                    msg.author.send(text, embed ? {embed} : {});
+                else if (!text && embed)
+                    msg.author.send({embed: embed});
+                else if (!text && !embed)
+                    msg.author.send("An error has occured: `Empty message trying to send for the nds-bootstrap-compatibility command`. Please report this to the Yamamura developers")
+            } catch (e) {
+                // Do nothing here, since the Author most likely disabled the DMS
             }
-
-            if (body['nds-bootstrap']['sd-card'].testers)
-                embed.setFooter(`Tested by ${body['nds-bootstrap']['sd-card'].testers.join(", ")}`);
         }
-
-        if (text)
-            msg.channel.send(text, (msg.guild && msg.guild.me.hasPermission('EMBED_LINKS')) ? { embed } : {});
-        else if (msg.guild && msg.guild.me.hasPermission('EMBED_LINKS'))
-            msg.channel.send({embed: embed});
-        else if (msg.guild && msg.guild.me.hasPermission("SEND_MESSAGES"))
-            msg.channel.send("In order to view this title, I need to be able to send embeds");
     }
 
-    handleCompatibility(compatstring, embed) {
+    embedColor(compatstring, embed) {
         if (typeof compatstring == 'string')
             compatstring = compatstring.toLowerCase();
 
@@ -142,6 +122,30 @@ module.exports = class NDSBCompatCommand extends Command {
 
     hasNoInfo(testagainst) {
         return (!testagainst || (testagainst && !testagainst.compatibility && !testagainst.testers));
+    }
+
+    getCompat(target, embed) {
+        if (this.hasNoInfo(target))
+            return { embed: null, text: 'This Nintendo-DS title does not have any nds-bootstrap compatibility information for flashcards. Please try again' }
+
+        let text;
+
+        if (target.compatibility) {
+            embed = this.embedColor(target.compatibility, embed);
+
+            if (!isEmpty(target.notes))
+                embed.addInline('Compatibility', target.notes);
+            else
+                embed.addInline('Compatibility', target.compatibility);
+
+            if (body.title)
+                text = `**${body.title}** - ${target.compatibility}`;
+        }
+
+        if (target.testers)
+            embed.setFooter(`Tested by ${target.testers.join(", ")}`);
+
+        return {embed, text}
     }
 };
 

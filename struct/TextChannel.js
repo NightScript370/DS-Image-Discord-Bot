@@ -8,8 +8,13 @@ module.exports = Structures.extend("TextChannel", TextChannel => {
     }
 
     get sendable() {
-        let me = this.guild.members.get(this.client.user.id)
-        return this.permissionsFor(me).has('SEND_MESSAGES')
+      if (!this.guild) return true;
+      return this.guild.me.hasPermission('SEND_MESSAGES')
+    }
+
+    get embedable() {
+      if (!this.guild) return true;
+      return this.guild.me.hasPermission('EMBED_LINKS')
     }
   }
 });

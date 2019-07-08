@@ -9,21 +9,30 @@ module.exports = class LevelIdeaCommand extends Command {
 			description: {
         content: 'Get an idea for your next Super Mario Maker 2 level.'
       },
-      args: [],
+      args: [
+        {
+          id: 'smm2',
+          description: 'Determine if you want ideas from SMM2 as well',
+          match: 'flag',
+          flag: '--smm2'
+        }
+      ],
 		});
 	}
 
-	async exec(message, { victim }) {
+	async exec(message, { smm2 }) {
     let phrase = this.levelIdea()
     message.util.send(phrase)
 	}
 
-  levelIdea() {
+  levelIdea(smm2) {
     Array.prototype.random = function() {
       return this[Math.floor(Math.random() * this.length)];
     };
-    
-    let players = ["Mario", "Luigi", "Toad", "Toadette"];
+
+    let playerList = ["Mario"];
+    let playerList2 = ["Luigi", "Toad", "Toadette"]
+
     let adjectives = [
       "infested",
       "haunted",
@@ -226,6 +235,9 @@ module.exports = class LevelIdeaCommand extends Command {
       return `${player} must ${verb} ${a} ${adjective} ${place}, featuring ${global.List.fromArray(features).random()}, supported by ${f.joinAnd()}`
     }
 
-    return build(players.random(), verbs.random(), adjectives.random(), places.random(), Math.random() > 0.8 ? features3d : features)
+    if (smm2)
+      playerList.concat(playerList2)
+
+    return build(playerList.random(), verbs.random(), adjectives.random(), places.random(), Math.random() > 0.8 ? features3d : features)
   }
 };
