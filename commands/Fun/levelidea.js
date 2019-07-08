@@ -224,7 +224,11 @@ module.exports = class LevelIdeaCommand extends Command {
       "Pom Pom",
       "bullies",
     ];
-    
+
+    if (smm2) {
+      playerList = playerList.concat(playerList2)
+    }
+
     const build = (player, verb, adjective, place, features) => {
       let a = ["a", "e", "i", "o", "u"].includes(adjective.substr(0, 1)) ? "an" : "a";
       
@@ -234,9 +238,6 @@ module.exports = class LevelIdeaCommand extends Command {
       
       return `${player} must ${verb} ${a} ${adjective} ${place}, featuring ${global.List.fromArray(features).random()}, supported by ${f.joinAnd()}`
     }
-
-    if (smm2)
-      playerList.concat(playerList2)
 
     return build(playerList.random(), verbs.random(), adjectives.random(), places.random(), Math.random() > 0.8 ? features3d : features)
   }
