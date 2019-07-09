@@ -2,13 +2,13 @@ const { Command } = require('discord-akairo');
 const { createCanvas, loadImage } = require('canvas');
 const path = require('path');
 
-module.exports = class PlayStationCommand extends Command {
+module.exports = class Nintendo3DSCommand extends Command {
 	constructor() {
-		super('playstation', {
-			aliases: ['ps', 'playstation'],
+		super('3ds', {
+			aliases: ['3ds'],
 			category: 'Covers',
 			description: {
-                content: "Ah, the Sony PlayStation. After Nintendo screwed them over with their plans with Phillips, they decided to enter the console market on their own and become a competitor to Nintendo. With this Yamamura command, you can also become a rebel of Nintendo and develop games for the PlayStation with your own Box Art Concept. Don't forget to be 100% against cross-platform play"
+                content: "Ah, the Nintendo 3DS, the console with the easiest access to Nintendo's SDK. Abuse that power too and make your own game with your own box-art mockup. Just make sure to not make the 3D eye-straining"
             },
             cooldown: 10000,
             ratelimit: 1,
