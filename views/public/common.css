@@ -149,3 +149,13 @@
 #tab-sidebar .nav-link.col-12 {
     max-width: calc(100% - 10px);
 }
+
+div#accordion div.card {
+    border-radius: 0;
+}
+
+img.commandIcon {
+    background-color: #FFFFFF;
+    border-radius: 50%;
+    height: 1em;
+}

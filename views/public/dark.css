@@ -20,3 +20,13 @@ body {
 a {
   color: #0a6dd6
 }
+
+.cardHeader {
+  background-color: #000000;
+  color: #FFFF;
+}
+
+.card-body, .list-group-item {
+  color: #FFFFFF;
+  background-color: #404040;
+}
