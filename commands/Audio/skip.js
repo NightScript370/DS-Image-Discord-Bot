@@ -8,13 +8,9 @@ module.exports = class SkipAudioCommand extends Command {
 			description: {content: 'Adds a vote to skip the currently playing music. Moderators can add `--modskip` to skip without a vote'},
 			channelRestriction: 'guild',
       args: [
-        {
-          id: 'video',
-          type: 'string',
-          default: null
-        },
 				{
-					id: 'modskipidentifier',
+					id: 'modskip',
+					description: 'If you want to overwrite the skip voting and you have the MUTE_MEMBERS permission for Voice Chats, add the --modskip parameter ',
           match: 'flag',
 					flag: '--modskip'
 				}
@@ -22,7 +18,7 @@ module.exports = class SkipAudioCommand extends Command {
 		});
 	}
 
-	exec(message, { modskipidentifier }) {
+	exec(message, { modskip: modskipidentifier }) {
 		var voiceChannel = message.member.voice.channel;
 		if (!voiceChannel) return message.reply("I think it may work better if you are in a voice channel!");
 

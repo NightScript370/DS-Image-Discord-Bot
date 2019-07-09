@@ -17,15 +17,17 @@ module.exports = class NDSBCompatCommand extends Command {
 			args: [
                 {
 					id: 'gametitle',
+                    description: "State either the game ID or the game title (with its region at the end) in order to find out if its compatible",
 					type: 'string',
                     prompt: {
-                        start: "What's the Nintendo DS Homebrew you'd like to see?",
-                        retry: "There is not a thing we can get information for. Try again."
+                        start: "What's the Nintendo DS title you'd like to check if it is compatible with nds-bootstrap?",
+                        retry: "That is not a thing we can get information for. Try again."
                     },
                     match: 'rest'
                 },
                 {
                     id: 'flashcard',
+                    description: "Check for compatibility regarding Bootstrap 4 DS (B4DS in short) with the --flashcard parameter",
                     match: 'flag',
 					flag: '--flashcard'
                 }

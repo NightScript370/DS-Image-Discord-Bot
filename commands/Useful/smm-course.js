@@ -20,6 +20,7 @@ module.exports = class CourseCommand extends Command {
 			args: [
 				{
 				    id: 'level',
+                    description: 'This is a mandatory argument, which you would need to enter either a level ID or a name',
 				    prompt: {
                         start: "Which Super Mario Maker level would you like to get information from?",
                         retry: "There is not a thing we can get information for. Try again."
@@ -29,6 +30,7 @@ module.exports = class CourseCommand extends Command {
 				},
                 {
                     id: 'makerOfMario',
+                    description: "This argument will allow you to search levels from the MakersOfMario website. Just add --makersofmario at the end of the search.",
                     match: 'flag',
                     flag: '--makersofmario'
                 }
@@ -37,7 +39,6 @@ module.exports = class CourseCommand extends Command {
 	}
 
     async exec(msg, { level, makerOfMario }) {
-//        const SMM2ID = /(([ABCDEFGHJKLMNPQRSTUVWXY0-9]{3})-([ABCDEFGHJKLMNPQRSTUVWXY0-9]{3})-([ABCDEFGHJKLMNPQRSTUVWXY0-9]{3}))/gi;
         const SMM2ID = /((?:(?![OIZ])[A-Z0-9]){3}-(?:(?![OIZ])[A-Z0-9]){3}-(?:(?![OIZ])[A-Z0-9]){3})/gi;
         const ID = /(?:(?:https?:\/\/)?(?:www\.)?supermariomakerbookmark\.nintendo\.net\/courses\/)?(([A-Z0-9]{4})-([A-Z0-9]{4})-([A-Z0-9]{4})-([A-Z0-9]{4}))/gi;
 

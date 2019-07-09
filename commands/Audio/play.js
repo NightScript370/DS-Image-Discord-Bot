@@ -23,8 +23,9 @@ module.exports = class PlayAudioCommand extends Command {
 			args: [
 				{
 					id: 'link',
+					description: "You can specify either a specific Youtube video URL or the title of the video. You can also add playlists (put the playlist URL) or songs related to the song that is playing right now (type 'related')",
 					prompt: {
-            start: 'Please state a song you\'d like to listen to?',
+            start: 'Please state a song from Youtube you\'d like to listen to',
             retry: 'That\'s not a valid song! Try again.'
           },
 					type: 'string',

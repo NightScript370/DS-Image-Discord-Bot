@@ -157,12 +157,12 @@
 
                   table = `
                         <div class="card">
-                            <a class="card-header collapsed card-link" data-toggle="collapse" href="#collapse${cmd.id}">
+                            <a class="card-header collapsed card-link" data-toggle="collapse" href="#collapse${cmd.id}-all">
                                 <img class="commandIcon" src="${iconExist(cmd.id) ? `${client.URL}/icons/${cmd.id}.png` : `${client.URL}/icons/blank.png`}">
                                 <b>${cmd.id}</b>
                                 <span style="float: right;">${permissions}</span>
                             </a>
-                            <div id="collapse${cmd.id}" class="collapse" data-parent="#accordion">
+                            <div id="collapse${cmd.id}-all" class="collapse" data-parent="#accordion">
 				                ${cmDescription ? `<div class="card-body">${cmDescription}</div>` : ''}`;
 
                   if (cmd.args) {
@@ -179,7 +179,7 @@
                 s = s.join("");
                 if (s.length > 0) {
                   %><%- `<h1> ${category} [${catCmds.length}] </h1>
-                        <div id="accordion">${s}</div>` %><%
+                        <div id="accordion">${s}</div><br>` %><%
                 }
               });
             %>

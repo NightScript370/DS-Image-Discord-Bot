@@ -16,6 +16,7 @@ module.exports = class NPMCommand extends Command {
 			args: [
 				{
 					id: "pkg",
+					description: "List the NPM package here",
 					prompt: {
 						start: "what NPM pkg would you like to search for?"
 					},

@@ -13,9 +13,10 @@ module.exports = class PollCommand extends Command {
 			args: [
 				{
 					id: 'question',
+					description: 'This is a mandatory field.',
           prompt: {
             start: "What's the poll Question?",
-            retry: "That's not a valid level we can apply."
+            retry: "That's not a valid question we can ask on this poll."
           },
 					type: "string",
           match: "rest"
@@ -28,8 +29,7 @@ module.exports = class PollCommand extends Command {
             start: [
               'What are the poll options?',
               'Type them in separate messages.',
-              'Type `stop` when you are done.',
-              'PS: If you want to have a yesno vote, just say `yesno` and then type `stop`'
+              'Type `stop` when you are done.'
             ],
             infinite: true
           },

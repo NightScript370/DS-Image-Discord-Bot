@@ -8,7 +8,7 @@ module.exports = class NintendoWiiUCommand extends Command {
 			aliases: ['wiiu', 'wii-u'],
 			category: 'Covers',
 			description: {
-        content: 'Draws an image under the Nintendo Wii U Box-Art.'
+        content: 'This command allows you to make mock-up box art for that Wii console that has the new gamepad gimmick and an SDK that is easy to get for developers like yourselves. Only problem is, no one will play it :P'
       },
       cooldown: 10000,
       ratelimit: 1,

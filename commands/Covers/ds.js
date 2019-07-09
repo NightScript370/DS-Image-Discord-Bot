@@ -8,7 +8,7 @@ module.exports = class NintendoDSCommand extends Command {
 			aliases: ['ds'],
 			category: 'Covers',
 			description: {
-                content: 'Draws an image under the Nintendo DS Box-Art.',
+                content: "The Nintendo DS, while indirectly being a successor to the Nintendo GameBoy Advance, is the handheld that made Nintendo get crazy profit. With this command, you can reach that crazy profit by making your own DS game with your own mockup box art. Just make sure not to surpass the 4MB limit of RAM",
                 examples: ["ds @NightYoshi370"]
             },
             cooldown: 10000,
