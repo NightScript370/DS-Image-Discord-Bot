@@ -8,8 +8,7 @@ module.exports = class PlayStationCommand extends Command {
 			aliases: ['ps', 'playstation'],
 			category: 'Covers',
 			description: {
-                content: 'Draws an image under the Sony PlayStation Box-Art.',
-                examples: ["switch rating:esrb:m17"]
+                content: "Ah, the Sony PlayStation. After Nintendo screwed them over with their plans with Phillips, they decided to enter the console market on their own and become a competitor to Nintendo. With this Yamamura command, you can also become a rebel of Nintendo and develop games for the PlayStation with your own Box Art Concept. Don't forget to be 100% against cross-platform play"
             },
             cooldown: 10000,
             ratelimit: 1,
@@ -17,6 +16,7 @@ module.exports = class PlayStationCommand extends Command {
 			args: [
 				{
 					id: 'images',
+                    description: 'These are the images for the command. This can be either attachments, user mentions, user IDs, user names, links or if the channel has an image posted beforehand within the past 50 messages: none. If you use links and/or attachments, you can even layer the image.',
 					type: 'image',
                     match: 'rest'
 				},

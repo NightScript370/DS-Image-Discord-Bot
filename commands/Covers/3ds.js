@@ -2,14 +2,13 @@ const { Command } = require('discord-akairo');
 const { createCanvas, loadImage } = require('canvas');
 const path = require('path');
 
-module.exports = class NintendoDSCommand extends Command {
+module.exports = class PlayStationCommand extends Command {
 	constructor() {
-		super('ds', {
-			aliases: ['ds'],
+		super('playstation', {
+			aliases: ['ps', 'playstation'],
 			category: 'Covers',
 			description: {
-                content: "The Nintendo DS, while indirectly being a successor to the Nintendo GameBoy Advance, is the handheld that made Nintendo get crazy profit. With this command, you can reach that crazy profit by making your own DS game with your own mockup box art. Just make sure not to surpass the 4MB limit of RAM",
-                examples: ["ds @NightYoshi370"]
+                content: "Ah, the Sony PlayStation. After Nintendo screwed them over with their plans with Phillips, they decided to enter the console market on their own and become a competitor to Nintendo. With this Yamamura command, you can also become a rebel of Nintendo and develop games for the PlayStation with your own Box Art Concept. Don't forget to be 100% against cross-platform play"
             },
             cooldown: 10000,
             ratelimit: 1,
@@ -22,6 +21,16 @@ module.exports = class NintendoDSCommand extends Command {
                     match: 'rest'
 				},
                 {
+					id: 'nintendonetwork',
+                    match: 'flag',
+					flag: '--nintendonetwork'
+				},
+                {
+					id: 'nintendologo',
+                    match: 'flag',
+					flag: '--nintendologo'
+				},
+                {
 					id: 'rating',
                     match: 'option',
 					flag: 'rating:',
@@ -32,12 +41,7 @@ module.exports = class NintendoDSCommand extends Command {
                     type: 'integer',
                     match: 'option',
 					flag: 'padding:',
-                    default: 5
-				},
-                {
-					id: 'internet',
-                    match: 'flag',
-					flag: '--internet'
+                    default: 0
 				},
                 {
 					id: 'funky',
@@ -54,7 +58,7 @@ module.exports = class NintendoDSCommand extends Command {
 		});
 	}
 
-	async exec(msg, { images, rating, padding, internet, funky, pattern }) {
+	async exec(msg, { images, nintendologo, nintendonetwork, rating, padding, funky, pattern }) {
 		let boxrating, BG, currentimage;
 
         try {
@@ -71,46 +75,66 @@ module.exports = class NintendoDSCommand extends Command {
                 case 'joker':
                     BG = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'patterns', 'joker.png'));
                     break;
-            }
+            } */
 
-            switch (rating.toUpperCase()) {
+            let ratingtype = null;
+
+            if (rating) {
+                ratingtype = rating.toUpperCase().split(":")[0];
+                switch (rating.toUpperCase()) {
                 case 'ESRB:CHILDHOOD':
                 case 'ESRB:EC':
-                    boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'esrb', 'early_childhood.png'));
+                    boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'earlyChildhood.png'));
                     break;
                 case 'ESRB:E':
                 case 'ESRB:EVERYONE':
-                    boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'esrb', 'everyone.png'));
+                    boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'everyone.png'));
                     break;
                 case 'ESRB:EVERYONE10+':
                 case 'ESRB:E10':
-                    boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'esrb', 'everyone_10.png'));
+                    boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'e10.png'));
                     break;
                 case 'ESRB:MATURE':
                 case 'ESRB:MATURE17':
                 case 'ESRB:M':
                 case 'ESRB:M17':
-                    boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'esrb', 'mature_17.png'));
+                    boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'mature.png'));
                     break;
                 case 'ESRB:T':
                 case 'ESRB:TEEN':
                 case 'ESRB:TEENS':
                 case 'ESRB:TEENAGERS':
-                    boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'esrb', 'teen.png'));
+                    boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'teen.png'));
                     break;
                 case 'ESRB:A':
                 case 'ESRB:AO':
                 case 'ESRB:ADULTS':
                 case 'ESRB:ADULTS18':
-                    boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'esrb', 'adults_only_18.png'));
+                    boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'adultsOnly.png'));
                     break;
                 case 'ESRB:RP':
                 case 'ESRB:RATING_PENDING':
-                    boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'esrb', 'rating_pending.png'));
+                    boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'ratingPending.png'));
                     break;
-            } */
+                case 'PEGI:3':
+                    boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '3.png'));
+                    break;
+                case 'PEGI:7':
+                    boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '7.png'));
+                    break;
+                case 'PEGI:12':
+                    boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '12.png'));
+                    break;
+                case 'PEGI:16':
+                    boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '16.png'));
+                    break;
+                case 'PEGI:18':
+                    boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '18.png'));
+                    break;
+                }
+            }
 
-            const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'ds', 'DS_Case.png'));
+            const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', '3ds.png'));
 			const canvas = createCanvas(base.width, base.height);
 			const ctx = canvas.getContext('2d');
       
@@ -121,27 +145,31 @@ module.exports = class NintendoDSCommand extends Command {
 
             for (var image of images) {
                 currentimage = await loadImage(image);
-                await ctx.drawImage(currentimage, padding, padding, base.width-padding, base.height-padding);
+                await ctx.drawImage(currentimage, 6+padding, 14+padding, 442-padding, 445-padding);
             }
 
-            if (boxrating) {
-                await ctx.drawImage(boxrating, 0, 0, base.width, base.height);
-            }
-
-            if (funky) {
+            /* if (funky) {
                 let funkyImg = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'ds', 'funkymode.png'));
                 await ctx.drawImage(funkyImg, 0, 0, base.width, base.height);
-            }
+            } */
 
             await ctx.drawImage(base, 0, 0, base.width, base.height);
 
-            if (internet) {
-                let internetImg = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'ds', 'wfc.png'));
-                await ctx.drawImage(internetImg, 0, 0, base.width, base.height);
+            if (nintendologo) {
+                let nintendologoImage = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'nintendologo.png'));
+                ctx.drawImage(nintendologoImage, 366, 429, 71, 18)
+            }
+
+            if (nintendonetwork) {
+                let nintendonetworkImage = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'NintendoNetwork.png'));
+                ctx.drawImage(nintendonetworkImage, 460, 25, 32, 43)
+            }
+
+            if (boxrating) {
+                await ctx.drawImage(boxrating, 18, 385, 37, 59);
             }
 
             const attachment = canvas.toBuffer();
-
             if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
 			return msg.util.send({ files: [{ attachment: attachment, name: 'Nintendo-DS.png' }] });
 		} catch (err) {

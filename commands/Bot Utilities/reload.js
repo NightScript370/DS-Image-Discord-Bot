@@ -21,6 +21,7 @@ module.exports = class ReloadCommand extends Command {
         },
         {
           id: "mod",
+          description: "This is the module that you would like to reload. It has to be a module of the type that you specified.",
           type: "string",
           match: 'rest'
         }

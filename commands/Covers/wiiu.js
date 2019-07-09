@@ -16,6 +16,7 @@ module.exports = class NintendoWiiUCommand extends Command {
 			args: [
 				{
 					id: 'images',
+          description: 'These are the images for the command. This can be either attachments, user mentions, user IDs, user names, links or if the channel has an image posted beforehand within the past 50 messages: none. If you use links and/or attachments, you can even layer the image.',
 					type: 'image',
           match: 'rest'
 				},

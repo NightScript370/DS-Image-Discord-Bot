@@ -8,7 +8,7 @@ module.exports = class WiiCommand extends Command {
 			aliases: ['wii'],
 			category: 'Covers',
 			description: {
-        content: 'Draws an image under the Wii Box-Art.'
+        content: "Ah, the Wii. What was supposed to be a revolution ended up being the best success for Nintendo, since they decided to abandon everyone except everyone in their 90s. With this command, you can make your own game targeted for the 90s with you Box Art Mockup. Just don't forget: motion controls!!"
       },
       cooldown: 10000,
       ratelimit: 1,
@@ -61,9 +61,6 @@ module.exports = class WiiCommand extends Command {
 		let boxrating, BG, currentimage;
 
     try {
-      let nintendoselectborder = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'wii', 'Nintendo_Selects_BG.png'));
-      let nintendologoImage = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'nintendologo.png'));
-
       /* if (pattern) {
         switch (pattern.toLowerCase()) {
           case 'wifi':
@@ -159,6 +156,7 @@ module.exports = class WiiCommand extends Command {
       }
 
       if (nintendoselects) {
+        let nintendoselectborder = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'wii', 'Nintendo_Selects_BG.png'));
         ctx.drawImage(nintendoselectborder, 0, 0, base.width, base.height)
       }
 
@@ -168,6 +166,7 @@ module.exports = class WiiCommand extends Command {
       }
 
       if (nintendologo) {
+        let nintendologoImage = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'nintendologo.png'));
         ctx.drawImage(nintendologoImage, 1286, 2087, 223, 53)
       }
 
