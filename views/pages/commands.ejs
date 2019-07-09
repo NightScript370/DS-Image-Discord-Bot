@@ -13,15 +13,7 @@
     let cmds = cats.map(cat => Array.from(cat.entries()).map(c => c[1])).flat();
 
     function iconExist(cmd) {
-        let out = true;
-        try {
-                fs.access(`../public/icons/${cmd.id}.png`, fs.F_OK, (err) => {
-                        if (err) throw err
-                });
-        } catch(err) {
-                out = false
-        }
-        return out;
+       return fs.existsSync(`../public/icons/${cmd.id}.png`);
     }
   %>
   
