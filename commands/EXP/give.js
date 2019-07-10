@@ -13,6 +13,7 @@ module.exports = class ServerPointsCommand extends Command {
       args: [
         {
           id: 'user',
+          description: "This field contains the user you'd like to give server points too. This can either be a mention, username or user ID",
           type: 'user',
           prompt: {
               start: 'Who would you like to donate points to?',
@@ -22,6 +23,7 @@ module.exports = class ServerPointsCommand extends Command {
         },
         {
           id: 'pointsToDonate',
+          description: "This argument is the amount of points you'd like to donate to the user.",
           type: 'integer',
           prompt: {
               start: 'How many points would you like to donate?',
@@ -31,6 +33,7 @@ module.exports = class ServerPointsCommand extends Command {
         },
         {
           id: 'guild',
+          description: "This argument is for the guild ID you'd like your transactions to go through. Will default itself to the guild ID of the current server if its on a server.",
           type: 'guild',
           default: msg => {
             if (msg.guild)  return msg.guild;
