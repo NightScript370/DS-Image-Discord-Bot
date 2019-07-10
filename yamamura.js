@@ -5,8 +5,7 @@ const config = require("./config.js");
 const List = require("list-array");
 const BackEmbed = require('./embed.js');
 
-const Youtube = require("ytdl-core");
-const YTDL = require("ytdl-core-discord");
+const Youtube = require("ytdl-core-discord");
 const active = new Map();
 
 require("./struct/User.js");
@@ -322,8 +321,7 @@ class MyClient extends AkairoClient {
 			    else data.connection = message.guild.voice.connection;
 		    }
 
-            // YTDL is for downloading while Youtube is for info, since ytdl-discord doesn't have info
-            data.dispatcher = data.connection.play(await YTDL(data.queue[0].url), { type: 'opus', volume: false, passes: 3, highWaterMark: 50 })
+            data.dispatcher = data.connection.play(await Youtube(data.queue[0].url), { type: 'opus', volume: false, passes: 3, highWaterMark: 50 })
                                 .on('error', err => {
                                     console.error('Error occurred in stream dispatcher:', err);
                                     playing.edit(`An error occurred while playing the song: ${err}`);
