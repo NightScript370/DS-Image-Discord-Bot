@@ -57,7 +57,7 @@ module.exports = class StatsCommand extends Command {
 **• Node.JS Version**: ${process.version}
 **• ${__("Database System")}**: lokijs (v${this.client.db.engineVersion})`)
             .addInline("⚙️ " + __("Resource Usage"), `**• Allocated Memory**: ${Math.round(usedMem * 100) / 100} MB/${Math.round(totalMem * 100) / 100} MB
-**• CPU**: ${osv.toFixed(2)} MB`)
+**• CPU**: ${osv.toFixed(2)}%`)
             .addInline(__("Total Events"), `• ${__("{0} total commands", cmds.length)}
 • ${__("{0} total listeners", this.client._eventsCount)}`)
             .addInline("🏓 " + __("Ping"), __("The message round-trip took {0}", __("{0}ms", msgrt)) + " " +  hbping)
