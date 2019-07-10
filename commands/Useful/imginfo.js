@@ -28,7 +28,7 @@ module.exports = class ImgInfoCommand extends Command {
 	}
 
 	async exec(msg, { images, perlayerView }) {
-		let currentimage, widthpad, heightpad, fielddescription, description = '';
+		let currentimage, widthpad, heightpad, fielddescription;
 
         if (perlayerView && images instanceof Array && images.length > 8) {
             return msg.reply('Up to 20 layers may be viewed individually')
@@ -36,6 +36,8 @@ module.exports = class ImgInfoCommand extends Command {
 
 		try {
 			const imagessize = await this.largestSize(images);
+            const canvas = await createCanvas(imagessize.width, imagessize.height);
+			const ctx = canvas.getContext('2d');
 
             let ImageInfoEmbed = this.client.util.embed()
                 .setColor("BLUE")
@@ -51,11 +53,22 @@ module.exports = class ImgInfoCommand extends Command {
             } else {
                 let layerList = "";
                 for (var image of images) {
-                    if(layerList.length > 1000) break;
-                    layerList += image + '\n';
+                    if(layerList.length < 1000) {
+                        layerList += image + '\n';
+                    }
+
+                    currentimage = await loadImage(image);
+
+    				widthpad = (imagessize.width - currentimage.width) / 2;
+	    			heightpad = (imagessize.height - currentimage.height) / 2;
+
+		    		ctx.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
                 }
 
-                ImageInfoEmbed.addField(`Layers (${images.length})`, layerList);
+                ImageInfoEmbed
+                    .attachFiles([{name: "image.png", attachment: canvas.toBuffer()}])
+                    .setImage('attachment://image.png')
+                    .addField(`Layers (${images.length})`, layerList);
 
                 if (perlayerView) {
                     for (var index in images) {
@@ -65,8 +78,9 @@ module.exports = class ImgInfoCommand extends Command {
                         fielddescription += `**Format:** ${this.getExtention(images[index])} \n`;
                         fielddescription += `**${global.getString(msg.author.lang, "Width")}**: ${global.getString(msg.author.lang, "{0} pixels", currentimage.width)} \n`;
                         fielddescription += `**${global.getString(msg.author.lang, "Height")}**: ${global.getString(msg.author.lang, "{0} pixels", currentimage.height)} \n`;
-    
-                        ImageInfoEmbed.addInline(`Layer #(${images[index]})`, fielddescription);
+                        fielddescription += `**Link to image:** ${images[index]}`;
+
+                        ImageInfoEmbed.addField(`Layer #(${images[index]})`, fielddescription);
                     }
                 } else {
                     ImageInfoEmbed.addInline(global.getString(msg.author.lang, "Dimentions"),
