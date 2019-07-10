@@ -87,7 +87,7 @@ module.exports = class PollCommand extends Command {
 		if (time) {
 			setTimeout(async () => {
 				// Re-fetch the message and get reaction counts
-				PollMessage = await AuthorMessage.channel.fetchMessage(PollMessage.id)
+				PollMessage = await AuthorMessage.channel.messages.fetch(PollMessage.id)
 				var reactionCountsArray = [];
 				for (var i = 0; i < pollOptions.length; i++) {
 					reactionCountsArray[i] = PollMessage.reactions.get(emojiList[i]).count-1;

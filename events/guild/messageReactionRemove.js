@@ -16,7 +16,6 @@ module.exports = class messageReactionRemoveListener extends Listener {
         if (message.partial) await reaction.message.fetch();
 
 		if (!message.guild) return;
-		if (message.author.bot) return;
 		if (reaction.emoji.name !== '⭐') return;
 		if (message.author.id === user.id) return;
 		if (channel && message.channel.id == channel.id) return;
