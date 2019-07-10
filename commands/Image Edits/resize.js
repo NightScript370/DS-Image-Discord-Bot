@@ -66,7 +66,7 @@ module.exports = class ResizeCommand extends Command {
 				ctx2.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
 			}
 
-			ctx.drawImage(canvas2, 0, 0, imagessize.width, imagessize.height, 0, 0, width, height);
+			ctx.drawImage(canvas2, 0, 0, width, height);
 			
       const attachment = canvas.toBuffer();
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');

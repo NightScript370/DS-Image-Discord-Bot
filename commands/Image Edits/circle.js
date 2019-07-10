@@ -29,6 +29,8 @@ module.exports = class CircleCommand extends Command {
 			const imagessize = await this.largestSize(images);
 			const canvas = await createCanvas(imagessize.width, imagessize.height);
 			const ctx = canvas.getContext('2d');
+			const canvas2 = await createCanvas(imagessize.width, imagessize.height);
+			const ctx2 = canvas.getContext('2d');
 
 			ctx.beginPath();
 			ctx.arc(canvas.width / 2, canvas.height / 2, canvas.height / 2, 0, Math.PI * 2);
@@ -41,8 +43,9 @@ module.exports = class CircleCommand extends Command {
 				widthpad = (imagessize.width - currentimage.width) / 2;
 				heightpad = (imagessize.height - currentimage.height) / 2;
 
-				ctx.drawImage(currentimage, (canvas.width / 2) - (widthpad / 2), (canvas.height / 2) - (heightpad / 2), (canvas.width / 2) - (currentimage.width / 2), (currentimage.height / 2));
+				ctx2.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
 			}
+			ctx.drawImage(canvas2, (canvas.width / 2) - (canvas2.width / 2), (canvas.height / 2) - (canvas2.height / 2));
 
 			const attachment = canvas.toBuffer();
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
