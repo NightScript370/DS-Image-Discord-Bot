@@ -315,6 +315,13 @@ class MyClient extends AkairoClient {
                 playing = await msg.channel.send({embed: embed});
             }
 
+            if (!data.connection) {
+                if (!msg.member || !msg.member.voice) return client.audio.finish(msg, client, data.dispatcher);
+
+	            if (!message.guild.voice) data.connection = await message.member.voice.channel.join();
+			    else data.connection = message.guild.voice.connection;
+		    }
+
             // YTDL is for downloading while Youtube is for info, since ytdl-discord doesn't have info
             data.dispatcher = data.connection.play(await YTDL(data.queue[0].url), { type: 'opus', volume: false, passes: 3, highWaterMark: 50 })
                                 .on('error', err => {

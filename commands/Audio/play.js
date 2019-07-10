@@ -109,7 +109,11 @@ module.exports = class PlayAudioCommand extends Command {
 
 		let data = this.client.audio.active.get(message.guild.id) || {};
 
-		if (!data.connection && !message.guild.voice) data.connection = await message.member.voice.channel.join();
+		if (!data.connection) {
+			if (!message.guild.voice) data.connection = await message.member.voice.channel.join();
+			else data.connection = message.guild.voice.connection;
+		}
+
 		if (!data.queue) data.queue = [];
 		data.guildID = message.guild.id;
 
