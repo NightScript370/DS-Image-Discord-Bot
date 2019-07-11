@@ -15,7 +15,7 @@
     "common-tags": "^1.8.0",
     "dblapi.js": "^2.3.0",
     "discord-akairo": "github:DiscordBots-Archive/discord-akairo",
-    "discord.js": "github:discordjs/discord.js",
+    "discord.js": "github:NightYoshi370/discord.js",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "express-session": "^1.16.1",

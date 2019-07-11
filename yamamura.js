@@ -317,11 +317,11 @@ class MyClient extends AkairoClient {
             if (!data.connection) {
                 if (!msg.member || !msg.member.voice) return client.audio.finish(msg, client, data.dispatcher);
 
-	            if (!message.guild.voice) data.connection = await message.member.voice.channel.join();
-			    else data.connection = message.guild.voice.connection;
+                if (!message.guild.voice) data.connection = await message.member.voice.channel.join();
+                else data.connection = message.guild.voice.connection;
 		    }
 
-            data.dispatcher = data.connection.play(await Youtube(data.queue[0].url), { type: 'opus', volume: false, passes: 3, highWaterMark: 50 })
+            data.dispatcher = data.connection.play(await Youtube(data.queue[0].url), { type: 'opus', volume: false, passes: 3 })
                                 .on('error', err => {
                                     console.error('Error occurred in stream dispatcher:', err);
                                     playing.edit(`An error occurred while playing the song: ${err}`);
