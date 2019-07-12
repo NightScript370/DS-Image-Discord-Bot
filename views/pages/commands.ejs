@@ -28,7 +28,7 @@
       <div class="col-lg-2">
         <div id="tab-sidebar" class="nav nav-pills" role="tablist" aria-orientation="vertical">
           <%
-            let defaultcategory = "MakerBoard Connectivity";
+            let defaultcategory = "Useful";
             cats.forEach(category => {
               let catCmds = cmds.filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));
               if (catCmds.length > 0) {
@@ -77,10 +77,8 @@
                   if (!isEmpty(cmd.description)) {
                     if (typeof cmd.description == 'string') {
                       cmDescription = cmd.description;
-                      //s.push(`<b>${cmd.id}</b>: ${cmd.description}`);
                     } else {
                       cmDescription = cmd.description.content;
-                      //s.push(`<b>${cmd.id}</b>: ${cmd.description.content}`)
                     }
                   }
 
