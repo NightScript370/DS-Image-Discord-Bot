@@ -121,7 +121,7 @@ module.exports = class NintendoDSCommand extends Command {
 
             for (var image of images) {
                 currentimage = await loadImage(image);
-                await ctx.drawImage(currentimage, padding, padding, base.width-padding, base.height-padding);
+                await ctx.drawImage(currentimage, 104+padding, 17+padding, 672-padding, 697-padding);
             }
 
             if (boxrating) {

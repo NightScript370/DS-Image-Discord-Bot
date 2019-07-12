@@ -140,7 +140,7 @@ module.exports = class PlayStationCommand extends Command {
 
             for (var image of images) {
                 currentimage = await loadImage(image);
-                await ctx.drawImage(currentimage, padding, padding, base.width-padding, base.height-padding);
+                await ctx.drawImage(currentimage, 72+padding, 8+padding, 200-padding, 230-padding);
             }
 
             /* if (funky) {
@@ -156,7 +156,7 @@ module.exports = class PlayStationCommand extends Command {
 
             const attachment = canvas.toBuffer();
             if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-			return msg.util.send({ files: [{ attachment: attachment, name: 'Nintendo-DS.png' }] });
+			return msg.util.send({ files: [{ attachment: attachment, name: 'Playstation.png' }] });
 		} catch (err) {
 		    console.error(err);
 			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Please report this error to the Yamamura developers!`);
