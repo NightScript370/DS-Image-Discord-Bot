@@ -5,7 +5,7 @@ const config = require("./config.js");
 const List = require("list-array");
 const BackEmbed = require('./embed.js');
 
-const Youtube = require("ytdl-core");
+const Youtube = require("ytdl-core-discord");
 const active = new Map();
 
 require("./struct/User.js");
@@ -321,15 +321,7 @@ class MyClient extends AkairoClient {
                 else data.connection = message.guild.voice.connection;
 		    }
 
-            const stream = await Youtube(data.queue[0].url, { quality: 'highestaudio' })
-						.on('error', err => {
-							console.log('Error occurred when streaming video:', err);
-							playing.edit(`:x: Couldn't play ${data.queue[0].songTitle}. Sorry ${data.queue[0].requester}`);
-							data.dispatcher.guildID = data.guildID;
-							client.audio.finish(client, active, data);
-						});
-
-            data.dispatcher = await data.connection.play(stream, { volume: false, passes: 3 })
+            data.dispatcher = data.connection.play(await Youtube(data.queue[0].url), { type: 'opus', volume: false, passes: 3 })
                                 .on('error', err => {
                                     console.error('Error occurred in stream dispatcher:', err);
                                     playing.edit(`An error occurred while playing the song: ${err}`);

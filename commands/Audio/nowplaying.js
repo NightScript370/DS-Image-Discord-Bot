@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo');
-const { getInfo } = require("ytdl-core");
+const { getInfo } = require("ytdl-core-discord");
 
 module.exports = class NowPlayingCommand extends Command {
 	constructor() {
