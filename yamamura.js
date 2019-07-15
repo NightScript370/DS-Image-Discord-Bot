@@ -15,6 +15,11 @@ require("./language-framework.js");
 
 const DBL = require("dblapi.js");
 
+global.consoleLines = {
+	stdout: [],
+	stderr: [],
+};
+
 class MyClient extends AkairoClient {
 	constructor() {
 		super({
@@ -171,7 +176,7 @@ class MyClient extends AkairoClient {
                 if(exactUsers.size > 0) inexactUsers = exactUsers;
                 return inexactUsers.first();
             }
-    
+
             function memberFilterExact(search) {
                 return mem => mem.username.toLowerCase() === search ||
                     `${mem.username.toLowerCase()}#${mem.discriminator}` === search;
@@ -382,3 +387,14 @@ setTimeout(function(){
     // Actually start the server
     require('./server.js')
 }, 2000);
+
+// This is used to debug the errors.
+// Defaults to 10 lines max
+process.stdout.on('data', function (data) {
+  global.consoleLines.stdout.push(data);
+	if (global.consoleLines.stdout.length > 10) global.consoleLines.stdout.shift();
+});
+process.stderr.on('data', function (data) {
+  global.consoleLines.stderr.push(data);
+	if (global.consoleLines.stderr.length > 10) global.consoleLines.stderr.shift();
+});
