@@ -26,12 +26,17 @@ module.exports = class BanCommand extends Command {
 					default: "No reason.",
 					type: "string",
                     match: 'rest'
+				},
+				{
+				    id: "check",
+				    match: 'flag',
+				    flag: '--check'
 				}
 			]
 		});
 	}
 
-	async exec(msg, { user, reason }) {
+	async exec(msg, { user, reason, check }) {
 		let banList;
 
 		if (msg.guild.members.has(user)) {
@@ -55,17 +60,21 @@ module.exports = class BanCommand extends Command {
 		} else {
 			banList = await msg.guild.fetchBans();
 			if (banList.get(user.id))
-				msg.reply(`${user.tag} was already banned`)
+				msg.reply(`${user.tag} was already banned`);
 		}
 
 		try {
 			let ban = await this.client.moderation.ban(this.client, user, reason, msg.member, msg);
 			if (typeof ban == "boolean" && ban) {
-				banList = await msg.guild.fetchBans();
-				if (banList.get(user.id))
-					msg.reply(`${user.tag} was banned`);
-				else
-					msg.reply(`The bot replied that the user was banned but Discord's ban list says otherwise. You should never see this error. Please report this issue to the yamamura developers.`);
+                if (!check)
+                    return msg.reply(`${user.tag} was banned`);
+                else {
+                    banList = await msg.guild.fetchBans();
+                    if (banList.get(user.id))
+                        msg.reply(`${user.tag} was banned`);
+                    else
+                        msg.reply(`The bot replied that the user was banned but Discord's ban list says otherwise. You should never see this error. Please report this issue to the yamamura developers.`);
+	            }
 			} else {
 				if (ban == "no perms")
 					msg.reply(`I do not have the permission to ban ${user.tag}`);
