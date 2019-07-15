@@ -9,8 +9,8 @@ module.exports = class ToBeContinuedCommand extends Command {
 			aliases: ['to-be-continued', "tbc"],
 			category: 'Image Memes',
 			description: 'Draws an image with the "To Be Continued..." arrow.',
-      cooldown: 10000,
-      ratelimit: 1,
+            cooldown: 10000,
+            ratelimit: 1,
 			clientPermissions: ['ATTACH_FILES'],
 			credit: [
 				{
@@ -36,13 +36,13 @@ module.exports = class ToBeContinuedCommand extends Command {
 			const canvas = createCanvas(data.width, data.height);
 			const ctx = canvas.getContext('2d');
 
-      drawImageWithTint(ctx, data, '#704214', 0, 0, data.width, data.height);
+            drawImageWithTint(ctx, data, '#704214', 0, 0, data.width, data.height);
 			const ratio = base.width / base.height;
 			const width = canvas.width / 2;
 			const height = Math.round(width / ratio);
 			ctx.drawImage(base, 0, canvas.height - height, width, height);
 
-      const attachment = canvas.toBuffer();
+            const attachment = canvas.toBuffer();
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
 			return msg.util.send({ files: [{ attachment: attachment, name: 'to-be-continued.png' }] });
 		} catch (err) {
