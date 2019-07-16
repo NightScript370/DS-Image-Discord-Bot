@@ -37,7 +37,7 @@ module.exports = class ConfigCommand extends Command {
       ]
     });
   }
-  
+
   userPermissions(msg) {
     return (this.client.isOwner(msg.author.id) || msg.member.hasPermission("ADMINISTRATOR")) ? null : "ADMINISTRATOR";
   }
@@ -67,7 +67,7 @@ module.exports = class ConfigCommand extends Command {
           .setTitle(__("Server configuration for {0}", msg.guild.name))
           .setDescription(__("You can use `{0}config set <key> null` to set a value to an empty state.", await this.handler.prefix(msg)))
           .setYamamuraCredits(true);
-        
+
         for (let k in data) {
           let v = data[k];
           if (["meta", "$loki", "guildID"].includes(k)) continue;
@@ -80,7 +80,7 @@ module.exports = class ConfigCommand extends Command {
             embed.addField(titles[k] + " [`" + k + "`]", "Error field")
           }
         }
-        
+
         return msg.util.send(embed);
         break;
       case 'get':
@@ -95,7 +95,7 @@ module.exports = class ConfigCommand extends Command {
         if (!key) return msg.channel.send(__("You didn't specify a key!"));
         if (!data[key]) return msg.channel.send(__("The key `{0}` does not exist.", key));
         if (data[key].type == "array") return await this.setArray(msg, data, key, value);
-        
+
         if (!value) return msg.channel.send(__("You didn't specify a value!"));
         if (!key in data) return msg.channel.send(__("There's no `{0}` key in the configuration!", key));
         let t = findType(data[key].type);
@@ -145,10 +145,10 @@ module.exports = class ConfigCommand extends Command {
   async setArray(msg, data, key, value) {
     const __ = (k, ...v) => global.getString(msg.author.lang, k, ...v);
     let t = findType("array");
-    
+
     let action = await this.awaitReply(msg, __("What do you want to do with the values? [`add` a value/`clear` the values]"), 30000);
     action = action.toLowerCase();
-    
+
     if (!action) {
       return msg.util.reply(__("action cancelled"));
     } else if (action == "clear") {
@@ -157,7 +157,7 @@ module.exports = class ConfigCommand extends Command {
       if (resp && resp.toLowerCase() == "y") {
         try {
           data[key].value = [];
-            
+
           return msg.util.reply(__("I have successfully cleared the array"));
         } catch (e) {
           console.error(e);
@@ -172,7 +172,7 @@ module.exports = class ConfigCommand extends Command {
         if (resp) arr.push({ type: data[key].arrayType || "string", value: resp });
         resp = await this.awaitReply(msg, __("Enter the value you want to add, or type `stop` (or wait 30 seconds) to stop"), 30000);
       }
-      
+
       // console.log(arr);
       data[key].value = arr.concat(data[key].value);
 
@@ -182,9 +182,9 @@ module.exports = class ConfigCommand extends Command {
       return msg.util.send(__("The action must be one of [{0}]!", "add, clear"));
     }
   }
-  
+
   async awaitReply(msg, question, limit = 60000) {
-    const filter = m=>m.author.id = msg.author.id;
+    const filter = m=>(m.author.id == msg.author.id);
     await msg.channel.send(question);
     try {
       const collected = await msg.channel.awaitMessages(filter, { max: 1, time: limit, errors: ["time"] });

@@ -20,7 +20,7 @@ global.consoleLines = {
 	stderr: [],
 };
 
-class MyClient extends AkairoClient {
+class YamamuraClient extends AkairoClient {
 	constructor() {
 		super({
 			ownerID: config.owners,
@@ -372,7 +372,7 @@ class MyClient extends AkairoClient {
 	};
 }
 
-const client = new MyClient();
+const client = new YamamuraClient();
 client.login(config.token);
 
 function isEmpty(value) { //Function to check if value is really empty or not
@@ -389,12 +389,18 @@ setTimeout(function(){
 }, 2000);
 
 // This is used to debug the errors.
-// Defaults to 10 lines max
-process.stdout.on('data', function (data) {
-  global.consoleLines.stdout.push(data);
-	if (global.consoleLines.stdout.length > 10) global.consoleLines.stdout.shift();
-});
-process.stderr.on('data', function (data) {
-  global.consoleLines.stderr.push(data);
-	if (global.consoleLines.stderr.length > 10) global.consoleLines.stderr.shift();
-});
+// Defaults to 20 lines max
+const util = require('util');
+var logStdout = process.stdout;
+var logStderr = process.stderr;
+
+console.log = function () {
+  global.consoleLines.stdout.push(util.format.apply(null, arguments));
+  logStdout.write(util.format.apply(null, arguments) + '\n');
+	if (global.consoleLines.stdout.length > 20) global.consoleLines.stdout.shift();
+}
+console.error = function () {
+  global.consoleLines.stderr.push(util.format.apply(null, arguments));
+  logStderr.write(util.format.apply(null, arguments) + '\n');
+	if (global.consoleLines.stderr.length > 20) global.consoleLines.stderr.shift();
+}
