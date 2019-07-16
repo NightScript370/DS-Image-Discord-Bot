@@ -43,9 +43,8 @@ module.exports = class guildMemberAddListener extends Listener {
 				if (member.guild.id == '318882333312679936') {
 					var embed = this.client.util.embed()
 						.setColor("#B6FF00")
-						.setAuthor(`Welcome to Mario Making Mods, ${member.user.username}`, member.user.displayAvatarURL({format: 'png'}))
-						.setDescription(`<@${member.user.id}>, welcome to the home of Super Mario Maker modding and SMM-like fangame development. `
-                          + 'This is a place where you can hang out with a community filled with talented people, and even show off your talents.')
+						.setAuthor(`New User: ${member.user.username}`, member.user.displayAvatarURL({format: 'png'}))
+						.setDescription(`<@${member.user.id}>, welcome to to Mario Making Mods, the home for Super Mario Maker (2) modding. Don't forget to subscribe to our Youtube channel and check out our website.`)
 						.addField("Website", "https://mariomods.net", true)
 						.addField("Twitter", "https://twitter.com/MarioMakingMods", true)
 						.addField("Youtube", "https://www.youtube.com/c/MarioMakingMods", true)

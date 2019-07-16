@@ -145,7 +145,9 @@ module.exports = class NintendoSwitchCommand extends Command {
 
       for (var image of images) {
         currentimage = await loadImage(image);
-        if((currentimage.width == currentimage.height || (base.height/4) > currentimage.height) && !forcestretch) {
+        if (currentimage.width == currentimage.height && !forcestretch) {
+          ctx.drawImage(currentimage, 4, 199, 553, 553);
+        } else if((base.height/4) > currentimage.height && !forcestretch) {
           if (chubby) {
             ctx.drawImage(currentimage, 0, (base.height / 4), base.width, (base.height/2));
           } else {
@@ -158,7 +160,7 @@ module.exports = class NintendoSwitchCommand extends Command {
             ctx.drawImage(currentimage, 15, (base.height / 3), (base.width-35), (base.height/2));
           }
         } else {
-          ctx.drawImage(currentimage, 0, 0, base.width, base.height);
+          ctx.drawImage(currentimage, 4, 24, 553, 889);
         }
       }
 
