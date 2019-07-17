@@ -12,6 +12,52 @@ module.exports = class messageListener extends Listener {
     }
 
 	async exec(message) {
+        if (message.util.parsed.alias && message.channel.sendable()) {
+            const distances = [];
+            const attempt = message.util.parsed.alias;
+
+            let distancebetween;
+            for (const alias of message.util.handler.aliases.keys()) {
+                distancebetween = levenshtein.get(alias, attempt);
+                if (distancebetween > 2) continue;
+
+                distances.push({
+                    dist: distancebetween,
+                    alias,
+                });
+            }
+
+            if (distances.length === 0) return msg.reply(`this command cannot found. Please check the command list found on our website for a list of commands: https://yamamura-bot.tk/commands`);
+            distances.sort((a, b) => a.dist - b.dist);
+
+            let text = `:warning: **__${attempt} is not a command.__** \n However, here are some commands that you might be looking for \n \n`;
+
+            let categories = Array.from(this.client.commandHandler.categories.entries());
+            let catNames = categories.map(arr => arr[0]);
+            let cats = categories.map(arr => arr[1]).sort((c1, c2) => c1.id.localeCompare(c2.id));
+
+            let cmds = cats.map(cat => Array.from(cat.entries()).map(c => c[1])).flat();
+            let currentcmd;
+            let description;
+
+            for (const index in distance) {
+                currentcmd = cmds.filter(cmd => cmd.aliases.includes(distance[index].alias))[0];
+                
+                if (command.description) {
+                    description = command.description;
+                    if (command.description.content)
+                        description = command.description.content;
+
+                    if (description.join)
+                        description = description.join("-");
+                }
+
+                text += `\`${index+1}.\` **${distance[index].alias}** ${description ? `- ${description}` : ''} \n`;
+            }
+
+            return message.channel.send(text).catch((err) => console.log(err));
+	    }
+
         if (!message.guild) return;
         if (this.antispam(message)) return;
 
@@ -44,6 +90,7 @@ module.exports = class messageListener extends Listener {
 
         try {
             const server = message.guild;
+            if (!message.channel.sendable()) return;
             if (!server.levelupmsgs) return console.log("This server does not have level up messages");
 
             let rawLevelUpMessage = this.client.db.serverconfig.get(this.client, message, "levelupmsgs").random()
