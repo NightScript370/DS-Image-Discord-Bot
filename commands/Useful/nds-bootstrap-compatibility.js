@@ -57,14 +57,14 @@ module.exports = class NDSBCompatCommand extends Command {
 
         let { embed, text } = this.getCompat(flashcard ? body['nds-bootstrap'].flashcard : body['nds-bootstrap']['sd-card'], infoEmbed)
 
-        if (msg.sendable()) {
+        if (msg.channel.sendable()) {
             if (text)
-                msg.channel.send(text, (msg.embedable() && embed) ? {embed} : {});
-            else if (!text && msg.embedable() && embed)
+                msg.channel.send(text, (msg.channel.embedable() && embed) ? {embed} : {});
+            else if (!text && msg.channel.embedable() && embed)
                 msg.channel.send({embed: embed});
             else if (!text && !embed)
                 msg.channel.send("An error has occured: `Empty message trying to send for the nds-bootstrap-compatibility command`. Please report this to the Yamamura developers")
-            else if (!text && !msg.embedable() && embed)
+            else if (!text && !msg.channel.embedable() && embed)
                 msg.channel.send('Please tell an administrator to enable the `EMBED_LINKS` permission in order for this command to work')
             else
                 msg.channel.send('An unknown error has occured. Please report this to the Yamamura developers')
