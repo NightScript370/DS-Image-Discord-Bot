@@ -1,5 +1,5 @@
 const Command = require('../../struct/Command');
-const { getCourseP } = require('super-maker-api');
+const bookmarkAPI = require('super-maker-api');
 
 const request = require("request");
 const { promisify } = require("util");
@@ -79,7 +79,7 @@ module.exports = class CourseCommand extends Command {
 
     async handleLevel(msg, ID) {
         try {
-            let levelinfo = await getCourseP(ID)
+            let levelinfo = await bookmarkAPI(ID)
 
             let clears = `**__${levelinfo.clears}/${levelinfo.attempts} (${levelinfo.clear_rate}%)__** \n`;
 

@@ -1,13 +1,13 @@
 const { Listener } = require('discord-akairo');
 const { random } = require("including-range-array");
 const { getKey, findType } = require('../../Configuration');
+const levenshtein = require("fast-levenshtein");
 
 module.exports = class messageListener extends Listener {
     constructor() {
         super('messageInvalid', {
             emitter: 'commandHandler',
-            event: 'messageInvalid',
-            category: 'guild'
+            event: 'messageInvalid'
         });
     }
 
