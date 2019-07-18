@@ -42,6 +42,8 @@ module.exports = class messageListener extends Listener {
 
             for (const index in distances) {
                 var analyzedcmd = cmds.filter(cmd => cmd.aliases.includes(distances[index].alias))[0];
+                if (!analyzedcmd) continue;
+                
                 if (!currentcmd || (currentcmd && currentcmd.id != analyzedcmd.id)) currentcmd = analyzedcmd;
 
                 if (currentcmd.description) {
