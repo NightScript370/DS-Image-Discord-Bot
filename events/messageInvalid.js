@@ -42,7 +42,7 @@ module.exports = class messageListener extends Listener {
 
             for (const index in distances) {
                 currentcmd = cmds.filter(cmd => cmd.aliases.includes(distances[index].alias))[0];
-                
+                if (!currentcmd) continue;
                 if (currentcmd.description) {
                     description = currentcmd.description;
                     if (currentcmd.description.content)
