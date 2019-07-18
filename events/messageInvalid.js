@@ -50,8 +50,7 @@ module.exports = class messageListener extends Listener {
                 var analyzedcmd = distances[index].cmd;
                 if (!analyzedcmd) continue;
 
-                console.log((currentcmd || {id: "null"}).id + " = " + distances[index].cmd.id);
-                if (currentcmd && currentcmd.id == distances[index].cmd.id) continue;
+                if (currentcmd && currentcmd.id == message.util.handler.aliases.get(distances[index].alias)) continue;
                 currentcmd = analyzedcmd;
 
                 if (currentcmd.description) {
