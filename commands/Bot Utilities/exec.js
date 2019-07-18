@@ -33,14 +33,16 @@ module.exports = class ExecCommand extends Command {
     try {
       let result = await exec(script).catch((err) => { throw err; });
 
-      if (result.includes(this.client.token)) result = result.replace(this.client.token, '"If someone tried to make you output the token, you were likely being scammed."')
 			const output = result.stdout ? `${"```sh"}\n${result.stdout}\n${"```"}` : "";
   		const outerr = result.stderr ? `${"```sh"}\n${result.stderr}\n${"```"}` : "";
 
-			if (output2.length > 1990) {
+			if (output.includes(this.client.token)) output = output.replace(this.client.token, '"If someone tried to make you output the token, you were likely being scammed."')
+			if (outerr.includes(this.client.token)) outerr = outerr.replace(this.client.token, '"If someone tried to make you output the token, you were likely being scammed."')
+
+			if (output.length > 1990) {
 				return msg.channel.send(new MessageAttachment(Buffer.from(output), "output.txt"));
 			}
-			if (outerr2.length > 1990) {
+			if (outerr.length > 1990) {
 				return msg.channel.send(new MessageAttachment(Buffer.from(outerr), "outerr.txt"));
 			}
 
