@@ -16,15 +16,26 @@ module.exports = class messageListener extends Listener {
             const distances = [];
             const attempt = message.util.parsed.alias;
 
+            let categories = Array.from(this.client.commandHandler.categories.entries());
+            let catNames = categories.map(arr => arr[0]);
+            let cats = categories.map(arr => arr[1]).sort((c1, c2) => c1.id.localeCompare(c2.id));
+
+            let cmds = cats.map(cat => Array.from(cat.entries()).map(c => c[1])).flat();
+
             let distancebetween;
             for (const alias of message.util.handler.aliases.keys()) {
                 distancebetween = levenshtein.get(alias, attempt);
                 if (distancebetween > 2) continue;
 
-                distances.push({
+                let cmd = message.util.handler.modules.filter(c => c.aliases.includes(alias))[0]
+                let newDist = {
                     dist: distancebetween,
                     alias,
-                });
+                };
+
+                if (cmd) newDist.cmd = cmd;
+
+                distances.push(newDist);
             }
 
             if (distances.length == 0) return message.reply(`this command cannot be found. Please check the command list found on our website for a list of commands: https://yamamura-bot.tk/commands`);
@@ -32,20 +43,15 @@ module.exports = class messageListener extends Listener {
 
             let text = `:warning: **__${attempt} is not a command.__** \n However, here are some commands that you might be looking for \n \n`;
 
-            let categories = Array.from(this.client.commandHandler.categories.entries());
-            let catNames = categories.map(arr => arr[0]);
-            let cats = categories.map(arr => arr[1]).sort((c1, c2) => c1.id.localeCompare(c2.id));
-
-            let cmds = cats.map(cat => Array.from(cat.entries()).map(c => c[1])).flat();
             let currentcmd;
             let description;
 
             for (const index in distances) {
-                var analyzedcmd = cmds.filter(cmd => cmd.aliases.includes(distances[index].alias))[0];
+                var analyzedcmd = distances[index].cmd;
                 if (!analyzedcmd) continue;
 
-                if (!currentcmd || (currentcmd && currentcmd.id != analyzedcmd.id)) currentcmd = analyzedcmd;
-                if (currentcmd && currentcmd.id && analyzedcmd && analyzedcmd.id && currentcmd.id == analyzedcmd.id) continue;
+                if (currentcmd && currentcmd.id == distances[index].cmd.id) continue;
+                currentcmd = analyzedcmd;
 
                 if (currentcmd.description) {
                     description = currentcmd.description;
