@@ -41,7 +41,9 @@ module.exports = class messageListener extends Listener {
             let description;
 
             for (const index in distances) {
-                currentcmd = cmds.filter(cmd => cmd.aliases.includes(distances[index].alias))[0];
+                var analyzedcmd = cmds.filter(cmd => cmd.aliases.includes(distances[index].alias))[0];
+                if (currentcmd.id == analyzedcmd.id) continue;
+                currentcmd = analyzedcmd;
                 if (!currentcmd) continue;
                 if (currentcmd.description) {
                     description = currentcmd.description;
@@ -52,7 +54,7 @@ module.exports = class messageListener extends Listener {
                         description = description.join("-");
                 }
 
-                text += `\`${index+1}.\` **${distances[index].alias}** ${description ? `- ${description}` : ''} \n`;
+                text += `\`${parseInt(index)+1}.\` **${distances[index].alias}** ${description ? `- ${description}` : ''} \n`;
             }
 
             return message.channel.send(text).catch((err) => console.log(err));
