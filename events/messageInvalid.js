@@ -27,7 +27,7 @@ module.exports = class messageListener extends Listener {
                 });
             }
 
-            if (distances.length == 0) return msg.reply(`this command cannot be found. Please check the command list found on our website for a list of commands: https://yamamura-bot.tk/commands`);
+            if (distances.length == 0) return message.reply(`this command cannot be found. Please check the command list found on our website for a list of commands: https://yamamura-bot.tk/commands`);
             distances.sort((a, b) => a.dist - b.dist);
 
             let text = `:warning: **__${attempt} is not a command.__** \n However, here are some commands that you might be looking for \n \n`;
