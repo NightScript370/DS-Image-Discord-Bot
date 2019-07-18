@@ -46,7 +46,7 @@ module.exports = class ExecCommand extends Command {
 				return msg.channel.send(new MessageAttachment(Buffer.from(outerr), "outerr.txt"));
 			}
 
-      msg.channel.send(!!outerr ? outerr : output, {code: 'bash'})
+      msg.channel.send(!!outerr ? outerr : output)
 
     } catch(err) {
       console.error(err)
