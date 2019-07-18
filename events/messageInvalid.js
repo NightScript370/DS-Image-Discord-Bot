@@ -46,6 +46,7 @@ module.exports = class messageListener extends Listener {
 
                 console.log((currentcmd || {id: "null"}).id + " - " + analyzedcmd.id)
                 if (!currentcmd || (currentcmd && currentcmd.id != analyzedcmd.id)) currentcmd = analyzedcmd;
+                if (currentcmd.id == analyzedcmd.id) continue;
 
                 if (currentcmd.description) {
                     description = currentcmd.description;
