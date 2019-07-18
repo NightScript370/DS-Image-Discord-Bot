@@ -12,7 +12,7 @@ module.exports = class messageListener extends Listener {
     }
 
 	async exec(message) {
-        if (message.util.parsed.alias && message.channel.sendable()) {
+        if (message.util.parsed.alias && message.channel.sendable) {
             const distances = [];
             const attempt = message.util.parsed.alias;
 
@@ -90,7 +90,7 @@ module.exports = class messageListener extends Listener {
 
         try {
             const server = message.guild;
-            if (!message.channel.sendable()) return;
+            if (!message.channel.sendable) return;
             if (!server.levelupmsgs) return console.log("This server does not have level up messages");
 
             let rawLevelUpMessage = this.client.db.serverconfig.get(this.client, message, "levelupmsgs").random()
