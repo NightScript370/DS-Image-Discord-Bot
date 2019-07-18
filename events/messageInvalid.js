@@ -27,7 +27,7 @@ module.exports = class messageListener extends Listener {
                 });
             }
 
-            if (distances.length === 0) return msg.reply(`this command cannot found. Please check the command list found on our website for a list of commands: https://yamamura-bot.tk/commands`);
+            if (distances.length == 0) return msg.reply(`this command cannot be found. Please check the command list found on our website for a list of commands: https://yamamura-bot.tk/commands`);
             distances.sort((a, b) => a.dist - b.dist);
 
             let text = `:warning: **__${attempt} is not a command.__** \n However, here are some commands that you might be looking for \n \n`;
@@ -42,8 +42,8 @@ module.exports = class messageListener extends Listener {
 
             for (const index in distances) {
                 var analyzedcmd = cmds.filter(cmd => cmd.aliases.includes(distances[index].alias))[0];
-                currentcmd = analyzedcmd;
-                if (!currentcmd || (currentcmd && currentcmd.id == analyzedcmd.id)) continue;
+                if (!currentcmd || (currentcmd && currentcmd.id != analyzedcmd.id)) currentcmd = analyzedcmd;
+
                 if (currentcmd.description) {
                     description = currentcmd.description;
                     if (currentcmd.description.content)
@@ -52,7 +52,6 @@ module.exports = class messageListener extends Listener {
                     if (description.join)
                         description = description.join("-");
                 }
-                console.log(description);
                 text += `\`${parseInt(index)+1}.\` **${distances[index].alias}** ${description ? `- ${description}` : ''} \n`;
             }
 
