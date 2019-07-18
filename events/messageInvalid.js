@@ -61,7 +61,7 @@ module.exports = class messageListener extends Listener {
         if (!message.guild) return;
         if (this.antispam(message)) return;
 
-		const inhibitor = require("../../point-inhibit");
+		const inhibitor = require("../point-inhibit");
 		if (inhibitor.inhibite(message)) return;
 
         let channelmultiplier = this.client.db.multiply.findOne({guild: message.guild.id, channel: message.channel.id}) || this.client.db.multiply.insert({channel: message.channel.id, guild: message.guild.id, multiply: 1 });
