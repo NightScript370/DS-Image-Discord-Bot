@@ -5,8 +5,8 @@ module.exports = Structures.extend("TextChannel", TextChannel => {
   return class YamamuraTextChannel extends TextChannel {
     constructor(...args) {
       super(...args);
-      this.sendable = !this.guild || (this.guild && this.guild.me.hasPermission('SEND_MESSAGES'));
-      this.embedable = !this.guild || (this.guild && this.guild.me.hasPermission('EMBED_LINKS'));
+      this.sendable = this.permissionsFor(this.client.user.id).has('SEND_MESSAGES');
+      this.embedable = this.permissionsFor(this.client.user.id).has('EMBED_LINKS');
     }
   };
 });
