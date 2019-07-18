@@ -52,7 +52,7 @@ module.exports = class messageListener extends Listener {
                     if (description.join)
                         description = description.join("-");
                 }
-
+                console.log(description);
                 text += `\`${parseInt(index)+1}.\` **${distances[index].alias}** ${description ? `- ${description}` : ''} \n`;
             }
 
