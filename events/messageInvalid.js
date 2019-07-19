@@ -15,6 +15,7 @@ module.exports = class messageListener extends Listener {
         if (message.util.parsed.alias && message.channel.sendable) {
             const distances = [];
             const attempt = message.util.parsed.alias;
+            if (!message.util.handler.modules.filter(c => c.aliases.includes(attempt)).size) return;
 
             let categories = Array.from(this.client.commandHandler.categories.entries());
             let catNames = categories.map(arr => arr[0]);
