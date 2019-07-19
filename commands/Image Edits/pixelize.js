@@ -46,8 +46,8 @@ module.exports = class PixelizeCommand extends Command {
 			const width = result.width * (1 / level);
 			const height = result.height * (1 / level);
 
-			const images = await createCanvas(imagessize.width, imagessize.height);
-			const c_images = images.getContext('2d');
+			const images_layered = await createCanvas(imagessize.width, imagessize.height);
+			const c_images = images_layered.getContext('2d');
 			const small = await createCanvas(width, height);
 			const c_small = small.getContext("2d");
 
@@ -66,7 +66,7 @@ module.exports = class PixelizeCommand extends Command {
 				c_images.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
 			}
 
-			c_small.drawImage(images, 0, 0, width, height);
+			c_small.drawImage(images_layered, 0, 0, width, height);
 			c_res.drawImage(c_small, 0, 0, width, height, 0, 0, result.width, result.height);
 
 			const attachment = result.toBuffer();
@@ -74,7 +74,7 @@ module.exports = class PixelizeCommand extends Command {
 			return msg.channel.send({ files: [{ attachment, name: 'pixelize.png' }] });
 		} catch (err) {
 			console.error(err);
-			msg.channel.send(err.stack);
+			// msg.channel.send(err.stack);
 			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Please report this error to the Yamamura developers!`);
 		}
 	}
