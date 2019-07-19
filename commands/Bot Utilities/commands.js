@@ -22,7 +22,7 @@ module.exports = class CommandsCommand extends Command {
 
     async regex(message) {
         if(!message.guild) return;
-        let serverconfig = this.db.serverconfig.findOne({ guildID: message.guild.id }) || await this.setDefaultSettings(msg);
+        let serverconfig = this.client.db.serverconfig.findOne({ guildID: message.guild.id }) || await this.client.setDefaultSettings(msg);
 
         if (serverconfig && serverconfig.prefix && serverconfig.prefix.value)
             return serverconfig.prefix.value;
