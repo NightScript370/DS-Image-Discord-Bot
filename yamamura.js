@@ -124,7 +124,6 @@ class YamamuraClient extends AkairoClient {
             }
 
             if (target) {
-                console.log(msg);
                 return target.cleanContent;
             }
 
@@ -322,8 +321,8 @@ class YamamuraClient extends AkairoClient {
             if (!data.connection) {
                 if (!msg.member || !msg.member.voice) return client.audio.finish(msg, client, data.dispatcher);
 
-                if (!message.guild.voice) data.connection = await message.member.voice.channel.join();
-                else data.connection = message.guild.voice.connection;
+                if (!message.guild.voice) data.connection = await msg.member.voice.channel.join();
+                else data.connection = msg.guild.voice.connection;
 		    }
 
             data.dispatcher = data.connection.play(await Youtube(data.queue[0].url), { type: 'opus', volume: false, passes: 3 })
