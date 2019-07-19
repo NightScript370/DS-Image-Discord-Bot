@@ -42,7 +42,7 @@ module.exports = class PixelizeCommand extends Command {
 			const canvas = await createCanvas(imagessize.width, imagessize.height);
 			const ctx = canvas.getContext('2d');
 			const canvas2 = await createCanvas(imagessize.width, imagessize.height);
-			const ctx2 = canvas.getContext('2d');
+			const ctx2 = canvas2.getContext('2d');
 
 			// Don't smooth the images
 			ctx.imageSmoothingEnabled = false;
