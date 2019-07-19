@@ -20,14 +20,7 @@ module.exports = class CommandsCommand extends Command {
 		});
 	}
 
-    async regex(message) {
-        return /^asdfg$/gmi;
-        /*if(!message.guild) return;
-        let serverconfig = this.client.db.serverconfig.findOne({ guildID: message.guild.id }) || await this.client.setDefaultSettings(msg);
 
-        if (serverconfig && serverconfig.prefix && serverconfig.prefix.value)
-            return serverconfig.prefix.value;*/
-    }
 
 	async exec(msg, { commandName }) {
         const __ = (k, ...v) => global.getString(msg.author.lang, k, ...v)
