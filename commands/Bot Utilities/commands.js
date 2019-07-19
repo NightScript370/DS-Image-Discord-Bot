@@ -20,7 +20,7 @@ module.exports = class CommandsCommand extends Command {
 		});
 	}
 
-    regex(message) {
+    async regex(message) {
         if(!message.guild) return;
         let serverconfig = this.db.serverconfig.findOne({ guildID: message.guild.id }) || await this.setDefaultSettings(msg);
 
