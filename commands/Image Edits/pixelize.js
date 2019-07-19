@@ -37,13 +37,15 @@ module.exports = class PixelizeCommand extends Command {
 		let currentimage, widthpad, heightpad;
 
 		try {
-			const width = result.width * (1 / level);
-			const height = result.height * (1 / level);
 
 			// Create canvas and canvas2 (the latter is a temporary one)
 			const imagessize = await this.largestSize(images);
 			const result = await createCanvas(imagessize.width, imagessize.height);
 			const c_res = result.getContext('2d');
+
+			const width = result.width * (1 / level);
+			const height = result.height * (1 / level);
+
 			const images = await createCanvas(imagessize.width, imagessize.height);
 			const c_images = images.getContext('2d');
 			const small = await createCanvas(width, height);
