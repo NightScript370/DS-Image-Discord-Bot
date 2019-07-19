@@ -37,19 +37,21 @@ module.exports = class PixelizeCommand extends Command {
 		let currentimage, widthpad, heightpad;
 
 		try {
+			const width = result.width * (1 / level);
+			const height = result.height * (1 / level);
+
 			// Create canvas and canvas2 (the latter is a temporary one)
 			const imagessize = await this.largestSize(images);
-			const canvas = await createCanvas(imagessize.width, imagessize.height);
-			const ctx = canvas.getContext('2d');
-			const canvas2 = await createCanvas(imagessize.width, imagessize.height);
-			const ctx2 = canvas2.getContext('2d');
+			const result = await createCanvas(imagessize.width, imagessize.height);
+			const c_res = result.getContext('2d');
+			const images = await createCanvas(imagessize.width, imagessize.height);
+			const c_images = images.getContext('2d');
+			const small = await createCanvas(width, height);
+			const c_small = small.getContext("2d");
 
 			// Don't smooth the images
-			ctx.imageSmoothingEnabled = false;
-			ctx2.imageSmoothingEnabled = false;
-
-			const width = canvas.width * (1 / level);
-			const height = canvas.height * (1 / level);
+			c_res.imageSmoothingEnabled = false;
+			c_images.imageSmoothingEnabled = false;
 
 			for (var image of images) {
 				currentimage = await loadImage(image);
@@ -59,12 +61,13 @@ module.exports = class PixelizeCommand extends Command {
 				widthpad = (width - ciw) / 2;
 				heightpad = (height - cih) / 2;
 
-				ctx2.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
+				c_images.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
 			}
 
-			ctx.drawImage(canvas2, 0, 0, width, height, 0, 0, canvas.width, canvas.height);
+			c_small.drawImage(images, 0, 0, width, height);
+			c_res.drawImage(c_small, 0, 0, width, height, 0, 0, result.width, result.height);
 
-			const attachment = canvas.toBuffer();
+			const attachment = result.toBuffer();
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
 			return msg.channel.send({ files: [{ attachment, name: 'pixelize.png' }] });
 		} catch (err) {
