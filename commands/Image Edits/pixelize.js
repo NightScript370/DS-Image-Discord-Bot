@@ -59,9 +59,9 @@ module.exports = class PixelizeCommand extends Command {
 				widthpad = (width - ciw) / 2;
 				heightpad = (height - cih) / 2;
 
-				ctx2.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
+				ctx2.drawImage(currentimage, widthpad, heightpad, 0, 0, currentimage.width, currentimage.height);
 			}
-			
+
 			ctx.drawImage(canvas2, 0, 0, width, height, 0, 0, canvas.width, canvas.height);
 
 			const attachment = canvas.toBuffer();
