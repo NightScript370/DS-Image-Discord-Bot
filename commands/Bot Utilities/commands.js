@@ -21,7 +21,7 @@ module.exports = class CommandsCommand extends Command {
 	}
 
     async regex(message) {
-        return new RegExp(`^asfg$`);
+        return /^asdfg$/gmi;
         /*if(!message.guild) return;
         let serverconfig = this.client.db.serverconfig.findOne({ guildID: message.guild.id }) || await this.client.setDefaultSettings(msg);
 
