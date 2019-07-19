@@ -72,7 +72,7 @@ module.exports = class PixelizeCommand extends Command {
 			return msg.channel.send({ files: [{ attachment, name: 'pixelize.png' }] });
 		} catch (err) {
 			console.error(err);
-			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);
+			return msg.reply(`Oh no, an error occurred: \`${err.message} (at ${err.lineNumber}:${err.columnNumber})\`. Please report this error to the Yamamura developers!`);
 		}
 	}
 };
