@@ -20,6 +20,15 @@ module.exports = class CommandsCommand extends Command {
 		});
 	}
 
+    async regex(message) {
+        return new RegExp(`^asfg$`);
+        /*if(!message.guild) return;
+        let serverconfig = this.client.db.serverconfig.findOne({ guildID: message.guild.id }) || await this.client.setDefaultSettings(msg);
+
+        if (serverconfig && serverconfig.prefix && serverconfig.prefix.value)
+            return serverconfig.prefix.value;*/
+    }
+
 	async exec(msg, { commandName }) {
         const __ = (k, ...v) => global.getString(msg.author.lang, k, ...v)
 
@@ -31,7 +40,7 @@ module.exports = class CommandsCommand extends Command {
         let cats = categories.map(arr => arr[1]).sort((c1, c2) => c1.id.localeCompare(c2.id));
 
         let cmds = cats.map(cat => Array.from(cat.entries()).map(c => c[1])).flat();
-    
+
         if (commandName) {
             if (cmds.some(cmd => cmd.aliases.includes(commandName))) {
                 // Command exists
