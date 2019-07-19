@@ -29,11 +29,16 @@ module.exports = class PixelizeCommand extends Command {
 					type: 'image',
 					match: 'rest'
 				},
+				{
+						id: 'smoothen',
+						match: 'flag',
+						flag: '--smooth'
+				}
 			]
 		});
 	}
 
-	async exec(msg, { level, images }) {
+	async exec(msg, { level, images, smoothen }) {
 		let currentimage, widthpad, heightpad;
 
 		try {
@@ -52,8 +57,9 @@ module.exports = class PixelizeCommand extends Command {
 			const c_small = small.getContext("2d");
 
 			// Don't smooth the images
-			c_res.imageSmoothingEnabled = false;
-			c_images.imageSmoothingEnabled = false;
+			c_res.imageSmoothingEnabled = smoothen;
+			c_images.imageSmoothingEnabled = smoothen;
+			c_small.imageSmoothingEnabled = smoothen;
 
 			for (var image of images) {
 				currentimage = await loadImage(image);
