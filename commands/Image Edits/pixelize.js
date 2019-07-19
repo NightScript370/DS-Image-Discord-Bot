@@ -71,6 +71,7 @@ module.exports = class PixelizeCommand extends Command {
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
 			return msg.channel.send({ files: [{ attachment, name: 'pixelize.png' }] });
 		} catch (err) {
+			console.error(err);
 			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);
 		}
 	}
