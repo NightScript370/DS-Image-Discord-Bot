@@ -57,9 +57,9 @@ module.exports = class PixelizeCommand extends Command {
 			const c_small = small.getContext("2d");
 
 			// Don't smooth the images
-			c_res.imageSmoothingEnabled = smoothen;
-			c_images.imageSmoothingEnabled = smoothen;
-			c_small.imageSmoothingEnabled = smoothen;
+			c_res.imageSmoothingEnabled = !!smoothen;
+			c_images.imageSmoothingEnabled = !!smoothen;
+			c_small.imageSmoothingEnabled = !!smoothen;
 
 			for (var image of images) {
 				currentimage = await loadImage(image);
