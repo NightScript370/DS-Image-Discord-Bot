@@ -8,7 +8,7 @@ module.exports = class CommandsCommand extends Command {
             clientPermissions: ['EMBED_LINKS'],
 			description: {
                 content: 'Sends information on bot commands.'
-            },
+      },
 			args: [
 				{
 					id: 'commandName',
@@ -19,8 +19,6 @@ module.exports = class CommandsCommand extends Command {
 			]
 		});
 	}
-
-
 
 	async exec(msg, { commandName }) {
         const __ = (k, ...v) => global.getString(msg.author.lang, k, ...v)
