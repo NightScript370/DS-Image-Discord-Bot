@@ -1,4 +1,3 @@
-//const { inspect } = require('util')
 const { Command } = require('discord-akairo');
 
 module.exports = class CommandsCommand extends Command {
@@ -6,210 +5,174 @@ module.exports = class CommandsCommand extends Command {
 		super('commands', {
 			aliases: ['commands', "cmds"],
 			category: 'Bot Utilities',
-      clientPermissions: ['EMBED_LINKS'],
+            clientPermissions: ['EMBED_LINKS'],
 			description: {
-        content: 'Sends information on bot commands.'
-      },
+                content: 'Sends information on bot commands.'
+            },
 			args: [
 				{
 					id: 'commandName',
 					type: 'string',
-          default: null,
-          match: "content"
+                    default: null,
+                    match: "content"
 				}
 			]
 		});
 	}
 
+    regex(message) {
+        if(!message.guild) return;
+        let serverconfig = this.db.serverconfig.findOne({ guildID: message.guild.id }) || await this.setDefaultSettings(msg);
+
+        if (serverconfig && serverconfig.prefix && serverconfig.prefix.value)
+            return serverconfig.prefix.value;
+    }
+
+
 	async exec(msg, { commandName }) {
-    const __ = (k, ...v) => global.getString(msg.author.lang, k, ...v)
+        const __ = (k, ...v) => global.getString(msg.author.lang, k, ...v)
 
-    let helpCmds;
-    let CmdDesc;
+        let helpCmds;
+        let CmdDesc;
 
-    let categories = Array.from(this.client.commandHandler.categories.entries());
-    let catNames = categories.map(arr => arr[0]);
-    let cats = categories.map(arr => arr[1]).sort((c1, c2) => c1.id.localeCompare(c2.id));
+        let categories = Array.from(this.client.commandHandler.categories.entries());
+        let catNames = categories.map(arr => arr[0]);
+        let cats = categories.map(arr => arr[1]).sort((c1, c2) => c1.id.localeCompare(c2.id));
 
-    let cmds = cats.map(cat => Array.from(cat.entries()).map(c => c[1])).flat();
+        let cmds = cats.map(cat => Array.from(cat.entries()).map(c => c[1])).flat();
     
-    if (commandName) {
-      if (cmds.some(cmd => cmd.aliases.includes(commandName))) {
-        // Command exists
-        let command = cmds.filter(cmd => cmd.aliases.includes(commandName))[0];
+        if (commandName) {
+            if (cmds.some(cmd => cmd.aliases.includes(commandName))) {
+                // Command exists
+                let command = cmds.filter(cmd => cmd.aliases.includes(commandName))[0];
 
-        let commandEmbed = this.client.util.embed()
-          .setTitle(__('Help for command "{0}"', command.id))
-          .setImage(`${this.client.URL}/examples/${command.id}.png`);
+                let commandEmbed = this.client.util.embed()
+                    .setTitle(__('Help for command "{0}"', command.id))
+                    .setImage(`${this.client.URL}/examples/${command.id}.png`);
 
-        if (command.category)
-          commandEmbed.addInline(__("Category"), __(command.category.id))
+                if (command.category)
+                    commandEmbed.addInline(__("Category"), __(command.category.id))
 
-        if (command.description) {
-          let description = command.description
-          if (command.description.content)
-            description = command.description.content;
+                if (command.description) {
+                    let description = command.description
+                    if (command.description.content)
+                        description = command.description.content;
 
-          if (typeof description == 'string')
-            commandEmbed.setDescription(description)
+                    if (typeof description == 'string')
+                        commandEmbed.setDescription(description)
 
-          if (description.join)
-            commandEmbed.setDescription(description.map(d => __(d)).join("\n"))
-        }
+                    if (description.join)
+                        commandEmbed.setDescription(description.map(d => __(d)).join("\n"))
+                }
 
-        let commandPermissions = [];
-        if (command.userPermissions)
-          try {command.userPermissions.forEach(perm => commandPermissions.push('`' + perm + '`'))} catch (e) {}
+                let commandPermissions = [];
+                if (command.userPermissions)
+                    try {command.userPermissions.forEach(perm => commandPermissions.push('`' + perm + '`'))} catch (e) {}
 
-        switch (command.channelRestriction) {
-          case 'guild':
-            commandPermissions.push('Server Only');
-            break;
-          case 'dm':
-            commandPermissions.push('Direct Messages Only');
-            break;
-        }
+                switch (command.channelRestriction) {
+                    case 'guild':
+                        commandPermissions.push('Server Only');
+                        break;
+                    case 'dm':
+                        commandPermissions.push('Direct Messages Only');
+                        break;
+                }
 
-        if (command.ownerOnly)
-          commandPermissions.push('Owner only');
+                if (command.ownerOnly)
+                    commandPermissions.push('Owner only');
 
-        commandPermissions.join(' | ')
+                commandPermissions.join(' | ')
 
-        if (!isEmpty(commandPermissions))
-          commandEmbed.addInline('Restrictions', commandPermissions);
+                if (!isEmpty(commandPermissions))
+                    commandEmbed.addInline('Restrictions', commandPermissions);
 
+                let usage;
+                if (command.description && command.description.usage)  usage = command.description.usage;
+                if (command.usage)                                     usage = command.usage;
 
-        let usage;
-        if (command.description && command.description.usage)  usage = command.description.usage;
-        if (command.usage)                                     usage = command.usage;
+                if (usage)  commandEmbed.addField(__("Usage"), `\`${usage}\``)
 
-        if (usage)  commandEmbed.addField(__("Usage"), `\`${usage}\``)
+                if (command.aliases.filter(al => al !== command.id).length) {
+                    commandEmbed.addField(__("Aliases"), command.aliases.filter(al => al !== command.id).map(alias => `\`${alias}\``).join(", "))
+                }
 
+                let exampleArray;
+                if (command.description && command.description.examples) exampleArray = command.description.examples;
+                if (command.examples)                                    exampleArray = command.examples;
 
-        if (command.aliases.filter(al => al !== command.id).length) {
-          commandEmbed.addField(__("Aliases"), command.aliases.filter(al => al !== command.id).map(alias => `\`${alias}\``).join(", "))
-        }
+                if (exampleArray) {
+                    if (typeof exampleArray == 'string')
+                        commandEmbed.addField(__("Examples"), `\`${exampleArray}\``)
+                    else
+                        commandEmbed.addField(__("Examples"), exampleArray.map(example => "`" + example + "`").join("\n"));
+                }
 
-        let exampleArray;
-        if (command.description && command.description.examples) exampleArray = command.description.examples;
-        if (command.examples)                                    exampleArray = command.examples;
-
-        if (exampleArray) {
-          if (typeof exampleArray == 'string')
-            commandEmbed.addField(__("Examples"), `\`${exampleArray}\``)
-          else
-            commandEmbed.addField(__("Examples"), exampleArray.map(example => "`" + example + "`").join("\n"));
-        }
-
-        /* if (typeof command.description == 'object') {
-          const description = Object.assign({
-            content: '',
-            usage: '',
-            examples: [],
-            fields: []
-          }, command.description);
-
-          let desc = description.content;
-
-          e.setTitle(__('Help for command "{0}"', command.id))
-            .setDescription(desc.join ? desc.map(d => __(d)).join("\n") : __(desc))
-            .addInline(__("Category"), __(command.category.id));
-
-          if (command.ownerOnly)           e.addInline(__("Permissions"), __("Owner only"));
-          if (description.usage)           e.addField(__("Usage"), `\`${description.usage}\``);
-          if (aliases.length)              e.addField(__("Aliases"), aliases.map(a => `\`${a}\``).join(", "));
-          if (description.examples) {
-            if (typeof command.examples == 'array') {
-              e.addField(__("Examples"), description.examples.map(e => "`" + e + "`").join("\n"));
+                return msg.channel.send(commandEmbed);
             } else {
-              if (description.examples) e.addField(__("Examples"), `\`${description.examples}\``)
-            }
-          }
+                let e = this.client.util.embed();
 
-          for (const field of description.fields) e.addField(field.name, field.value, !!field.inline);
+                cats.forEach(category => {
+                    if (__(category.id).toUpperCase() !== commandName.toUpperCase()) return;
+
+                    let catCmds = cmds.filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));
+                    let s = [];
+                    let makeFields = catCmds.length < 20;
+                    catCmds.forEach(cmd => {
+                        if (!makeFields) {
+                            helpCmds = `**${cmd.id}**`;
+                            if (!isEmpty(cmd.description)) {
+                                helpCmds += ': ';
+
+                                if (typeof cmd.description == 'string') helpCmds += __(cmd.description)
+                                else                                    helpCmds += __(cmd.description.content)
+                            }
+
+                            s.push(helpCmds)
+                        } else {
+                            if (!isEmpty(cmd.description)) {
+                                if (typeof cmd.description == 'string') CmdDesc = __(cmd.description)
+                                else                                    CmdDesc = __(cmd.description.content)
+                            }
+                            e.addField(cmd.id, CmdDesc || __('No description available'))
+                        }
+                    });
+
+                    if (!makeFields)
+                        s.join('\n');
+
+                    if (catCmds.length > 0) {
+                        e
+                            .setTitle(__("Category listing: {0}", __(category)))
+                            .setFooter(__("Total Commands: {0}", catCmds.length));
+
+                        if (!makeFields) {
+                            e.setDescription(s)
+                        }
+
+                        return msg.channel.send(e);
+                    }
+                });
+            }
         } else {
-          e
-            .setDescription(__(command.description))
-            .addInline("Category", command.category.id);
+            // General command listing
+            // {id: <name>, aliases: [<name>, <name>...], description: <desc>, category.id: <category>}
+            let prefix = await this.handler.prefix(msg);
 
-          if (command.ownerOnly) e.addInline(__("Permissions"), __("Owner only"), true);
-          if (aliases.length)    e.addField(__("Aliases"), aliases.map(a => `\`${a}\``).join(", "));
-          if (command.examples) {
-            if (typeof command.examples == 'array') {
-              e.addField(__("Examples"), command.examples.map(e => "`" + e + "`").join("\n"));
-            } else if (typeof command.examples == 'string') {
-              e.addField(__("Examples"), `\`${command.examples}\``)
-            }
-          }
-        } */
+            let e = this.client.util.embed()
+                .setAuthor(__('Command Listing'), this.client.user.displayAvatarURL({format: 'png'}), `${this.client.URL}/commands`)
+                .setDescription(__('To view a list of all the commands, go to the [Yamamura Website Command Page]({0}).', `${this.client.URL}/commands`) + " \n"
+                              + __("To view a list of a command of a specific category, type `{0}commands (category name)`.", prefix));
 
-        return msg.channel.send(commandEmbed);
-      } else {
-        let e = this.client.util.embed();
+            cats.forEach(category => {
+                let catCmds = cmds.filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));
+                if (catCmds.length > 0) e.addInline(`${__(category)} [${catCmds.length}]`, category.description ? __(category.description) : __('No description available.'));
+            });
 
-        cats.forEach(category => {
-          if (__(category.id).toUpperCase() !== commandName.toUpperCase()) return;
-
-          let catCmds = cmds.filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));
-          let s = [];
-          let makeFields = catCmds.length < 20;
-          catCmds.forEach(cmd => {
-            if (!makeFields) {
-              helpCmds = `**${cmd.id}**`;
-              if (!isEmpty(cmd.description)) {
-                helpCmds += ': ';
-
-                if (typeof cmd.description == 'string') helpCmds += __(cmd.description)
-                else                                    helpCmds += __(cmd.description.content)
-              }
-
-              s.push(helpCmds)
-            } else {
-              if (!isEmpty(cmd.description)) {
-                if (typeof cmd.description == 'string') CmdDesc = __(cmd.description)
-                else                                    CmdDesc = __(cmd.description.content)
-              }
-              e.addField(cmd.id, CmdDesc || __('No description available'))
-            }
-          });
-
-          if (!makeFields)
-            s.join('\n');
-
-          if (catCmds.length > 0) {
-            e
-              .setTitle(__("Category listing: {0}", __(category)))
-              .setFooter(__("Total Commands: {0}", catCmds.length));
-
-            if (!makeFields) {
-              e.setDescription(s)
-            }
+            e.setFooter(__("Total Commands: {0}", cmds.length));
 
             return msg.channel.send(e);
-          }
-        });
-      }
-    } else {
-      // General command listing
-      // {id: <name>, aliases: [<name>, <name>...], description: <desc>, category.id: <category>}
-      let prefix = await this.handler.prefix(msg);
-
-      let e = this.client.util.embed()
-        .setAuthor(__('Command Listing'), this.client.user.displayAvatarURL({format: 'png'}), `${this.client.URL}/commands`)
-        .setDescription(__('To view a list of all the commands, go to the [Yamamura Website Command Page]({0}).', `${this.client.URL}/commands`) + " \n"
-                      + __("To view a list of a command of a specific category, type `{0}commands (category name)`.", prefix));
-
-      
-      cats.forEach(category => {
-        let catCmds = cmds.filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));
-        if (catCmds.length > 0) e.addInline(`${__(category)} [${catCmds.length}]`, category.description ? __(category.description) : __('No description available.'));
-      });
-
-      e.setFooter(__("Total Commands: {0}", cmds.length));
-
-      return msg.channel.send(e);
+        }
     }
-  }
 };
 
 // Polyfill
