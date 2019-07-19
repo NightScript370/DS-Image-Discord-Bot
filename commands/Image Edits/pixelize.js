@@ -67,7 +67,7 @@ module.exports = class PixelizeCommand extends Command {
 			}
 
 			c_small.drawImage(images_layered, 0, 0, width, height);
-			c_res.drawImage(c_small, 0, 0, width, height, 0, 0, result.width, result.height);
+			c_res.drawImage(small, 0, 0, width, height, 0, 0, result.width, result.height);
 
 			const attachment = result.toBuffer();
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
