@@ -39,7 +39,7 @@ module.exports = class PNGifyCommand extends Command {
 
       const attachment = canvas.toBuffer('image/png');
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-			return msg.channel.send({ files: [{ attachment, name: 'image.jpg' }] });
+			return msg.channel.send({ files: [{ attachment, name: 'image.png' }] });
 		} catch (err) {
       console.log(err)
 			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);
