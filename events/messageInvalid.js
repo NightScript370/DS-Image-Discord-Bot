@@ -42,10 +42,12 @@ module.exports = class messageListener extends Listener {
             if (distances.length == 0) return message.reply(`this command cannot be found. Please check the command list found on our website for a list of commands: https://yamamura-bot.tk/commands`);
             distances.sort((a, b) => a.dist - b.dist);
 
-            let text = `:warning: **__${attempt} is not a command.__** \n However, here are some commands that you might be looking for \n \n`;
+            let text = `:warning: **__${attempt} is not a command.__** \n `;
 
             let currentcmd;
             let description;
+
+            let suggestedCmds = [];
 
             for (const index in distances) {
                 var analyzedcmd = distances[index].cmd;
@@ -62,10 +64,10 @@ module.exports = class messageListener extends Listener {
                     if (description.join)
                         description = description.join("-");
                 }
-                text += `\`${parseInt(index)+1}.\` **${distances[index].alias}** ${description ? `- ${description}` : ''} \n`;
+                suggestedCmds.push(`\`${parseInt(index)+1}.\` **${distances[index].alias}** ${description ? `- ${description}` : ''}`);
             }
 
-            return message.channel.send(text).catch((err) => console.log(err));
+            return message.channel.send(text + suggestedCmds.length ? `However, here are some commands that you might be looking for \n \n${suggestedCmds.join("\n")}` : "").catch((err) => console.log(err));
 	    }
 
         if (!message.guild) return;
