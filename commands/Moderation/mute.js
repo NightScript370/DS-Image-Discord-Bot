@@ -46,7 +46,7 @@ module.exports = class MuteCommand extends Command {
 		let member = msg.guild.member(user);
 		let author = msg.member;
 
-		if (author.roles.highest <= member.roles.highest)
+		if (author.roles.highest.position <= member.roles.highest.position)
 			return msg.reply("You can't mute someone who has a higher role position than you.");
 
 		if (member.hasPermission("MANAGE_MESSAGES") && !author.hasPermission("ADMINISTRATOR"))
