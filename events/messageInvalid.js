@@ -67,7 +67,7 @@ module.exports = class messageListener extends Listener {
                 suggestedCmds.push(`\`${parseInt(index)+1}.\` **${distances[index].alias}** ${description ? `- ${description}` : ''}`);
             }
 
-            return message.channel.send(text + suggestedCmds.length ? `However, here are some commands that you might be looking for \n \n${suggestedCmds.join("\n")}` : "").catch((err) => console.log(err));
+            return message.channel.send(text + (suggestedCmds.length ? `However, here are some commands that you might be looking for \n \n${suggestedCmds.join("\n")}` : "")).catch((err) => console.log(err));
 	    }
 
         if (!message.guild) return;
