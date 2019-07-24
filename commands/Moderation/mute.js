@@ -64,6 +64,8 @@ module.exports = class MuteCommand extends Command {
 				member.roles.remove(mutedRole, reason)
 			else
 				member.roles.add(mutedRole, reason)
+
+			return msg.reply(getString(msg.author.lang, hasRole ? "{0} was successfully unmuted" : "{0} was successfully muted", member.displayName));
 		} catch (e) {
 			console.error(e);
 			msg.reply(`an error occured while trying to ban the user. Report this error to the Yamamura developers: ${e.message}`);
