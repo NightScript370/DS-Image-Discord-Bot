@@ -1,6 +1,6 @@
 const { Command } = require('discord-akairo');
 
-module.exports = class BanCommand extends Command {
+module.exports = class MuteCommand extends Command {
 	constructor() {
 		super('mute', {
 			aliases: ["mute", "unmute"],
@@ -36,7 +36,7 @@ module.exports = class BanCommand extends Command {
 	}
 
 	async exec(msg, { user, reason }) {
-		const mutedRole = this.client.db.serverconfig.get(client, msg, "mutedrole");
+		const mutedRole = this.client.db.serverconfig.get(this.client, msg, "mutedrole");
 		if (!mutedrole)
 			return msg.reply(getString(message.author.lang, "You need to have the configuration key `mutedrole` set in order for this command to work."));
 
