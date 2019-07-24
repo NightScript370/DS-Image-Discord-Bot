@@ -46,14 +46,14 @@ module.exports = class MuteCommand extends Command {
 		let member = msg.guild.member(user);
 		let author = msg.member;
 
-		if (author.roles.highest.position <= member.roles.highest.position)
-			return msg.reply("You can't mute someone who has a higher role position than you.");
-
 		if (member.hasPermission("ADMINISTRATOR"))
 			return msg.reply("Administrators can't be muted. It wouldn't affect them.");
 
 		if (member.hasPermission("MANAGE_MESSAGES") && !author.hasPermission("ADMINISTRATOR"))
 			return msg.reply("You need to have the `Administrator` permission in order to mute moderators");
+
+		if (author.roles.highest.position <= member.roles.highest.position)
+			return msg.reply("You can't mute someone who has a higher role position than you.");
 		
 		if (member.id == author.id)
 			return msg.reply("You can't mute yourself!");
