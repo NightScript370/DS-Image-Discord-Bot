@@ -157,6 +157,63 @@ let types = [
     }
   },
 
+  class RoleType {
+    constructor() {
+      this.id = "role"
+    }
+
+    static get nullValue() {
+      return null;
+    }
+
+    static get id() {
+      return "role";
+    }
+
+    static serialize(client, msg, val) {
+      let mention = /<@&[0-9]*>/mi.test(val);
+      let idMention = val.replace(/[<@&>]/g, "");
+
+      if (mention) return idMention;
+
+      let id = /^[0-9]*$/mi.test(val);
+      if (id) return val;
+
+      let name = msg.guild.roles.find(c => {
+        // console.log(require("util").inspect(c, {depth: 0}), c.name, c.type);
+        return c.name ? c.name.toLowerCase() : "" == val.toLowerCase();
+      });
+      if (name) return name.id;
+
+      return RoleType.nullValue;
+    }
+    
+    static deserialize(client, msg, val) {
+      return val ? msg.guild.roles.get(val) : null;
+    }
+
+    static render(client, msg, val) {
+      let chan = this.deserialize(client, msg, val);
+      return chan ? `<@&${chan.id}>` : null;
+    }
+
+    static validate(client, msg, val) {
+      // console.log(client);
+      try {
+        let isMention = /<@&[0-9]*>/mi.test(val);
+        let isID = /^[0-9]*$/mi.test(val);
+        let isName = !!msg.guild.roles.find(c => {
+          // console.log(require("util").inspect(c, {depth: 0}), c.name, c.type);
+          return c.name ? c.name.toLowerCase() : "" == val.toLowerCase();
+        });
+        return isMention || isName || isID;
+      } catch (e) {
+        console.error(e);
+        return false;
+      }
+    }
+  },
+
   // Array is a bit of a special one; in the (de)serialization methods,
   // the val variable refers to an array of objects, not of values themselves,
   // where the objects are something like {type: "string", value: "something just like this"}

@@ -25,7 +25,7 @@ module.exports = class LanguageCommand extends Command {
                 s.push(`**${i}.** ${lang.flag} \`${lang.code}\` ${lang.name} *${global.getString(message.author.lang, "by {0}", lang.translators.join(", "))}*`);
               }
 
-              return `Which language would you like to set? \n Here is a list of the available languages: \n \n ${s.join("\n")}`;
+              return global.getString(message.author.lang, `Which language would you like to set? \n Here is a list of the available languages: \n \n {0}`, s.join("\n"));
             },
             retry: message => {
               const langCodes = langs.map(l => l.code)
@@ -36,7 +36,7 @@ module.exports = class LanguageCommand extends Command {
                 s.push(`**${i}.** ${lang.flag} \`${lang.code}\` ${lang.name} *${global.getString(message.author.lang, "by {0}", lang.translators.join(", "))}*`);
               }
 
-              return `That is an invalid language. Here are the available languages: \n \n ${s.join("\n")}`;
+              return global.getString(message.author.lang, `That is an invalid language. Here are the available languages: \n \n {0}`, s.join("\n"));
             }
           },
           default: null,

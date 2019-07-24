@@ -52,7 +52,8 @@ class YamamuraClient extends AkairoClient {
                 makerboard: {value: "", type: "string"},
                 starboardchannel: {value: starchanid, type: "channel"},
                 levelup: { type: 'bool', value: 'true' },
-                levelupmsgs: { type: 'array', arrayType: 'string', value: [{value: "{{coin}} Congratulations {{user}}! You've leveled up to level {{level}}! {{coin}}", type: "string"}] }
+                levelupmsgs: { type: 'array', arrayType: 'string', value: [{value: "{{coin}} Congratulations {{user}}! You've leveled up to level {{level}}! {{coin}}", type: "string"}] },
+                mutedrole: { type: 'role', value: null },
             };
 
             return this.db.serverconfig.insert(defaultsettings);

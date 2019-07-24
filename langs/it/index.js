@@ -94,4 +94,5 @@ module.exports = {
   "Starboard channel": "Canale Starboard",
   "Level UP messages": "Messaggi di level UP",
   "Level UP": "Level UP",
+  "You need to have the configuration key `mutedrole` set in order for this command to work.": "Perché questo comando possa funzionare, la chiave di configurazione `mutedrole` deve essere impostata."
 }
