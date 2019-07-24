@@ -40,10 +40,10 @@ module.exports = class MuteCommand extends Command {
 		if (!mutedRole)
 			return msg.reply(getString(msg.author.lang, "You need to have the configuration key `mutedrole` set in order for this command to work."));
 
-		if (!msg.guild.members.has(user)) 
+		if (!msg.guild.member(user)) 
 			return msg.reply(getString(msg.author.lang, "The member you wanted to mute needs to be in this server in order for this command to work."));
 
-		let member = msg.guild.members.get(user.id);
+		let member = msg.guild.member(user);
 		let author = msg.member;
 
 		if (author.roles.highest <= member.roles.highest)
