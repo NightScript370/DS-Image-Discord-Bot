@@ -53,5 +53,20 @@ module.exports = class ReadyListener extends Listener {
     } catch(O_o) {
       console.error(O_o)
     }
+
+    try {
+      console.log('Updating discordbotlist.com stats')
+
+      await request
+        .post(`https://discord.boats/api/v2/bot/${this.client.user.id}`)
+        .set("Authorization", process.env.DBOATPASS)
+        .send({
+            server_count: this.client.guilds.size
+        })
+
+      console.log('Updated discordbotlist.com stats')
+    } catch(O_o) {
+      console.error(O_o)
+    }
 	}
 }

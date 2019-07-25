@@ -22,7 +22,7 @@ module.exports = class ServerPointsCommand extends Command {
           unordered: true
         },
         {
-          id: 'pointsToDonate',
+          id: 'amount',
           description: "This argument is the amount of points you'd like to donate to the user.",
           type: 'integer',
           prompt: {
@@ -44,16 +44,18 @@ module.exports = class ServerPointsCommand extends Command {
           unordered: true
         },
         {
-          id: 'setNotAdd',
-          match: 'flag',
-          flag: '--set',
+          id: 'action',
+          match: 'option',
+          flag: 'action:',
+          type: ["set", "add", "remove"],
+          default: "add",
           unordered: true
         },
       ],
 		});
 	}
 
-	async exec(message, { user, pointsToDonate, guild, setNotAdd }) {
+	async exec(message, { user, amount, guild, action }) {
     const client = await this.client
     let guildFound;
 
@@ -86,16 +88,20 @@ module.exports = class ServerPointsCommand extends Command {
 
     if(message.author.id !== message.guild.ownerID) {
       if (user.id == message.author.id) return message.reply("you would not benefit from that.");
-			if (pointsToDonate < 0) return message.reply("you may not steal points!");
+			if (amount < 0) return message.reply("you may not steal points!");
 
-      if (pointsToDonate > DBAuthor.points) return message.reply("You do not have enough points to donate to the user! Please try again once you collect more points");
+      if (amount > DBAuthor.points) return message.reply("You do not have enough points to donate to the user! Please try again once you collect more points");
 
-      DBAuthor.points = DBAuthor.points - pointsToDonate;
+      DBAuthor.points = DBAuthor.points - amount;
       DBAuthor.level = Math.floor(DBAuthor.points / 350);
+
+      action = 'add';
     }
 
-    if (message.author.id == message.guild.ownerID && setNotAdd) {
+    if (action == 'set') {
       DBuser.points = pointsToDonate;
+    } else if (action == 'remove') {
+      DBuser.points = DBuser.points - pointsToDonate;
     } else {
       DBuser.points = DBuser.points + pointsToDonate;
     }

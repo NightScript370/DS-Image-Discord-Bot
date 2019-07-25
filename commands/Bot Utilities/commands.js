@@ -8,7 +8,7 @@ module.exports = class CommandsCommand extends Command {
             clientPermissions: ['EMBED_LINKS'],
 			description: {
                 content: 'Sends information on bot commands.'
-      },
+            },
 			args: [
 				{
 					id: 'commandName',

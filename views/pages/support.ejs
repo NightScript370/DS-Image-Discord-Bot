@@ -31,17 +31,17 @@
       <div class="col-xl-9 col-lg-8 col-md-7">
         <h2 class="text-center">Support Bot Development</h2>
         <p class="text-center">
-          Do you want to help make Yamamura the best bot possible?<br>
+          Do you want to help make <%= client.user.username%> the best bot possible?!<br>
           If so, here's how you can help us out:
 
           <ul>
-            <li>Find a bug? Report it! Our developers will take care of it as soon as possible</li>
-            <li>Join our Discord Server!</li>
-            <li>Spread the word! The more servers the bots are in, the more people will experience the bot</li>
-            <li>Let us know what you think of the bot, and what we should add or change! We take your opinion seriously</li>
-            <li>Upvote the bots on <a href="https://discordbotlist.com/bots/<%= client.user.id %>">discordbotlist.com</a> and <a href="https://discordbots.org/bot/<%= client.user.id %>">discordbots.org</a></li>
-            <li>If you are a programmer, you can send Push Requests on our <a href="https://gitlab.com/Samplasion/yamamura-discord-bot">GitLab repository</a></li>
-            <li>Help <a href="https://jedayoshi.com">JeDaYoshi#7942</a> to pay for a server. We are currently running into a borrowed VPS by him, but you can donate and you will help to maintain the server and buy a better one via <a href="https://paypal.me/Naydire">PayPal</a> or <a href="bitcoin:1NaydinibM8aunGty9uKGPrZyfYKNxhWQS">Bitcoin</a>.</li>
+            <li>Find a bug? Report it! Our developers will take care of it as soon as possible.</li>
+            <li>Spread the word! The more servers the bot is in, there will be more people to experience the bot.</li>
+            <li>Join our <a href="https://discord.gg/vbYZCRZ">Discord Server</a>! You can express your opinion about the bot there as well as partake in development.</li>
+            <li>Let us know what you think of the bot, and what we should add or change! We take your opinion seriously.</li>
+            <li>Upvote the bots on <a href="https://discordbotlist.com/bots/<%= client.user.id %>">discordbotlist.com</a>, <a href="https://discordbots.org/bot/<%= client.user.id %>">discordbots.org</a> & <a href="https://discord.boats/bot/<%= client.user.id %>">discord.boats</a>.</li>
+            <li>If you're a programmer, you can help out with <%= client.user.username%> Development on our <a href="https://gitlab.com/Samplasion/yamamura-discord-bot">GitLab repository</a>. We use Discord.js with the Discord-akairo framework, meaning that you need to have previous experience with Node.js programming..</li>
+            <li>Help <a href="https://jedayoshi.com">JeDaYoshi#7942</a> pay for a server by donating to his <a href="https://paypal.me/Naydire">PayPal</a>. Currently, <%= client.user.username%> is running on a VPS he's borrowing, but by donating, you can help maintain the server and buy a better one.</li>
           </ul>
         </p>
       </div>
@@ -59,6 +59,7 @@
   <div class="text-center image-container">
     <a href="https://discordbotlist.com/bots/<%= client.user.id %>"><img width="380" height="150" src="https://discordbotlist.com/bots/<%= client.user.id %>/widget" alt="<%= client.user.username%> stats on discordbotlist.com"></a>
     <a href="https://discordbots.org/bot/<%= client.user.id %>"><img src="https://discordbots.org/api/widget/<%= client.user.id %>.svg?usernamecolor=FFFFFF&topcolor=000000" alt="<%= client.user.username%> stats on discordbots.org"></a>
+    <a href="https://discord.boats/bot/<%= client.user.id %>"><img src="https://discord.boats/API/V2/widget/<%= client.user.id %>" alt="<%= client.user.username%> stats on discord.boats"></a>
   </div>
 
   <!-- End content -->

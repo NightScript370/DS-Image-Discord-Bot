@@ -16,17 +16,23 @@ module.exports = class EvalCommand extends Command {
 			args: [
 				{
 					id: 'script',
-					prompt: 'What code would you like to evaluate?',
+                    description: "This is the code you would like to run",
+					prompt: {
+                        start: 'What code would you like to evaluate?',
+                        retry: 'That is not something we can evaluate. Try again'
+                    },
 					type: 'string',
                     match: "rest"
 				},
 				{
 				    id: 'deleteog',
+                    description: "This deletes the original message which executed the eval command.",
 				    match: 'flag',
 				    flag: '--deleteog'
 				},
 				{
 				    id: 'hideresponce',
+                    description: "Normally, a result of your Javascript code will be given. Using the --hideresponce flag, you no longer get a result for that eval instance",
 				    match: 'flag',
 				    flag: '--hideresponce'
 				}
@@ -47,7 +53,9 @@ module.exports = class EvalCommand extends Command {
                 });
             }
 
-            if (result.includes(this.client.token)) result = result.replace(this.client.token, '"If someone tried to make you output the token, you were likely being scammed."');
+            if (result.includes(this.client.token))
+                result = result.replace(this.client.token, '"If someone tried to make you output the token, you were likely being scammed."');
+
             if (result.length > 1990) {
                 console.log(result);
                 msg.reply('Too long to be printed (content got console logged)');

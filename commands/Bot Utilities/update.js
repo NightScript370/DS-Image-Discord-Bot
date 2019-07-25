@@ -8,7 +8,7 @@ module.exports = class UpdateCommand extends Command {
 			aliases: ['update'],
 			category: 'Bot Utilities',
 			description: {
-				content: 'Updates the bot to the latest commit.',
+				content: 'Updates the bot to the latest commit from our GitLab repository.',
 			},
 			ownerOnly: true,
 		});
