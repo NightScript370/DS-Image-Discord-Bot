@@ -11,16 +11,33 @@
       The Yamamura bot was originally only available for the Mario Making Mods Discord Server, however, it is now available to be used on any Discord Server
     </p>
   </div>
+
+  <style>
+  .fa-spin-hover:hover {
+    -webkit-animation: fa-spin 2s infinite linear;
+    -moz-animation: fa-spin 2s infinite linear;
+    -o-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+  }
+
+  .slow-ani > * {
+    animation-duration:5s;
+  }
+  </style>
   
-      <div class=container>
+      <div class="container">
         
         <% const features = [
           {
             icon: "level-up",
-            text: "Leveling system with configurable point multipliers"
+            text: "Leveling system with configurable point multipliers",
           },
           {
-            icon: "cogs",
+            icon_html: `<span class="cogs slow-ani">
+  <i class="fas fa-cog fa-4x fa-spin-hover" data-fa-transform="down-5  right-5"></i>
+  <i class="fas fa-cog fa-3x fa-spin-hover" data-fa-transform="down-17 right-3"></i>
+  <i class="fas fa-cog fa-5x fa-spin-hover" data-fa-transform="left-7"></i>
+</span>`,
             text: "Powerful per-server settings system"
           },
           {
@@ -37,7 +54,31 @@
           },
           {
             icon: "file-code-o",
-            text: "New features added regularly"
+            text: "Over 100 commands, with new ones added daily"
+          },
+          {
+            icon: "music",
+            text: "Listen to music from Youtube"
+          },
+          {
+            icon: "users",
+            text: "A helpful and interactive community, willing to help"
+          },
+          {
+            icon: "pencil",
+            text: "Log each action of the user, even moreso than the Discord Audit Log"
+          },
+          {
+            icon: "comments-o",
+            text: "Feedback that the developers will listen to"
+          },
+          {
+            icon: "picture-o",
+            text: "Image Edit commands that allows you to revolutionize your image"
+          },
+          {
+            icon_html: '<img src="https://vignette.wikia.nocookie.net/nintendo/images/0/02/Amiibo-icon.svg/revision/latest?cb=20141102223810&amp;path-prefix=en" width="32">',
+            text: "Lookup information on your favorite Amiibo"
           }
         ] %>
         
@@ -47,11 +88,9 @@
         <div class="row">
           
           <% for (feature of features) { %>
-          <div class="col-<%= feature.col || 4 %> text-center">
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center">
             <div class="hoverable">
-              <h2>
-                <i class="fa fa-<%= feature.icon %>"></i>
-              </h2>
+              <% (feature.icon_html ? feature.icon_html : %><i class="fa fa-<%= feature.icon %> fa-2x"></i> <% ) %> 
               <p><%= feature.text %></p>
             </div>
           </div>
