@@ -36,27 +36,28 @@ module.exports = class MuteCommand extends Command {
 	}
 
 	async exec(msg, { user, reason }) {
+		const __ = (k, ...v) => getString(msg.author.lang, k, ...v);
 		const mutedRole = this.client.db.serverconfig.get(this.client, msg, "mutedrole");
 		if (!mutedRole)
-			return msg.reply(getString(msg.author.lang, "You need to have the configuration key `mutedrole` set in order for this command to work."));
+			return msg.reply(__("You need to have the configuration key `mutedrole` set in order for this command to work."));
 
 		if (!msg.guild.member(user)) 
-			return msg.reply(getString(msg.author.lang, "The member you wanted to mute needs to be in this server in order for this command to work."));
+			return msg.reply(__("The user you wanted to mute needs to be in this server in order for this command to work."));
 
 		let member = msg.guild.member(user);
 		let author = msg.member;
 
 		if (member.hasPermission("ADMINISTRATOR"))
-			return msg.reply("Administrators can't be muted. It wouldn't affect them.");
+			return msg.reply(__("Administrators can't be muted. It wouldn't affect them."));
 
 		if (member.hasPermission("MANAGE_MESSAGES") && !author.hasPermission("ADMINISTRATOR"))
-			return msg.reply("You need to have the `Administrator` permission in order to mute moderators");
+			return msg.reply(__("You need to have the `Administrator` permission in order to mute moderators."));
 
 		if (author.roles.highest.position <= member.roles.highest.position)
-			return msg.reply("You can't mute someone who has a higher role position than you.");
+			return msg.reply(__("You can't mute someone who has a higher role position than you."));
 		
 		if (member.id == author.id)
-			return msg.reply("You can't mute yourself!");
+			return msg.reply(__("You can't mute yourself!"));
 
 		try {
 			var hasRole = member.roles.has(mutedRole.id);
@@ -65,10 +66,10 @@ module.exports = class MuteCommand extends Command {
 			else
 				member.roles.add(mutedRole, reason)
 
-			return msg.reply(getString(msg.author.lang, hasRole ? "{0} was successfully unmuted" : "{0} was successfully muted", member.displayName));
+			return msg.reply(__(hasRole ? "{0} was successfully unmuted" : "{0} was successfully muted", member.displayName));
 		} catch (e) {
 			console.error(e);
-			msg.reply(`an error occured while trying to ban the user. Report this error to the Yamamura developers: ${e.message}`);
+			msg.reply(__("an error occured while trying to mute the user. Report this error to the Yamamura developers: `{0}`", e.messsage));
 		}
 	}
 };

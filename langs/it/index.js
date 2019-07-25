@@ -94,5 +94,14 @@ module.exports = {
   "Starboard channel": "Canale Starboard",
   "Level UP messages": "Messaggi di level UP",
   "Level UP": "Level UP",
-  "You need to have the configuration key `mutedrole` set in order for this command to work.": "Perché questo comando possa funzionare, la chiave di configurazione `mutedrole` deve essere impostata."
+  "Muted role": "Ruolo silenziato",
+  "You need to have the configuration key `mutedrole` set in order for this command to work.": "Perché questo comando possa funzionare, la chiave di configurazione `mutedrole` deve essere impostata.",
+  "The user you wanted to mute needs to be in this server in order for this command to work.": "Perché questo comando possa funzionare, l'utente che hai provato a silenziare deve essere nel server.",
+  "Administrators can't be muted. It wouldn't affect them.": "Gli amministratori non possono essere silenziati. Non avrebbe effetto.",
+  "You need to have the `Administrator` permission in order to mute moderators.": "Devi avere il permesso di `Amministratore` per silenziare i moderatori.",
+  "You can't mute someone who has a higher role position than you.": "Non puoi silenziare qualcuno che ha un ruolo con la posizione più alta della tua.",
+  "You can't mute yourself!": "Non ti puoi silenziare da solo!",
+  "{0} was successfully muted": "{0} è stato silenziato.",
+  "{0} was successfully unmuted": "{0} può di nuovo parlare.",
+  "an error occured while trying to mute the user. Report this error to the Yamamura developers: `{0}`": "si è verificato un errore mentre l'utente veniva silenziato. Avverti gli sviluppatori di Yamamura di questo errore: `{0}`",
 }

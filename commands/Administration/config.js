@@ -53,6 +53,7 @@ module.exports = class ConfigCommand extends Command {
       starboardchannel: __("Starboard channel"),
       levelup: __("Level UP"),
       levelupmsgs: __("Level UP messages"),
+      mutedrole: __("Muted role"),
     }
   }
 
