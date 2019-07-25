@@ -181,7 +181,7 @@ let types = [
 
       let name = msg.guild.roles.filter(r => r.id != r.guild.id).find(c => {
         // console.log(require("util").inspect(c, {depth: 0}), c.name, c.type);
-        return c.name ? c.name.toLowerCase() : "" == val.toLowerCase();
+        return c.name.toLowerCase() == val.toLowerCase();
       });
       if (name) return name.id;
 
@@ -204,7 +204,7 @@ let types = [
         let isID = /^[0-9]*$/mi.test(val);
         let isName = !!msg.guild.roles.filter(r => r.id != r.guild.id).find(c => {
           // console.log(require("util").inspect(c, {depth: 0}), c.name, c.type);
-          return c.name ? c.name.toLowerCase() : "" == val.toLowerCase();
+          return c.name.toLowerCase() == val.toLowerCase();
         });
         return isMention || isName || isID;
       } catch (e) {
