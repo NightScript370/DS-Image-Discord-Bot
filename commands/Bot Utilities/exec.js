@@ -8,16 +8,18 @@ module.exports = class ExecCommand extends Command {
 			aliases: ['exec'],
 			category: 'Bot Utilities',
 			description: {
-        content: 'Executes a command in the console. Only the bot owners may use this command.',
-        usage: '<Commands to Execute>',
-        examples: 'msg.channel.send(\'Hi\');'
+        content: 'Executes code in the console. Only the bot owners may use this command.',
+        usage: '<Code to Execute>',
+        examples: 'pnpm update'
       },
 			ownerOnly: true,
-
 			args: [
 				{
 					id: 'script',
-					prompt: 'What code would you like to evaluate?',
+					prompt: {
+						start: 'What code would you like to execute?',
+						retry: "That is not code we can execute in the console."
+					},
 					type: 'string',
           match: "content"
 				}

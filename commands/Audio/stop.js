@@ -10,8 +10,6 @@ module.exports = class StopAudioCommand extends Command {
       },
 			channelRestriction: 'guild'
 		});
-
-    this.examples = ["stop"];
 	}
 
 	exec(message) {

@@ -5,12 +5,14 @@ module.exports = class SkipAudioCommand extends Command {
 		super('skip', {
 			aliases: ['skip'],
 			category: 'Audio',
-			description: {content: 'Adds a vote to skip the currently playing music. Moderators can add `--modskip` to skip without a vote'},
+			description: {
+				content: 'Adds a vote to skip the currently playing music.'
+			},
 			channelRestriction: 'guild',
       args: [
 				{
 					id: 'modskip',
-					description: 'If you want to overwrite the skip voting and you have the MUTE_MEMBERS permission for Voice Chats, add the --modskip parameter ',
+					description: 'If you want to overwrite the skip voting and you have the MUTE_MEMBERS permission for the voice channel, add the --modskip parameter.',
           match: 'flag',
 					flag: '--modskip'
 				}

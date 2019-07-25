@@ -44,7 +44,8 @@ module.exports = class guildMemberAddListener extends Listener {
 					var embed = this.client.util.embed()
 						.setColor("#B6FF00")
 						.setAuthor(`New User: ${member.user.username}`, member.user.displayAvatarURL({format: 'png'}))
-						.setDescription(`<@${member.user.id}>, welcome to to Mario Making Mods, the home for Super Mario Maker (2) modding. Don't forget to subscribe to our Youtube channel and check out our website.`)
+						.setDescription(`<@${member.user.id}>, Welcome to Mario Making Mods, the community dedicated to modding each Super Mario Maker title.
+Don't forget to subscribe to our Youtube channel and check out our website. `)
 						.addField("Website", "https://mariomods.net", true)
 						.addField("Twitter", "https://twitter.com/MarioMakingMods", true)
 						.addField("Youtube", "https://www.youtube.com/c/MarioMakingMods", true)

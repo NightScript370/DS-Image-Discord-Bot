@@ -6,7 +6,7 @@ module.exports = class LeaderboardCommand extends Command {
 			aliases: ['leaderboard', "lb", 'top'],
 			category: 'Experience Points',
 			description: {
-        content: 'Know your way (to dem max points)',
+        content: 'List all those with the highest amount of points',
         usage: 'num:<optional field> guild:<optional field. This is available for viewing a specific guild\'s user point>',
         examples: ['5', '5 guild:318882333312679936']
       },

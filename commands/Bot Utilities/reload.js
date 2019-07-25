@@ -14,6 +14,7 @@ module.exports = class ReloadCommand extends Command {
       args: [
         {
           id: "type",
+          description: "This is the type of module that you would like to reload. It can be a command, an inhibitor, a listener or a file",
           type: [['command', 'c'], ['inhibitor', 'i'], ['listener', 'l'], ['file', 'f']],
           default: "command",
           match: 'option',
