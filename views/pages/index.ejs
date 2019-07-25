@@ -7,8 +7,8 @@
   <div class="jumbotron text-center">
     <h1 class="display-4">Introducing <%= client.user.username %></h1>
     <p class="lead">
-      Yamamura is a Discord bot focused on fufilling your server's needs as well as your wants.<br>
-      The Yamamura bot was originally only available for the Mario Making Mods Discord Server, however, it is now available to be used on any Discord Server
+      <%= client.user.username %> is a Discord bot focused on fufilling your server's needs as well as your wants.<br>
+      The <%= client.user.username %> bot was originally only available for the Mario Making Mods Discord Server, however, it is now available to be used on any Discord Server
     </p>
   </div>
 
@@ -30,7 +30,7 @@
         <% const features = [
           {
             icon: "level-up",
-            text: "Leveling system with configurable point multipliers",
+            text: "Leveling system with configurable point multipliers"
           },
           {
             icon_html: `<span class="cogs slow-ani">
