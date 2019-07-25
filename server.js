@@ -14,27 +14,8 @@ var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var routes = require('./routes.js');
-var port = process.env.PORT || 3000;
 var app = express();
-const server = http.createServer(app);
-const dbl = new DBL(config.DBLtoken, { webhookAuth: config.DBLPass, webhookServer: server });
-dbl.webhook.on('ready', hook => {
-  console.log(`Webhook running at http://${hook.hostname}:${hook.port}${hook.path}`);
-});
-dbl.webhook.on('vote', vote => {
-  if (vote.type == 'test')
-    return console.log('test successful')
-  let message;
 
-  try {
-    let fetchedUser = client.users.fetch(vote.user);
-    message = `${fetchedUser.tag} just upvoted!`;
-  } catch(e) {
-    message = `${vote.user} upvoted`
-  }
-  client.channels.get(config.logging).send(message);
-  console.log(`User with ID ${vote.user} just voted!`);
-});
 // ================================================================
 // setup our express application
 // ================================================================
@@ -62,6 +43,7 @@ app.use((err, req, res, next) => {
   }
 });
 app.set('view engine', 'ejs');
+app.set('port', process.env.PORT || 3000);
 // ================================================================
 // set up modules
 // ================================================================
@@ -90,6 +72,24 @@ routes(app, client);
 // ================================================================
 // start our server
 // ================================================================
-app.listen(port, function() {
-  console.log('Server listening on port ' + port + '…');
+const server = http.createServer(app).listen(app.get('port'), function(){
+    console.log("Express server listening on port " + app.get('port'));
+});
+const dbl = new DBL(config.DBLtoken, { webhookAuth: config.DBLPass, webhookServer: server });
+dbl.webhook.on('ready', hook => {
+  console.log(`Webhook running at http://${hook.hostname}:${hook.port}${hook.path}`);
+});
+dbl.webhook.on('vote', vote => {
+  if (vote.type == 'test')
+    return console.log('test successful')
+  let message;
+
+  try {
+    let fetchedUser = client.users.fetch(vote.user);
+    message = `${fetchedUser.tag} just upvoted!`;
+  } catch(e) {
+    message = `${vote.user} upvoted`
+  }
+  client.channels.get(config.logging).send(message);
+  console.log(`User with ID ${vote.user} just voted!`);
 });
