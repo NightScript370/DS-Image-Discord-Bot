@@ -179,7 +179,7 @@ let types = [
       let id = /^[0-9]*$/mi.test(val);
       if (id) return val;
 
-      let name = msg.guild.roles.find(c => {
+      let name = msg.guild.roles.filter(r => r.id != r.guild.id).find(c => {
         // console.log(require("util").inspect(c, {depth: 0}), c.name, c.type);
         return c.name ? c.name.toLowerCase() : "" == val.toLowerCase();
       });
@@ -202,7 +202,7 @@ let types = [
       try {
         let isMention = /<@&[0-9]*>/mi.test(val);
         let isID = /^[0-9]*$/mi.test(val);
-        let isName = !!msg.guild.roles.find(c => {
+        let isName = !!msg.guild.roles.filter(r => r.id != r.guild.id).find(c => {
           // console.log(require("util").inspect(c, {depth: 0}), c.name, c.type);
           return c.name ? c.name.toLowerCase() : "" == val.toLowerCase();
         });
