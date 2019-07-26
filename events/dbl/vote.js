@@ -15,10 +15,10 @@ module.exports = class DBLVotedListener extends Listener {
         let message;
 
         try {
-            let fetchedUser = client.users.fetch(vote.user);
-            message = `${fetchedUser.tag} just upvoted!`;
+            let fetchedUser = this.client.users.fetch(vote.user);
+            message = `${fetchedUser.tag} just upvoted on DiscordBots.org!`;
         } catch(e) {
-            message = `${vote.user} upvoted`;
+            message = `${vote.user} upvoted on DiscordBots.org`;
         }
 
         this.client.channels.get(this.client.log.upvote).send(message);
