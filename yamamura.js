@@ -24,6 +24,7 @@ var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var routes = require('./routes.js');
+const http = require('http');
 
 class YamamuraClient extends AkairoClient {
 	constructor() {
