@@ -20,6 +20,7 @@ global.consoleLines = {
 	stderr: [],
 };
 
+const morgan = require('morgan');
 var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
@@ -66,6 +67,7 @@ class YamamuraClient extends AkairoClient {
         };
         
         this.express = express();
+        this.express.use(morgan('dev'))
         this.express.use(express.static(process.cwd() + '/views/public'));
         this.express.use(session({
             secret: 'secret',
