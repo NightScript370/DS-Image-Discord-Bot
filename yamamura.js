@@ -332,7 +332,8 @@ class YamamuraClient extends AkairoClient {
             commandHandler: this.commandHandler,
             inhibitorHandler: this.inhibitorHandler,
             listenerHandler: this.listenerHandler,
-            dbl: this.dbl
+            dbl: this.dbl,
+            dblwebhook: this.dbl.webhook
         });
 
 		this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
