@@ -112,7 +112,7 @@ class YamamuraClient extends AkairoClient {
         this.express.locals.require = require;
 
         this.server = http.createServer(this.express);
-        this.dbl = new DBL(config.DBLtoken, { webhookAuth: config.DBLPass, webhookServer: this.server }, this);
+        this.dbl = new DBL(config.DBLtoken, { webhookPort: this.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.server, statsInterval: 7200000 }, this);
 
         routes(this.express, this);
         this.server.listen(this.express.get('port'), () => {
