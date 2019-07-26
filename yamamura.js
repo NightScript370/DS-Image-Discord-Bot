@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config();
 
 const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler, ClientUtil } = require('discord-akairo');
 const config = require("./config.js");
@@ -19,6 +19,11 @@ global.consoleLines = {
 	stdout: [],
 	stderr: [],
 };
+
+var express = require('express');
+var session = require('express-session');
+var bodyParser = require('body-parser');
+var routes = require('./routes.js');
 
 class YamamuraClient extends AkairoClient {
 	constructor() {
@@ -58,8 +63,60 @@ class YamamuraClient extends AkairoClient {
 
             return this.db.serverconfig.insert(defaultsettings);
         };
+        
+        this.express = express();
+        this.express.use(express.static(process.cwd() + '/views/public'));
+        this.express.use(session({
+            secret: 'secret',
+            resave: true,
+            saveUninitialized: true
+        }));
+        this.express.use(bodyParser.urlencoded({extended : true}));
+        this.express.use(bodyParser.json());
+        this.express.use('/api/discord', require('./discord_oauth.js')(client));
+        this.express.use((err, req, res, next) => {
+            switch (err.message) {
+                case 'NoCodeProvided':
+                    return res.status(400).send({
+                        status: 'ERROR',
+                        error: err.message,
+                    });
+                default:
+                    return res.status(500).send({
+                        status: 'ERROR',
+                        error: err.message,
+                    });
+            }
+        });
+        this.express.set('view engine', 'ejs');
+        this.express.set('port', process.env.PORT || 3000);
+        // ================================================================
+        // set up modules
+        // ================================================================
+        this.express.locals.client = this;
+        this.express.locals.isEmpty = isEmpty;
+        this.express.locals.util = require("util");
+        this.express.locals.getParams = query => {
+            return query
+                ? (/^[?#]/.test(query) ? query.slice(1) : query)
+                    .split('&')
+                    .reduce((params, param) => {
+                        let [key, value] = param.split('=');
+                        params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
+                        return params;
+                    }, {})
+                : {};
+        };
+        this.express.locals.List = List;
+        this.express.locals.require = require;
 
-        this.dbl = new DBL(config.DBLtoken, this);
+        this.server = http.createServer(this.express);
+        this.dbl = new DBL(config.DBLtoken, { webhookAuth: config.DBLPass, webhookServer: this.server }, this);
+
+        routes(this.express, this);
+        this.server.listen(this.express.get('port'), () => {
+            console.log("Express server listening on port " + this.express.get('port'));
+        });
         this.URL = config.url;
 
 		this.commandHandler = new CommandHandler(this, {
@@ -287,7 +344,6 @@ class YamamuraClient extends AkairoClient {
 		this.commandHandler.loadAll();
 
         this.moderation = require('./utils/moderation.js');
-        this.config = config;
 
         this.util.embed = () => {return new BackEmbed();}
         this.util.pad = (n) => n < 10 ? "0"+n : ""+n;
@@ -380,13 +436,7 @@ function isEmpty(value) { //Function to check if value is really empty or not
 }
 
 global.List = List;
-
-setTimeout(function(){
-    module.exports = client;
-
-    // Actually start the server
-    require('./server.js')
-}, 2000);
+module.exports = client;
 
 // This is used to debug the errors.
 // Defaults to 20 lines max
