@@ -12,7 +12,7 @@ module.exports = {
   ],
   prefix: process.env.PREFIX,
   log: {
-    servers: serveprocess.env.LOGCHAN,
+    servers: process.env.LOGCHAN,
     upvote: "604381257656172603",
     errors: "592610001265229837"
   }
