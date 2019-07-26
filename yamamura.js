@@ -73,7 +73,7 @@ class YamamuraClient extends AkairoClient {
         }));
         this.express.use(bodyParser.urlencoded({extended : true}));
         this.express.use(bodyParser.json());
-        this.express.use('/api/discord', require('./discord_oauth.js')(client));
+        this.express.use('/api/discord', require('./discord_oauth.js')(this));
         this.express.use((err, req, res, next) => {
             switch (err.message) {
                 case 'NoCodeProvided':
