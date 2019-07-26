@@ -428,7 +428,9 @@ class YamamuraClient extends AkairoClient {
                 if (voicechat) return voicechat.leave();
                 dispatcher.destroy()
             }
-        }
+        };
+
+        this.log = config.log;
 	};
 }
 

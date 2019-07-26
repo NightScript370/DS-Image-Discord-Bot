@@ -21,7 +21,7 @@ module.exports = class DBLVotedListener extends Listener {
             message = `${vote.user} upvoted`;
         }
 
-        client.channels.get(config.logging).send(message);
+        this.client.channels.get(this.client.log.upvote).send(message);
         console.log(`[DiscordBots.org] User with ID ${vote.user} just voted!`);
     }
 }

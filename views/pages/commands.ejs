@@ -9,11 +9,18 @@
     let categories = Array.from(client.commandHandler.categories.entries());
     let catNames = categories.map(arr => arr[0]);
     let cats = categories.map(arr => arr[1]).sort((c1, c2) => c1.id.localeCompare(c2.id));
-      
+
     let cmds = cats.map(cat => Array.from(cat.entries()).map(c => c[1])).flat();
 
+    let iconlist = fs.readdirSync(path.join(process.cwd(), 'views', 'public', 'icons'));
+
     function iconExist(cmd) {
-       return fs.existsSync(`../public/icons/${cmd.id}.png`);
+      for (var i = 0; i < iconlist.length; i++) {
+        if (`${cmd.id}.png` == iconlist[i])
+          return true;
+      }
+
+      return false
     }
   %>
   
