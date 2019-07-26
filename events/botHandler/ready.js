@@ -37,7 +37,7 @@ module.exports = class ReadyListener extends Listener {
 
     const request = require('node-superfetch');
     try {
-      console.log('Updating discordbotlist.com stats')
+      console.log('[discordbotlist.com] Updating stats')
 
       await request
         .post(`https://discordbotlist.com/api/bots/${this.client.user.id}/stats`)
@@ -49,13 +49,13 @@ module.exports = class ReadyListener extends Listener {
             voice_connections: this.client.voice.connections.size
         })
 
-      console.log('Updated discordbotlist.com stats')
+      console.log('[discordbotlist.com] stats updated')
     } catch(O_o) {
       console.error(O_o)
     }
 
     try {
-      console.log('Updating discordbotlist.com stats')
+      console.log('[discord.boats] Updating stats')
 
       await request
         .post(`https://discord.boats/api/v2/bot/${this.client.user.id}`)
@@ -64,7 +64,7 @@ module.exports = class ReadyListener extends Listener {
             server_count: this.client.guilds.size
         })
 
-      console.log('Updated discordbotlist.com stats')
+      console.log('[discord.boats] stats updated')
     } catch(O_o) {
       console.error(O_o)
     }

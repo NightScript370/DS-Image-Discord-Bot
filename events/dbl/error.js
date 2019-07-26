@@ -10,6 +10,6 @@ module.exports = class DBLErrorListener extends Listener {
   }
 
   exec(error) {
-    console.error(`[DBL] An error has occured: ${error}`);
+    console.error(`[DiscordBots.org] An error has occured: ${error}`);
   }
 }
