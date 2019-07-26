@@ -28,9 +28,9 @@ module.exports = function(app, client) {
   });
   
   //The 404 Route (ALWAYS keep this as the last route)
-  app.get('*', function(req, res) {
+  /* app.get('*', function(req, res) {
     res.status(404).render('pages/404')
-  });
+  }); */
   
   /* ==== oauth stuff ==== */
   
