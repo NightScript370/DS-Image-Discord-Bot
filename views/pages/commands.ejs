@@ -6,6 +6,7 @@
 
   <% 
     const fs = require('fs')
+    const path = require('path')
     let categories = Array.from(client.commandHandler.categories.entries());
     let catNames = categories.map(arr => arr[0]);
     let cats = categories.map(arr => arr[1]).sort((c1, c2) => c1.id.localeCompare(c2.id));
