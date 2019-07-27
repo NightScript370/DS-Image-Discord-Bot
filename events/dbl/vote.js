@@ -9,13 +9,13 @@ module.exports = class DBLVotedListener extends Listener {
         });
     }
 
-    exec(vote) {
+    async exec(vote) {
         if (vote.type == 'test')
             return console.log('test successful');
         let message;
 
         try {
-            let fetchedUser = this.client.users.fetch(vote.user);
+            let fetchedUser = await this.client.users.fetch(vote.user);
             message = `${fetchedUser.tag} just upvoted on DiscordBots.org!`;
         } catch(e) {
             message = `${vote.user} upvoted on DiscordBots.org`;
