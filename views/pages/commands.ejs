@@ -7,6 +7,7 @@
   <% 
     const fs = require('fs')
     const path = require('path')
+
     let categories = Array.from(client.commandHandler.categories.entries());
     let catNames = categories.map(arr => arr[0]);
     let cats = categories.map(arr => arr[1]).sort((c1, c2) => c1.id.localeCompare(c2.id));
@@ -16,12 +17,7 @@
     let iconlist = fs.readdirSync(path.join(process.cwd(), 'views', 'public', 'icons'));
 
     function iconExist(cmd) {
-      for (var i = 0; i < iconlist.length; i++) {
-        if (`${cmd.id}.png` == iconlist[i])
-          return true;
-      }
-
-      return false
+        return iconlist.filter(item => item === `${cmd.id}.png`).length;
     }
   %>
   
