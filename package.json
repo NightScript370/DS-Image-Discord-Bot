@@ -1,7 +1,4 @@
 {
-  "//1": "describes your app and its dependencies",
-  "//2": "https://docs.npmjs.com/files/package.json",
-  "//3": "updating this file will download and update your packages",
   "name": "Yamamura",
   "version": "0.0.1",
   "description": "A simple Discord Bot made for hacking communities.",
@@ -34,6 +31,7 @@
     "node-superfetch": "^0.1.9",
     "request": "^2.88.0",
     "showdown": "^1.9.0",
+    "sodium": "^3.0.2",
     "super-maker-api": "^3.0.0",
     "tictactoejs": "^1.0.3",
     "turndown": "^5.0.3",
