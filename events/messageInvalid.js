@@ -17,6 +17,17 @@ module.exports = class messageListener extends Listener {
             const attempt = message.util.parsed.alias;
             if (!!message.util.handler.modules.filter(c => c.aliases.includes(attempt)).size) return;
 
+            /* if (message.util.parsed.prefix !== `<@${this.client.user.id}>` && message.guild) {
+                let guildBots = message.guild.members.filter(member => member.user.bot)
+                if (guildBots.size) {
+                    const wait = require('util').promisify(setTimeout);
+                    wait(1000);
+
+                    //TODO: Check the channel messages, starting from when the original author posted the message
+                    // If there was at least one message from a bot in the past second, return
+                }
+            } */
+
             let categories = Array.from(this.client.commandHandler.categories.entries());
             let catNames = categories.map(arr => arr[0]);
             let cats = categories.map(arr => arr[1]).sort((c1, c2) => c1.id.localeCompare(c2.id));
@@ -103,7 +114,7 @@ module.exports = class messageListener extends Listener {
         try {
             const server = message.guild;
             if (!message.channel.sendable) return;
-            if (!server.levelupmsgs) return console.log("This server does not have level up messages");
+            if (!server.levelupmsgs) return console.log(`${server.name} (#${server.id}) does not have level up messages`);
 
             let rawLevelUpMessage = this.client.db.serverconfig.get(this.client, message, "levelupmsgs").random()
             let parsedLevelUpMessage = rawLevelUpMessage;
@@ -123,7 +134,7 @@ module.exports = class messageListener extends Listener {
                 await sentLevelUpMessage.delete({timeout: 5000});
             }
         } catch(e) {
-            console.log(e)
+            console.error(e)
         }
     }
 
