@@ -77,7 +77,7 @@ module.exports = class PurgeCommand extends Command {
         }
 
         if(!deletePins)
-            messages = await message.filter(message => !message.pinned);
+            messages = await messages.filter(message => !message.pinned);
 
         messages.delete(commandMessage.id);
         if (!messages.size)
