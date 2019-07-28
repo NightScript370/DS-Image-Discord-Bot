@@ -9,7 +9,6 @@
   "dependencies": {
     "btoa": "^1.2.1",
     "canvas": "^2.6.0",
-    "common-tags": "^1.8.0",
     "dblapi.js": "^2.3.0",
     "discord-akairo": "github:DiscordBots-Archive/discord-akairo",
     "discord.js": "github:NightYoshi370/discord.js",

@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { oneLine } = require('common-tags');
 const { TicTacToe } = require('tictactoejs');
 
 module.exports = class TTTCommand extends Command {
@@ -49,7 +48,6 @@ module.exports = class TTTCommand extends Command {
     
     this.games = [];
     this.examples = ['ttt', "ttt 3,1", "ttt new"];
-    this.details = oneLine;
   }
 
   async exec(msg, { moveOrCmd: action }) {

@@ -2,7 +2,6 @@ const Command = require('../../struct/Image-Command');
 const { createCanvas, loadImage } = require('canvas');
 const path = require('path');
 const { drawImageWithTint } = require('../../utils/Canvas');
-const { stripIndents } = require('common-tags');
 
 module.exports = class BurnCommand extends Command {
 	constructor() {
@@ -47,9 +46,8 @@ module.exports = class BurnCommand extends Command {
 			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
 			return msg.channel.send({ files: [{ attachment: attachment, name: 'fire.png' }] });
 		} catch (err) {
-			return msg.reply(
-				stripIndents`Oh no, now the bot is on fire.
-							 Ok, seriously speaking, an error has occurred: \`${err.message}\`. Please report this to the Yamamura developers!`);
+			return msg.reply("Oh no, now the bot is on fire." +
+							 `Ok, seriously speaking, an error has occurred: \`${err.message}\`. Please report this to the Yamamura developers!`);
 		}
 	}
 };

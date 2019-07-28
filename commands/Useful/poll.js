@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { oneLine } = require('common-tags');
 
 module.exports = class PollCommand extends Command {
 	constructor() {

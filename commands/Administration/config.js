@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { oneLine } = require('common-tags');
 const { findType } = require('./../../Configuration.js');
 const config = require("./../../config.js");
 

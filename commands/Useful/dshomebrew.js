@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { stripIndents } = require('common-tags');
 
 module.exports = class HackingGuidesCommand extends Command {
   constructor() {
