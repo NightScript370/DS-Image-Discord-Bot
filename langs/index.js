@@ -7,7 +7,7 @@ module.exports = [
   },
   {
     code: "fr",
-    name: "French",
+    name: "Français (French)",
     flag: ":flag_fr:",
     translators: ["NightYoshi370#5597"]
   },
@@ -17,4 +17,4 @@ module.exports = [
     flag: ":flag_it:",
     translators: ["Samplasion#0325"]
   }
-]
+];
