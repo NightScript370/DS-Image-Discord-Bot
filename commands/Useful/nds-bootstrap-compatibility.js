@@ -55,7 +55,7 @@ module.exports = class NDSBCompatCommand extends Command {
         if (body.cardID)
             infoEmbed.setThumbnail(`https://art.gametdb.com/ds/coverS/US/${body.cardID}.png`);
 
-        let { embed, text } = this.getCompat(flashcard ? body['nds-bootstrap'].flashcard : body['nds-bootstrap']['sd-card'], infoEmbed)
+        let { embed, text } = this.getCompat(flashcard ? body['nds-bootstrap'].flashcard : body['nds-bootstrap']['sd-card'], infoEmbed, body)
 
         if (msg.channel.sendable) {
             if (text)
@@ -126,7 +126,7 @@ module.exports = class NDSBCompatCommand extends Command {
         return (!testagainst || (testagainst && !testagainst.compatibility && !testagainst.testers));
     }
 
-    getCompat(target, embed) {
+    getCompat(target, embed, body) {
         if (this.hasNoInfo(target))
             return { embed: null, text: 'This Nintendo-DS title does not have any nds-bootstrap compatibility information for flashcards. Please try again' }
 
