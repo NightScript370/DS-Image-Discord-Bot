@@ -45,16 +45,20 @@ module.exports = class PurgeCommand extends Command {
 				},
 				{
 					id: "deleteOld",
-					default: false,
                     match: 'flag',
                     flag: '--deleteOld'
+				},
+				{
+					id: "deletePins",
+                    match: 'flag',
+                    flag: '--deletePins'
 				},
 			]
 		});
 	}
 
-	async exec(commandMessage, { amount, who, regex, deleteOld }) {
-        let messages = commandMessage.channel.fetchMessages({ limit: amount });
+	async exec(commandMessage, { amount, who, regex, deleteOld, deletePins }) {
+        let messages = await commandMessage.channel.messages.fetch({ limit: amount });
 
         if (regex) {
             try {
@@ -63,14 +67,17 @@ module.exports = class PurgeCommand extends Command {
                 return commandMessage.channel.send(':warning: You provided an invalid pattern');
             }
 
-            messages = messages.filter(message => message.content.match(pattern));
+            messages = await messages.filter(message => message.content.match(pattern));
         }
 
         if (who && who == "bot") {
-            messages = messages.filter(message => message.author.bot);
+            messages = await messages.filter(message => message.author.bot);
         } else if (who) {
-            messages = messages.filter(message => message.author == who);
+            messages = await messages.filter(message => message.author == who);
         }
+
+        if(!deletePins)
+            messages = await message.filter(message => !message.pinned);
 
         messages.delete(commandMessage.id);
         if (!messages.size)
@@ -78,13 +85,11 @@ module.exports = class PurgeCommand extends Command {
 
         try {
             const msgBulkDelete = await commandMessage.channel.bulkDelete(messages, deleteOld);
-            let successmessage = message.channel.send(amount + " message" + (amount > 1 || amount < 1 ? "s" : "") + " deleted!")
+            let successmessage = await message.channel.send(messages.size + " message" + (messages.size != 1 ? "s" : "") + " deleted!");
             await successmessage.delete({timeout: 5000});
         } catch (e) {
-            msg.reply('There was an error when attempting to delete the messages. Please contact the Yamamura developers')
-            console.error(e)
+            msg.reply('There was an error when attempting to delete the messages. Please contact the Yamamura developers');
+            console.error(e);
         }
-
-
     }
 };
