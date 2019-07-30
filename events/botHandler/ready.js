@@ -14,7 +14,7 @@ module.exports = class ReadyListener extends Listener {
     wait(5000);
 
 		console.log(`My body is ready to serve ${this.client.users.size} users in ${this.client.guilds.size} servers!`);
-    this.client.util.setDefaultStatus(client);
+    this.client.util.setDefaultStatus(this.client);
 
     const fs = require("fs");
     try {
