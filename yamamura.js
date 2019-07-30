@@ -40,28 +40,25 @@ class YamamuraClient extends AkairoClient {
 
         this.db = require('./utils/database.js');
         this.setDefaultSettings = (entry) => {
-            let logchanid = "";
-            let welchanid = "";
-            let starchanid = "";
-            let publiclogid = "";
+            let channels = entry.guild.channels;
 
-            if (entry.guild.channels.find(logchan => logchan.name === "moderator-logs")) publiclogid = entry.guild.channels.find(logchan => logchan.name === "moderator-logs").id;
-            if (entry.guild.channels.find(logchan => logchan.name === "discord-logs"))   logchanid = entry.guild.channels.find(logchan => logchan.name === "discord-logs").id;
-            if (entry.guild.channels.find(logchan => logchan.name === "general"))        welchanid = entry.guild.channels.find(logchan => logchan.name === "general").id;
-            if (entry.guild.channels.find(logchan => logchan.name === "starboard"))      starchanid = entry.guild.channels.find(logchan => logchan.name === "starboard").id;
+            let logchannel = channels.find(channel => channel.name === "discord-logs");
+            let welcomechannel = channels.find(channel => channel.name === "general");
+            let starboardchannel = channels.find(channel => channel.name === "starboard");
+            let mutedrole = entry.guild.roles.find(role => role.name === "Muted");
 
             let defaultsettings = {
                 guildID: entry.guild.id,
-                logchan: {value: logchanid, type: "channel"},
-                welcomechan: {value: welchanid, type: "channel"},
+                logchan: {value: logchannel ? logchannel.id : '', type: "channel"},
+                welcomechan: {value: welcomechannel ? welcomechannel.id : '', type: "channel"},
                 welcomemessage: {type: 'array', arrayType: 'string', value: [{value: "Welcome {{user}} to {{guild}}! Enjoy your stay", type: "string"}] },
-                leavemessage: {value: "Goodbye {{user}}! You'll be missed", type: "string"},
-                prefix: {value: config.prefix, type: "string"},
-                makerboard: {value: "", type: "string"},
-                starboardchannel: {value: starchanid, type: "channel"},
+                leavemessage: {type: 'array', arrayType: 'string', value: [{value: "Goodbye {{user}}! You'll be missed", type: 'string'}]},
+                prefix: { value: config.prefix, type: "string" },
+                makerboard: { value: "", type: "string" },
+                starboardchannel: { value: starboardchannel ? starboardchannel.id : '', type: "channel" },
                 levelup: { type: 'bool', value: 'true' },
                 levelupmsgs: { type: 'array', arrayType: 'string', value: [{value: "{{coin}} Congratulations {{user}}! You've leveled up to level {{level}}! {{coin}}", type: "string"}] },
-                mutedrole: { type: 'role', value: null },
+                mutedrole: { type: 'role', value: mutedrole ? mutedrole.id : '' },
             };
 
             return this.db.serverconfig.insert(defaultsettings);
@@ -383,7 +380,7 @@ class YamamuraClient extends AkairoClient {
             if (!data.connection) {
                 if (!msg.member || !msg.member.voice) return client.audio.finish(msg, client, data.dispatcher);
 
-                if (!message.guild.voice) data.connection = await msg.member.voice.channel.join();
+                if (!msg.guild.voice) data.connection = await msg.member.voice.channel.join();
                 else data.connection = msg.guild.voice.connection;
 		    }
 
