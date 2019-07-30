@@ -18,16 +18,16 @@ module.exports = class MuteCommand extends Command {
 			userPermissions: ["MANAGE_MESSAGES"],
 			args: [
 				{
-					id: "user",
-					type: "user-commando",
+					id: "member",
+					type: "member",
 					prompt: {
                         start: 'Who would you like to mute?',
-                        retry: 'That\'s not a valid user! Try again.'
+                        retry: 'That\'s not a valid server member! Try again.'
                     },
 				},
 				{
 					id: "reason",
-					default: "No reason.",
+					default: null,
 					type: "string",
                     match: 'rest'
 				},
@@ -35,16 +35,13 @@ module.exports = class MuteCommand extends Command {
 		});
 	}
 
-	async exec(msg, { user, reason }) {
+	async exec(msg, { member, reason }) {
 		const __ = (k, ...v) => getString(msg.author.lang, k, ...v);
+
 		const mutedRole = this.client.db.serverconfig.get(this.client, msg, "mutedrole");
 		if (!mutedRole)
 			return msg.reply(__("You need to have the configuration key `mutedrole` set in order for this command to work."));
 
-		if (!msg.guild.member(user)) 
-			return msg.reply(__("The user you wanted to mute needs to be in this server in order for this command to work."));
-
-		let member = msg.guild.member(user);
 		let author = msg.member;
 
 		if (member.hasPermission("ADMINISTRATOR"))

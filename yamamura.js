@@ -350,6 +350,14 @@ class YamamuraClient extends AkairoClient {
         this.util.embed = () => {return new BackEmbed();}
         this.util.pad = (n) => n < 10 ? "0"+n : ""+n;
 
+        this.util.setDefaultStatus = (client) => {
+            let userActivity = 'yamamura-bot.tk | '+client.guilds.size+' servers';
+            if (!client.user.presence.activity || (client.user.presence.activity && client.user.presence.activity.name !== userActivity))
+                return client.user.setActivity(userActivity);
+            else
+                return client.user.presence;
+        };
+
         this.audio = {};
         this.audio.active = new Map();
         this.audio.play = async (msg, client, data) => {

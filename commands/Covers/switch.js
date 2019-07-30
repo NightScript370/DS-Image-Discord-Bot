@@ -160,7 +160,7 @@ module.exports = class NintendoSwitchCommand extends Command {
             ctx.drawImage(currentimage, 15, (base.height / 3), (base.width-35), (base.height/2));
           }
         } else {
-          ctx.drawImage(currentimage, 4, 24, 553, 889);
+          ctx.drawImage(currentimage, 5, 24, 552, 900);
         }
       }
 
