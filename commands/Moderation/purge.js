@@ -59,7 +59,6 @@ module.exports = class PurgeCommand extends Command {
 	}
 
 	async exec(commandMessage, { amount, who, regex, deleteOld, deletePins }) {
-        console.log(`Debugging: ${amount} = amount, ${who} = who, ${regex} = regex, ${deleteOld} = deleteOld, ${deletePins} = deletePins`)
         let messages = await commandMessage.channel.messages.fetch({ limit: amount });
 
         if (regex) {
@@ -87,10 +86,10 @@ module.exports = class PurgeCommand extends Command {
 
         try {
             const msgBulkDelete = await commandMessage.channel.bulkDelete(messages, deleteOld);
-            let successmessage = await message.channel.send(messages.size + " message" + (messages.size != 1 ? "s" : "") + " deleted!");
+            let successmessage = await commandMessage.channel.send(messages.size + " message" + (messages.size != 1 ? "s" : "") + " deleted!");
             await successmessage.delete({timeout: 5000});
         } catch (e) {
-            msg.reply('There was an error when attempting to delete the messages. Please contact the Yamamura developers');
+            commandMessage.reply('There was an error when attempting to delete the messages. Please contact the Yamamura developers');
             console.error(e);
         }
     }
