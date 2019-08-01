@@ -79,7 +79,7 @@ module.exports = class PurgeCommand extends Command {
         if(!deletePins)
             messages = await messages.filter(message => !message.pinned);
 
-        messages.delete(commandMessage.id);
+        // messages.delete(commandMessage.id);
         if (!messages.size)
             return commandMessage.channel.send(`There was no results for your query. Try again`);
 

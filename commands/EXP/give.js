@@ -75,10 +75,10 @@ module.exports = class ServerPointsCommand extends Command {
 
     let DBuser = await this.client.db.points.findOne({guild: guildFound.id, member: user.id});
     if (!DBuser) {
-      if (guildFound.members.get(user.id)) // If you're looking for a user whose ID is equal to something, you might as well .get() it
+      if (guildFound.members.get(user.id))
         DBuser = await this.client.db.points.insert({guild: guildFound.id, member: user.id, points: 0, level: 0});
       else
-        return message.reply("you can't see the points of a user who is/was not in the server. Please try again on a different user.");
+        return message.reply("you can't give points to someone who is/was not in the server. Please try again on a different user.");
     }
 
     let DBAuthor = await this.client.db.points.findOne({guild: guildFound.id, member: message.author.id});
@@ -99,16 +99,16 @@ module.exports = class ServerPointsCommand extends Command {
     }
 
     if (action == 'set') {
-      DBuser.points = pointsToDonate;
+      DBuser.points = amount;
     } else if (action == 'remove') {
-      DBuser.points = DBuser.points - pointsToDonate;
+      DBuser.points = DBuser.points - amount;
     } else {
-      DBuser.points = DBuser.points + pointsToDonate;
+      DBuser.points = DBuser.points + amount;
     }
 
     DBuser.level = Math.floor(DBuser.points / 350);
 
-    let BotThanks = `thank you so much for donating ${pointsToDonate} points to ${user.tag}. He's now at level ${DBuser.level}.`;
+    let BotThanks = `thank you so much for donating ${amount} points to ${user.tag}. He's now at level ${DBuser.level}.`;
     if(message.author.id !== message.guild.ownerID) {
 			BotThanks += `\n Unfortunately, that also means you're now down to ${DBAuthor.points} points, and are now at level ${DBAuthor.level}`;
 		}
