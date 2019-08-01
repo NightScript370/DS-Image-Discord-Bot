@@ -30,8 +30,9 @@ module.exports = class PurgeCommand extends Command {
 					id: "who",
 					default: null,
 					type: (msg, phrase) => {
+                        if (!phrase) return null;
                         if (phrase == "bot") return phrase;
-                        return this.client.commandHandler.resolver.types.get("user-commando")
+                        return this.client.commandHandler.resolver.types.get("user-commando")(msg, phrase)
                     },
                     match: 'option',
                     flag: 'user:'
