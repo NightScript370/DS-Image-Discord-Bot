@@ -58,6 +58,7 @@ module.exports = class PurgeCommand extends Command {
 	}
 
 	async exec(commandMessage, { amount, who, regex, deleteOld, deletePins }) {
+        commandMessage.channel.send(`Debugging: ${amount} = amount, ${who} = who, ${regex} = regex, ${deleteOld} = deleteOld, ${deletePins} = deletePins`)
         let messages = await commandMessage.channel.messages.fetch({ limit: amount });
 
         if (regex) {
