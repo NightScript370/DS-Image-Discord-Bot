@@ -162,22 +162,23 @@ function isEmpty(value) { //Function to check if value is really empty or not
 }
 
 function removeMinecraftColor(motd) {
-  motd = motd.split('§0').join('')
-  motd = motd.split('§1').join('')
-  motd = motd.split('§2').join('')
-  motd = motd.split('§3').join('')
-  motd = motd.split('§4').join('')
-  motd = motd.split('§5').join('')
-  motd = motd.split('§6').join('')
-  motd = motd.split('§7').join('')
-  motd = motd.split('§8').join('')
-  motd = motd.split('§9').join('')
-  motd = motd.split('§a').join('')
-  motd = motd.split('§b').join('')
-  motd = motd.split('§c').join('')
-  motd = motd.split('§d').join('')
-  motd = motd.split('§e').join('')
-  motd = motd.split('§f').join('')
-  
+  if (!motd) return '';
+
   return motd
+    .split('§0').join('')
+    .split('§1').join('')
+    .split('§2').join('')
+    .split('§3').join('')
+    .split('§4').join('')
+    .split('§5').join('')
+    .split('§6').join('')
+    .split('§7').join('')
+    .split('§8').join('')
+    .split('§9').join('')
+    .split('§a').join('')
+    .split('§b').join('')
+    .split('§c').join('')
+    .split('§d').join('')
+    .split('§e').join('')
+    .split('§f').join('')
 }

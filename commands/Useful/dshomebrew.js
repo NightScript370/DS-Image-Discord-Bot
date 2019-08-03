@@ -14,7 +14,7 @@ module.exports = class HackingGuidesCommand extends Command {
         {
 					id: 'homebrew',
           description: 'List the specific homebrew you would like to view information on.',
-					type: [['twlmenu', 'twilight', 'twilightmenu', 'twlmenu++', 'twilightmenu++'], 'nds-bootstrap', 'rocketvideoplayer', 'lolsnes', 'nesDS'],
+					type: [['twlmenu', 'twilight', 'twilightmenu', 'twlmenu++', 'twilightmenu++'], 'nds-bootstrap', 'rocketvideoplayer', 'lolsnes', 'nesDS', ['pkmn-chest', 'pkmn chest']],
           prompt: {
             start: "What's the Nintendo DS Homebrew you'd like to see?",
             retry: "There is not a thing we can get information for. Try again."
@@ -78,9 +78,19 @@ module.exports = class HackingGuidesCommand extends Command {
       case 'nesDS':
         embed
           .setTitle('nesDS')
+          .setColor("RED")
           .setDescription('**nesDS** is an open-source Nintendo Enterntainment System (NES for short) emulator for a Nintendo DS flashcard or a DSi/3DS SD card.')
           .addField('Social Links', '[Github Repository](https://github.com/RocketRobz/NesDS) ([DSi Edition](https://github.com/ApacheThunder/NesDS))')
           .setFooter('Made by loopy, FluBBa, Dwedit, tepples, kuwanger, chishm, Mamiya, minitroopa, huiminghao, CotoDev & ApacheThunder')
+          break;
+      case 'pkmn-chest':
+        embed
+          .setAuthor('pkmn-chest', 'https://github.com/Universal-Team/pkmn-chest/raw/master/resources/icon.png')
+          .setColor("GREEN")
+          .setDescription("**pkmn-chest** is a Pokémon Bank style app that let's you store and edit Pokémon from the 4th and 5th generation games on your DS(i).")
+          .addField('Social Links', '[Github Repository](https://github.com/Universal-Team/pkmn-chest) | [Discord Server](https://discord.gg/KDJCfGF)')
+          .setImage('https://universal-team.github.io/assets/images/pkmn-chest/box.png')
+          .setFooter('Made by Pk11')
     }
 
     msg.channel.send({embed})
