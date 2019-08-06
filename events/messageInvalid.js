@@ -3,7 +3,7 @@ const { random } = require("including-range-array");
 const { getKey, findType } = require('../Configuration');
 const levenshtein = require("fast-levenshtein");
 
-module.exports = class messageListener extends Listener {
+module.exports = class messageInavlidListener extends Listener {
     constructor() {
         super('messageInvalid', {
             emitter: 'commandHandler',
@@ -17,16 +17,21 @@ module.exports = class messageListener extends Listener {
             const attempt = message.util.parsed.alias;
             if (!!message.util.handler.modules.filter(c => c.aliases.includes(attempt)).size) return;
 
-            /* if (message.util.parsed.prefix !== `<@${this.client.user.id}>` && message.guild) {
+            if (message.util.parsed.prefix !== `<@${this.client.user.id}>` && message.guild) {
                 let guildBots = message.guild.members.filter(member => member.user.bot)
                 if (guildBots.size) {
                     const wait = require('util').promisify(setTimeout);
                     wait(1000);
 
-                    //TODO: Check the channel messages, starting from when the original author posted the message
-                    // If there was at least one message from a bot in the past second, return
+                    let messages = await message.channel.messages.fetch({ limit: 50 });
+                    messages = await messages.filter(channelMessage => message.author.bot);
+                    messages = await messages.filter(channelMessage => message.author.id !== this.client.user.id);
+                    messages = await messages.filter(channelMessage => channelMessage.createdAt >= Date.now() - 1000);
+
+                    if (messages.size)
+                        return;
                 }
-            } */
+            }
 
             let categories = Array.from(this.client.commandHandler.categories.entries());
             let catNames = categories.map(arr => arr[0]);
@@ -50,35 +55,40 @@ module.exports = class messageListener extends Listener {
                 distances.push(newDist);
             }
 
-            if (distances.length == 0) return message.reply(`this command cannot be found. Please check the command list found on our website for a list of commands: https://yamamura-bot.tk/commands`);
-            distances.sort((a, b) => a.dist - b.dist);
-
-            let text = `:warning: **__${attempt} is not a command.__** \n `;
-
-            let currentcmd;
-            let description;
-
+            let text = `Hey ${message.guild ? message.member.displayName : message.author.username}, ${attempt} is not a command. \n `;
             let suggestedCmds = [];
 
-            for (const index in distances) {
-                var analyzedcmd = distances[index].cmd;
-                if (!analyzedcmd) continue;
+            if (distances.length) {
+                distances.sort((a, b) => a.dist - b.dist);
 
-                // if (currentcmd && currentcmd.id == message.util.handler.aliases.get(distances[index].alias)) continue;
-                currentcmd = analyzedcmd;
+                let currentcmd;
+                let description;
 
-                if (currentcmd.description) {
-                    description = currentcmd.description;
-                    if (currentcmd.description.content)
-                        description = currentcmd.description.content;
+                for (const index in distances) {
+                    var analyzedcmd = distances[index].cmd;
+                    if (!analyzedcmd) continue;
 
-                    if (description.join)
-                        description = description.join("-");
+                    // if (currentcmd && currentcmd.id == message.util.handler.aliases.get(distances[index].alias)) continue;
+                    currentcmd = analyzedcmd;
+
+                    if (currentcmd.description) {
+                        description = currentcmd.description;
+                        if (currentcmd.description.content)
+                            description = currentcmd.description.content;
+
+                        if (description.join)
+                            description = description.join("-");
+                    }
+                    suggestedCmds.push(`\`${parseInt(index)+1}.\` **${distances[index].alias}** ${description ? `- ${description}` : ''}`);
                 }
-                suggestedCmds.push(`\`${parseInt(index)+1}.\` **${distances[index].alias}** ${description ? `- ${description}` : ''}`);
             }
 
-            return message.channel.send(text + (suggestedCmds.length ? `However, here are some commands that you might be looking for \n \n${suggestedCmds.join("\n")}` : "")).catch((err) => console.log(err));
+            try {
+                let message = await message.channel.send(text + (suggestedCmds.length ? `However, here are some commands that you might be looking for \n \n${suggestedCmds.join("\n")}\n` : "") + "If you'd like to see more commands, check out the commands command or the page on our website");
+                message.delete({timeout: suggestedCmds.length ? 12000 : 5000})
+            } catch (e) {
+                console.error(e);
+            }
 	    }
 
         if (!message.guild) return;

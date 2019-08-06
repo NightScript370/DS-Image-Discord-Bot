@@ -1,11 +1,17 @@
 const { Command } = require('discord-akairo');
-const { createCanvas, loadImage } = require('canvas');
-const request = require('node-superfetch');
+const moment = require('moment');
 
-module.exports = class IDCommand extends Command {
+const activities = {
+	PLAYING: 'Playing',
+	STREAMING: 'Streaming',
+	WATCHING: 'Watching',
+	LISTENING: 'Listening to'
+};
+
+module.exports = class DiscordProfileCommand extends Command {
   constructor() {
-    super('id', {
-      aliases: ['id'],
+    super('profile', {
+      aliases: ['user', 'member', 'profile', 'user-profile', 'member-profile'],
       category: 'Useful',
       clientPermissions: ['ATTACH_FILES'],
       description: {
@@ -25,17 +31,49 @@ module.exports = class IDCommand extends Command {
   }
 
   async exec(msg, { user }) {
-    const __ = (k, ...a) => global.getString(msg.author.lang, k, ...a);
-    let embed = this.client.util.embed()
-      .setAuthor(user.id, user.displayAvatarURL())
-/*      .setDescription(__(`Above is ${user == msg.author ? "your" : "{0}'s"} Discord User ID. You can use it to:
+    let member;
+    if (msg.guild) {
+      member =  msg.guild.members.get(user.id)
+    }
 
-- Allow users to reference ${user == msg.author ? "you" : "{0}"} regarding bot commands in Direct Messages
-- Connect a MakerBoard account to Discord`, user.username)) */
-      .setDescription(`Above is ${user == msg.author ? 'your' : `${user.username}'s`} Discord User ID.`)
-      .setThumbnail(this.client.user.displayAvatarURL({format: 'png'}))
-      .setColor("#7289da");
-    
+    let embed = this.client.util.embed()
+      .setTitle(`Information on ${member ? member.displayName : user.username}`)
+      .setThumbnail(user.displayAvatarURL())
+      .setYamamuraCredits(true)
+
+    if (member) {
+      const roles = member.roles
+					.filter(role => role.id !== msg.guild.defaultRole.id)
+					.sort((a, b) => b.position - a.position)
+					.map(role => role.name);
+
+      let DBuser = this.client.db.points.findOne({guild: msg.guild.id, member: user.id}) || await this.client.db.points.insert({guild: guildFound.id, member: user.id, points: 0, level: 0});
+
+      embed
+          .addInline("Points", DBuser.points == Infinity ? "Infinity" : DBuser.points)
+          .addInline("Level", DBuser.points == Infinity ? "Infinity": DBuser.points)
+					.setColor(member.displayHexColor)
+					.setDescription(member.presence.activity
+						? `${activities[member.presence.activity.type]} **${member.presence.activity.name}**`
+						: '')
+          .addField(`Roles (${roles.length})`, roles.length ? this.trimArray(roles).join(', ') : 'None' + '\n\n'
+                                             + member.roles.highest.id === msg.guild.defaultRole.id ? '' : `**Highest Role:** ${member.roles.highest.name} \n`
+                                             + member.roles.hoist ? `**Hoist Role:** ${member.roles.hoist.name}` : '')
+          .addInline('Server Join Date', moment.utc(member.joinedAt).format('MM/DD/YYYY h:mm A'));
+    }
+
+    embed
+      .addInline('Discord Join Date', moment.utc(user.createdAt).format('MM/DD/YYYY h:mm A'))
+      .addField('Advanced Discord Identity', `${user.tag} (#${user.id})`)
+
     msg.channel.send(embed);
   }
+
+	trimArray(arr) {
+		if (arr.length > 10) {
+			const len = arr.length - 10;
+			arr = arr.slice(0, 10);
+		}
+		return arr;
+	}
 };

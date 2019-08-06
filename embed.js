@@ -1,7 +1,7 @@
-const djs = require('discord.js')
+const { MessageEmbed } = require('discord.js')
 const client = require('./yamamura.js')
 
-module.exports = class Embed extends djs.MessageEmbed {
+module.exports = class YamamuraEmbed extends MessageEmbed {
 	constructor(...args) {
 		super(args)
 	}

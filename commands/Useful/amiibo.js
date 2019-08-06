@@ -15,7 +15,11 @@ module.exports = class AmiiboCommand extends Command {
 			args: [
         {
 					id: 'name',
-					prompt: 'Which Amiibo would you like to get information on',
+          description: "This parameter is for the Amiibo you'd like to get information on.",
+					prompt: {
+            start: 'Which Amiibo would you like to get information on?',
+            end: "That's not something we can get information on. Try again"
+          },
 					type: 'string',
           match: 'content'
         }
