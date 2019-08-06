@@ -1,9 +1,9 @@
 const { Command } = require('discord-akairo');
 
-module.exports = class HackingGuidesCommand extends Command {
+module.exports = class ConsoleHackingGuidesCommand extends Command {
     constructor() {
         super('consolehackguide', {
-            aliases: ['consolehackguide'],
+            aliases: ['consolehackguide', 'consolehackingguide', 'consolehackinguide', 'consolemodguide', 'consolemoddingguide', 'consolemodificationguide'],
             category: 'Useful',
             description: {
 				content: 'Returns a link to a Hacking Guide.',
@@ -12,10 +12,11 @@ module.exports = class HackingGuidesCommand extends Command {
 			},
 			args: [
                 {
-					id: 'guide',
-					type: [['3ds', '3dsxl', '3dsll', '2ds', 'new3ds', 'new3dsxl', 'new3dsll', 'new2ds', 'new2dsxl', 'new2dsll'], 'dsi', 'flashcard', 'wii', 'wiiu', ['switch', 'nx']],
+					id: 'console',
+                    description: "This parameter is to specify which console you would like to find a hacking guide for. Examples include the 3ds, dsi, flashcard, wii, wiiu or the switch",
+					type: [['3ds', '3dsxl', '3dsll', '2ds', 'new3ds', 'new3dsxl', 'new3dsll', 'new2ds', 'new2dsxl', 'new2dsll'], 'dsi', 'flashcard', 'wii', ['wiiu', 'wii u'], ['switch', 'nx']],
                     prompt: {
-                        start: "What's the Nintendo Console Hacking Guide you'd like to see?",
+                        start: "What's the Console you'd like to find a Hacking Guide for?",
                         retry: "There is not a thing we can get a guide for. Try again."
                     },
                     match: 'content'
@@ -24,10 +25,10 @@ module.exports = class HackingGuidesCommand extends Command {
         });
     }
 
-    async exec(msg, { guide }) {
+    async exec(msg, { console }) {
         let embed = this.client.util.embed()
 
-        switch (guide.toLowerCase()) {
+        switch (console.toLowerCase()) {
             case '3ds':
                 embed
                     .setTitle('Nintendo 3DS Hacking Guide', 'https://3ds.hacks.guide')
