@@ -84,8 +84,8 @@ module.exports = class messageInavlidListener extends Listener {
             }
 
             try {
-                let message = await message.channel.send(text + (suggestedCmds.length ? `However, here are some commands that you might be looking for \n \n${suggestedCmds.join("\n")}\n` : "") + "If you'd like to see more commands, check out the commands command or the page on our website");
-                message.delete({timeout: suggestedCmds.length ? 12000 : 5000})
+                let invalidCommandMessage = await message.channel.send(text + (suggestedCmds.length ? `However, here are some commands that you might be looking for \n \n${suggestedCmds.join("\n")}\n` : "") + "If you'd like to see more commands, check out the commands command or the page on our website");
+                invalidCommandMessage.delete({timeout: suggestedCmds.length ? 12000 : 5000})
             } catch (e) {
                 console.error(e);
             }
