@@ -37,7 +37,7 @@ module.exports = class weatherCommand extends Command {
         let current = result[0].current;
         let location = result[0].location;
 
-        let embed = this.client.util.embed
+        let embed = this.client.util.embed()
             .setThumbnail(current.imageUrl)
             .addInline('Timezone', `UTC${location.timezone}`)
             .addInline('Degree Type', location.degreetype)
