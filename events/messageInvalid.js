@@ -21,12 +21,12 @@ module.exports = class messageInavlidListener extends Listener {
                 let guildBots = message.guild.members.filter(member => member.user.bot)
                 if (guildBots.size) {
                     const wait = require('util').promisify(setTimeout);
-                    wait(1000);
+                    wait(1700);
 
                     let messages = await message.channel.messages.fetch({ limit: 50 });
-                    messages = await messages.filter(channelMessage => message.author.bot);
-                    messages = await messages.filter(channelMessage => message.author.id !== this.client.user.id);
-                    messages = await messages.filter(channelMessage => channelMessage.createdAt >= Date.now() - 1000);
+                    messages = await messages.filter(channelMessage => channelMessage .author.bot); 
+                    messages = await messages.filter(channelMessage => message.author.id !== this.client.user.id); 
+                    messages = await messages.filter(channelMessage => channelMessage.createdAt >= Date.now() - 1700); 
 
                     if (messages.size)
                         return;
