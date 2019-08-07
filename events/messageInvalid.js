@@ -21,7 +21,7 @@ module.exports = class messageInavlidListener extends Listener {
                 let guildBots = message.guild.members.filter(member => member.user.bot)
                 if (guildBots.size) {
                     const wait = require('util').promisify(setTimeout);
-                    wait(1700);
+                    await wait(1700);
 
                     let messages = await message.channel.messages.fetch({ limit: 50 });
                     messages = await messages.filter(channelMessage => channelMessage .author.bot); 
