@@ -15,9 +15,9 @@ module.exports = class weatherCommand extends Command {
             },
  	        args: [
                 {
-					id: 'location',
+                    id: 'area',
                     description: "This is the location you would like to get weather information",
-					type: 'string',
+                    type: 'string',
                     prompt: {
                         start: "What's the location you'd like to recieve weather information for?",
                         retry: "There is not a thing we can get weather information for. Try again."
@@ -28,8 +28,8 @@ module.exports = class weatherCommand extends Command {
         });
     }
 
-    async exec(message, { location }) {
-        let result = asyncWeather({ search: args.join(" "), degreeType: 'C' }); 
+    async exec(message, { area }) {
+        let result = asyncWeather({ search: area, degreeType: 'C' }); 
         if (isEmpty(result)) {
             return message.channel.send("There were no results found for your location. Please try again later.");
         }
@@ -46,5 +46,7 @@ module.exports = class weatherCommand extends Command {
             .addInline('Winds', current.winddisplay)
             .addInline('Humidity', `${current.humidity}%`);
         message.channel.send(`${current.skytext} weather in ${current.observationpoint}`, message.channel.embedable ? {embed} : {});
+
+        return result;
     }
 };
