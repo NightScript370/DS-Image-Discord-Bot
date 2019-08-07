@@ -52,5 +52,5 @@ module.exports = class weatherCommand extends Command {
 };
 
 function isEmpty(value) { //Function to check if value is really empty or not
-	return (value == null || value.length === 0);
+	return (!value || value.length === 0);
 }
