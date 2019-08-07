@@ -61,8 +61,8 @@ let types = [
       return val == "false" ? false : true;
     }
     
-    static render(client, _, val) {
-      return val ? ":white_check_mark:" : ":negative_squared_cross_mark:";
+    static render(client, msg, val) {
+      return getString(msg.author.lang, val.toString() == "true" ? "Enabled" : "Disabled");
     }
 
     static validate(client, msg, val) {
