@@ -23,7 +23,7 @@ module.exports = class messageReactionRemoveListener extends Listener {
 		const reacount = await (await reaction.users.fetch()).filter(r => r.id !== message.author.id && !r.bot).size;
 
 		const starChannel = channel // message.guild.channels.find("name", "starboard");
-		if (starChannel) {
+		if (starChannel && starChannel.sendable && starChannel.embedable) {
 			const image = message.attachments.size > 0 ? extension(message.attachments.array()[0].url) : '';
 
 			const fetchedMessages = starChannel.messages.fetch({ limit: 100 });

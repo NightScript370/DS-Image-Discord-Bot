@@ -10,7 +10,7 @@ module.exports = class guildMemberRemoveListener extends Listener {
     }
 
     async exec(member) {
-        let serverconfig = await this.client.db.serverconfig.findOne({guildID: member.guild.id}) || await this.client.setDefaultSettings(member, this.client);
+        let serverconfig = await this.client.db.serverconfig.findOne({guildID: member.guild.id}) || await this.client.setDefaultSettings(member.guild);
         if (isEmpty(serverconfig.logchan)) return;
 
         let memberRemoveLogEmbed = this.client.util.embed()
@@ -31,7 +31,7 @@ module.exports = class guildMemberRemoveListener extends Listener {
         }
 
 		const logchannel = await member.guild.channels.get(serverconfig.logchan.value);
-        if (logchannel && logchannel.sendable)
+        if (logchannel && logchannel.sendable && logchannel.embedable)
             logchannel.send({embed: memberRemoveLogEmbed});
     }
 }

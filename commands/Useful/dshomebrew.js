@@ -38,11 +38,11 @@ module.exports = class HackingGuidesCommand extends Command {
           .addInline('Social Links', '• [Github Repository](https://github.com/DS-Homebrew/TWiLightMenu) \n'
                                    + '• [GBATemp Thread](https://gbatemp.net/threads/ds-i-3ds-twilight-menu-gui-for-ds-i-games-and-ds-i-menu-replacement.472200/) \n'
                                    + '• [Discord Server](https://discord.gg/yqSut8c)')
-          .addInline('Supported Formats', '• `.nds` and `.dsi` via nds-bootstrap'
-                                        + '• `.gg` and `.sms` via S8DS' 
-                                        + '• `.nes` via nesDS'
-                                        + '• `.sfc` and `.smc` via SNEmulDS'
-                                        + '• `.gb` and `.gbc` via GameYob' 
+          .addInline('Supported Formats', '• `.nds` and `.dsi` via nds-bootstrap \n'
+                                        + '• `.gg` and `.sms` via S8DS \n'
+                                        + '• `.nes` via nesDS \n'
+                                        + '• `.sfc` and `.smc` via SNEmulDS \n'
+                                        + '• `.gb` and `.gbc` via GameYob \n'
                                         + '• `.gba` via GBARunner2')
           .setColor('#A701E9')
           .setImage('https://media.discordapp.net/attachments/283770736215195648/608017242659225651/image0.jpg')

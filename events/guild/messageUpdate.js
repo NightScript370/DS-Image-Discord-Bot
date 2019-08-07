@@ -2,11 +2,11 @@ const { Listener } = require('discord-akairo');
 
 module.exports = class messageUpdateListener extends Listener {
   constructor() {
-      super('messageUpdate', {
-        emitter: 'client',
-        event: 'messageUpdate',
-        category: 'guild'
-      });
+    super('messageUpdate', {
+      emitter: 'client',
+      event: 'messageUpdate',
+      category: 'guild'
+    });
   }
 
   exec(oldMessage, newMessage) {
@@ -18,8 +18,8 @@ module.exports = class messageUpdateListener extends Listener {
 
     try {
       const logs = this.client.db.serverconfig.get(this.client, newMessage, "logchan")
-          
-      if (logs) {
+
+      if (logs && logs.sendable && logs.embedable) {
   		  let messageUpdateEmbed = this.client.util.embed()
 	  		  .setColor("#0000FF")
 	  		  .setAuthor(`${newMessage.author.username} updated their message`, newMessage.author.displayAvatarURL({format: 'png'}))

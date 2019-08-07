@@ -39,28 +39,43 @@ class YamamuraClient extends AkairoClient {
 		});
 
         this.db = require('./utils/database.js');
-        this.setDefaultSettings = (entry) => {
-            let channels = entry.guild.channels;
+        this.setDefaultSettings = (guild, blank = false, scan = true) => {
+            let channels = guild.channels;
 
-            let logchannel = channels.find(channel => channel.name === "discord-logs");
-            let welcomechannel = channels.find(channel => channel.name === "general");
-            let starboardchannel = channels.find(channel => channel.name === "starboard");
-            let mutedrole = entry.guild.roles.find(role => role.name === "Muted");
+            let logchannel = scan ? channels.find(channel => channel.name === "discord-logs") : null;
+            let welcomechannel = scan ? channels.find(channel => channel.name === "general") : null;
+            let starboardchannel = scan ? channels.find(channel => channel.name === "starboard") : null;
+            let mutedrole = scan ? guild.roles.find(role => role.name === "Muted") : null;
 
             let defaultsettings = {
-                guildID: entry.guild.id,
+                guildID: guild.id,
                 logchan: {value: logchannel ? logchannel.id : '', type: "channel"},
                 welcomechan: {value: welcomechannel ? welcomechannel.id : '', type: "channel"},
-                welcomemessage: {type: 'array', arrayType: 'string', value: [{value: "Welcome {{user}} to {{guild}}! Enjoy your stay", type: "string"}] },
-                leavemessage: {type: 'array', arrayType: 'string', value: [{value: "Goodbye {{user}}! You'll be missed", type: 'string'}]},
+                welcomemessage: {type: 'array', arrayType: 'string', value: !blank ? [{value: "Welcome {{user}} to {{guild}}! Enjoy your stay", type: "string"}] : [] },
+                leavemessage: {type: 'array', arrayType: 'string', value: !blank ? [{value: "Goodbye {{user}}! You'll be missed", type: 'string'}] : []},
                 prefix: { value: config.prefix, type: "string" },
                 makerboard: { value: "", type: "string" },
                 starboardchannel: { value: starboardchannel ? starboardchannel.id : '', type: "channel" },
                 levelup: { type: 'bool', value: 'true' },
-                levelupmsgs: { type: 'array', arrayType: 'string', value: [{value: "{{coin}} Congratulations {{user}}! You've leveled up to level {{level}}! {{coin}}", type: "string"}] },
+                levelupmsgs: { type: 'array', arrayType: 'string', value: !blank ? [{value: "Congratulations {{user}}! You've leveled up to level {{level}}!", type: "string"}] : [] },
                 mutedrole: { type: 'role', value: mutedrole ? mutedrole.id : '' },
             };
 
+            let currentsettings = this.client.db.serverconfig.findOne({guildID: msg.guild.id})
+            if (currentsettings) {
+                currentsettings.logchan = defaultsettings.logchan;
+                currentsettings.welcomechan = defaultsettings.welcomechan;
+                currentsettings.welcomemessage = defaultsettings.welcomemessage;
+                currentsettings.leavemessage = defaultsettings.leavemessage;
+                currentsettings.prefix = defaultsettings.prefix;
+                currentsettings.makerboard = defaultsettings.makerboard;
+                currentsettings.starboardchannel = defaultsettings.starboardchannel;
+                currentsettings.levelup = defaultsettings.levelup;
+                currentsettings.levelupmsgs = defaultsettings.levelupmsgs;
+                currentsettings.mutedrole = defaultsettings.mutedrole;
+
+                return this.client.db.serverconfig.update(currentsettings);
+            } 
             return this.db.serverconfig.insert(defaultsettings);
         };
         
@@ -126,7 +141,7 @@ class YamamuraClient extends AkairoClient {
                 if (msg.channel.type == "dm") return ['', config.prefix];
                 if (msg.guild) {
                     try {
-                        let serverconfig = this.db.serverconfig.findOne({ guildID: msg.guild.id }) || await this.setDefaultSettings(msg);
+                        let serverconfig = this.db.serverconfig.findOne({ guildID: msg.guild.id }) || await this.setDefaultSettings(msg.guild);
 
                         if (serverconfig && serverconfig.prefix && serverconfig.prefix.value)
                             return serverconfig.prefix.value;

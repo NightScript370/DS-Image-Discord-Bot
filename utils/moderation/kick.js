@@ -4,25 +4,11 @@ module.exports = async (client, member, reason, moderator, msg) => {
   let serverconfig;
 
   //Setup some backend security. This is just a backup.
-  if(!msg.guild) return;
-  if(!msg.guild.me.hasPermission('KICK_MEMBERS')) return;
-  if(!msg.guild.members.has(member.id)) return;
+  if (!member.guild) return;
+  if (!member.guild.me.hasPermission('KICK_MEMBERS')) return;
+  if (msg && !msg.guild.members.has(member.id)) return;
 
-  if (msg) {
-    let data = client.db.serverconfig.findOne(msg.guild.id);
-    let logChannelObject = data.logchan
-    let logs = findType(logChannelObject.type).deserialize(client, msg, logChannelObject.value);
-  } else {
-    let data = client.db.serverconfig.findOne(member.guild.id);
-    let logChannelObject = data.logchan
-    let logs = findType(logChannelObject.type).deserialize(client, msg, logChannelObject.value);
-  }
-
-  if (msg)  serverconfig = await client.db.serverconfig.findOne({guildID: msg.guild.id}) || await client.setDefaultSettings(msg, this.client);
-  else      serverconfig = await client.db.serverconfig.findOne({guildID: member.guild.id}) || await client.setDefaultSettings(member, this.client);
-
-  const logs = msg.guild.channels.find(logchan => logchan.name === serverconfig.logchan.value);
-
+  let logChannel = client.db.serverconfig.get(client, member, "logchan");
   let embed = client.util.embed()
     .setColor(0xe00b0b)
     .setTitle(`:boot: ${member.user.username} was kicked`, member.user.displayAvatarURL)
@@ -36,11 +22,13 @@ module.exports = async (client, member, reason, moderator, msg) => {
   try {
     member.send(`You were kicked from ${msg.guild.name}: ${reason}`);
   } catch(e) {
-    if(logs)	embed.addField(":warning: No alert was sent", "Please notify him of his kick manually");
-    else		moderator.send("Couldn't send the kick notification. Please notify him manually").catch();
+    if(logChannel)
+      embed.addField(":warning: No alert was sent", "Please notify him of his kick manually");
+    else
+      moderator.send("Couldn't send the kick notification. Please notify him manually").catch();
   }
 
   member.kick(reason);
-
-  if(logs)	logs.send(embed);
+  if(logChannel && logChannel.sendable && logChannel.embedable)
+    logs.send({embed});
 }

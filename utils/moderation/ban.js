@@ -6,14 +6,12 @@ module.exports = async (client, member, reason, moderator, msg = null, days = nu
   if (msg)  container = msg;
   else      container = member;
 
-  let serverconfig = await client.db.serverconfig.findOne({guildID: container.guild.id}) || await client.setDefaultSettings(container, this.client);
-
   if (!container.guild) return "not guild";
   if (!container.guild.me.hasPermission('BAN_MEMBERS')) return "no perm";
 
   let user = member.user ? member.user : member;
 
-  let logChannel = container.guild.channels.get(serverconfig.logchan.value);
+  let logChannel = client.db.serverconfig.get(client, container, "logchan");
   let BanLogEmbed = client.util.embed()
     .setColor("#FF0000")
     .setTitle(`:skull_crossbones: ${user.tag} was banned`, user.displayAvatarURL({format: 'png'}))
@@ -40,6 +38,7 @@ module.exports = async (client, member, reason, moderator, msg = null, days = nu
     else      await member.ban(reason).catch((error) => { console.error(error); return "error when ban";});
   }
 
-  if (logChannel) logChannel.send({embed: BanLogEmbed});
+  if (logChannel && logChannel.sendable && logChannel.embedable)
+    logChannel.send({embed: BanLogEmbed});
   return true;
 }

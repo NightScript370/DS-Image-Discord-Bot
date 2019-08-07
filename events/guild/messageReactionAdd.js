@@ -19,7 +19,6 @@ module.exports = class messageReactionAddListener extends Listener {
 		if (!message.guild) return;
 		if (reaction.count < 3) return;
 		if (reaction.emoji.name !== '⭐') return;
-		if (message.channel.id == channel.id) return;
 		if (message.author.id === user.id) {
 			if (message.guild.me.permissions.has('MANAGE_MESSAGES')) {
 				reaction.remove(user)
@@ -41,7 +40,8 @@ module.exports = class messageReactionAddListener extends Listener {
 		if (reacount < 3) return;
 
 		const starChannel = channel; // message.guild.channels.find("name", "starboard");
-		if (starChannel && starChannel.permissionsFor(this.client.user).has('SEND_MESSAGES')) {
+		if (starChannel && starChannel.sendable && starChannel.embedable) {
+			if (message.channel.id == channel.id) return;
 			let PostMessage = true;
 
 			const fetchedMessages = starChannel.messages.fetch({ limit: 100 });

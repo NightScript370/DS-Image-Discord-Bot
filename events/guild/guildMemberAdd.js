@@ -1,23 +1,23 @@
 const { Listener } = require('discord-akairo');
 
 Array.prototype.random = function() {
-  return this[Math.floor(Math.random() * this.length)];
+	return this[Math.floor(Math.random() * this.length)];
 };
 
 module.exports = class guildMemberAddListener extends Listener {
-  constructor() {
-    super('guildMemberAdd', {
-      emitter: 'client',
-      event: 'guildMemberAdd',
-      category: 'guild'
-    });
-  }
+	constructor() {
+		super('guildMemberAdd', {
+			emitter: 'client',
+			event: 'guildMemberAdd',
+			category: 'guild'
+		});
+	}
 
-  async exec(member) {
-  	let name = member.user.username;
-  	let owner = member.guild.members.get(member.guild.ownerID);
+	async exec(member) {
+		let name = member.user.username;
+		let owner = member.guild.members.get(member.guild.ownerID);
 
-    let serverconfig = await this.client.db.serverconfig.findOne({guildID: member.guild.id}) || await this.client.setDefaultSettings(member, this.client);
+		let serverconfig = await this.client.db.serverconfig.findOne({guildID: member.guild.id}) || await this.client.setDefaultSettings(member.guild);
 
 		let logembed = this.client.util.embed()
 			.setAuthor(`${member.user.username} has joined`, member.user.displayAvatarURL({format: 'png'}))
@@ -39,8 +39,8 @@ module.exports = class guildMemberAddListener extends Listener {
 		} else {
 			let chnl = await member.guild.channels.get(serverconfig.welcomechan.value);
 
-			if (chnl && chnl.permissionsFor(this.client.user).has('SEND_MESSAGES')) {
-				if (member.guild.id == '318882333312679936') {
+			if (chnl && chnl.sendable) {
+				if (member.guild.id == '318882333312679936' && chnl.embedable) {
 					var embed = this.client.util.embed()
 						.setColor("#B6FF00")
 						.setAuthor(`New User: ${member.user.username}`, member.user.displayAvatarURL({format: 'png'}))

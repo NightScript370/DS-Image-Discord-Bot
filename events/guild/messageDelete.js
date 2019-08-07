@@ -24,9 +24,9 @@ module.exports = class MessageDeleteListener extends Listener {
 		if (message.author.id == this.client.user.id && message.content.endsWith("you may not star your own message.")) return;
 
     try {
-      const logs = this.client.db.serverconfig.get(this.client, message, "logchan");
+      const logChannel = this.client.db.serverconfig.get(this.client, message, "logchan");
 
-      if (logs) {
+      if (logChannel && logChannel.sendable && logChannel.embedable) {
         this.log();
         let messageDeleteEmbed = this.client.util.embed()
           .setColor("#ff0000")
@@ -65,7 +65,7 @@ module.exports = class MessageDeleteListener extends Listener {
           this.log();
         }
 
-        logs.send({embed: messageDeleteEmbed});
+        logChannel.send({embed: messageDeleteEmbed});
       }
     } catch (e) {
       //console.error(e);

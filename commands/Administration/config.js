@@ -118,15 +118,7 @@ module.exports = class ConfigCommand extends Command {
         if (resp && resp.toLowerCase() == "y") {
           console.log(msg.author.tag + " accepted to clear " + msg.guild.name + "'s settings")
           try {
-            data.logchan = {"value":"","type":"channel"};
-            data.welcomechan = {"value":"","type":"channel"};
-            data.welcomemessage = {type: 'array', arrayType: 'string', value: [{value: "Welcome {{user}} to {{guild}}! Enjoy your stay", type: "string"}] },
-            data.leavemessage = {"value":"Welp, {{name}} has left.","type":"string"};
-            data.prefix = {"value":config.prefix,"type":"string"};
-            data.makerboard = {"value":"","type":"string"};
-            data.starboardchannel =  {"value":"","type":"channel"};
-            data.levelup = {value:"true",type:"bool"}
-            await this.client.db.serverconfig.update(data);
+            await this.client.setDefaultSettings(msg.guild, false, false);
             return msg.util.reply(__("I have successfully cleared the configuration"));
           } catch (e) {
             console.error(e);

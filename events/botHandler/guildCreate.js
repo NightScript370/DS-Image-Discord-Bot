@@ -10,10 +10,7 @@ module.exports = class guildCreateListener extends Listener {
   }
 
     async exec(guild) {
-      let container = {};
-      container.guild = guild;
-
-      let serverconfig = await this.client.db.serverconfig.findOne({guildID: guild.id}) || await this.client.setDefaultSettings(container, this.client);
+      let serverconfig = await this.client.db.serverconfig.findOne({guildID: guild.id}) || await this.client.setDefaultSettings(guild);
 
       this.client.channels.get(this.client.log.servers).send(`Added to ${guild.name} (#${guild.id}), owned by ${guild.owner.user.tag} (\`${guild.ownerID}\`)`);
       this.client.util.setDefaultStatus(client);
