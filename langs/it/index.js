@@ -1,5 +1,5 @@
 module.exports = {
-  'No description available.': "Nessuna descrizione",
+  "No description available.": "Nessuna descrizione",
   "Total Commands: {0}": "Comandi disponibili: {0}",
   "There are not enough arguments to this command. The minimum is {0}.": "Non ci sono abbastanza argomenti per questo comando. Il minimo è {0}.",
   "The language has been changed to {0} **{1}**.": "La lingua è stata cambiata in {0} **{1}**.",
@@ -78,11 +78,11 @@ module.exports = {
   "Useful": "Utility",
   "Audio": "Audio",
   "Fun": "Divertimento",
-  "Image Edits": "Modifiche di immagini", // Not final. At all ~Samplasion
+  "Image Edits": "Immagini modificate", // Not final. At all ~Samplasion
   "Moderation": "Moderazione",
   "Bot Utilities": "Utility del bot",
   "Game Server Statistics": "Statistiche server di gioco",
-  "Image Fun": "Divertimento con le immagini", // Not final. At all ~Samplasion
+  "Image Fun": "Immagini divertenti", // Not final. At all ~Samplasion
   "Text Edits": "Modifiche del testo",
   "View and set your server's config for the bot.": "Visualizza e modifica la configurazione del server per il bot.",
   "Log channel": "Canale di log",
@@ -104,4 +104,6 @@ module.exports = {
   "{0} was successfully muted": "{0} è stato silenziato.",
   "{0} was successfully unmuted": "{0} può di nuovo parlare.",
   "an error occured while trying to mute the user. Report this error to the Yamamura developers: `{0}`": "si è verificato un errore mentre l'utente veniva silenziato. Avverti gli sviluppatori di Yamamura di questo errore: `{0}`",
-}
+  "Enabled": "Abilitato",
+  "Disabled": "Non abilitato",
+};
