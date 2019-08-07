@@ -1,7 +1,7 @@
 const { Command } = require('discord-akairo');
 const request = require("request");
 
-const {promisify, inspect} = require("util");
+const { promisify } = require("util");
 const req = promisify(request);
 
 module.exports = class ImageCommand extends Command {
