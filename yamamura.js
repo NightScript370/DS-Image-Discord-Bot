@@ -61,7 +61,7 @@ class YamamuraClient extends AkairoClient {
                 mutedrole: { type: 'role', value: mutedrole ? mutedrole.id : '' },
             };
 
-            let currentsettings = this.client.db.serverconfig.findOne({guildID: msg.guild.id})
+            let currentsettings = this.db.serverconfig.findOne({guildID: guild.id});
             if (currentsettings) {
                 currentsettings.logchan = defaultsettings.logchan;
                 currentsettings.welcomechan = defaultsettings.welcomechan;
@@ -403,7 +403,7 @@ class YamamuraClient extends AkairoClient {
             if (!data.connection) {
                 if (!msg.member || !msg.member.voice) return client.audio.finish(msg, client, data.dispatcher);
 
-                if (!message.guild.voice || (message.guild.voice && !message.guild.voice.connection)) data.connection = await msg.member.voice.channel.join();
+                if (!msg.guild.voice || (msg.guild.voice && !msg.guild.voice.connection)) data.connection = await msg.member.voice.channel.join();
                 else data.connection = msg.guild.voice.connection;
 		    }
 
