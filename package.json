@@ -31,17 +31,19 @@
     "showdown": "^1.9.0",
     "sodium": "^3.0.2",
     "super-maker-api": "^3.0.0",
+    "smm-api": "github:RedDuckss/smm-api",
     "tictactoejs": "^1.0.3",
     "turndown": "^5.0.3",
     "weather-js": "^2.0.0",
     "yt-search": "^0.4.1",
     "ytdl-core-discord": "github:NightYoshi370/ytdl-core-discord#patch-2",
-    "ytpl": "^0.1.14",
-    "zlib-sync": "^0.1.4",
+    "ytpl": "^0.1.15",
+    "zlib-sync": "^0.1.5",
     "hangman-game-engine": "^1.1.3",
     "dotenv": "^8.0.0",
     "body-parser": "^1.19.0",
-    "fast-levenshtein": "^2.0.6"
+    "fast-levenshtein": "^2.0.6",
+    "pokedex-promise-v2": "^3.1.1"
   },
   "engines": {
     "node": "10"
