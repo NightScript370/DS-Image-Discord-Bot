@@ -22,6 +22,9 @@ module.exports = class FortniteItemCommand extends Command {
 	}
 
 	async exec(msg, { images }) {
+		if (!this.isGood(images))
+			return msg.reply('No images were found. Please try again.')
+
 		try {
 			const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'fortniteitem.png'));
 			const canvas = createCanvas(base.width, base.height);

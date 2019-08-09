@@ -27,6 +27,9 @@ module.exports = class SteppedInShitCommand extends Command {
     }
 
     async exec(message, { images, overlay }) {
+        if (!this.isGood(images))
+			return msg.reply('No images were found. Please try again.')
+
         try {
             const attachment = await this.stepInShit(images, overlay);
             if (Buffer.byteLength(attachment) > 8e+6)

@@ -49,6 +49,9 @@ module.exports = class ResizeCommand extends Command {
 	async exec(msg, { width, height, images }) {
 		let currentimage, widthpad, heightpad;
 
+		if (!this.isGood(images))
+			return msg.reply('No images were found. Please try again.')
+
 		try {
 			// Create canvas and canvas2 (the latter is a temporary one)
 			const imagessize = await this.largestSize(images);

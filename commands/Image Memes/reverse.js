@@ -29,6 +29,9 @@ module.exports = class ReverseCommand extends Command {
   async exec(message, { images, layerstretch }) {
     let currentimage, widthpad, heightpad;
 
+		if (!this.isGood(images))
+			return msg.reply('No images were found. Please try again.')
+
     try {
       if (!layerstretch) {
         const imagessize = await this.largestSize(images);

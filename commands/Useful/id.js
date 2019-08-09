@@ -1,4 +1,4 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/Image-Command');
 const moment = require('moment');
 
 const activities = {
@@ -58,7 +58,7 @@ module.exports = class DiscordProfileCommand extends Command {
 					: '')
                 .addField(`Roles (${roles.length})`, roles.length ? this.trimArray(roles).join(', ') : 'None' + '\n\n'
                                              + member.roles.highest.id === member.guild.defaultRole.id ? '' : `**Highest Role:** ${member.roles.highest.name} \n`
-                                             + member.roles.hoist ? `**Hoist Role:** ${member.roles.hoist.name}` : '')
+                                             + this.isGood(member.roles.hoist) ? `**Hoist Role:** ${member.roles.hoist.name}` : '')
                 .addInline('Server Join Date', moment.utc(member.joinedAt).format('MM/DD/YYYY h:mm A'));
         }
 

@@ -30,6 +30,9 @@ module.exports = class IfunnyCommand extends Command {
 	async exec(msg, { images }) {
 		let currentimage, widthpad, heightpad;
 
+		if (!this.isGood(images))
+			return msg.reply('No images were found. Please try again.')
+
 		try {
 			const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'ifunny.png'));
 
@@ -45,7 +48,6 @@ module.exports = class IfunnyCommand extends Command {
 
 				ctx.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
 			}
-			ctx.drawImage(data, 0, 0);
 			ctx.fillStyle = '#181619';
 			ctx.fillRect(0, canvas.height - base.height, canvas.width, base.height);
 			ctx.drawImage(base, canvas.width - base.width, canvas.height - base.height);

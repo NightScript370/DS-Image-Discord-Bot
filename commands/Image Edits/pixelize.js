@@ -41,6 +41,9 @@ module.exports = class PixelizeCommand extends Command {
 	async exec(msg, { level, images, smoothen }) {
 		let currentimage, widthpad, heightpad;
 
+		if (!this.isGood(images))
+			return msg.reply('No images were found. Please try again.')
+
 		try {
 
 			// Create canvas and canvas2 (the latter is a temporary one)

@@ -25,6 +25,9 @@ module.exports = class CircleCommand extends Command {
 	async exec(msg, { images }) {
 		let currentimage, widthpad, heightpad;
 
+		if (!this.isGood(images))
+			return msg.reply('No images were found. Please try again.')
+
 		try {
 			const imagessize = await this.largestSize(images);
 			const canvas = await createCanvas(imagessize.width, imagessize.height);

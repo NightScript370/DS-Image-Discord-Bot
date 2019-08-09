@@ -131,6 +131,11 @@ class CustomCommand extends Command {
       return null
     }
   }
+
+  isGood(variable) {
+    if (variable && variable !== null && (variable.size || variable.length)) return true;
+    return false;
+  }
 }
 
 module.exports = CustomCommand;

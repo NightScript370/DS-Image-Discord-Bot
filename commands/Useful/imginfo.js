@@ -30,9 +30,11 @@ module.exports = class ImgInfoCommand extends Command {
 	async exec(msg, { images, perlayerView }) {
 		let currentimage, widthpad, heightpad, fielddescription;
 
-        if (perlayerView && images instanceof Array && images.length > 8) {
-            return msg.reply('Up to 20 layers may be viewed individually')
-        }
+        if (!this.isGood(images))
+            return msg.reply('No images were found. Please try again.')
+
+        if (perlayerView && images instanceof Array && images.length > 8)
+            return msg.reply('Up to 20 layers may be viewed individually');
 
 		try {
 			const imagessize = await this.largestSize(images);
