@@ -1,12 +1,17 @@
 <p align="center">
-    <a href="https://yamamura-bot.tk"><img src="https://yamamura-bot.tk/logo.png"></a>
-    Yamamura, the Discord Bot for Hacking Communities!
+    <a href="https://yamamura-bot.tk"><img src="https://yamamura-bot.tk/logo.png"></a><br>
+
+    <img src="https://discordbots.org/api/widget/owner/421158339129638933.svg"> 
+    <img src="https://discordbots.org/api/widget/status/421158339129638933.svg"> 
+    <img src="https://discordbots.org/api/widget/upvotes/421158339129638933.svg"> 
+    <img src="https://discordbots.org/api/widget/servers/421158339129638933.svg"> 
+    <img src="https://discordbots.org/api/widget/lib/421158339129638933.svg"> 
 </p>
 
-Yamamura is a feature-rich customizable discord-akairo bot focused on fulfilling your server's needs as well as your wants.
-The Yamamura bot was originally available only for the Making Mods Discord Server. However, it is now available to be used on any Discord Server.
+Yamamura is an all-in-one Discord bot dedicated to helping modding communities and more.   
+It can fulfill your server's moderation needs and create fun events for your community to enjoy
 
-There are many things it can do right out the box, including: Features (outside of the commands) include:
+Here are a list of features it can do outside of commands:
 
 - Handle a StarBoard
 - Server Experience Points
