@@ -1,6 +1,5 @@
 <p align="center">
     <a href="https://yamamura-bot.tk"><img src="https://yamamura-bot.tk/logo.png"></a><br>
-
     <img src="https://discordbots.org/api/widget/owner/421158339129638933.svg"> 
     <img src="https://discordbots.org/api/widget/status/421158339129638933.svg"> 
     <img src="https://discordbots.org/api/widget/upvotes/421158339129638933.svg"> 
