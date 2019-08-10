@@ -36,6 +36,7 @@ module.exports = class rulesCommand extends Command {
   }
 
   async exec(msg, { action, key, guild }) {
+    msg.reply('This is a WIP command, and as such does not work. Please try again later')
     if (!guild) return msg.reply('there needs to be a set server in order for this to work in Direct Messages');
     let member = guild.members.get(msg.author.id)
 

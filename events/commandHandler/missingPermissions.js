@@ -25,7 +25,7 @@ class MissingPermissionsListener extends Listener {
 		console.log(`=> ${command.id} ~ ${type}Permissions`, { tag });
 
 		if (!text) return;
-		if (message.guild ? message.channel.permissionsFor(this.client.user).has('SEND_MESSAGES') : true) {
+		if (message.channel.sendable) {
 			message.reply(text());
 		}
 	}

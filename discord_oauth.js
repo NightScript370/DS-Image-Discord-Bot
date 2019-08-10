@@ -12,14 +12,14 @@ const catchAsync = fn => (
 
 function data(client) {
   const router = express.Router();
-  
+
   const CLIENT_SECRET = process.env.CLIENT_SECRET;
   const redirect = encodeURIComponent(`https://${process.env.PROJECT_DOMAIN}.glitch.me/api/discord/callback`);
 
   router.get('/login', (req, res) => {
     res.redirect(`https://discordapp.com/oauth2/authorize?client_id=${client.user.id}&scope=identify&response_type=code&redirect_uri=${redirect}`);
   });
-  
+
   router.get('/callback', catchAsync(async (req, res) => {
     if (!req.query.code) throw new Error('NoCodeProvided');
     const code = req.query.code;
@@ -37,7 +37,7 @@ function data(client) {
 		req.session.userID = username.id;
     res.redirect(`/leaderboard?userID=${username.id}`);
   }));
-  
+
   return router;
 }
 

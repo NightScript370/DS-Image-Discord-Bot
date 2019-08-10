@@ -31,7 +31,6 @@
     "showdown": "^1.9.0",
     "sodium": "^3.0.2",
     "super-maker-api": "^3.0.0",
-    "smm-api": "github:RedDuckss/smm-api",
     "tictactoejs": "^1.0.3",
     "turndown": "^5.0.3",
     "weather-js": "^2.0.0",
