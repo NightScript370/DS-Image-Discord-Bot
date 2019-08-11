@@ -29,9 +29,16 @@ module.exports = class SMMDB {
         return this.getBody({ url: API_BASE + 'getstats', json: true }, callback);
     }
 
-    searchCourses (args, callback=null) {
+    searchCourses (version, args, callback=null) {
+		if (version !== "smm" || version !== "smm64") {
+			if (callback)
+				return callback('No API key provided');
+			else
+				return 'No API key provided';
+		}
+
 		let query = querystring.stringify(args);
-		return this.getBody({ url: API_BASE + 'getcourses?' + query, json: true }, callback);
+		return this.getBody({ url: API_BASE + version == "smm64" ? 'getcourses64?' : 'getcourses?' + query, json: true }, callback);
 	}
 
     downloadCourse (courseId, target, callback) {

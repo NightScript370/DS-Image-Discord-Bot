@@ -3,7 +3,7 @@ const Command = require('../../struct/Command');
 const smmdb_api = require('../../utils/smmdb');
 const SMMDB = new smmdb_api()
 
-module.exports = class CourseCommand extends Command {
+module.exports = class SMMDBCourseCommand extends Command {
 	constructor() {
 		super('smmdb', {
 			aliases: ['smmdb'],
@@ -61,17 +61,184 @@ module.exports = class CourseCommand extends Command {
 		});
 	}
 
-    async exec(msg, { title, type, gamestyle }) {
-        msg.reply('This is a WIP command, and as such does not work. Please try again later')
-	}
+    async exec(msg, { title, type, gamestyle, maker, difficulty }) {
+        let filters = {};
+        filters.title = title;
+        filters.limit = 10
 
-    async handleSelector(levels, index, embed=null, language=null) {
-        if (embed) {
-            embed.addField(`**${parseInt(index)+1}.** ${levels[index].name}`, `${levels[index].id} | ${global.getString(language, "by {0}", levels[index].creator_ntd_name)}`);
-        } else {
-            return `**${parseInt(index)+1}.** ${levels[index].name} (${global.getString(language, "by {0}", levels[index].creator_ntd_name)}) \n`;
+        if (gamestyle)
+            filters.gamestyle = gamestyle;
+
+        if (maker)
+            filters.maker = maker;
+
+        if (difficulty) {
+            filters.difficultyfrom = difficulty;
+            filters.difficultyto = difficulty
         }
 
-        return embed
+        let courseList = await SMMDB.getCourses(type, filters);
+
+        let searchEmbed = this.client.util.embed()
+            .setThumbnail('https://cdn.discordapp.com/attachments/463809347353444412/497059833879592961/coursebot.png')
+            .setColor('#F6E23F')
+            .setTitle('SMMDB Course Search', 'https://smmdb.ddns.net/')
+        let result = await this.responceSelector(msg, courseList, searchEmbed);
+
+        let CourseEmbed = this.client.util.embed();
+        if (result && type == 'smm') {
+            let gamestyle;
+
+            switch (result.gamestyle) {
+                case 0:
+                    gamestyle = "Super Mario Bros.";
+                    CourseEmbed.setColor("#D54B00");
+                    break;
+                case 1:
+                    gamestyle = "Super Mario Bros. 3";
+                    CourseEmbed.setColor("#FAEBD6");
+                    break;
+                case 2:
+                    gamestyle = "Super Mario World";
+                    CourseEmbed.setColor("#01F406");
+                    break;
+                case 3:
+                    gamestyle = "New Super Mario Bros. U";
+                    CourseEmbed.setColor("#0096C8");
+                    break;
+                case 4: // prepare for the SMMDB rewrite
+                    gamestyle = "Super Mario 3D World";
+                    CourseEmbed.setColor("#FFCA0D");
+                    break;
+            }
+
+            CourseEmbed
+                .setAuthor(result.title, `${this.client.URL}/icons/smm-course.png`)
+                .setDescription(result.description ? result.description : '')
+                .setThumbnail(`https://smmdb.ddns.net/courseimg/${result.id}`)
+                .setImage(`https://smmdb.ddns.net/courseimg/${result.id}_full`)
+                .setFooter(`Level created by ${result.maker}`)
+                .setTimestamp(new Date(result.lastmodified));
+
+            if (!result.widthSub) {
+                CourseEmbed
+                    .addInline('Game Style', gamestyle)
+                    .addInline('Theme', this.SMMtheme(result.courseTheme))
+                    .addInline('Difficulty', this.difficulty(result.difficulty))
+                    .addInline('Auto-Scroll', this.autoScroll(result.autoScroll))
+                    .addField('Extra',
+                                `**Time:** ${result.time} \n`
+                                `**Stars:** ${result.stars} \n`
+                                `**Level Width:** ${result.width}`)
+            } else {
+                CourseEmbed
+                    .addField('General Information',
+                                `**Game Style:** ${gamestyle} \n\n`
+
+                                `**Subtheme:** Available\n`
+                                `**Difficulty:** ${difficulty}\n\n`
+                                
+                                `**Time:** ${result.time}\n`
+                                `**Stars:** ${result.stars}`)
+                    .addInline('Area 1',
+                                `**Theme:** ${this.SMMtheme(result.courseTheme)} \n`
+                                `**Auto Scroll:** ${this.autoScroll(result.autoScroll)} \n`
+                                `**Area Width:** ${result.width}`)
+                    .addInline('Area 2',
+                                `**Theme:** ${this.SMMtheme(result.courseThemeSub)} \n`
+                                `**Auto Scroll:** ${this.autoScroll(result.autoScrollSub)} \n`
+                                `**Area Width:** ${result.widthSub}`);
+            }
+
+            CourseEmbed
+                .addField('Download', `[3DS](https://smmdb.ddns.net/api/downloadcourse?id=${result.id}&type=3ds) | [Wii U](https://smmdb.ddns.net/api/downloadcourse?id=${result.id}&type=zip)`)
+        } else {
+            return msg.reply('The Super Mario Maker 64 portion of this command is not made yet. Please try again later');
+        }
+
+        msg.channel.send(`**${result.title}** - ${result.description}`, CourseEmbed)
+	}
+
+    async handleSelector(levels = [], index, embed=null, language=null) {
+        let by = levels[index].maker ? level[index].maker : levels[index].uploader;
+
+        if (embed) {
+            embed.addField(`**${parseInt(index)+1}.** ${levels[index].name}`, `${global.getString(language, "by {0}", by)}`);
+            return embed;
+        } else {
+            return `**${parseInt(index)+1}.** ${levels[index].name} (${global.getString(language, "by {0}", levels[index].maker)}) \n`;
+        }
+    }
+
+    SMMtheme (number) {
+        switch (number) {
+            case 0:
+                return "Ground";
+            case 1:
+                return "Underground";
+            case 2:
+                return "Castle";
+            case 3:
+                return "Airship";
+            case 4:
+                return "Underwater";
+            case 5:
+                return "Ghost House";
+        }
+    }
+
+    autoScroll (number) {
+        switch (number) {
+            case 0:
+                return "Disabled";
+            case 1:
+                return "Slow";
+            case 2:
+                return "Medium";
+            case 3:
+                return "Fast";
+        }
+    }
+
+    difficulty (number) {
+        switch (number) {
+            case 0:
+                return "Easy";
+            case 1:
+                return "Regular";
+            case 2:
+                return "Expert";
+            case 3:
+                return "Super Expert";
+        }
+    }
+
+    SMM64theme (number) {
+        switch (number) {
+            case 0:
+                return "None";
+            case 1:
+                return "Cave";
+            case 2:
+                return "Factory";
+            case 3:
+                return "Desert";
+            case 4:
+                return "Snow";
+            case 5:
+                return "Void";
+            case 6:
+                return "Lava";
+            case 7:
+                return "Beach";
+            case 8:
+                return "Grass";
+            case 9:
+                return "Lava Room";
+            case 10:
+                return "Sky";
+            case 11:
+                return "Fortress";
+        }
     }
 };

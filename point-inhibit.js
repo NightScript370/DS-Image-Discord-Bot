@@ -1,5 +1,5 @@
 function inhibite (message) {
-    if(message.cleanContent.length <= 2) return true;
+    if (message.cleanContent.length <= 2) return true;
 	return spamchannel(message.channel.name) || blockprefix(message);
 }
 
@@ -45,20 +45,28 @@ function blockprefix (message) {
 			// Now for user made bots
 			'k!', // Koopa (Samplasion)
 			'm:', // MoonlightBot (MoonlightCapital)
+			'n:', // MoonlightBot Beta (MoonlightCapital)
 			'o!', // Le bot De odyssey (Tee)
 			'b!', // bepisBot (trainboy2019)
 			'r~', // reflect (superwhiskers)
 			'm~', // Markov-Bot (superwhiskers)
+			'e.', // Eevee (TanookidGamer)
+			'b.', // BuntenBot (TannokidGamer)
 
-			// Finally, guild specific cases
+			// Guild specific cases
 			't@', // Tatsumaki (Super Mario Maker: Vanilla Revamped)
 			'd?', // Dyno (Super Mario Maker: Vanilla Revamped)
 			'n!', // Nadeko (Double Cherry Studios/Mushroom Universe/Super Star Studios)
-			'i:' // Endless (open-shop)
+			'i:', // Endless (open-shop)
+			'!mm', // Yamamura (Boo Beam)
+
+			// Finally, obvious attempt at spamming
+			'This is spam message',
+			'This is a spam message'
 		];
 
 		for (var prefix of prefixes) {
-			if(message.content.indexOf(prefixes) == 0)
+			if(message.cleanContent.startsWith(prefix))
 				block = true;
 		}
 
