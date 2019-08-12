@@ -1,73 +1,78 @@
 const { Listener } = require('discord-akairo');
+const request = require('node-superfetch');
 
 module.exports = class ReadyListener extends Listener {
-  constructor() {
-    super('ready', {
-      emitter: 'client',
-      event: 'ready',
-      category: 'botHandler'
-    });
-  }
-
-  async exec() {
-    const wait = require('util').promisify(setTimeout);
-    wait(5000);
-
-		console.log(`My body is ready to serve ${this.client.users.size} users in ${this.client.guilds.size} servers!`);
-    this.client.util.setDefaultStatus(this.client);
-
-    const fs = require("fs");
-    try {
-      const { id: rebootMsgID, channel: rebootMsgChan, cmd, lang } = require('../../reboot.json');
-      const m = await this.client.channels.get(rebootMsgChan).messages.fetch(rebootMsgID);
-      await m.edit(`Done rebooting; it took ${((Date.now() - m.createdTimestamp) / 1000).toFixed(1)}s`);
-      fs.unlink('./reboot.json', ()=>{});
-    } catch(O_o) {
-      // console.log(O_o)
+    constructor() {
+        super('ready', {
+            emitter: 'client',
+            event: 'ready',
+            category: 'botHandler'
+        });
     }
 
-    const { getKey } = require("./../../Configuration"); 
-    this.client.db.serverconfig.get = getKey; // Short-hand declare a variable to be an existing function
+    async exec() {
+        const wait = require('util').promisify(setTimeout);
+        wait(5000);
 
-    try {
-      if (this.dbl)
-        this.dbl.postStats(this.client.guilds.size);
-    } catch(O_o) {
-      
-    }
+		console.log(`My body, ${this.client.user.username} is ready to serve ${this.client.users.size} users in ${this.client.guilds.size} servers at ${this.client.URL}!`);
+		this.client.user.setStatus('online');
+        this.client.util.setDefaultStatus(this.client);
 
-    const request = require('node-superfetch');
-    try {
-      console.log('[discordbotlist.com] Updating stats')
+        const fs = require("fs");
+        try {
+            const { id: rebootMsgID, channel: rebootMsgChan, cmd, lang } = require('../../reboot.json');
+            const m = await this.client.channels.get(rebootMsgChan).messages.fetch(rebootMsgID);
+            await m.edit(`Done rebooting; it took ${((Date.now() - m.createdTimestamp) / 1000).toFixed(1)}s`);
+            fs.unlink('./reboot.json', ()=>{});
+        } catch(O_o) {
+            
+        }
 
-      await request
-        .post(`https://discordbotlist.com/api/bots/${this.client.user.id}/stats`)
-        .set("Authorization", `Bot ${process.env.DBLORGTOKEN}`)
-        .send({
-            shard_id: 0,
-            guilds: this.client.guilds.size,
-            users: this.client.users.size,
-            voice_connections: this.client.voice.connections.size
-        })
+        const { getKey } = require("./../../Configuration"); 
+        this.client.db.serverconfig.get = getKey; // Short-hand declare a variable to be an existing function
 
-      console.log('[discordbotlist.com] stats updated')
-    } catch(O_o) {
-      console.error(O_o)
-    }
+        try {
+            if (this.dbl)
+                this.dbl.postStats(this.client.guilds.size);
+        } catch(O_o) {
+            
+        }
 
-    try {
-      console.log('[discord.boats] Updating stats')
+        if (process.env.DBLORGTOKEN) {
+            try {
+                console.log('[discordbotlist.com] Updating stats');
 
-      await request
-        .post(`https://discord.boats/api/v2/bot/${this.client.user.id}`)
-        .set("Authorization", process.env.DBOATPASS)
-        .send({
-            server_count: this.client.guilds.size
-        })
+                await request
+                    .post(`https://discordbotlist.com/api/bots/${this.client.user.id}/stats`)
+                    .set("Authorization", `Bot ${process.env.DBLORGTOKEN}`)
+                    .send({
+                        shard_id: 0,
+                        guilds: this.client.guilds.size,
+                        users: this.client.users.size,
+                        voice_connections: this.client.voice.connections.size
+                    });
 
-      console.log('[discord.boats] stats updated')
-    } catch(O_o) {
-      console.error(O_o)
-    }
+                console.log('[discordbotlist.com] stats updated');
+            } catch(O_o) {
+                console.error(O_o);
+            }
+        }
+
+        if (process.env.DBOATPASS) {
+            try {
+                console.log('[discord.boats] Updating stats');
+
+                await request
+                    .post(`https://discord.boats/api/v2/bot/${this.client.user.id}`)
+                    .set("Authorization", process.env.DBOATPASS)
+                    .send({
+                        server_count: this.client.guilds.size
+                    });
+
+                console.log('[discord.boats] stats updated');
+            } catch(O_o) {
+                console.error(O_o);
+            }
+        }
 	}
-}
+};
