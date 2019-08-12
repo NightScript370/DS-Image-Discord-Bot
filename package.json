@@ -11,7 +11,7 @@
     "canvas": "^2.6.0",
     "dblapi.js": "^2.3.0",
     "discord-akairo": "github:DiscordBots-Archive/discord-akairo",
-    "discord.js": "github:NightYoshi370/discord.js",
+    "discord.js": "github:discordjs/discord.js",
     "ejs": "^2.6.2",
     "express": "^4.16.4",
     "express-session": "^1.16.1",
