@@ -15,7 +15,7 @@ module.exports = class errorListener extends Listener {
 
 		const tag = message.guild ? message.guild.name : `${message.author.tag}/PM`;
 		Logger.error(message.content, { tag });
-		Logger.stacktrace(err);
+		Logger.stacktrace(error);
 
 		if (message.channel.sendable) {
             if (error.toString().includes('UDP Watchdog Timeout'))
