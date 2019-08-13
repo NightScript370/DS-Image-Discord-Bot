@@ -4,9 +4,9 @@ module.exports = class BanCommand extends Command {
 	constructor() {
 		super('ban', {
 			aliases: ["ban-hammer", "b-h", 'ban'],
-			category: 'Moderation',
+			category: 'Server Management',
 			description: {
-                content: 'Bans a user via a mention or user ID. You can use it on users not even in the serve.'
+                content: 'Bans a user via a mention or user ID. You can use it on users not even in the server.'
             },
 			examples: ["ban @InfamousGuy003 spamming in #general-talk"],
 			channelRestriction: 'guild',
@@ -15,28 +15,39 @@ module.exports = class BanCommand extends Command {
 			args: [
 				{
 					id: "user",
+					description: 'This parameter would be the user you would like to ban. It can be a mention, the name of someone in a server or the ID of someone not in the server',
 					type: "user-commando",
 					prompt: {
                         start: 'Who would you like to ban?',
-                        retry: 'That\'s not a valid user! Try again.'
+                        retry: 'That\'s not something we can ban! Try again.'
                     },
 				},
 				{
 					id: "reason",
-					default: "No reason.",
+					description: 'This field is for the reason you are banning the user',
+					default: '',
 					type: "string",
                     match: 'rest'
 				},
 				{
 				    id: "check",
+					description: 'This field is for checking the ban list if the user really was banned or not.',
 				    match: 'flag',
 				    flag: '--check'
+				},
+				{
+					id: 'days',
+					description: 'This field is for the amount of days of messages from the user you would like to delete.',
+					type: 'number',
+					default: null,
+					match: 'option',
+					flag: 'msgdaysdel:'
 				}
 			]
 		});
 	}
 
-	async exec(msg, { user, reason, check }) {
+	async exec(msg, { user, reason, check, days }) {
 		let banList;
 
 		if (msg.guild.members.has(user)) {
@@ -63,27 +74,22 @@ module.exports = class BanCommand extends Command {
 				msg.reply(`${user.tag} was already banned`);
 		}
 
-		try {
-			let ban = await this.client.moderation.ban(this.client, user, reason, msg.member, msg);
-			if (typeof ban == "boolean" && ban) {
-                if (!check)
-                    return msg.reply(`${user.tag} was banned`);
-                else {
-                    banList = await msg.guild.fetchBans();
-                    if (banList.get(user.id))
-                        msg.reply(`${user.tag} was banned`);
-                    else
-                        msg.reply(`The bot replied that the user was banned but Discord's ban list says otherwise. You should never see this error. Please report this issue to the yamamura developers.`);
-	            }
-			} else {
-				if (ban == "no perms")
-					msg.reply(`I do not have the permission to ban ${user.tag}`);
+		let ban = await this.client.moderation.ban(this.client, user, msg.member, reason, msg, days);
+		if (typeof ban == "boolean" && ban) {
+			if (!check)
+				return msg.reply(`${user.tag} was banned`);
+			else {
+				banList = await msg.guild.fetchBans();
+				if (banList.get(user.id))
+					msg.reply(`${user.tag} was banned`);
 				else
-					msg.reply(`The user was not banned due to an internal error`);
+					msg.reply(`The bot replied that the user was banned but Discord's ban list says otherwise. You should never see this error. Please report this issue to the yamamura developers.`);
 			}
-		} catch (e) {
-			console.error(e);
-			msg.reply(`an unidentifiable error occured while trying to ban the user.`);
+		} else {
+			if (ban == "no perms")
+				msg.reply(`I do not have the permission to ban ${user.tag}`);
+			else
+				msg.reply(`The user was not banned due to an internal error`);
 		}
 	}
 };

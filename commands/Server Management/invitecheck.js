@@ -4,7 +4,7 @@ module.exports = class InviteCheckCommand extends Command {
   constructor() {
     super('invitecheck', {
       aliases: ['invitecheck'],
-      category: 'Moderation',
+      category: 'Server Management',
       userPermissions: ['MANAGE_NICKNAMES'],
       description: {
 				content: 'Check every user\'s play status for an invite link.',

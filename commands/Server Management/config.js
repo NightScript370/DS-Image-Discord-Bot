@@ -1,11 +1,11 @@
 const { Command } = require('discord-akairo');
 const { findType } = require('./../../Configuration.js');
-const config = require("./../../config.js");
+const config = require("../../config.js");
 
 module.exports = class ConfigCommand extends Command {
   constructor() {
     super("config", {
-      category: 'Administration',
+      category: 'Server Management',
       aliases: ["conf", "config"],
       clientPermissions: ['EMBED_LINKS'],
       // userPermissions: ['ADMINISTRATOR'],

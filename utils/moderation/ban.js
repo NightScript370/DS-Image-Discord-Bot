@@ -1,6 +1,6 @@
 const client = require('../../yamamura')
 
-module.exports = async (client, member, reason, moderator, msg = null, days = null) => {
+module.exports = async (client, member, moderator, reason=null, msg = null, days = null) => {
   let container;
 
   if (msg)  container = msg;
@@ -25,7 +25,7 @@ module.exports = async (client, member, reason, moderator, msg = null, days = nu
   if (days) BanLogEmbed.addField(":wastebucket: Messages Pruned", days + " days worth");
 
   if (msg && !msg.guild.members.has(user))
-    msg.guild.members.ban(user, {reason: reason});
+    msg.guild.members.ban(user, {days: days, reason: reason});
   else {
     try {
       member.send(`You were banned from ${msg.guild.name}: ${reason}`);

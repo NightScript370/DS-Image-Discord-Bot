@@ -4,7 +4,7 @@ module.exports = class MuteCommand extends Command {
 	constructor() {
 		super('mute', {
 			aliases: ["mute", "unmute"],
-			category: 'Moderation',
+			category: 'Server Management',
 			description: {
                 content: [
 					"Mutes a user via a mention or user ID. You can optionally include a reason.",
@@ -21,15 +21,15 @@ module.exports = class MuteCommand extends Command {
 					id: "member",
 					type: "member",
 					prompt: {
-                        start: 'Who would you like to mute?',
-                        retry: 'That\'s not a valid server member! Try again.'
-                    },
+						start: 'Who would you like to mute?',
+						retry: 'That\'s not a valid server member! Try again.'
+					},
 				},
 				{
 					id: "reason",
 					default: null,
 					type: "string",
-                    match: 'rest'
+					match: 'rest'
 				},
 			]
 		});
@@ -40,33 +40,28 @@ module.exports = class MuteCommand extends Command {
 
 		const mutedRole = this.client.db.serverconfig.get(this.client, msg, "mutedrole");
 		if (!mutedRole)
-			return msg.reply(__("You need to have the configuration key `mutedrole` set in order for this command to work."));
+			return msg.util.reply(__("You need to have the configuration key `mutedrole` set in order for this command to work."));
 
 		let author = msg.member;
 
 		if (member.hasPermission("ADMINISTRATOR"))
-			return msg.reply(__("Administrators can't be muted. It wouldn't affect them."));
+			return msg.util.reply(__("Administrators can't be muted. It wouldn't affect them."));
 
 		if (member.hasPermission("MANAGE_MESSAGES") && !author.hasPermission("ADMINISTRATOR"))
-			return msg.reply(__("You need to have the `Administrator` permission in order to mute moderators."));
+			return msg.util.reply(__("You need to have the `Administrator` permission in order to mute moderators."));
 
 		if (author.roles.highest.position <= member.roles.highest.position)
-			return msg.reply(__("You can't mute someone who has a higher role position than you."));
+			return msg.util.reply(__("You can't mute someone who has a higher role position than you."));
 		
 		if (member.id == author.id)
-			return msg.reply(__("You can't mute yourself!"));
+			return msg.util.reply(__("You can't mute yourself!"));
 
-		try {
-			var hasRole = member.roles.has(mutedRole.id);
-			if (hasRole)
-				member.roles.remove(mutedRole, reason)
-			else
-				member.roles.add(mutedRole, reason)
+		let hasRole = member.roles.has(mutedRole.id);
+		if (hasRole)
+			member.roles.remove(mutedRole, reason)
+		else
+			member.roles.add(mutedRole, reason)
 
-			return msg.reply(__(hasRole ? "{0} was successfully unmuted" : "{0} was successfully muted", member.displayName));
-		} catch (e) {
-			console.error(e);
-			msg.reply(__("an error occured while trying to mute the user. Report this error to the Yamamura developers: `{0}`", e.messsage));
-		}
+		return msg.util.reply(__("{0} was successfully {1}", member.displayName, hasRole ? "unmuted" : "muted"));
 	}
 };

@@ -4,7 +4,7 @@ module.exports = class WarnCommand extends Command {
 	constructor() {
 		super('warn', {
 			aliases: ["warn"],
-			category: 'Moderation',
+			category: 'Server Management',
 			description: {
 				content: 'Warns a member via mention, saying their name or inputting the server member\'s ID. You may also specify a reason to the warn.'
 			},

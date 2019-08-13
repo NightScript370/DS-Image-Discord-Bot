@@ -4,10 +4,10 @@ module.exports = class KickCommand extends Command {
 	constructor() {
 		super('kick', {
 			aliases: ["boot", 'kick'],
-			category: 'Moderation',
+			category: 'Server Management',
 			description: {
-                content: 'Kick a member via mention, saying their name or inputting the server member\'s ID. You may also specify a reason to the kick'
-            },
+				content: 'Kick a member via mention, saying their name or inputting the server member\'s ID. You may also specify a reason to the kick'
+			},
 			examples: ["kick @InfamousGuy003 spamming in #general-talk"],
 			channelRestriction: 'guild',
 			clientPermissions: ["KICK_MEMBERS"],
@@ -17,16 +17,14 @@ module.exports = class KickCommand extends Command {
 					id: "member",
 					type: "member",
 					prompt: {
-                        start: 'Who would you like to kick?',
-                        retry: 'That\'s not a valid member! Try again.'
-                    },
+						start: 'Who would you like to kick?',
+						retry: 'That\'s not a valid member! Try again.'
+					},
 				},
 				{
 					id: "reason",
-					prompt: {
-                        start: 'Why are you kicking this member?',
-                        retry: 'That\'s not a valid reason! Try again.'
-                    },
+					description: "This field is for the reason you're willing to kick the person",
+					default: '',
 					type: "string",
                     match: 'rest'
 				}
@@ -49,9 +47,5 @@ module.exports = class KickCommand extends Command {
 
         this.client.moderation.kick(this.client, member, reason, msg.member, msg)
             .then(msg.reply(`${member.user.tag} was kicked!`))
-            .catch((e) => {
-                console.error(e);
-                msg.reply(`an error occured when trying to kick a member.`)
-            })
     }
 };

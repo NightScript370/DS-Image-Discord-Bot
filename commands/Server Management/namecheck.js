@@ -4,7 +4,7 @@ module.exports = class NameCheckCommand extends Command {
   constructor() {
     super('namecheck', {
       aliases: ['namecheck'],
-      category: 'Moderation',
+      category: 'Server Management',
       userPermissions: ['MANAGE_NICKNAMES'],
       description: {
 				content: 'Checks a user\'s name for weird characters.',

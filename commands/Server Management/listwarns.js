@@ -4,7 +4,7 @@ module.exports = class WarnCommand extends Command {
 	constructor() {
 		super('listwarns', {
 			aliases: ["listwarns", "listwarn"],
-			category: 'Moderation',
+			category: 'Server Management',
 			description: {
 				content: 'List a member\'s warnings.'
 			},

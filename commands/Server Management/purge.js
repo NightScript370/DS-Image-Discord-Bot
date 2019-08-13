@@ -4,7 +4,7 @@ module.exports = class PurgeCommand extends Command {
 	constructor() {
 		super('purge', {
 			aliases: ["purge", "prune", 'clean', 'cleanup', 'clean-up'],
-			category: 'Moderation',
+			category: 'Server Management',
 			description: {
                 content: "Cleans a channel of how many messages you'd like (as long as it isn't over 100). You can specify if you want just bot messages to be cleaned, only from a specific user or if the message matches a regex type"
             },
@@ -84,13 +84,8 @@ module.exports = class PurgeCommand extends Command {
         if (!messages.size)
             return commandMessage.channel.send(`There was no results for your query. Try again`);
 
-        try {
-            const msgBulkDelete = await commandMessage.channel.bulkDelete(messages, deleteOld);
-            let successmessage = await commandMessage.channel.send(messages.size + " message" + (messages.size != 1 ? "s" : "") + " deleted!");
-            await successmessage.delete({timeout: 5000});
-        } catch (e) {
-            commandMessage.reply('There was an error when attempting to delete the messages. Please contact the Yamamura developers');
-            console.error(e);
-        }
+        const msgBulkDelete = await commandMessage.channel.bulkDelete(messages, deleteOld);
+        let successmessage = await commandMessage.channel.send(messages.size + " message" + (messages.size != 1 ? "s" : "") + " deleted!");
+        await successmessage.delete({timeout: 5000});
     }
 };

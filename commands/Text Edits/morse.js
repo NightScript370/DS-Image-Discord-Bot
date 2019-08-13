@@ -27,9 +27,9 @@ module.exports = class MorseCommand extends Command {
     let isMorse = morseArr.length && morseArr[0].length;
 
     if (!isMorse) {
-      message.channel.send(toMorse.toLowerCase().split("").map(morse).join(" "));
+      message.util.send(toMorse.toLowerCase().split("").map(morse).join(" "));
     } else {
-      message.channel.send(toMorse.split(" ").map(demorse).join("").toUpperCase());
+      message.util.send(toMorse.split(" ").map(demorse).join("").toUpperCase());
     }
   }
 
