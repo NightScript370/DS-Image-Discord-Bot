@@ -30,7 +30,7 @@ module.exports = class SMMDB {
     }
 
     searchCourses (version, args, callback=null) {
-		if (version !== "smm" || version !== "smm64") {
+		if (version !== "smm" && version !== "smm64") {
 			if (callback)
 				return callback('No API key provided');
 			else

@@ -64,7 +64,7 @@ module.exports = class SMMDBCourseCommand extends Command {
     async exec(msg, { title, type, gamestyle, maker, difficulty }) {
         let filters = {};
         filters.title = title;
-        filters.limit = 10
+        filters.limit = 7
 
         if (gamestyle)
             filters.gamestyle = gamestyle;
@@ -84,9 +84,10 @@ module.exports = class SMMDBCourseCommand extends Command {
             .setColor('#F6E23F')
             .setTitle('SMMDB Course Search', 'https://smmdb.ddns.net/')
         let result = await this.responceSelector(msg, courseList, searchEmbed);
+        if (!result) return;
 
         let CourseEmbed = this.client.util.embed();
-        if (result && type == 'smm') {
+        if (type == 'smm') {
             let gamestyle;
 
             switch (result.gamestyle) {
@@ -170,7 +171,7 @@ module.exports = class SMMDBCourseCommand extends Command {
         }
 
         if (embed) {
-            embed.addField(`**${parseInt(index)+1}.** ${levels[index].name}`, `${by}`);
+            embed.addField(`**${parseInt(index)+1}.** ${levels[index].name}`, `${levels[index].description}\n${by}`);
             return embed;
         } else {
             return `**${parseInt(index)+1}.** ${levels[index].name} (${by}) \n`;
