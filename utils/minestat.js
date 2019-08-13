@@ -31,16 +31,9 @@ let current_players = null;    // current number of players online
 let max_players = null;        // maximum player capacity
 let latency = null;            // ping time to server in milliseconds
 
-module.exports = (address, port, timeout, callback) => {
+module.exports = (address, port, callback, timeout=DEFAULT_TIMEOUT) => {
     this.address = address;
     this.port = port;
-
-    // if 3rd argument is a function, it's the callback (timeout is optional)
-    if(typeof(timeout) === typeof(Function()))
-    {
-      callback = timeout;
-      timeout = DEFAULT_TIMEOUT;
-    }
 
     const net = require('net');
     var start_time = new Date();

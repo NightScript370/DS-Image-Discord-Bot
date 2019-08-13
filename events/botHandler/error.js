@@ -1,8 +1,8 @@
 const { Listener } = require('discord-akairo');
 
-module.exports = class errorListener extends Listener {
+module.exports = class discordErrorListener extends Listener {
   constructor() {
-    super('error', {
+    super('discorderror', {
       emitter: 'client',
       event: 'error',
       category: 'botHandler'

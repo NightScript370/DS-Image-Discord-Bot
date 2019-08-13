@@ -1,6 +1,4 @@
 const { Command } = require('discord-akairo');
-const source = require('gamedig');
-const minestat = require('../../utils/minestat');
 
 module.exports = class MinecraftServerCommand extends Command {
   constructor() {
@@ -8,7 +6,9 @@ module.exports = class MinecraftServerCommand extends Command {
       category: 'Game Server Statistics',
       aliases: ["minecraft", "mc"],
       clientPermissions: ['EMBED_LINKS'],
-      description: 'Get stats of any Minecraft game server.',
+      description: {
+        content: 'Get stats of any Minecraft game server.',
+      },
       args: [
         {
           id: 'IP',
@@ -20,6 +20,8 @@ module.exports = class MinecraftServerCommand extends Command {
         },
         {
           id: 'API',
+          description: 'Due to the many different version of minecraft, some of them are incompatible with gamedig. Therefore, we have three options for APIs: minestat (for older versions), gamedig (default) and api.mcsrvstat.us',
+          type: ['minestat', 'gamedig', 'api.mcsrvstat.us'],
           match: 'option',
 					flag: 'API:',
           default: 'gamedig'
@@ -31,128 +33,108 @@ module.exports = class MinecraftServerCommand extends Command {
   }
 
   async exec(message, { IP, API }) {
-    let embed = await this.client.util.embed()
-
     IP = IP.split(':');
     let fullIP = IP.join(':');
 
     let host = IP[0];
     let port = IP[1] ? parseInt(IP[1]) : 25565;
 
-    try {
-      switch (API) {
-        case 'minestat':
-          minestat(host, port, function(result) {
-            embed
-              .setAuthor(`Minecraft Server Stats: ${result.address}:${result.port}`, 'http://www.rw-designer.com/icon-image/5547-256x256x32.png')
-              .setColor(`GREEN`)
-              .setImage('https://cache.gametracker.com/server_info/'+host+':'+port+'/b_560_95_1.png');
+    let embed = await this.client.util.embed()
+      .setColor('GREEN')
+      .setImage('https://cache.gametracker.com/server_info/'+host+':'+port+'/b_560_95_1.png')
 
-            if(result.online) {
-              embed
-                .setDescription(`:large_blue_circle: Server is online.`)
-                .setFooter(`Players: ${result.current_players}/${result.max_players}`);
-              
-              if (!isEmpty(removeMinecraftColor(result.motd))) {
-                embed.addField("Message of the Day", removeMinecraftColor(result.motd));
-              }
-            } else {
-              embed.setDescription(`:red_circle: Server is offline`);
+    switch (API) {
+      case 'minestat':
+        const minestat = require('../../utils/minestat');
+        minestat(host, port, function(result) {
+          embed.setAuthor(`Minecraft Server Stats: ${result.address}:${result.port}`, 'http://www.rw-designer.com/icon-image/5547-256x256x32.png');
+
+          if(result.online) {
+            embed
+              .setDescription(`:large_blue_circle: Server is online.`)
+              .setFooter(`Players: ${result.current_players}/${result.max_players}`);
+
+            if (!isEmpty(removeMinecraftColor(result.motd))) {
+              embed.addField("Message of the Day", removeMinecraftColor(result.motd));
             }
-
-            message.channel.send({embed});
-          });
-          break;
-        case 'gamedig':
-          let data = await source.query({
-            type: 'minecraft',
-            host: host,
-            port: port
-          });
-
-          if (!isEmpty(data.name)) {
-            embed
-              .setAuthor(`Minecraft Server Stats: ${data.name}`, 'http://www.rw-designer.com/icon-image/5547-256x256x32.png')
-              .addInline(`Server`, `\`${data.connect}\``);
           } else {
-            embed
-              .setAuthor(`Minecraft Server Stats: ${data.connect}`, 'http://www.rw-designer.com/icon-image/5547-256x256x32.png');
+            embed.setDescription(`:red_circle: Server is offline`);
           }
 
+          message.channel.send({embed});
+        });
+        break;
+      case 'gamedig':
+        const source = require('gamedig');
+        let data = await source.query({
+          type: 'minecraft',
+          host: host,
+          port: port
+        });
+
+        if (!isEmpty(data.name)) {
           embed
-            .setColor(`GREEN`)
-            .addInline(`Players`, `${data.players.length}/${data.maxplayers}`)
-            .setImage('https://cache.gametracker.com/server_info/'+host+':'+port+'/b_560_95_1.png');
+            .setAuthor(`Minecraft Server Stats: ${data.name}`, 'http://www.rw-designer.com/icon-image/5547-256x256x32.png')
+            .addInline(`Server`, `\`${data.connect}\``);
+        } else {
+          embed.setAuthor(`Minecraft Server Stats: ${data.connect}`, 'http://www.rw-designer.com/icon-image/5547-256x256x32.png');
+        }
 
-          if (!isEmpty(removeMinecraftColor(data.raw.description.text))) {
-            embed.setDescription(removeMinecraftColor(data.raw.description.text));
+        embed.addInline(`Players`, `${data.players.length}/${data.maxplayers}`);
+
+        if (!isEmpty(removeMinecraftColor(data.raw.description.text))) {
+          embed.setDescription(removeMinecraftColor(data.raw.description.text));
+        }
+
+        if (!isEmpty(data.raw.map))      embed.addInline('Map', data.raw.map);
+        if (!isEmpty(data.raw.gametype)) embed.addInline(`Gametype`, data.raw.gametype);
+
+        if (data.password) {
+          if (!isEmpty(data.raw.version.name)) embed.setFooter(`Private Server • Version: ${data.raw.version.name}`, `${this.client.URL}/lock.png`);
+          else if (!isEmpty(data.raw.version)) embed.setFooter(`Private Server • Version: ${data.raw.version}`, `${this.client.URL}/lock.png`);
+        } else {
+          if (!isEmpty(data.raw.version.name)) embed.setFooter(`Version: ${data.raw.version.name}`);
+          else if (!isEmpty(data.raw.version)) embed.setFooter(`Version: ${data.raw.version}`);
+        }
+
+        await message.channel.send({embed});
+        break;
+      case 'api.mcsrvstat.us':
+        const request = require("request");
+
+        const { promisify } = require("util");
+        const promiseRequest = promisify(request);
+
+  		  let { body, statusCode } = promiseRequest({ url: 'https://api.mcsrvstat.us/2/'+encodeURIComponent(host), json: true })
+        if (statusCode !== 200) {
+          console.error(`[ERROR][Minecraft Command][api.mcsrvstat.us] statusCode: ${statusCode}`)
+          return msg.reply('An error has occured replating to the API selected. Please try again with a different API, or contact the Yamamura developers');
+        }
+
+        if (!isEmpty(body.hostname)) {
+          embed
+            .setAuthor(`Minecraft Server Stats: ${body.hostname}`, (!isEmpty(body.icon) && body.icon.length < 2000) ? body.icon : 'http://www.rw-designer.com/icon-image/5547-256x256x32.png')
+            .addInline(`Server IP`, '`'+fullIP+'`');
+        } else {
+          embed.setAuthor(`Minecraft Server Stats: ${fullIP}`, body.icon ? body.icon : 'http://www.rw-designer.com/icon-image/5547-256x256x32.png');
+        }
+
+        if (!isEmpty(body.motd)) {
+          embed.setDescription(body.motd.clean);
+        }
+
+        if (!isEmpty(body.players)) {
+          let players = `${body.players.online}/${body.players.max}`;
+          if (!isEmpty(body.players.list)) {
+            players += '\n```http\n'+body.players.list.join('\n')+'```';
           }
+          embed.addField("Players", players);
+        }
 
-          if (!isEmpty(data.raw.map))      embed.addInline('Map', data.raw.map);
-          if (!isEmpty(data.raw.gametype)) embed.addInline(`Gametype`, data.raw.gametype);
-
-          if (data.password) {
-            if (!isEmpty(data.raw.version.name)) embed.setFooter(`Private Server • Version: ${data.raw.version.name}`, `${this.client.URL}/lock.png`);
-            else if (!isEmpty(data.raw.version)) embed.setFooter(`Private Server • Version: ${data.raw.version}`, `${this.client.URL}/lock.png`);
-          } else {
-            if (!isEmpty(data.raw.version.name)) embed.setFooter(`Version: ${data.raw.version.name}`);
-            else if (!isEmpty(data.raw.version)) embed.setFooter(`Version: ${data.raw.version}`);
-          }
-
-          await message.channel.send({embed});
-          break;
-        case 'api.mcsrvstat.us':
-          const request = require("request");
-    		  request({ url: 'https://api.mcsrvstat.us/2/'+encodeURIComponent(host), json: true }, function (error, response, body) {
-			      if (!error && response.statusCode === 200) {
-              if (!isEmpty(body.hostname)) {
-                embed
-                  .setAuthor(`Minecraft Server Stats: ${body.hostname}`, (!isEmpty(body.icon) && body.icon.length < 2000) ? body.icon : 'http://www.rw-designer.com/icon-image/5547-256x256x32.png')
-                  .addInline(`Server IP`, '`'+fullIP+'`');
-              } else {
-                embed
-                  .setAuthor(`Minecraft Server Stats: ${fullIP}`, body.icon ? body.icon : 'http://www.rw-designer.com/icon-image/5547-256x256x32.png');
-              }
-
-              if (!isEmpty(body.motd)) {
-                embed.setDescription(body.motd.clean);
-              }
-
-              if (!isEmpty(body.players)) {
-                let players = `${body.players.online}/${body.players.max}`;
-                if (!isEmpty(body.players.list)) {
-                  players += '\n```http\n'+body.players.list.join('\n')+'```';
-                }
-                embed.addField("Players", players);
-              }
-
-              embed
-                .setColor('GREEN')
-                .setImage('https://cache.gametracker.com/server_info/'+host+':'+port+'/b_560_95_1.png');
-
-              message.channel.send({embed});
-            } else {
-              console.log(error);
-    			  }
-		      });
-          break;
-        default:
-          message.util.send("Not a valid API. Try again.")
-      }
-    } catch (e) {
-      if (e.toString().includes('UDP Watchdog Timeout')) {
-        message.reply("The game server is offline. Please try connecting at a later date");
-      } else if (e.stack.includes('ENOTFOUND')) {
-        message.reply("The game server was not found. Please try again.")
-      } else if (e.stack.includes('TCP Connection Refused')) {
-        message.reply("The game server refused the connection. Please try again.")
-      } else {
-        console.log('An unidentified error has occured');
-        console.log(`Error type: ${typeof e}`);
-        console.log(`Error toString(): ${e.toString()}`);
-        console.log(`Errormessage: ${e.message}`)
-        console.log(`ErrorStack: ${e.stack}`)
-      }
+        message.channel.send({embed});
+        break;
+      default:
+        message.util.send("Not a valid API. Try again.")
     }
   }
 };

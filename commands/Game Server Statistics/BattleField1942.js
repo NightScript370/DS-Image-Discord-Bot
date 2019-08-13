@@ -15,8 +15,8 @@ module.exports = class BF1942Command extends Command {
       args: [{
         id: 'IP',
         prompt: {
-              start: 'Which server would you like to get `Battlefield: 1942` statistics from?',
-              retry: 'That\'s not a server we can get stats from! Try again.'
+          start: 'Which server would you like to get `Battlefield: 1942` statistics from?',
+          retry: 'That\'s not a server we can get stats from! Try again.'
         },
         type: 'externalIP'
       }]
