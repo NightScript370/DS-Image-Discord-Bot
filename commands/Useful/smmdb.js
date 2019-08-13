@@ -166,7 +166,7 @@ module.exports = class SMMDBCourseCommand extends Command {
             embed.addField(`**${parseInt(index)+1}.** ${levels[index].name}`, `${global.getString(language, "by {0}", by)}`);
             return embed;
         } else {
-            return `**${parseInt(index)+1}.** ${levels[index].name} (${global.getString(language, "by {0}", levels[index].maker)}) \n`;
+            return `**${parseInt(index)+1}.** ${levels[index].name} (${global.getString(language, "by {0}", by)}) \n`;
         }
     }
 
