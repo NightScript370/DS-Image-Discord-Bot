@@ -160,13 +160,13 @@ module.exports = class SMMDBCourseCommand extends Command {
 	}
 
     async handleSelector(levels = [], index, embed=null, language=null) {
-        let by = levels[index].maker ? level[index].maker : levels[index].uploader;
+        let creator = levels[index].maker ? levels[index].maker : levels[index].uploader;
 
         if (embed) {
-            embed.addField(`**${parseInt(index)+1}.** ${levels[index].name}`, `${global.getString(language, "by {0}", by)}`);
+            embed.addField(`**${parseInt(index)+1}.** ${levels[index].name}`, `${global.getString(language, "by {0}", creator)}`);
             return embed;
         } else {
-            return `**${parseInt(index)+1}.** ${levels[index].name} (${global.getString(language, "by {0}", by)}) \n`;
+            return `**${parseInt(index)+1}.** ${levels[index].name} (${global.getString(language, "by {0}", creator)}) \n`;
         }
     }
 

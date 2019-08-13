@@ -31,7 +31,7 @@ module.exports = class errorListener extends Listener {
 			message.util.send([
 				`An error occured, please contact ${owners.join(' or ')}.`,
 				'```js',
-				err.toString(),
+				error.toString(),
 				'```'
 			]);
 		}
