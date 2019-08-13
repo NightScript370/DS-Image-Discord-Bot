@@ -1,5 +1,5 @@
 const { Listener } = require('discord-akairo');
-const Logger = require('../../util/Logger');
+const Logger = require('../../utils/Logger');
 
 module.exports = class errorListener extends Listener {
     constructor() {
@@ -19,7 +19,7 @@ module.exports = class errorListener extends Listener {
 
 		if (message.channel.sendable) {
             if (error.toString().includes('UDP Watchdog Timeout'))
-                return message.util.reply("The game server is offline. Please try connecting at a later date");;
+                return message.util.reply("The game server is offline. Please try connecting at a later date");
 
             if (error.stack.includes('ENOTFOUND'))
                 return message.util.reply("The game server was not found. Please try again.");
