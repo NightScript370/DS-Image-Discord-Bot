@@ -37,7 +37,7 @@ module.exports = class SMMDBCourseCommand extends Command {
                     id: 'gamestyle',
                     description: "This argument will allow you to filter out specific game styles. The options are within SMB1, SMB3, SMW & NSMBU.",
                     match: 'option',
-                    type: [['SMB1', 'M1'], ['SMB3', 'M3'], ['SMW', 'MW'], ['NSMBU', 'SMBU', 'NSMB', 'WU', 'MU']],
+                    type: [['0', 'SMB1', 'M1'], ['1', 'SMB3', 'M3'], ['2', 'SMW', 'MW'], ['3', 'NSMBU', 'SMBU', 'NSMB', 'WU', 'MU']],
                     default: null,
                     flag: 'game:'
                 },
@@ -77,7 +77,7 @@ module.exports = class SMMDBCourseCommand extends Command {
             filters.difficultyto = difficulty
         }
 
-        let courseList = await SMMDB.getCourses(type, filters);
+        let courseList = await SMMDB.searchCourses(type, filters);
 
         let searchEmbed = this.client.util.embed()
             .setThumbnail('https://cdn.discordapp.com/attachments/463809347353444412/497059833879592961/coursebot.png')
