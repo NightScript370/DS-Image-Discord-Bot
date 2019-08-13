@@ -20,7 +20,8 @@ module.exports = class ClapCommand extends Command {
 
   exec(message, { toClap }) {
     if (!toClap.includes(" "))
-      return message.util.send(chunk(toClap, 1))
+      return message.util.send(this.chunk(toClap, 1).join(" :clap: "))
+
     message.util.send(toClap.replace(/\s+/gmi, " :clap: "));
   }
 
