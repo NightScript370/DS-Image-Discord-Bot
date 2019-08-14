@@ -30,7 +30,10 @@ module.exports = class errorListener extends Listener {
 			const owners = this.client.ownerID.map(id => this.client.users.get(id).tag);
             const isOwner = owners.filter(owner => msg.author.tag == owner).length;
 
-            const cleanError = error.toString()
+            let cleanError = error.toString()
+                .replaceAll(this.client.token, '"<insert client token here>."')
+                .replaceAll(this.client.dbl.token, '"<insert DiscordBots.org token here>"');
+
 			message.util.send([
 				'An error occured' + isOwner ? '' : `, please contact ${owners.join(' or ')}.`,
 				'```js',

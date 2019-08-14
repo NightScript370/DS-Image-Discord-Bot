@@ -1,6 +1,9 @@
 const { Listener } = require('discord-akairo');
 const request = require('node-superfetch');
 
+const config = require("../../config.js");
+const DBL = require("dblapi.js");
+
 module.exports = class ReadyListener extends Listener {
     constructor() {
         super('ready', {
@@ -12,7 +15,7 @@ module.exports = class ReadyListener extends Listener {
 
     async exec() {
         const wait = require('util').promisify(setTimeout);
-        wait(5000);
+        await wait(5000);
 
 		console.log(`My body, ${this.client.user.username} is ready to serve ${this.client.users.size} users in ${this.client.guilds.size} servers at ${this.client.URL}!`);
 		this.client.user.setStatus('online');
@@ -31,12 +34,8 @@ module.exports = class ReadyListener extends Listener {
         const { getKey } = require("./../../Configuration"); 
         this.client.db.serverconfig.get = getKey; // Short-hand declare a variable to be an existing function
 
-        try {
-            if (this.dbl)
-                this.dbl.postStats(this.client.guilds.size);
-        } catch(O_o) {
-            
-        }
+        this.client.website = await require("../../views/website.js")(this.client)
+        this.client.dbl = new DBL(config.DBLtoken, { webhookPort: this.client.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.client.website.server, statsInterval: 7200000 }, this.client);
 
         if (process.env.DBLORGTOKEN) {
             try {

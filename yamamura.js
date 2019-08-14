@@ -14,8 +14,6 @@ require("./struct/Guild.js");
 require("./struct/DMChannel.js");
 require("./struct/TextChannel.js");
 
-const DBL = require("dblapi.js");
-
 global.consoleLines = {
 	stdout: [],
 	stderr: [],
@@ -71,9 +69,6 @@ class YamamuraClient extends AkairoClient {
             } 
             return this.db.serverconfig.insert(defaultsettings);
         };
-
-        this.website = require('./views/website')(this);
-        this.dbl = new DBL(config.DBLtoken, { webhookPort: this.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.website.server, statsInterval: 7200000 }, this);
 
 		this.commandHandler = new CommandHandler(this, {
 			directory: './commands/',

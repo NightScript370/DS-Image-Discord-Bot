@@ -1,7 +1,7 @@
 const config = require("../config.js");
 const List = require("list-array");
+const path = require("path");
 
-const morgan = require('morgan');
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -24,7 +24,7 @@ module.exports = (client) => {
     website.passport.use(new Strategy({
         clientID: client.user.id,
         clientSecret: process.env.CLIENT_SECRET,
-        callbackURL: `${website.URL}/login`,
+        callbackURL: `login`,
         scope: ["identify", "guilds"]
     }, function(accessToken, refreshToken, profile, done) {
         process.nextTick(function() {
@@ -36,7 +36,7 @@ module.exports = (client) => {
         .use(bodyParser.json())
         .use(bodyParser.urlencoded({extended : true}))
         .engine("html", require("ejs").renderFile)
-        .use(express.static(process.cwd() + '/public'))
+        .use(express.static(path.join(__dirname, "/public")))
         .set("view engine", "ejs")
         .set("views", path.join(__dirname, "pages"))
         .use(session({
@@ -61,7 +61,6 @@ module.exports = (client) => {
             }
         })
         .set('port', process.env.PORT || 3000)
-        .use(morgan('dev'));
 
     website.express = routes(website.express, client);
 
@@ -85,10 +84,15 @@ module.exports = (client) => {
     website.express.locals.List = List;
     website.express.locals.require = require;
 
-    website.server = http.createServer(this.website.express);
-    website.server.listen(this.website.express.get('port'), () => {
-        console.log("Express server listening on port " + this.website.express.get('port'));
+    website.server = http.createServer(website.express);
+    website.server.listen(website.express.get('port'), (error) => {
+        if (error) throw error;
+        console.log("Express server listening on port " + website.express.get('port'));
     });
 
     return website
+}
+
+function isEmpty(value) { //Function to check if value is really empty or not
+	return (value == null || value.length === 0);
 }

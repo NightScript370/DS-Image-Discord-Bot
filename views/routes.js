@@ -1,26 +1,32 @@
+const passport = require("passport");
+
 module.exports = function(app, client) {
   app
     .get("/", (request, response) => {
-      response.render("pages/index");
+      response.render("index");
+    })
+    .get("/login", passport.authenticate("discord", { failureRedirect: "/" }), 
+        function(req, res) {
+            res.redirect("/profile");
     })
     .get("/leaderboard", (request, response) => {
-      response.render("pages/leaderboard", { url: request.originalUrl, id: undefined });
+      response.render("leaderboard", { url: request.originalUrl, id: undefined });
     })
     .get("/leaderboard/:guildID", (request, response) => {
       let id = request.params.guildID;
       if (!id || !client.guilds.has(id)) return response.status(404).render("pages/404");
-      response.render("pages/leaderboard", { id });
+      response.render("leaderboard", { id });
     })
     .get("/queue/:guildID", (request, response) => {
       let id = request.params.guildID;
       if (!id || !client.guilds.has(id)) return response.status(404).render("pages/404");
-      response.render("pages/queue", { id });
+      response.render("queue", { id });
     })
     .get("/commands", (request, response) => {
-      response.render("pages/commands");
+      response.render("commands");
     })
     .get("/support", (request, response) => {
-      response.render("pages/support");
+      response.render("support");
     })
     .get('*', function(req, res) {
       res.redirect("/");
