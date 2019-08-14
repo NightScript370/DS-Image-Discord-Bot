@@ -1,4 +1,5 @@
 const { Command } = require('discord-akairo');
+const { promisify } = require("util");
 
 module.exports = class MinecraftServerCommand extends Command {
   constructor() {
@@ -43,26 +44,26 @@ module.exports = class MinecraftServerCommand extends Command {
       .setColor('GREEN')
       .setImage('https://cache.gametracker.com/server_info/'+host+':'+port+'/b_560_95_1.png')
 
+    let result;
     switch (API) {
       case 'minestat':
-        const minestat = require('../../utils/minestat');
-        minestat(host, port, function(result) {
-          embed.setAuthor(`Minecraft Server Stats: ${result.address}:${result.port}`, 'http://www.rw-designer.com/icon-image/5547-256x256x32.png');
+        const minestat = promisify(require('../../utils/minestat'));
+        result = minestat(host, port);
+        embed.setAuthor(`Minecraft Server Stats: ${result.address}:${result.port}`, 'http://www.rw-designer.com/icon-image/5547-256x256x32.png');
 
-          if(result.online) {
-            embed
-              .setDescription(`:large_blue_circle: Server is online.`)
-              .setFooter(`Players: ${result.current_players}/${result.max_players}`);
+        if(result.online) {
+          embed
+            .setDescription(`:large_blue_circle: Server is online.`)
+            .setFooter(`Players: ${result.current_players}/${result.max_players}`);
 
-            if (!isEmpty(removeMinecraftColor(result.motd))) {
-              embed.addField("Message of the Day", removeMinecraftColor(result.motd));
-            }
-          } else {
-            embed.setDescription(`:red_circle: Server is offline`);
+          if (!isEmpty(removeMinecraftColor(result.motd))) {
+            embed.addField("Message of the Day", removeMinecraftColor(result.motd));
           }
+        } else {
+          embed.setDescription(`:red_circle: Server is offline`);
+        }
 
           message.channel.send({embed});
-        });
         break;
       case 'gamedig':
         const source = require('gamedig');
@@ -100,12 +101,9 @@ module.exports = class MinecraftServerCommand extends Command {
         await message.channel.send({embed});
         break;
       case 'api.mcsrvstat.us':
-        const request = require("request");
+        const request = promisify(require("request"));
 
-        const { promisify } = require("util");
-        const promiseRequest = promisify(request);
-
-  		  let { body, statusCode } = promiseRequest({ url: 'https://api.mcsrvstat.us/2/'+encodeURIComponent(host), json: true })
+  		  let { body, statusCode } = request({ url: 'https://api.mcsrvstat.us/2/'+encodeURIComponent(host), json: true })
         if (statusCode !== 200) {
           console.error(`[ERROR][Minecraft Command][api.mcsrvstat.us] statusCode: ${statusCode}`)
           return msg.reply('An error has occured replating to the API selected. Please try again with a different API, or contact the Yamamura developers');
@@ -133,8 +131,6 @@ module.exports = class MinecraftServerCommand extends Command {
 
         message.channel.send({embed});
         break;
-      default:
-        message.util.send("Not a valid API. Try again.")
     }
   }
 };
