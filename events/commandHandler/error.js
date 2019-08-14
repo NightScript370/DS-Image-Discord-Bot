@@ -28,11 +28,8 @@ module.exports = class errorListener extends Listener {
                 return message.util.reply("The game server refused the connection. Please try again.");
 
 			const owners = this.client.ownerID.map(id => this.client.users.get(id).tag);
-            const isOwner = owners.filter(owner => msg.author.tag == owner).length;
-
-            const cleanError = error.toString()
 			message.util.send([
-				'An error occured' + isOwner ? '' : `, please contact ${owners.join(' or ')}.`,
+				`An error occured, please contact ${owners.join(' or ')}.`,
 				'```js',
 				error.toString(),
 				'```'
