@@ -208,13 +208,12 @@ class YamamuraClient extends AkairoClient {
 
             const matches = user.match(/^(?:<@!?)?([0-9]+)>?$/);
             if(matches) {
-                try {
-                    const fetchedUser = await message.client.users.fetch(matches[1]);
-                    if(!fetchedUser) return null;
-                    return fetchedUser;
-                } catch(err) {
-                    console.error(err);
-                }
+                const fetchedUser = await message.client.users.fetch(matches[1]);
+
+                if(!fetchedUser)
+                    return null;
+
+                return fetchedUser;
             }
 
             let userFound = null;
@@ -230,34 +229,43 @@ class YamamuraClient extends AkairoClient {
 
             function userSearch(message, term) {
                 if(message.guild) {
-                    let guildMember = message.guild.members.find(mem => mem.displayName.toLowerCase() === term);
-                    if (guildMember) {
-                        console.log(`I found ${guildMember.displayName} (#${guildMember.user.id}) from the current guild (${message.guild.name}) using the term "${term}" for ${message.author.username} (#${message.author.id})`)
+                    let members = message.guild.members.filter(memberFilterInexact(term));
+                    if (members.size) {
+                        const exactMembers = members.filter(memberFilterExact(term));
+
+                        if(exactMembers.size > 0)
+                            members = exactMembers;
+
+                        let guildMember = members.first();
                         return guildMember.user;
                     }
                 }
 
-                let inexactUsers = message.client.users.filter(memberFilterInexact(term));
-                if(inexactUsers.size === 0) return null;
-                if(inexactUsers.size === 1) {
-                    return inexactUsers.first();
-                }
+                let users = message.client.users.filter(userFilterInexact(term));
+                if(!users.size)
+                    return null;
 
-                const exactUsers = inexactUsers.filter(memberFilterExact(term));
-                if(exactUsers.size === 1)  return exactUsers.first();
+                const exactUsers = users.filter(userFilterExact(term));
 
-                if(exactUsers.size > 0) inexactUsers = exactUsers;
-                return inexactUsers.first();
+                if(exactUsers.size > 0)
+                    users = exactUsers;
+                return users.first();
+            }
+
+            function userFilterExact(search) {
+                return user => user.username.toLowerCase() === search || user.tag.toLowerCase() === search;
+            }
+
+            function userFilterInexact(search) {
+                return user => user.username.toLowerCase().includes(search) || user.tag.toLowerCase().includes(search);
             }
 
             function memberFilterExact(search) {
-                return mem => mem.username.toLowerCase() === search ||
-                    `${mem.username.toLowerCase()}#${mem.discriminator}` === search;
+                return mem => mem.user.username.toLowerCase() === search || mem.user.tag.toLowerCase() === search;
             }
 
             function memberFilterInexact(search) {
-                return mem => mem.username.toLowerCase().includes(search.toLowerCase()) ||
-                    `${mem.username.toLowerCase()}#${mem.discriminator}`.includes(search.toLowerCase());
+                return mem => mem.user.username.toLowerCase().includes(search) || mem.user.tag.toLowerCase().includes(search);
             }
 		});
         this.commandHandler.resolver.addType('image', async (message, argument) => {
