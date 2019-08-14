@@ -281,7 +281,7 @@ class YamamuraClient extends AkairoClient {
 			return address;
 		});
 
-        this.website = require("../../views/website.js")(this);
+        this.website = require("./views/website.js")(this);
         this.dbl = setTimeout(function () {return new DBL(config.DBLtoken, { webhookPort: this.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.website.server, statsInterval: 7200000 }, this)}, 7000);
 
 		this.inhibitorHandler = new InhibitorHandler(this, {
