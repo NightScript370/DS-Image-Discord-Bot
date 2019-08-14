@@ -2,7 +2,7 @@ const { Listener } = require('discord-akairo');
 const request = require('node-superfetch');
 
 const config = require("../../config.js");
-// const DBL = require("dblapi.js");
+const DBL = require("dblapi.js");
 
 module.exports = class ReadyListener extends Listener {
     constructor() {
@@ -20,6 +20,13 @@ module.exports = class ReadyListener extends Listener {
 		console.log(`My body, ${this.client.user.username} is ready to serve ${this.client.users.size} users in ${this.client.guilds.size} servers at ${this.client.URL}!`);
 		this.client.user.setStatus('online');
         this.client.util.setDefaultStatus(this.client);
+
+        this.client.website = require("../../views/website.js")(this.client);
+        this.client.dbl = new DBL(config.DBLtoken, { webhookPort: this.client.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.client.website.server, statsInterval: 7200000 }, this.client);
+
+        this.client.listenerHandler.register(this.client.dbl, '../dbl')
+        this.client.listenerHandler.register(this.client.dbl.vote, '../dbl')
+        this.client.listenerHandler.loadAll();
 
         const fs = require("fs");
         try {

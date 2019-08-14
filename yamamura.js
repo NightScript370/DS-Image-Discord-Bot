@@ -281,30 +281,24 @@ class YamamuraClient extends AkairoClient {
 			return address;
 		});
 
-        this.website = require("./views/website.js")(this);
-        this.dbl = setTimeout(function () {return new DBL(config.DBLtoken, { webhookPort: this.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.website.server, statsInterval: 7200000 }, this)}, 7000);
-
 		this.inhibitorHandler = new InhibitorHandler(this, {
 			directory: './inhibitors/'
 		});
 
 		this.listenerHandler = new ListenerHandler(this, {
 			directory: './events/'
-		});
-        this.listenerHandler.setEmitters({
+		}).setEmitters({
             process: process,
             commandHandler: this.commandHandler,
             inhibitorHandler: this.inhibitorHandler,
-            listenerHandler: this.listenerHandler,
-            dbl: this.dbl,
-            dblwebhook: this.dbl.webhook
+            listenerHandler: this.listenerHandler
         });
 
 		this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
 		this.inhibitorHandler.loadAll();
 
 		this.commandHandler.useListenerHandler(this.listenerHandler);
-		this.listenerHandler.loadAll();
+		this.listenerHandler.loadAll('./events/botHandler');
 
 		this.commandHandler.loadAll();
 
