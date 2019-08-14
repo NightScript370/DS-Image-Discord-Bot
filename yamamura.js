@@ -14,19 +14,10 @@ require("./struct/DMChannel.js");
 require("./struct/TextChannel.js");
 require("./language-framework.js");
 
-const DBL = require("dblapi.js");
-
 global.consoleLines = {
 	stdout: [],
 	stderr: [],
 };
-
-const morgan = require('morgan');
-var express = require('express');
-var session = require('express-session');
-var bodyParser = require('body-parser');
-var routes = require('./routes.js');
-const http = require('http');
 
 class YamamuraClient extends AkairoClient {
 	constructor() {
@@ -78,62 +69,6 @@ class YamamuraClient extends AkairoClient {
             } 
             return this.db.serverconfig.insert(defaultsettings);
         };
-        
-        this.express = express();
-        this.express.use(morgan('dev'))
-        this.express.use(express.static(process.cwd() + '/views/public'));
-        this.express.use(session({
-            secret: 'secret',
-            resave: true,
-            saveUninitialized: true
-        }));
-        this.express.use(bodyParser.urlencoded({extended : true}));
-        this.express.use(bodyParser.json());
-        this.express.use('/api/discord', require('./discord_oauth.js')(this));
-        this.express.use((err, req, res, next) => {
-            switch (err.message) {
-                case 'NoCodeProvided':
-                    return res.status(400).send({
-                        status: 'ERROR',
-                        error: err.message,
-                    });
-                default:
-                    return res.status(500).send({
-                        status: 'ERROR',
-                        error: err.message,
-                    });
-            }
-        });
-        this.express.set('view engine', 'ejs');
-        this.express.set('port', process.env.PORT || 3000);
-        // ================================================================
-        // set up modules
-        // ================================================================
-        this.express.locals.client = this;
-        this.express.locals.isEmpty = isEmpty;
-        this.express.locals.util = require("util");
-        this.express.locals.getParams = query => {
-            return query
-                ? (/^[?#]/.test(query) ? query.slice(1) : query)
-                    .split('&')
-                    .reduce((params, param) => {
-                        let [key, value] = param.split('=');
-                        params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
-                        return params;
-                    }, {})
-                : {};
-        };
-        this.express.locals.List = List;
-        this.express.locals.require = require;
-
-        this.server = http.createServer(this.express);
-        this.dbl = new DBL(config.DBLtoken, { webhookPort: this.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.server, statsInterval: 7200000 }, this);
-
-        routes(this.express, this);
-        this.server.listen(this.express.get('port'), () => {
-            console.log("Express server listening on port " + this.express.get('port'));
-        });
-        this.URL = config.url;
 
 		this.commandHandler = new CommandHandler(this, {
 			directory: './commands/',

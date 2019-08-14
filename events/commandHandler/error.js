@@ -28,10 +28,16 @@ module.exports = class errorListener extends Listener {
                 return message.util.reply("The game server refused the connection. Please try again.");
 
 			const owners = this.client.ownerID.map(id => this.client.users.get(id).tag);
+            const isOwner = owners.filter(owner => msg.author.tag == owner).length;
+
+            let cleanError = error.toString()
+                .replaceAll(this.client.token, '"<insert client token here>."')
+                .replaceAll(this.client.dbl.token, '"<insert DiscordBots.org token here>"');
+
 			message.util.send([
 				`An error occured, please contact ${owners.join(' or ')}.`,
 				'```js',
-				error.toString(),
+				cleanError,
 				'```'
 			]);
 		}
