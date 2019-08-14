@@ -2,7 +2,7 @@ const { Listener } = require('discord-akairo');
 const request = require('node-superfetch');
 
 const config = require("../../config.js");
-const DBL = require("dblapi.js");
+// const DBL = require("dblapi.js");
 
 module.exports = class ReadyListener extends Listener {
     constructor() {
@@ -33,9 +33,6 @@ module.exports = class ReadyListener extends Listener {
 
         const { getKey } = require("./../../Configuration"); 
         this.client.db.serverconfig.get = getKey; // Short-hand declare a variable to be an existing function
-
-        this.client.website = await require("../../views/website.js")(this.client)
-        this.client.dbl = new DBL(config.DBLtoken, { webhookPort: this.client.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.client.website.server, statsInterval: 7200000 }, this.client);
 
         if (process.env.DBLORGTOKEN) {
             try {

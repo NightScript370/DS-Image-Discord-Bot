@@ -9,7 +9,10 @@ const routes = require('./routes.js');
 const http = require('http');
 const { Strategy } = require("passport-discord");
 
-module.exports = (client) => {
+module.exports = async (client) => {
+    const wait = require('util').promisify(setTimeout);
+    await wait(5000);
+
     let website = {};
     website.URL = config.url;
 

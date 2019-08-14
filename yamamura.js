@@ -14,6 +14,8 @@ require("./struct/DMChannel.js");
 require("./struct/TextChannel.js");
 require("./language-framework.js");
 
+const DBL = require("dblapi.js");
+
 global.consoleLines = {
 	stdout: [],
 	stderr: [],
@@ -279,6 +281,9 @@ class YamamuraClient extends AkairoClient {
 			return address;
 		});
 
+        this.website = require("../../views/website.js")(this);
+        this.dbl = setTimeout(function () {return new DBL(config.DBLtoken, { webhookPort: this.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.website.server, statsInterval: 7200000 }, this)}, 7000);
+
 		this.inhibitorHandler = new InhibitorHandler(this, {
 			directory: './inhibitors/'
 		});
@@ -290,7 +295,9 @@ class YamamuraClient extends AkairoClient {
             process: process,
             commandHandler: this.commandHandler,
             inhibitorHandler: this.inhibitorHandler,
-            listenerHandler: this.listenerHandler
+            listenerHandler: this.listenerHandler,
+            dbl: setTimeout(function(){return this.dbl}, 5000),
+            dblwebhook: setTimeout(function(){return this.dbl.webhook}, 7000)
         });
 
 		this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
