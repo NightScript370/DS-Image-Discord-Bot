@@ -1,5 +1,3 @@
-const API_BASE = 'https://smmdb.ddns.net/api/';
-
 let fs = require('fs');
 let request = require('request').defaults({ encoding: null });
 let querystring = require('querystring');
@@ -9,6 +7,7 @@ const promiseRequest = promisify(request);
 
 module.exports = class SMMDB {
     constructor(api_key) {
+		this.url = 'https://smmdb.ddns.net/api/';
         this.apiKey = api_key;
         this.getBody = async (object, callback=null) => {
             if (callback) {
@@ -25,26 +24,48 @@ module.exports = class SMMDB {
         }
     }
 
-    getStats (callback=null) {
-        return this.getBody({ url: API_BASE + 'getstats', json: true }, callback);
-    }
-
-    searchCourses (version, args, callback=null) {
-		if (version !== "smm" && version !== "smm64") {
-			if (callback)
-				return callback('No API key provided');
-			else
-				return 'No API key provided';
-		}
-
-		let query = querystring.stringify(args);
-		return this.getBody({ url: API_BASE + version == "smm64" ? 'getcourses64?' : 'getcourses?' + query, json: true }, callback);
+	getStats (callback=null) {
+		let APIURL = this.url;
+		APIURL += 'getStats';
+		return this.getBody({ url: APIURL, json: true }, callback);
 	}
 
-    downloadCourse (courseId, target, callback) {
+	searchCourses (version, args, callback=null) {
+		if (version !== "smm" && version !== "smm64") {
+			if (callback)
+				return callback('Not a valid version');
+			else
+				return 'Not a valid version';
+		}
+
+		let APIURL = this.url;
+		APIURL += version == "smm64" ? 'getcourses64?' : 'getcourses?';
+		APIURL += querystring.stringify(args);
+
+		return this.getBody({ url: APIURL, json: true }, callback);
+	}
+
+	downloadCourse (courseId, target, callback, type) {
+		if (type !== '3ds' && type !== 'wiiu' && type !== 'smm64') {
+			return callback('Not a valid type');
+		}
+
+		let APIURL = this.url;
+		APIURL += type == 'smm64' ? 'downloadcourse64?id=' : 'downloadcourse?id=';
+		APIURL += courseId;
+		APIURL += '&type=';
+
+		switch (type) {
+			case 'smm64':
+			case 'wiiu':
+				APIURL += 'zip';
+			case '3ds':
+				APIURL += '3ds';
+		}
+
 		var req = request({
 			method: 'GET',
-			uri: API_BASE + 'downloadcourse?id=' + courseId + '&type=zip'
+			uri: APIURL
 		});
 
 		var out = fs.createWriteStream(target + '/smm-course-' + courseId + '.zip');
@@ -59,7 +80,7 @@ module.exports = class SMMDB {
 		});
 	}
 
-    uploadCourse (buffer, callback=null) {
+	uploadCourse (buffer, callback=null) {
 		if (!this.apiKey || this.apiKey && this.apiKey.trim() == '') {
 			if (callback)
 				return callback('No API key provided');
@@ -67,9 +88,12 @@ module.exports = class SMMDB {
 				return 'No API key provided';
 		}
 
+		let APIURL = this.url;
+		APIURL += 'uploadcourse';
+
 		let object = {
 			method: 'POST',
-			url: API_BASE + 'uploadcourse',
+			url: APIURL,
 			useElectronNet: false,
 			body: buffer,
 			headers: {
@@ -95,7 +119,7 @@ module.exports = class SMMDB {
 			url: API_BASE + 'starcourse?id=' + courseId,
 			useElectronNet: false,
 			headers: {
-			  	'Authorization': 'APIKEY ' + this.apiKey
+				'Authorization': 'APIKEY ' + this.apiKey
 			},
 			json: true
 		};
