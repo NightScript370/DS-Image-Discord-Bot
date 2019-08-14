@@ -298,7 +298,7 @@ class YamamuraClient extends AkairoClient {
 		this.inhibitorHandler.loadAll();
 
 		this.commandHandler.useListenerHandler(this.listenerHandler);
-		this.listenerHandler.loadAll('./events/botHandler');
+		this.listenerHandler.load('./events/botHandler/ready.js');
 
 		this.commandHandler.loadAll();
 
