@@ -14,7 +14,7 @@ module.exports = class HackingGuidesCommand extends Command {
         {
 					id: 'homebrew',
           description: 'List the specific homebrew you would like to view information on.',
-					type: [['twlmenu', 'twilight', 'twilightmenu', 'twlmenu++', 'twilightmenu++'], 'nds-bootstrap', 'rocketvideoplayer', 'lolsnes', 'nesDS', ['pkmn-chest', 'pkmn chest'], ['relaunch', 'buttonboot', 'button boot', 'button-boot']],
+					type: [['twlmenu', 'twilight', 'twilightmenu', 'twlmenu++', 'twilightmenu++', 'twilight menu++', 'twilight menu'], 'nds-bootstrap', 'rocketvideoplayer', 'lolsnes', 'nesDS', ['pkmn-chest', 'pkmn chest'], ['relaunch', 'buttonboot', 'button boot', 'button-boot']],
           prompt: {
             start: "What's the Nintendo DS Homebrew you'd like to see?",
             retry: "There is not a thing we can get information for. Try again."
@@ -35,17 +35,17 @@ module.exports = class HackingGuidesCommand extends Command {
 
         embed
           .setThumbnail('https://cdn.discordapp.com/attachments/283770736215195648/585297998875983872/unknown.png')
-          .addInline('Social Links', '• [Github Repository](https://github.com/DS-Homebrew/TWiLightMenu) \n'
-                                   + '• [GBATemp Thread](https://gbatemp.net/threads/ds-i-3ds-twilight-menu-gui-for-ds-i-games-and-ds-i-menu-replacement.472200/) \n'
-                                   + '• [Discord Server](https://discord.gg/yqSut8c)')
           .addInline('Supported Formats', '• `.nds` and `.dsi` via nds-bootstrap \n'
                                         + '• `.gg` and `.sms` via S8DS \n'
                                         + '• `.nes` via nesDS \n'
                                         + '• `.sfc` and `.smc` via SNEmulDS \n'
                                         + '• `.gb` and `.gbc` via GameYob \n'
                                         + '• `.gba` via GBARunner2')
+          .addInline('Social Links', '• [Github Repository](https://github.com/DS-Homebrew/TWiLightMenu) \n'
+                                   + '• [GBATemp Thread](https://gbatemp.net/threads/ds-i-3ds-twilight-menu-gui-for-ds-i-games-and-ds-i-menu-replacement.472200/) \n'
+                                   + '• [Discord Server](https://discord.gg/yqSut8c)')
           .setColor('#A701E9')
-          .setImage('https://media.discordapp.net/attachments/283770736215195648/608017242659225651/image0.jpg')
+          .setImage('https://cdn.discordapp.com/attachments/286686210225864725/611221324400033810/twlmenu_on_consoles_2_1610_fixed.jpg')
           .setFooter('Made by RocketRobz', 'https://cdn.discordapp.com/attachments/283770736215195648/585294979220504576/RocketRobz-avatar.gif')
         break;
       case 'rocketvideoplayer':

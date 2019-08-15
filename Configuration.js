@@ -122,12 +122,12 @@ let types = [
     }
 
     static deserialize(client, msg, val) {
-      return val ? client.commandHandler.modules.get(val) : '';
+      return val ? client.commandHandler.modules.get(val) : this.nullValue;
     }
     
     static render(client, msg, val) {
       let cmd = this.deserialize(client, msg, val);
-      return cmd ? cmd.id : '';
+      return cmd ? cmd.id : this.nullValue;
     }
 
     static validate(client, _, val) {
@@ -153,13 +153,9 @@ let types = [
     }
 
     static serialize(client, msg, val) {
-      let mention = /<#[0-9]*>/mi.test(val);
-      let idMention = val.replace(/[<#>]/g, "");
-
-      if (mention) return idMention;
-
-      let id = /^[0-9]*$/mi.test(val);
-      if (id) return val;
+      const matches = val.match(/(?:<#)?([0-9]+)>?/);
+      if (matches)
+        return matches[1];
 
       let name = msg.guild.channels.find(c => {
         // console.log(require("util").inspect(c, {depth: 0}), c.name, c.type);
@@ -171,24 +167,20 @@ let types = [
     }
     
     static deserialize(client, msg, val) {
-      return val ? client.channels.get(val) : null;
+      return val ? client.channels.get(val) : this.nullValue;
     }
 
     static render(client, msg, val) {
       let chan = this.deserialize(client, msg, val);
-      return chan ? `<#${chan.id}>` : null;
+      return chan ? `<#${chan.id}>` : this.nullValue;
     }
 
     static validate(client, msg, val) {
       // console.log(client);
       try {
-        let isMention = /<#[0-9]*>/mi.test(val);
-        let isID = /^[0-9]*$/mi.test(val);
-        let isName = !!msg.guild.channels.find(c => {
-          // console.log(require("util").inspect(c, {depth: 0}), c.name, c.type);
-          return c.name ? c.name.toLowerCase() : "" == val.toLowerCase() && c.type == "text";
-        });
-        return isMention || isName || isID;
+        let isID = /(?:<#)?([0-9]+)>?/mi.test(val);
+        let isName = !!msg.guild.channels.find(c => c.name ? c.name.toLowerCase() : "" == val.toLowerCase() && c.type == "text");
+        return isName || isID;
       } catch (e) {
         console.error(e);
         return false;
@@ -210,13 +202,9 @@ let types = [
     }
 
     static serialize(client, msg, val) {
-      let mention = /<@&[0-9]*>/mi.test(val);
-      let idMention = val.replace(/[<@&>]/g, "");
-
-      if (mention) return idMention;
-
-      let id = /^[0-9]*$/mi.test(val);
-      if (id) return val;
+      const matches = val.match(/(?:<@&)?([0-9]+)>?/);
+      if (matches)
+        return matches[1];
 
       let name = msg.guild.roles.filter(r => r.id != r.guild.id).find(c => {
         // console.log(require("util").inspect(c, {depth: 0}), c.name, c.type);
@@ -228,24 +216,19 @@ let types = [
     }
     
     static deserialize(client, msg, val) {
-      return val ? msg.guild.roles.get(val) : null;
+      return val ? msg.guild.roles.get(val) : this.nullValue;
     }
 
     static render(client, msg, val) {
       let chan = this.deserialize(client, msg, val);
-      return chan ? `<@&${chan.id}>` : null;
+      return chan ? `<@&${chan.id}>` : this.nullValue;
     }
 
     static validate(client, msg, val) {
-      // console.log(client);
       try {
-        let isMention = /<@&[0-9]*>/mi.test(val);
-        let isID = /^[0-9]*$/mi.test(val);
-        let isName = !!msg.guild.roles.filter(r => r.id != r.guild.id).find(c => {
-          // console.log(require("util").inspect(c, {depth: 0}), c.name, c.type);
-          return c.name.toLowerCase() == val.toLowerCase();
-        });
-        return isMention || isName || isID;
+        let isID = /(?:<@&)?([0-9]+)>?/mi.test(val);
+        let isName = !!msg.guild.roles.filter(r => r.id != r.guild.id).find(c => c.name.toLowerCase() == val.toLowerCase());
+        return isName || isID;
       } catch (e) {
         console.error(e);
         return false;
