@@ -51,7 +51,7 @@ module.exports = class SpecialYamamuraCommand extends Command {
     return {text: returntext};
   }
 
-  gameDigServer(type, IP) {
+  async gameDigServer(type, IP) {
     IP = IP.split(':');
     let fullIP = IP.join(':')
 
