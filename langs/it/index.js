@@ -78,7 +78,7 @@ module.exports = {
   "Useful": "Utility",
   "Audio": "Audio",
   "Fun": "Divertimento",
-  "Image Edits": "Immagini modificate", // Not final. At all ~Samplasion
+  "Image Edits": "Immagini", // This finally means "All the image commands" ~Samplasion
   "Moderation": "Moderazione",
   "Bot Utilities": "Utility del bot",
   "Game Server Statistics": "Statistiche server di gioco",

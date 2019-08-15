@@ -22,6 +22,8 @@ module.exports = class BobRossCommand extends Command {
   }
 
   async exec(message, { images }) {
+    let startingTime = Date.now();
+
     if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.')
 
@@ -43,6 +45,10 @@ module.exports = class BobRossCommand extends Command {
 
     const attachment = canvas.toBuffer();
     if (Buffer.byteLength(attachment) > 8e+6) return message.util.reply('Resulting image was above 8 MB.');
-		return message.util.reply(`Here's your beautiful canvas`, { files: [{ attachment, name: 'bob-ross.png' }] });
+    return message.util.reply(`Here's your beautiful canvas`, { files: [{ attachment, name: 'bob-ross.png' }] });
+    
+    let endingTime = Date.now();
+
+    if (message.author.id == "280399026749440000") message.author.send(`${endingTime-startingTime}ms`);
   }
 }
