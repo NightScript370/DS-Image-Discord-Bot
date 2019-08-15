@@ -23,7 +23,7 @@ module.exports = class aboutCommand extends Command {
         let prefix = await this.handler.prefix(message);
 
         let embed = this.client.util.embed()
-            .setTitle(__("Welcome to {0}", this.client.user.username), this.client.URL)
+            .setTitle(__("Welcome to {0}", this.client.user.username), this.client.website.URL)
             .setThumbnail(this.client.user.displayAvatarURL({ format: 'png' }))
             .setDescription(
                     __(`{0} is an all-in-one Discord bot dedicated to helping modding communities and more.`, this.client.user.username) + "\n"

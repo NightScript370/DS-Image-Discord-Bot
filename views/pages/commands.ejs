@@ -90,7 +90,7 @@
                   table = `
                         <div class="card">
                             <a class="card-header collapsed card-link" data-toggle="collapse" href="#collapse${cmd.id}">
-                                <img class="commandIcon" src="${iconExist(cmd) ? `${client.URL}/icons/${cmd}.png` : `${client.URL}/icons/blank.png`}">
+                                <img class="commandIcon" src="${iconExist(cmd) ? `/icons/${cmd.id}.png` : `/icons/blank.png`}">
                                 <b>${cmd.id}</b>
                                 <span style="float: right;">${permissions}</span>
                             </a>
@@ -159,7 +159,7 @@
                   table = `
                         <div class="card">
                             <a class="card-header collapsed card-link" data-toggle="collapse" href="#collapse${cmd.id}-all">
-                                <img class="commandIcon" src="${iconExist(cmd.id) ? `${client.URL}/icons/${cmd.id}.png` : `${client.URL}/icons/blank.png`}">
+                                <img class="commandIcon" src="${iconExist(cmd) ? `/icons/${cmd.id}.png` : `/icons/blank.png`}">
                                 <b>${cmd.id}</b>
                                 <span style="float: right;">${permissions}</span>
                             </a>
