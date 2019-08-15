@@ -30,31 +30,27 @@ module.exports = class JPEGifyCommand extends Command {
 		});
 	}
 
-	async exec(msg, { images, level }) {
+	async exec(message, { images, level }) {
 		let currentimage, widthpad, heightpad;
 
 		if (!this.isGood(images))
-			return msg.reply('No images were found. Please try again.')
+			return message.util.reply('No images were found. Please try again.')
 
-		try {
-			const imagessize = await this.largestSize(images);
-			const canvas = await createCanvas(imagessize.width, imagessize.height);
-			const ctx = canvas.getContext('2d');
+		const imagessize = await this.largestSize(images);
+		const canvas = await createCanvas(imagessize.width, imagessize.height);
+		const ctx = canvas.getContext('2d');
 
-			for (var image of images) {
-				currentimage = await loadImage(image);
+		for (var image of images) {
+			currentimage = await loadImage(image);
 
-				widthpad = (imagessize.width - currentimage.width) / 2;
-				heightpad = (imagessize.height - currentimage.height) / 2;
+			widthpad = (imagessize.width - currentimage.width) / 2;
+			heightpad = (imagessize.height - currentimage.height) / 2;
 
-				ctx.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
-			}
-
-			const attachment = canvas.toBuffer('image/jpeg', { quality: level / 10 });
-			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-			return msg.channel.send({ files: [{ attachment, name: 'image.jpg' }] });
-		} catch (err) {
-			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);
+			ctx.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
 		}
+
+		const attachment = canvas.toBuffer('image/jpeg', { quality: level / 10 });
+		if (Buffer.byteLength(attachment) > 8e+6) return message.util.reply('Resulting image was above 8 MB.');
+		return message.util.send({ files: [{ attachment, name: 'image.jpg' }] });
 	}
 };

@@ -2,7 +2,7 @@ const { Command } = require('discord-akairo');
 const List = require('list-array');
 const source = require('gamedig');
 
-class CustomCommand extends Command {
+module.exports = class SpecialYamamuraCommand extends Command {
   constructor(id, options = {}) {
     super(id, options);
   }
@@ -263,5 +263,3 @@ class CustomCommand extends Command {
     return false;
   }
 }
-
-module.exports = CustomCommand;

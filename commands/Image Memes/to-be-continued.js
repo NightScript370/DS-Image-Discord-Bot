@@ -1,13 +1,12 @@
 const Command = require('../../struct/Image-Command');
 const { createCanvas, loadImage } = require('canvas');
 const path = require('path');
-const { drawImageWithTint } = require('../../utils/Canvas');
 
 module.exports = class ToBeContinuedCommand extends Command {
     constructor() {
         super('to-be-continued', {
             aliases: ['to-be-continued', "tbc"],
-            category: 'Image Memes',
+            category: 'Image Edits',
             description: 'Draws an image with the "To Be Continued..." arrow.',
             cooldown: 10000,
             ratelimit: 1,
@@ -28,37 +27,33 @@ module.exports = class ToBeContinuedCommand extends Command {
         });
     }
 
-    async exec(msg, { images }) {
+    async exec(message, { images }) {
         let currentimage, widthpad, heightpad;
 
 		if (!this.isGood(images))
-			return msg.reply('No images were found. Please try again.')
+			return message.util.reply('No images were found. Please try again.')
 
-        try {
-            const imagessize = await this.largestSize(images);
-            const canvas = createCanvas(imagessize.width, imagessize.height);
-            const ctx = canvas.getContext('2d');
+        const imagessize = await this.largestSize(images);
+        const canvas = createCanvas(imagessize.width, imagessize.height);
+        const ctx = canvas.getContext('2d');
 
-            for (var image of images) {
-                currentimage = await loadImage(image);
+        for (var image of images) {
+            currentimage = await loadImage(image);
 
-                widthpad = (imagessize.width - currentimage.width) / 2;
-                heightpad = (imagessize.height - currentimage.height) / 2;
+            widthpad = (imagessize.width - currentimage.width) / 2;
+            heightpad = (imagessize.height - currentimage.height) / 2;
 
-                drawImageWithTint(ctx, currentimage, '#704214', widthpad, heightpad, currentimage.width, currentimage.height);
-            }
-
-            const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'to-be-continued.png'));
-            const ratio = base.width / base.height;
-            const width = canvas.width / 2;
-            const height = Math.round(width / ratio);
-            ctx.drawImage(base, 0, canvas.height - height, width, height);
-
-            const attachment = canvas.toBuffer();
-            if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-            return msg.util.send({ files: [{ attachment: attachment, name: 'to-be-continued.png' }] });
-        } catch (err) {
-            return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);
+            this.drawImageWithTint(ctx, currentimage, '#704214', widthpad, heightpad, currentimage.width, currentimage.height);
         }
+
+        const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'to-be-continued.png'));
+        const ratio = base.width / base.height;
+        const width = canvas.width / 2;
+        const height = Math.round(width / ratio);
+        ctx.drawImage(base, 0, canvas.height - height, width, height);
+
+        const attachment = canvas.toBuffer();
+        if (Buffer.byteLength(attachment) > 8e+6) return message.reply('Resulting image was above 8 MB.');
+        return message.util.send({ files: [{ attachment: attachment, name: 'to-be-continued.png' }] });
     }
 };

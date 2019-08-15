@@ -1,12 +1,11 @@
 const { Command } = require('discord-akairo');
 const { createCanvas, loadImage } = require('canvas');
 const path = require('path');
-const { wrapText } = require('../../utils/Canvas');
 
 module.exports = class SurprisedPikaPanelCommand extends Command {
   constructor() {
     super('surprisedpikapanel', {
-      category: 'Image Fun',
+      category: 'Image Edits',
       aliases: ["surprisedpikapanel"],
       description: {
         content: 'Makes an "Surprised Pikachu" meme panel but with your text.',
@@ -21,7 +20,8 @@ module.exports = class SurprisedPikaPanelCommand extends Command {
               'Type them in separate messages.',
               'Type `stop` when you are done.'
             ],
-            infinite: true
+            infinite: true,
+            limit: 5
           }
         }
       ]
@@ -29,22 +29,14 @@ module.exports = class SurprisedPikaPanelCommand extends Command {
   }
 
   async exec(message, { items }) {
-    console.log(items);
-
     const fileTypeRe = /\.(jpe?g|png|gif|bmp)$/i;
     let endimage;
     let loadimage;
 
     if (items.length < 1) return message.channel.send(global.getString("en", "There are not enough arguments to this command. The minimum is {0}.", 1));
-    if (items.length > 5) items.length = 5;
 
     let base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'surprisedpika.png'));
     let y = [0, 148, 295, 442, 588];
-
-    /*
-    const image = 'https://cdn.discordapp.com/attachments/562850987144904704/579670265533956151/1qsy1r.png';
-		const data = await loadImage(image);
-    */
 
     let canvas;
     if (items.length == 5) {
@@ -96,7 +88,7 @@ module.exports = class SurprisedPikaPanelCommand extends Command {
 				fontSize -= 1;
 				ctx.font = `${fontSize}px Arial`;
 			}
-			const lines = await wrapText(ctx, text, 252);
+			const lines = await this.wrapText(ctx, text, 252);
       ctx.fillText(lines.join('\n'), 10, heightstart);
     } catch(e) { */
       ctx.fillText(text, 10, heightstart)

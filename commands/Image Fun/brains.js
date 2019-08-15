@@ -1,12 +1,11 @@
 const { Command } = require('discord-akairo');
 const { createCanvas, loadImage } = require('canvas');
 const path = require('path');
-const { wrapText } = require('../../utils/Canvas');
 
 module.exports = class BrainsCommand extends Command {
   constructor() {
     super('brains', {
-      category: 'Image Fun',
+      category: 'Image Edits',
       aliases: ["brains"],
       description: {
         content: 'Makes an "Expanding Brain" meme but with your text.',
@@ -76,14 +75,12 @@ module.exports = class BrainsCommand extends Command {
         this.drawBrainText(ctx, items[index], y[index] + 40)
       }
 
-      try {
-        if (this.checkString(items[index]) == "supersmashbros.brawl"
-         || this.checkString(items[index]) == "supersmashbrosbrawl"
-         || this.checkString(items[index]) == "smashbros.brawl"
-         || this.checkString(items[index]) == "smashbrosbrawl") {
-          ctx.drawImage(tabuu, 300, y[index], base.width - 300, endimage)
-        }
-      } catch (e) {
+      if (this.checkString(items[index]) == "supersmashbros.brawl"
+       || this.checkString(items[index]) == "supersmashbrosbrawl"
+       || this.checkString(items[index]) == "smashbros.brawl"
+       || this.checkString(items[index]) == "smashbrosbrawl") {
+        ctx.drawImage(tabuu, 300, y[index], base.width - 300, endimage)
+          .catch()
       }
 
       index++;
@@ -102,7 +99,7 @@ module.exports = class BrainsCommand extends Command {
 				fontSize -= 1;
 				ctx.font = `${fontSize}px Arial`;
 			}
-			const lines = await wrapText(ctx, text, 252);
+			const lines = await this.wrapText(ctx, text, 252);
       ctx.fillText(lines.join('\n'), 10, heightstart);
     } catch(e) { */
       ctx.fillText(text, 10, heightstart)

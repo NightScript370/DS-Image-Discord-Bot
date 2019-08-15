@@ -6,7 +6,7 @@ module.exports = class BowserMemeCommand extends Command {
   constructor() {
     super('jrWatch', {
       aliases: ['jrWatch', 'bowserHide'],
-      category: "Image Memes",
+      category: "Image Edits",
       description: {
         content: "Shows an image of Bowser hiding something from Junior in the Nintendo Switch Parental Controls application"
       },
@@ -28,30 +28,26 @@ module.exports = class BowserMemeCommand extends Command {
 
   async exec(message, { watches, forcestretch }) {
 		if (!this.isGood(images))
-			return msg.reply('No images were found. Please try again.')
+			return message.util.reply('No images were found. Please try again.')
 
-    try {
-      const bowserhide = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'bowsermeme.png'));
-			const canvas = createCanvas(bowserhide.width, bowserhide.height);
-			const ctx = canvas.getContext('2d');
+    const bowserhide = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'bowsermeme.png'));
+		const canvas = createCanvas(bowserhide.width, bowserhide.height);
+		const ctx = canvas.getContext('2d');
 
-      let currentwatch;
-      for (var watching of watches) {
-        currentwatch = await loadImage(watching);
-        if (currentwatch.width == currentwatch.height && !forcestretch) {
-          ctx.drawImage(currentwatch, 253, 41, 552, 552);
-        } else {
-          ctx.drawImage(currentwatch, 43, 41, 972, 552);
-        }
+    let currentwatch;
+    for (var watching of watches) {
+      currentwatch = await loadImage(watching);
+      if (currentwatch.width == currentwatch.height && !forcestretch) {
+        ctx.drawImage(currentwatch, 253, 41, 552, 552);
+      } else {
+        ctx.drawImage(currentwatch, 43, 41, 972, 552);
       }
-
-      ctx.drawImage(bowserhide, 0, 0)
-
-      const attachment = canvas.toBuffer();
-      if (Buffer.byteLength(attachment) > 8e+6) return message.reply('Resulting image was above 8 MB.');
-			return message.util.send({ files: [{ attachment, name: 'bowsermeme.png' }] });
-    } catch (e) {
-      return message.reply(`Oh no, an error occurred: \`${e.message}\`. Try again later!`);
     }
+
+    ctx.drawImage(bowserhide, 0, 0)
+
+    const attachment = canvas.toBuffer();
+    if (Buffer.byteLength(attachment) > 8e+6) return message.util.reply('Resulting image was above 8 MB.');
+		return message.util.send({ files: [{ attachment, name: 'bowsermeme.png' }] });
   }
 }

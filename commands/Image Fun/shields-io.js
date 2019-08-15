@@ -5,7 +5,7 @@ module.exports = class ShieldsIoBadgeCommand extends Command {
 	constructor() {
 		super('shields-io-badge', {
 			aliases: ['shields-io', 'shields-io-badge'],
-			category: 'Image Fun',
+			category: 'Image Edits',
 			description: {
         		content: 'Creates a badge from shields.io.'
       		},
@@ -51,13 +51,8 @@ module.exports = class ShieldsIoBadgeCommand extends Command {
 		});
 	}
 
-	async exec(msg, { subject, status, color }) {
-		try {
-			const { body } = await request.get(`https://img.shields.io/static/v1.svg?label=${subject}&message=${status}&color=${rightColor}&=`);
-			return msg.util.send({ files: [{ attachment: body, name: 'badge.png' }] });
-		} catch (err) {
-			if (err.status === 404) return msg.reply('Could not create the badge...');
-			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);
-		}
+	async exec(message, { subject, status, color }) {
+		const { body } = await request.get(`https://img.shields.io/static/v1.svg?label=${subject}&message=${status}&color=${rightColor}&=`);
+		return message.util.send({ files: [{ attachment: body, name: 'badge.png' }] });
 	}
 };

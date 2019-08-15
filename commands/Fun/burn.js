@@ -1,7 +1,6 @@
 const Command = require('../../struct/Image-Command');
 const { createCanvas, loadImage } = require('canvas');
 const path = require('path');
-const { drawImageWithTint } = require('../../utils/Canvas');
 
 module.exports = class BurnCommand extends Command {
 	constructor() {
@@ -22,33 +21,31 @@ module.exports = class BurnCommand extends Command {
 		});
 	}
 
-	async exec(msg, { images }) {
+	async exec(message, { images }) {
 		let currentimage, widthpad, heightpad;
 
-		try {
-			const imagessize = await this.largestSize(images);
-			const canvas = await createCanvas(imagessize.width, imagessize.height);
-			const ctx = canvas.getContext('2d');
+		if (!this.isGood(images))
+			return message.util.reply('No images were found. Please try again.')
 
-			for (var image of images) {
-				currentimage = await loadImage(image);
+		const imagessize = await this.largestSize(images);
+		const canvas = await createCanvas(imagessize.width, imagessize.height);
+		const ctx = canvas.getContext('2d');
 
-				widthpad = (imagessize.width - currentimage.width) / 2;
-				heightpad = (imagessize.height - currentimage.height) / 2;
+		for (var image of images) {
+			currentimage = await loadImage(image);
 
-				drawImageWithTint(ctx, currentimage, '#fc671e', widthpad, heightpad, currentimage.width, currentimage.height);
-			}
+			widthpad = (imagessize.width - currentimage.width) / 2;
+			heightpad = (imagessize.height - currentimage.height) / 2;
 
-			const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'fire.png'));
-			ctx.drawImage(base, 0, 0, imagessize.width, imagessize.height);
-
-			const attachment = canvas.toBuffer();
-			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-			return msg.channel.send({ files: [{ attachment: attachment, name: 'fire.png' }] });
-		} catch (err) {
-			return msg.reply("Oh no, now the bot is on fire." +
-							 `Ok, seriously speaking, an error has occurred: \`${err.message}\`. Please report this to the Yamamura developers!`);
+			this.drawImageWithTint(ctx, currentimage, '#fc671e', widthpad, heightpad, currentimage.width, currentimage.height);
 		}
+
+		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'fire.png'));
+		ctx.drawImage(base, 0, 0, imagessize.width, imagessize.height);
+
+		const attachment = canvas.toBuffer();
+		if (Buffer.byteLength(attachment) > 8e+6) return message.reply('Resulting image was above 8 MB.');
+		return message.channel.send({ files: [{ attachment: attachment, name: 'fire.png' }] });
 	}
 };
 

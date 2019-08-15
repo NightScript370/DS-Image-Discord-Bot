@@ -6,7 +6,7 @@ module.exports = class SteppedInShitCommand extends Command {
     constructor() {
         super('steppedinshit', {
             aliases: ["steppedinshit", 'stepinshit'],
-            category: "Image Memes",
+            category: "Image Edits",
             description: {
                 content: "Step in shit aka your image"
             },
@@ -28,17 +28,13 @@ module.exports = class SteppedInShitCommand extends Command {
 
     async exec(message, { images, overlay }) {
         if (!this.isGood(images))
-			return msg.reply('No images were found. Please try again.')
+			return message.util.reply('No images were found. Please try again.')
 
-        try {
-            const attachment = await this.stepInShit(images, overlay);
-            if (Buffer.byteLength(attachment) > 8e+6)
-                return message.reply('Resulting image was above 8 MB.');
+        const attachment = await this.stepInShit(images, overlay);
+        if (Buffer.byteLength(attachment) > 8e+6)
+            return message.util.reply('Resulting image was above 8 MB.');
 
-            return message.util.send({ files: [{ attachment, name: 'stepinshit.png' }] });
-        } catch (e) {
-            return message.reply(`Oh no, an error occurred: \`${e.message}\`. Try again later!`);
-        }
+        return message.util.send({ files: [{ attachment, name: 'stepinshit.png' }] });
     }
 
     async stepInShit(images, overlay) {

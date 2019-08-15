@@ -1,12 +1,11 @@
 const { Command } = require('discord-akairo');
 const { createCanvas, loadImage } = require('canvas');
 const path = require('path');
-const { wrapText } = require('../../utils/Canvas');
 
 module.exports = class AstronautCommand extends Command {
   constructor() {
     super('astronautpanel', {
-      category: 'Image Fun',
+      category: 'Image Edits',
       aliases: ["astronautpanel"],
       description: {
         content: 'Makes an "Motion Blurred" meme panel but with your text.',
@@ -30,22 +29,14 @@ module.exports = class AstronautCommand extends Command {
   }
 
   async exec(message, { items }) {
-    console.log(items);
-
     const fileTypeRe = /\.(jpe?g|png|gif|bmp)$/i;
     let endimage;
     let loadimage;
 
     if (items.length < 1) return message.channel.send(global.getString("en", "There are not enough arguments to this command. The minimum is {0}.", 1));
-    if (items.length > 3) items.length = 3;
 
     let base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'astronautpanel.png'));
     let y = [0, 194, 392];
-
-    /*
-    const image = 'https://cdn.discordapp.com/attachments/562850987144904704/579670265533956151/1qsy1r.png';
-		const data = await loadImage(image);
-    */
 
     let canvas;
     if (items.length == 3) {
@@ -96,7 +87,7 @@ module.exports = class AstronautCommand extends Command {
 				fontSize -= 1;
 				ctx.font = `${fontSize}px Arial`;
 			}
-			const lines = await wrapText(ctx, text, 252);
+			const lines = await this.wrapText(ctx, text, 252);
       ctx.fillText(lines.join('\n'), 10, heightstart);
     } catch(e) { */
       ctx.fillText(text, 10, heightstart)

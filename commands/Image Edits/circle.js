@@ -22,40 +22,35 @@ module.exports = class CircleCommand extends Command {
 		});
 	}
 
-	async exec(msg, { images }) {
+	async exec(message, { images }) {
 		let currentimage, widthpad, heightpad;
 
 		if (!this.isGood(images))
-			return msg.reply('No images were found. Please try again.')
+			return message.util.reply('No images were found. Please try again.')
 
-		try {
-			const imagessize = await this.largestSize(images);
-			const canvas = await createCanvas(imagessize.width, imagessize.height);
-			const ctx = canvas.getContext('2d');
-			const canvas2 = await createCanvas(imagessize.width, imagessize.height);
-			const ctx2 = canvas.getContext('2d');
+		const imagessize = await this.largestSize(images);
+		const canvas = await createCanvas(imagessize.width, imagessize.height);
+		const ctx = canvas.getContext('2d');
+		const canvas2 = await createCanvas(imagessize.width, imagessize.height);
+		const ctx2 = canvas.getContext('2d');
 
-			ctx.beginPath();
-			ctx.arc(canvas.width / 2, canvas.height / 2, canvas.height / 2, 0, Math.PI * 2);
-			ctx.closePath();
-			ctx.clip();
+		ctx.beginPath();
+		ctx.arc(canvas.width / 2, canvas.height / 2, canvas.height / 2, 0, Math.PI * 2);
+		ctx.closePath();
+		ctx.clip();
 
-			for (var image of images) {
-				currentimage = await loadImage(image);
+		for (var image of images) {
+			currentimage = await loadImage(image);
 
-				widthpad = (imagessize.width - currentimage.width) / 2;
-				heightpad = (imagessize.height - currentimage.height) / 2;
+			widthpad = (imagessize.width - currentimage.width) / 2;
+			heightpad = (imagessize.height - currentimage.height) / 2;
 
-				ctx2.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
-			}
-			ctx.drawImage(canvas2, (canvas.width / 2) - (canvas2.width / 2), (canvas.height / 2) - (canvas2.height / 2));
-
-			const attachment = canvas.toBuffer();
-			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-			return msg.util.send({ files: [{ attachment: attachment, name: 'circle.png' }] });
-		} catch (err) {
-			console.error(err);
-			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);
+			ctx2.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
 		}
+		ctx.drawImage(canvas2, (canvas.width / 2) - (canvas2.width / 2), (canvas.height / 2) - (canvas2.height / 2));
+
+		const attachment = canvas.toBuffer();
+		if (Buffer.byteLength(attachment) > 8e+6) return message.util.reply('Resulting image was above 8 MB.');
+		return message.util.send({ files: [{ attachment: attachment, name: 'circle.png' }] });
 	}
 };

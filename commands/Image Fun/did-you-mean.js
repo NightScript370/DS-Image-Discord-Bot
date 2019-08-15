@@ -4,7 +4,7 @@ const request = require('node-superfetch');
 module.exports = class DidYouMeanCommand extends Command {
     constructor() {
         super('didyoumean', {
-            category: 'Image Fun',
+            category: 'Image Edits',
             aliases: ["didyoumean", 'did-you-mean'],
             description: {
                 content: 'Google-like did you mean image command',
@@ -36,14 +36,10 @@ module.exports = class DidYouMeanCommand extends Command {
         });
     }
 
-	async exec(msg, { top, bottom }) {
-		try {
-            const { body } = await request
-                .get('https://api.alexflipnote.xyz/didyoumean')
-                .query({ top, bottom });
-			return msg.channel.send({ files: [{ attachment: body, name: 'didyoumean.png' }] });
-		} catch (err) {
-			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);
-		}
+	async exec(message, { top, bottom }) {
+        const { body } = await request
+            .get('https://api.alexflipnote.xyz/didyoumean')
+            .query({ top, bottom });
+		return message.util.send({ files: [{ attachment: body, name: 'didyoumean.png' }] });
 	}
 };

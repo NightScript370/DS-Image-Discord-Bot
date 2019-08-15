@@ -6,7 +6,7 @@ module.exports = class FortniteItemCommand extends Command {
 	constructor() {
 		super('fortniteitem', {
 			aliases: ['fortniteitem'],
-			category: 'Image Memes',
+			category: 'Image Edits',
 			description: 'Draws a new fortnite item of your choice.',
 			cooldown: 10000,
 			ratelimit: 1,
@@ -21,28 +21,24 @@ module.exports = class FortniteItemCommand extends Command {
 		});
 	}
 
-	async exec(msg, { images }) {
+	async exec(message, { images }) {
 		if (!this.isGood(images))
-			return msg.reply('No images were found. Please try again.')
+			return message.util.reply('No images were found. Please try again.')
 
-		try {
-			const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'fortniteitem.png'));
-			const canvas = createCanvas(base.width, base.height);
-			const ctx = canvas.getContext('2d');
+		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'fortniteitem.png'));
+		const canvas = createCanvas(base.width, base.height);
+		const ctx = canvas.getContext('2d');
 
-			let currentitem;
-			for (var image of images) {
-				currentitem = await loadImage(image);
-				ctx.drawImage(currentitem, 60, 43, 165, 165);
-			}
-
-			ctx.drawImage(base, 0, 0)
-
-			const attachment = canvas.toBuffer();
-			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-			return msg.util.send({ files: [{ attachment: attachment, name: 'ifunny.png' }] });
-		} catch (err) {
-			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);
+		let currentitem;
+		for (var image of images) {
+			currentitem = await loadImage(image);
+			ctx.drawImage(currentitem, 60, 43, 165, 165);
 		}
+
+		ctx.drawImage(base, 0, 0)
+
+		const attachment = canvas.toBuffer();
+		if (Buffer.byteLength(attachment) > 8e+6) return message.util.reply('Resulting image was above 8 MB.');
+		return message.util.send({ files: [{ attachment: attachment, name: 'fortniteitem.png' }] });
 	}
 };

@@ -38,53 +38,46 @@ module.exports = class PixelizeCommand extends Command {
 		});
 	}
 
-	async exec(msg, { level, images, smoothen }) {
+	async exec(message, { level, images, smoothen }) {
 		let currentimage, widthpad, heightpad;
 
 		if (!this.isGood(images))
-			return msg.reply('No images were found. Please try again.')
+			return message.util.reply('No images were found. Please try again.')
 
-		try {
+		// Create canvas and canvas2 (the latter is a temporary one)
+		const imagessize = await this.largestSize(images);
+		const result = await createCanvas(imagessize.width, imagessize.height);
+		const c_res = result.getContext('2d');
 
-			// Create canvas and canvas2 (the latter is a temporary one)
-			const imagessize = await this.largestSize(images);
-			const result = await createCanvas(imagessize.width, imagessize.height);
-			const c_res = result.getContext('2d');
+		const width = result.width * (1 / level);
+		const height = result.height * (1 / level);
 
-			const width = result.width * (1 / level);
-			const height = result.height * (1 / level);
+		const images_layered = await createCanvas(imagessize.width, imagessize.height);
+		const c_images = images_layered.getContext('2d');
+		const small = await createCanvas(width, height);
+		const c_small = small.getContext("2d");
 
-			const images_layered = await createCanvas(imagessize.width, imagessize.height);
-			const c_images = images_layered.getContext('2d');
-			const small = await createCanvas(width, height);
-			const c_small = small.getContext("2d");
+		// Don't smooth the images
+		c_res.imageSmoothingEnabled = false;
+		c_images.imageSmoothingEnabled = false;
+		c_small.imageSmoothingEnabled = !!smoothen;
 
-			// Don't smooth the images
-			c_res.imageSmoothingEnabled = false;
-			c_images.imageSmoothingEnabled = false;
-			c_small.imageSmoothingEnabled = !!smoothen;
+		for (var image of images) {
+			currentimage = await loadImage(image);
+			let ciw = currentimage.width  / level;
+			let cih = currentimage.height / level;
 
-			for (var image of images) {
-				currentimage = await loadImage(image);
-				let ciw = currentimage.width  / level;
-				let cih = currentimage.height / level;
+			widthpad = (width - ciw) / 2;
+			heightpad = (height - cih) / 2;
 
-				widthpad = (width - ciw) / 2;
-				heightpad = (height - cih) / 2;
-
-				c_images.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
-			}
-
-			c_small.drawImage(images_layered, 0, 0, width, height);
-			c_res.drawImage(small, 0, 0, width, height, 0, 0, result.width, result.height);
-
-			const attachment = result.toBuffer();
-			if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-			return msg.channel.send({ files: [{ attachment, name: 'pixelize.png' }] });
-		} catch (err) {
-			console.error(err);
-			// msg.channel.send(err.stack);
-			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Please report this error to the Yamamura developers!`);
+			c_images.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
 		}
+
+		c_small.drawImage(images_layered, 0, 0, width, height);
+		c_res.drawImage(small, 0, 0, width, height, 0, 0, result.width, result.height);
+
+		const attachment = result.toBuffer();
+		if (Buffer.byteLength(attachment) > 8e+6) return message.util.reply('Resulting image was above 8 MB.');
+		return message.util.send({ files: [{ attachment, name: 'pixelize.png' }] });
 	}
 };
