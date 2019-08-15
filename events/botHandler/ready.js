@@ -22,10 +22,12 @@ module.exports = class ReadyListener extends Listener {
         this.client.util.setDefaultStatus(this.client);
 
         this.client.website = require("../../views/website.js")(this.client);
-        this.client.dbl = new DBL(config.DBLtoken, { webhookPort: this.client.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.client.website.server, statsInterval: 7200000 }, this.client);
+        this.client.dbl = new DBL(config.DBLtoken, { webhookPort: this.client.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.client.website.server, statsInterval: 7200000 }, this.client)
 
-        this.client.listenerHandler.register(this.client.dbl, '../dbl')
-        this.client.listenerHandler.register(this.client.dbl.vote, '../dbl')
+        this.client.listenerHandler.setEmitters({
+            dbl: this.client.dbl,
+            dblwebhook: this.client.dbl.webhook
+        });
         this.client.listenerHandler.loadAll();
 
         const fs = require("fs");
