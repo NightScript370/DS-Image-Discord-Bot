@@ -129,12 +129,12 @@ module.exports = class SpecialYamamuraCommand extends Command {
 
       embed
         .addInline('Players', playersAverage + '\n```http\n'+players.join('\n')+'```')
-        .addInline('Score', '​\n```http\n'+scores.join('\n')+'```');
+        .addInline('Score', '​```http\n'+scores.join('\n')+'```');
 
       if (pings.length)
-        embed.addInline('Ping', '​\n```http\n'+pings.join('\n')+'```');
+        embed.addInline('Ping', '​```http\n'+pings.join('\n')+'```');
       else if (playtimes.length)
-        embed.addInline('Playtime', '​\n```http\n'+playtimes.join('\n')+'```');
+        embed.addInline('Playtime', '​```http\n'+playtimes.join('\n')+'```');
 
       if (type !== 'cod4')
         embed.addField('Join', `<steam://connect/${host}:${port}>`)
