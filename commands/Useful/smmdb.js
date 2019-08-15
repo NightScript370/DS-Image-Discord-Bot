@@ -114,8 +114,6 @@ module.exports = class SMMDBCourseCommand extends Command {
             }
 
             CourseEmbed
-                .setAuthor(result.title, `${this.client.URL}/icons/smm-course.png`)
-                .setDescription(result.description ? result.description : '')
                 .setThumbnail(`https://smmdb.ddns.net/courseimg/${result.id}`)
                 .setImage(`https://smmdb.ddns.net/courseimg/${result.id}_full`)
                 .setFooter(`Level created by ${result.maker}`)

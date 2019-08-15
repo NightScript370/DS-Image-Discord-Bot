@@ -90,8 +90,6 @@ module.exports = class CourseCommand extends Command {
                 clears += `\n **First Clear:** ${global.getString(msg.author.lang, "by {0}", `[${levelinfo.first_clear.name}](${levelinfo.first_clear.user_url})`)}`
 
             let CourseEmbed = this.client.util.embed()
-                .setTitle(levelinfo.course_title)
-                .setDescription(ID)
 				.setImage(levelinfo.course_img_full)
 				.setThumbnail(levelinfo.course_img)
 				.setTimestamp(new Date())
@@ -113,7 +111,7 @@ module.exports = class CourseCommand extends Command {
                     CourseEmbed.setColor("#0096C8");
 		    }
 
-            msg.channel.send({embed: CourseEmbed})
+            msg.channel.send(`**${levelinfo.course_title}** - ${ID}`, {embed: CourseEmbed})
         } catch (e) {
             console.error(e);
             msg.channel.send('An unknown error has occured. Please report it to the Yamamura developers')
