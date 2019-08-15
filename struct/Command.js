@@ -106,7 +106,7 @@ module.exports = class SpecialYamamuraCommand extends Command {
     else if (!hasDescription && this.isGood(map))
       embed.setDescription(`Playing on ${map}`)
 
-    let players = `${data.players.length}/${data.maxplayers}`;
+    let playersAverage = `${data.players.length}/${data.maxplayers}`;
     if (data.players.length) {
       let players = [];
       let scores = [];
@@ -128,7 +128,7 @@ module.exports = class SpecialYamamuraCommand extends Command {
       }
 
       embed
-        .addInline('Players', players + '\n```http\n'+players.join('\n')+'```')
+        .addInline('Players', playersAverage + '\n```http\n'+players.join('\n')+'```')
         .addInline('Score', '​\n```http\n'+scores.join('\n')+'```');
 
       if (pings.length)
@@ -141,7 +141,7 @@ module.exports = class SpecialYamamuraCommand extends Command {
       else
         embed.addField('Join', `<cod4://${host}:${port}>`)
     } else 
-      embed.addInline('Players', players)
+      embed.addInline('Players', playersAverage)
 
     let footerArgs = [];
     if (data.password)

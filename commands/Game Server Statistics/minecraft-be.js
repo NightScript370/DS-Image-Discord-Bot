@@ -29,10 +29,10 @@ module.exports = class MCBedrockCommand extends Command {
       .setThumbnail("http://www.rw-designer.com/icon-image/5547-256x256x32.png")
       .setColor("GREEN")
 
-    message.util.reply(`Information on the "${data.name}" Minecraft (Bedrock Edition) server` + message.guild ? `, requested by ${message.member.displayName}` : '', {embed});
+    let text = `Information on the "${data.name}" Minecraft (Bedrock Edition) server`;
+    if (message.guild)
+      text += `, requested by ${message.member.displayName}`
+
+    message.util.send(text, {embed});
   }
 };
-
-function isEmpty(value) { //Function to check if value is really empty or not
-	return (value == null || value.length === 0);
-}

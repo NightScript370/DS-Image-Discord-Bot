@@ -29,6 +29,10 @@ module.exports = class RustCommand extends Command {
       .setColor("#CE422B")
       .setThumbnail(`${this.client.website.URL}/icons/rust.png`)
 
-    message.util.reply(`Information on the "${data.name}" Rust server` + message.guild ? `, requested by ${message.member.displayName}` : '', {embed});
+    let text = `Information on the "${data.name}" Rust server`;
+    if (message.guild)
+      text += `, requested by ${message.member.displayName}`
+
+    message.util.send(text, {embed});
   }
 };

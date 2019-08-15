@@ -29,6 +29,10 @@ module.exports = class COD4Command extends Command {
       .setThumbnail("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/46b63d3c-ae67-464c-9a37-670829b2a157/d9sm9eq-2cb37b2c-7cb4-44f4-aaae-c9642287dbc8.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzQ2YjYzZDNjLWFlNjctNDY0Yy05YTM3LTY3MDgyOWIyYTE1N1wvZDlzbTllcS0yY2IzN2IyYy03Y2I0LTQ0ZjQtYWFhZS1jOTY0MjI4N2RiYzgucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.TS74AwizLzpOEsKiKbJV1H4_9h-2OZ60NizmTBlsWPo")
       .setColor('#D6EAD1')
 
-    message.util.reply(`Information on the "${data.name}" Call of Duty 4 server` + message.guild ? `, requested by ${message.member.displayName}` : '', {embed});
+    let text = `Information on the "${data.name}" Call of Duty 4: Modern Warfare server`;
+    if (message.guild)
+      text += `, requested by ${message.member.displayName}`
+
+    message.util.send(text, {embed});
   }
 };

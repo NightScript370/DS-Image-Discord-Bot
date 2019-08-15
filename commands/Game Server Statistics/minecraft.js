@@ -72,7 +72,11 @@ module.exports = class MinecraftServerCommand extends Command {
         let { embed, data } = await this.gameDigServer('minecraft', IP);
         embed.setColor('GREEN')
 
-        message.util.reply(`Information on the "${data.name}" Minecraft (Java Edition) server` + message.guild ? `, requested by ${message.member.displayName}` : '', {embed});
+        let text = `Information on the "${data.name}" Minecraft (Java Edition) server`;
+        if (message.guild)
+          text += `, requested by ${message.member.displayName}`
+
+        message.util.send(text, {embed});
         break;
       case 'api.mcsrvstat.us':
         const request = require("request");

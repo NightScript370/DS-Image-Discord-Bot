@@ -29,6 +29,10 @@ module.exports = class CODMW3Command extends Command {
       .setColor("#739B19")
       .setThumbnail('http://icons.iconarchive.com/icons/3xhumed/call-of-duty-modern-warfare-3/512/CoD-Modern-Warfare-3-1a-icon.png');
 
-    message.util.reply(`Information on the "${data.name}" Call of Duty: Modern Warfare 3 server` + message.guild ? `, requested by ${message.member.displayName}` : '', {embed});
+    let text = `Information on the "${data.name}" Call of Duty: Modern Warfare 3 server`;
+    if (message.guild)
+      text += `, requested by ${message.member.displayName}`
+
+    message.util.send(text, {embed});
   }
 };

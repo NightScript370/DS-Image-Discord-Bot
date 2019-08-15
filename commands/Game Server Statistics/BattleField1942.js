@@ -30,6 +30,10 @@ module.exports = class BF1942Command extends Command {
     embed
       .setColor("BLUE")
 
-    message.util.reply(`Information on the "${data.name}" BattleField 1942 server` + message.guild ? `, requested by ${message.member.displayName}` : '', {embed});
+    let text = `Information on the "${data.name}" BattleField 1942 server`;
+    if (message.guild)
+      text += `, requested by ${message.member.displayName}`
+
+    message.util.send(text, {embed});
   }
 };
