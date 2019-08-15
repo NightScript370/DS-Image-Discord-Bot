@@ -90,7 +90,7 @@ module.exports = class SMMDBCourseCommand extends Command {
         if (type == 'smm') {
             let gamestyle;
 
-            switch (result.gamestyle) {
+            switch (result.gameStyle) {
                 case 0:
                     gamestyle = "Super Mario Bros.";
                     CourseEmbed.setColor("#D54B00");
@@ -126,26 +126,23 @@ module.exports = class SMMDBCourseCommand extends Command {
                     .addInline('Difficulty', this.difficulty(result.difficulty))
                     .addInline('Auto-Scroll', this.autoScroll(result.autoScroll))
                     .addField('Extra', "**Time:** " + result.time + "\n"
-                                     + "**Stars:**" + result.stars + "\n"
-                                     + "**Level Width:**" + result.width)
+                                     + "**Stars:** " + result.stars + "\n"
+                                     + "**Level Width:** " + result.width)
             } else {
                 CourseEmbed
-                    .addField('General Information',
-                                `**Game Style:** ${gamestyle} \n\n`
+                    .addField('General Information', "**Game Style:** " + gamestyle + "\n\n"
 
-                                `**Subtheme:** Available\n`
-                                `**Difficulty:** ${difficulty}\n\n`
+                                                   + "**Subtheme:** Available\n"
+                                                   + "**Difficulty:** " + difficulty + "\n\n"
                                 
-                                `**Time:** ${result.time}\n`
-                                `**Stars:** ${result.stars}`)
-                    .addInline('Area 1',
-                                `**Theme:** ${this.SMMtheme(result.courseTheme)} \n`
-                                `**Auto Scroll:** ${this.autoScroll(result.autoScroll)} \n`
-                                `**Area Width:** ${result.width}`)
-                    .addInline('Area 2',
-                                `**Theme:** ${this.SMMtheme(result.courseThemeSub)} \n`
-                                `**Auto Scroll:** ${this.autoScroll(result.autoScrollSub)} \n`
-                                `**Area Width:** ${result.widthSub}`);
+                                                   + "**Time:** " + result.time + "\n"
+                                                   + "**Stars:** " + result.stars)
+                    .addInline('Area 1', "**Theme:** " + this.SMMtheme(result.courseTheme) + "\n"
+                                       + "**Auto Scroll:** " + this.autoScroll(result.autoScroll) + "\n"
+                                       + "**Area Width:** " + result.width)
+                    .addInline('Area 2', "**Theme:** " + this.SMMtheme(result.courseThemeSub) + "\n"
+                                       + "**Auto Scroll:** " + this.autoScroll(result.autoScrollSub) + "\n"
+                                       + "**Area Width:** " + result.widthSub);
             }
 
             CourseEmbed
