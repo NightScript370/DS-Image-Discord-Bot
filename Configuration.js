@@ -100,6 +100,40 @@ let types = [
     }
   },
 
+  class CommandType {
+    constructor() {
+      this.id = "command"
+    }
+
+    static get nullValue() {
+      return "";
+    }
+
+    static get id() {
+      return "command";
+    }
+
+    static serialize(client, _, val) {
+      return "" + val;
+    }
+
+    static deserialize(client, _, val) {
+      return "" + val;
+    }
+    
+    static render(client, _, val) {
+      return "" + val;
+    }
+
+    static validate(client, _, val) {
+      let commands = Array.from(client.commandHandler.modules.keys());
+      if (commands.filter(command => command === val).length)
+        return true;
+
+      return false;
+    }
+  },
+
   class ChannelType {
     constructor() {
       this.id = "channel"
