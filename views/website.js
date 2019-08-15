@@ -2,6 +2,7 @@ const config = require("../config.js");
 const List = require("list-array");
 const path = require("path");
 
+const morgan = require('morgan');
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -9,10 +10,7 @@ const routes = require('./routes.js');
 const http = require('http');
 const { Strategy } = require("passport-discord");
 
-module.exports = async (client) => {
-    const wait = require('util').promisify(setTimeout);
-    await wait(5000);
-
+module.exports = (client) => {
     let website = {};
     website.URL = config.url;
 
@@ -27,7 +25,7 @@ module.exports = async (client) => {
     website.passport.use(new Strategy({
         clientID: client.user.id,
         clientSecret: process.env.CLIENT_SECRET,
-        callbackURL: `login`,
+        callbackURL: `${website.URL}/login`,
         scope: ["identify", "guilds"]
     }, function(accessToken, refreshToken, profile, done) {
         process.nextTick(function() {
@@ -64,6 +62,7 @@ module.exports = async (client) => {
             }
         })
         .set('port', process.env.PORT || 3000)
+        .use(morgan('dev'));
 
     website.express = routes(website.express, client);
 
