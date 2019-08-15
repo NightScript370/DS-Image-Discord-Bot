@@ -113,16 +113,21 @@ let types = [
       return "command";
     }
 
-    static serialize(client, _, val) {
-      return "" + val;
+    static serialize(client, msg, val) {
+      let cmd = client.commandHandler.aliases.get(val);
+      if (cmd)
+        return cmd.id;
+
+      return this.nullValue;
     }
 
-    static deserialize(client, _, val) {
-      return "" + val;
+    static deserialize(client, msg, val) {
+      return val ? client.commandHandler.modules.get(val) : '';
     }
     
-    static render(client, _, val) {
-      return "" + val;
+    static render(client, msg, val) {
+      let cmd = this.deserialize(client, msg, val);
+      return cmd ? cmd.id : '';
     }
 
     static validate(client, _, val) {
@@ -162,7 +167,7 @@ let types = [
       });
       if (name) return name.id;
 
-      return ChannelType.nullValue;
+      return this.nullValue;
     }
     
     static deserialize(client, msg, val) {
@@ -219,7 +224,7 @@ let types = [
       });
       if (name) return name.id;
 
-      return RoleType.nullValue;
+      return this.nullValue;
     }
     
     static deserialize(client, msg, val) {
