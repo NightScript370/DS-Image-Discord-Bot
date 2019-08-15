@@ -45,7 +45,7 @@ module.exports = class BobRossCommand extends Command {
 
     const attachment = canvas.toBuffer();
     if (Buffer.byteLength(attachment) > 8e+6) return message.util.reply('Resulting image was above 8 MB.');
-    return message.util.reply(`Here's your beautiful canvas`, { files: [{ attachment, name: 'bob-ross.png' }] });
+    message.util.reply(`Here's your beautiful canvas`, { files: [{ attachment, name: 'bob-ross.png' }] });
     
     let endingTime = Date.now();
 
