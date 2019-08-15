@@ -133,7 +133,7 @@ module.exports = class SMMDBCourseCommand extends Command {
                     .addField('General Information', "**Game Style:** " + gamestyle + "\n\n"
 
                                                    + "**Subtheme:** Available\n"
-                                                   + "**Difficulty:** " + difficulty + "\n\n"
+                                                   + "**Difficulty:** " + this.difficulty(result.difficulty) + "\n\n"
                                 
                                                    + "**Time:** " + result.time + "\n"
                                                    + "**Stars:** " + result.stars)
@@ -151,7 +151,7 @@ module.exports = class SMMDBCourseCommand extends Command {
             return msg.reply('The Super Mario Maker 64 portion of this command is not made yet. Please try again later');
         }
 
-        msg.channel.send(`**${result.title}** - ${result.description}`, CourseEmbed)
+        msg.channel.send(`**${result.title}**` + (result.description ? `- ${result.description}` : ''), CourseEmbed)
 	}
 
     async handleSelector(levels = [], index, embed=null, language=null) {
