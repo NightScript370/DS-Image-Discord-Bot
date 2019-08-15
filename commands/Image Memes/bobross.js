@@ -28,18 +28,18 @@ module.exports = class BobRossCommand extends Command {
     const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'bob-ross.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
-    ctx.fillStyle = 'white';
 
 		ctx.rotate(0.05);
 
     let currentcanvas;
 		for (var image of images) {
       currentcanvas = await loadImage(image);
-      ctx.drawImage(currentcanvas, 30, 19, 430, 430);
+      ctx.drawImage(currentcanvas, 30, 22, 430, 400);
     }
 
 		ctx.rotate(-0.05);
     ctx.drawImage(base, 0, 0, base.width, base.height);
+    ctx.fillStyle = 'white';
 
     const attachment = canvas.toBuffer();
     if (Buffer.byteLength(attachment) > 8e+6) return message.util.reply('Resulting image was above 8 MB.');
