@@ -111,19 +111,19 @@ module.exports = class SpecialYamamuraCommand extends Command {
       let players = [];
       let scores = [];
       let pings = [];
-      let playtime = [];
+      let playtimes = [];
 
       for (var player of data.players) {
         players.push(player.name);
 
-        if (player.frags)
+        if ("frags" in player)
           scores.push(player.frags);
-        else if (player.score)
+        else if ("score" in player)
           scores.push(player.score);
 
-        if (player.ping)
+        if ("ping" in player)
           pings.push(`${player.ping}ms`);
-        else if (player.playtime)
+        else if ("time" in player)
           playtimes.push(`${parseInt(player.time)}s`);
       }
 
@@ -133,7 +133,7 @@ module.exports = class SpecialYamamuraCommand extends Command {
 
       if (pings.length)
         embed.addInline('Ping', '​\n```http\n'+pings.join('\n')+'```');
-      else if (playtime.length)
+      else if (playtimes.length)
         embed.addInline('Playtime', '​\n```http\n'+playtimes.join('\n')+'```');
 
       if (type !== 'cod4')
