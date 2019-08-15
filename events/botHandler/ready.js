@@ -21,8 +21,8 @@ module.exports = class ReadyListener extends Listener {
 		this.client.user.setStatus('online');
         this.client.util.setDefaultStatus(this.client);
 
-        this.client.website = require("../../views/website.js")(this.client);
-        this.client.dbl = new DBL(config.DBLtoken, { webhookPort: this.client.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.client.website.server, statsInterval: 7200000 }, this.client)
+        this.client.website = await require("../../views/website.js")(this.client);
+        this.client.dbl = await new DBL(config.DBLtoken, { webhookPort: this.client.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.client.website.server, statsInterval: 7200000 }, this.client)
 
         this.client.listenerHandler.setEmitters({
             dbl: this.client.dbl,

@@ -53,9 +53,10 @@ module.exports = class EvalCommand extends Command {
                 });
             }
 
-            result
-                .replaceAll(this.client.token, '"<insert client token here>."')
-                .replaceAll(this.client.dbl.token, '"<insert DiscordBots.org token here>"');
+            result.replaceAll(this.client.token, '"<insert client token here>."')
+
+            if (this.client.dbl && this.client.dbl.token)
+                result.replaceAll(this.client.dbl.token, '"<insert DiscordBots.org token here>"');
 
             if (result.length > 1990) {
                 console.log(result);

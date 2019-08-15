@@ -32,7 +32,9 @@ module.exports = class errorListener extends Listener {
 
             let cleanError = error.toString()
                 .replaceAll(this.client.token, '"<insert client token here>."')
-                .replaceAll(this.client.dbl.token, '"<insert DiscordBots.org token here>"');
+            
+            if (this.client.dbl && this.client.dbl.token)
+                cleanError.replaceAll(this.client.dbl.token, '"<insert DiscordBots.org token here>"');
 
 			message.util.send([
 				`An error occured, please contact ${owners.join(' or ')}.`,
