@@ -1,5 +1,4 @@
-const { Command } = require('discord-akairo');
-const source = require('gamedig');
+const Command = require('../../struct/Command');
 
 module.exports = class RustCommand extends Command {
   constructor() {
@@ -12,8 +11,8 @@ module.exports = class RustCommand extends Command {
         {
           id: 'IP',
           prompt: {
-              start: 'Which server would you like to get Rust statistics from?',
-              retry: 'That\'s not a server we can get stats from! Try again.'
+            start: 'Which server would you like to get Rust statistics from?',
+            retry: 'That\'s not a server we can get stats from! Try again.'
           },
           type: 'externalIP',
           match: 'content'
@@ -25,6 +24,11 @@ module.exports = class RustCommand extends Command {
   }
 
   async exec(message, { IP }) {
-    let {embed, data} = this.gameDigServer('rust', IP);
+    let { embed, data } = await this.gameDigServer('rust', IP);
+    embed
+      .setColor("#CE422B")
+      .setThumbnail(`${this.client.website.URL}/icons/rust.png`)
+
+    message.util.reply(`Information on the "${data.name}" Rust server` + message.guild ? `, requested by ${message.member.displayName}` : '', {embed});
   }
 };

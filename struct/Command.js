@@ -90,7 +90,6 @@ class CustomCommand extends Command {
     }
 
     let embed = this.client.util.embed()
-      .setColor("BLUE")
       .addField('Server IP', `\`${host}:${port}\``)
       .setImage('https://cache.gametracker.com/server_info/'+host+':'+port+'/b_560_95_1.png')
 

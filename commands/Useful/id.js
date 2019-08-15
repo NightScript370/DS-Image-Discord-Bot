@@ -11,7 +11,7 @@ const activities = {
 module.exports = class DiscordProfileCommand extends Command {
     constructor() {
         super('profile', {
-            aliases: ['user', 'member', 'profile', 'user-profile', 'member-profile'],
+            aliases: ['user', 'member', 'profile', 'user-profile', 'member-profile', 'userinfo', 'memberinfo', 'profileinfo'],
             category: 'Useful',
             clientPermissions: ['ATTACH_FILES'],
             description: {
@@ -22,7 +22,7 @@ module.exports = class DiscordProfileCommand extends Command {
 			args: [
                 {
 					id: 'user',
-					type: 'user',
+					type: 'user-commando',
                     default: msg => msg.author,
                     match: 'content'
                 }

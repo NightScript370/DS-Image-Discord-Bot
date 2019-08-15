@@ -117,7 +117,7 @@ module.exports = class SMMDBCourseCommand extends Command {
                 .setThumbnail(`https://smmdb.ddns.net/courseimg/${result.id}`)
                 .setImage(`https://smmdb.ddns.net/courseimg/${result.id}_full`)
                 .setFooter(`Level created by ${result.maker}`)
-                .setTimestamp(new Date(result.lastmodified));
+                .setTimestamp(new Date(result.lastmodified * 1000));
 
             if (!result.widthSub) {
                 CourseEmbed

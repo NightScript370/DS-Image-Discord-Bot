@@ -1,4 +1,4 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/Command');
 
 module.exports = class ARKCommand extends Command {
   constructor() {
@@ -7,24 +7,29 @@ module.exports = class ARKCommand extends Command {
       aliases: ["ark", "arkse"],
       clientPermissions: ['EMBED_LINKS'],
       description: {
-        content:'Get stats of any Battlefield: 1942 game server.',
+        content: 'Get stats of any Ark: Survival Evolved game server.',
         usage: '<server IP>',
         examples: ['163.172.13.221:14567']
       },
-      args: [{
-        id: 'IP',
-        prompt: {
-          start: 'Which server would you like to get `ARK: Survival Evolved` statistics from?',
-          retry: 'That\'s not a server we can get stats from! Try again.'
-        },
-        type: 'externalIP'
-      }]
+      args: [
+        {
+          id: 'IP',
+          prompt: {
+            start: 'Which server would you like to get `ARK: Survival Evolved` statistics from?',
+            retry: 'That\'s not a server we can get stats from! Try again.'
+          },
+          type: 'externalIP',
+          match: 'content'
+        }
+      ]
     });
   }
 
   async exec(message, { IP }) {
-    let {embed, data} = this.gameDigServer('arkse', IP);
+    let {embed, data} = await this.gameDigServer('arkse', IP);
+    embed
+      .setColor("BLUE")
 
-    message.channel.send({embed});
+    message.util.reply(`Information on the "${data.name}" Ark: Survival Evolved server` + message.guild ? `, requested by ${message.member.displayName}` : '', {embed});
   }
 };

@@ -1,4 +1,5 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/Command');
+const { promisify } = require("util");
 
 module.exports = class MinecraftServerCommand extends Command {
   constructor() {
@@ -39,58 +40,60 @@ module.exports = class MinecraftServerCommand extends Command {
     let host = IP[0];
     let port = IP[1] ? parseInt(IP[1]) : 25565;
 
-    let embed = await this.client.util.embed()
+    let MineEmbed = await this.client.util.embed()
       .setColor('GREEN')
       .setImage('https://cache.gametracker.com/server_info/'+host+':'+port+'/b_560_95_1.png')
 
     switch (API) {
       case 'minestat':
         const minestat = require('../../utils/minestat');
-        minestat(host, port, function(result) {
-          embed.setAuthor(`Minecraft Server Stats: ${result.address}:${result.port}`, 'http://www.rw-designer.com/icon-image/5547-256x256x32.png');
+        const promiseMinestat = promisify(minestat)
 
-          if(result.online) {
-            embed
-              .setDescription(`:large_blue_circle: Server is online.`)
-              .setFooter(`Players: ${result.current_players}/${result.max_players}`);
+        let result = await minestat(host, port);
 
-            if (!isEmpty(removeMinecraftColor(result.motd))) {
-              embed.addField("Message of the Day", removeMinecraftColor(result.motd));
-            }
-          } else {
-            embed.setDescription(`:red_circle: Server is offline`);
+        MineEmbed
+          .setAuthor(`Minecraft Server Stats: ${result.address}:${result.port}`, 'http://www.rw-designer.com/icon-image/5547-256x256x32.png');
+
+        if(result.online) {
+          MineEmbed
+            .setDescription(`:large_blue_circle: Server is online.`)
+            .setFooter(`Players: ${result.current_players}/${result.max_players}`);
+
+          if (!isEmpty(removeMinecraftColor(result.motd))) {
+            MineEmbed.addField("Message of the Day", removeMinecraftColor(result.motd));
           }
+        } else {
+          MineEmbed.setDescription(`:red_circle: Server is offline`);
+        }
 
-          message.channel.send({embed});
-        });
+        message.channel.send({MineEmbed});
         break;
       case 'gamedig':
-        let {embed, data} = this.gameDigServer('minecraft', IP);
+        let { embed, data } = await this.gameDigServer('minecraft', IP);
+        embed.setColor('GREEN')
 
-        await message.channel.send({embed});
+        message.util.reply(`Information on the "${data.name}" Minecraft (Java Edition) server` + message.guild ? `, requested by ${message.member.displayName}` : '', {embed});
         break;
       case 'api.mcsrvstat.us':
         const request = require("request");
-
-        const { promisify } = require("util");
         const promiseRequest = promisify(request);
 
-  		  let { body, statusCode } = promiseRequest({ url: 'https://api.mcsrvstat.us/2/'+encodeURIComponent(host), json: true })
+  		  let { body, statusCode } = await promiseRequest({ url: 'https://api.mcsrvstat.us/2/'+encodeURIComponent(host), json: true })
         if (statusCode !== 200) {
           console.error(`[ERROR][Minecraft Command][api.mcsrvstat.us] statusCode: ${statusCode}`)
           return msg.reply('An error has occured replating to the API selected. Please try again with a different API, or contact the Yamamura developers');
         }
 
         if (!isEmpty(body.hostname)) {
-          embed
+          MineEmbed
             .setAuthor(`Minecraft Server Stats: ${body.hostname}`, (!isEmpty(body.icon) && body.icon.length < 2000) ? body.icon : 'http://www.rw-designer.com/icon-image/5547-256x256x32.png')
             .addInline(`Server IP`, '`'+fullIP+'`');
         } else {
-          embed.setAuthor(`Minecraft Server Stats: ${fullIP}`, body.icon ? body.icon : 'http://www.rw-designer.com/icon-image/5547-256x256x32.png');
+          MineEmbed.setAuthor(`Minecraft Server Stats: ${fullIP}`, body.icon ? body.icon : 'http://www.rw-designer.com/icon-image/5547-256x256x32.png');
         }
 
         if (!isEmpty(body.motd)) {
-          embed.setDescription(body.motd.clean);
+          MineEmbed.setDescription(body.motd.clean);
         }
 
         if (!isEmpty(body.players)) {
@@ -98,13 +101,11 @@ module.exports = class MinecraftServerCommand extends Command {
           if (!isEmpty(body.players.list)) {
             players += '\n```http\n'+body.players.list.join('\n')+'```';
           }
-          embed.addField("Players", players);
+          MineEmbed.addField("Players", players);
         }
 
-        message.channel.send({embed});
+        message.channel.send({MineEmbed});
         break;
-      default:
-        message.util.send("Not a valid API. Try again.")
     }
   }
 };
