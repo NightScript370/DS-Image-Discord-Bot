@@ -25,11 +25,14 @@ module.exports = class aboutCommand extends Command {
         let embed = this.client.util.embed()
             .setTitle(__("Welcome to {0}", this.client.user.username), this.client.URL)
             .setThumbnail(this.client.user.displayAvatarURL({ format: 'png' }))
-            .setDescription(__('This is a discord bot made in Discord-Akairo written for Hacking Communities.') + "\n"
-                    + __("If you'd like to see all the available commands, please take a look at our website or type {0}commands", prefix))
+            .setDescription(
+                    __(`{0} is an all-in-one Discord bot dedicated to helping modding communities and more.`, this.client.user.username) + "\n"
+                  + __("It can fulfill your server's moderation needs and create fun events for your community to enjoy") + "\n\n"
+
+                  + __("If you'd like to see all the available commands, please take a look at our website or type {0}commands", prefix))
             .addField('Links', '[Invite Bot](https://discordapp.com/oauth2/authorize?client_id=421158339129638933&scope=bot) | '
-                             + `[Website](${this.client.URL}) | `
-                             + `[Commands](${this.client.URL}/commands) | `
+                             + `[Website](${this.client.website.URL}) | `
+                             + `[Commands](${this.client.website.URL}/commands) | `
                              + `[Support Server](https://discord.gg/vbYZCRZ)`)
             .setYamamuraCredits(false)
 

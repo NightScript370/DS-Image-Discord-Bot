@@ -65,37 +65,7 @@ module.exports = class MinecraftServerCommand extends Command {
         });
         break;
       case 'gamedig':
-        const source = require('gamedig');
-        let data = await source.query({
-          type: 'minecraft',
-          host: host,
-          port: port
-        });
-
-        if (!isEmpty(data.name)) {
-          embed
-            .setAuthor(`Minecraft Server Stats: ${data.name}`, 'http://www.rw-designer.com/icon-image/5547-256x256x32.png')
-            .addInline(`Server`, `\`${data.connect}\``);
-        } else {
-          embed.setAuthor(`Minecraft Server Stats: ${data.connect}`, 'http://www.rw-designer.com/icon-image/5547-256x256x32.png');
-        }
-
-        embed.addInline(`Players`, `${data.players.length}/${data.maxplayers}`);
-
-        if (!isEmpty(removeMinecraftColor(data.raw.description.text))) {
-          embed.setDescription(removeMinecraftColor(data.raw.description.text));
-        }
-
-        if (!isEmpty(data.raw.map))      embed.addInline('Map', data.raw.map);
-        if (!isEmpty(data.raw.gametype)) embed.addInline(`Gametype`, data.raw.gametype);
-
-        if (data.password) {
-          if (!isEmpty(data.raw.version.name)) embed.setFooter(`Private Server • Version: ${data.raw.version.name}`, `${this.client.URL}/lock.png`);
-          else if (!isEmpty(data.raw.version)) embed.setFooter(`Private Server • Version: ${data.raw.version}`, `${this.client.URL}/lock.png`);
-        } else {
-          if (!isEmpty(data.raw.version.name)) embed.setFooter(`Version: ${data.raw.version.name}`);
-          else if (!isEmpty(data.raw.version)) embed.setFooter(`Version: ${data.raw.version}`);
-        }
+        let {embed, data} = this.gameDigServer('minecraft', IP);
 
         await message.channel.send({embed});
         break;

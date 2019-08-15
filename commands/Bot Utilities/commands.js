@@ -39,7 +39,7 @@ module.exports = class CommandsCommand extends Command {
 
                 let commandEmbed = this.client.util.embed()
                     .setTitle(__('Help for command "{0}"', command.id))
-                    .setImage(`${this.client.URL}/examples/${command.id}.png`);
+                    .setImage(`${this.client.website.URL}/examples/${command.id}.png`);
 
                 if (command.category)
                     commandEmbed.addInline(__("Category"), __(command.category.id))
@@ -150,8 +150,8 @@ module.exports = class CommandsCommand extends Command {
             let prefix = await this.handler.prefix(msg);
 
             let e = this.client.util.embed()
-                .setAuthor(__('Command Listing'), this.client.user.displayAvatarURL({format: 'png'}), `${this.client.URL}/commands`)
-                .setDescription(__('To view a list of all the commands, go to the [Yamamura Website Command Page]({0}).', `${this.client.URL}/commands`) + " \n"
+                .setAuthor(__('Command Listing'), this.client.user.displayAvatarURL({format: 'png'}), `${this.client.website.URL}/commands`)
+                .setDescription(__('To view a list of all the commands, go to the [Yamamura Website Command Page]({0}).', `${this.client.website.URL}/commands`) + " \n"
                               + __("To view a list of a command of a specific category, type `{0}commands (category name)`.", prefix));
 
             cats.forEach(category => {

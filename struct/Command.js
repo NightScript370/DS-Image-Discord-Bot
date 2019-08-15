@@ -1,5 +1,6 @@
 const { Command } = require('discord-akairo');
 const List = require('list-array');
+const source = require('gamedig');
 
 class CustomCommand extends Command {
   constructor(id, options = {}) {
@@ -50,13 +51,139 @@ class CustomCommand extends Command {
     return {text: returntext};
   }
 
-  sendInChannelOrDM(msg, responce, options=null) {
-    let msgresponce;
-    if (!responce.dm && !responce.guild) {
-      msgresponce = responce;
+  gameDigServer(type, IP) {
+    IP = IP.split(':');
+    let fullIP = IP.join(':')
+
+    let host = IP[0];
+    let port = IP[1] ? parseInt(IP[1]) : 14567;
+
+    let data = await source.query({
+      type: type,
+      host: host,
+      port: port
+    });
+
+    let map; 
+    if (type == 'cod4') {
+      let gametypes = {
+        war: 'Team Deathmatch',
+        dm: 'Free for All',
+        sd: 'Search and Destroy',
+        dom: 'Domination',
+        koth: 'Headquarters',
+        sab: 'Sabotage'
+      };
+
+      let gametype;
+      if (gametypes.hasOwnProperty(data.raw.g_gametype)) {
+        gametype = gametypes[data.raw.g_gametype];
+      } else {
+        gametype = data.raw.g_gametype;
+      }
+
+      map = `${data.map.replace('mp_', '').split('_').map(e => e.charAt(0).toUpperCase() + e.slice(1))} - ${gametype}`;
+    } else if((type == 'minecraft' || type == 'minecraftbe') && !isEmpty(data.raw.gametype)) {
+      map = `${data.map} - ${data.raw.gametype}`;
     } else {
-      
+      map = data.map;
     }
+
+    let embed = this.client.util.embed()
+      .setColor("BLUE")
+      .addField('Server IP', `\`${host}:${port}\``)
+      .setImage('https://cache.gametracker.com/server_info/'+host+':'+port+'/b_560_95_1.png')
+
+    let hasDescription = (!isEmpty(this.rvMColor(data.raw.description.text)) || !isEmpty(this.rvMColor(data.raw.description)))
+    if (hasDescription) {
+      if (!isEmpty(this.rvMColor(data.raw.description.text)))
+        embed.setDescription(this.rvMColor(data.raw.description.text))
+      else if (!isEmpty(this.rvMColor(data.raw.description)))
+        embed.setDescription(this.rvMColor(data.raw.description))
+    }
+
+    if (hasDescription && !isEmpty(map))
+      embed.addField('Map', map);
+    else if (!hasDescription && !isEmpty(map))
+      embed.setDescription(`Playing on ${map}`)
+
+    let players = `${data.players.length}/${data.maxplayers}`;
+    if (data.players.length) {
+      let players = [];
+      let scores = [];
+      let pings = [];
+      let playtime = [];
+
+      for (var player of data.players) {
+        players.push(player.name);
+
+        if (player.frags)
+          scores.push(player.frags);
+        else if (player.score)
+          scores.push(player.score);
+
+        if (player.ping)
+          pings.push(`${player.ping}ms`);
+        else if (player.playtime)
+          playtimes.push(`${parseInt(player.time)}s`);
+      }
+
+      embed
+        .addInline('Players', players + '\n```http\n'+players.join('\n')+'```')
+        .addInline('Score', '​\n```http\n'+scores.join('\n')+'```');
+
+      if (pings.length)
+        embed.addInline('Ping', '​\n```http\n'+pings.join('\n')+'```');
+      else if (playtime.length)
+        embed.addInline('Playtime', '​\n```http\n'+playtimes.join('\n')+'```');
+
+      if (type !== 'cod4')
+        embed.addField('Join', `<steam://connect/${host}:${port}>`)
+      else
+        embed.addField('Join', `<cod4://${host}:${port}>`)
+    } else 
+      embed.addInline('Players', players)
+
+    let footerArgs = [];
+    if (data.password)
+      footerArgs.push('Private Server');
+
+    if (!isEmpty(data.raw.version.name))
+      footerArgs.push(`Version: ${data.raw.version.name}`)
+    else if (!isEmpty(data.raw.version))
+      footerArgs.push(`Version: ${data.raw.version}`)
+
+    if (!isEmpty(data.raw.uptime))
+      footerArgs.push(`Uptime: ${data.raw.uptime}`);
+
+    if (data.password)
+      embed.setFooter(footerArgs.join(" • "), `${this.client.website.URL}/lock.png`);
+    else
+      embed.setFooter(footerArgs.join(" • "));
+
+    return {embed, data};
+  }
+
+  rvMColor(motd) {
+    if (!motd) return '';
+
+    return motd
+      .split('§0').join('')
+      .split('§1').join('')
+      .split('§2').join('')
+      .split('§3').join('')
+      .split('§4').join('')
+      .split('§5').join('')
+      .split('§6').join('')
+      .split('§7').join('')
+      .split('§8').join('')
+      .split('§9').join('')
+      .split('§a').join('')
+      .split('§b').join('')
+      .split('§c').join('')
+      .split('§d').join('')
+      .split('§e').join('')
+      .split('§f').join('')
   }
 
   async responceSelector(msg, responces, embed) {

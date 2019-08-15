@@ -14,8 +14,6 @@ require("./struct/DMChannel.js");
 require("./struct/TextChannel.js");
 require("./language-framework.js");
 
-const DBL = require("dblapi.js");
-
 global.consoleLines = {
 	stdout: [],
 	stderr: [],
