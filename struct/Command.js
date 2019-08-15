@@ -93,7 +93,7 @@ module.exports = class SpecialYamamuraCommand extends Command {
       .addField('Server IP', `\`${host}:${port}\``)
       .setImage('https://cache.gametracker.com/server_info/'+host+':'+port+'/b_560_95_1.png')
 
-    let hasDescription = (this.isGood(this.rvMColor(data.raw.description.text)) || this.isGood(this.rvMColor(data.raw.description)))
+    let hasDescription = this.isGood(this.rvMColor(data.raw.description))
     if (hasDescription) {
       if (this.isGood(this.rvMColor(data.raw.description.text)))
         embed.setDescription(this.rvMColor(data.raw.description.text))
@@ -101,9 +101,9 @@ module.exports = class SpecialYamamuraCommand extends Command {
         embed.setDescription(this.rvMColor(data.raw.description))
     }
 
-    if (hasDescription && !this.isGood(map))
+    if (hasDescription && this.isGood(map))
       embed.addField('Map', map);
-    else if (!hasDescription && !this.isGood(map))
+    else if (!hasDescription && this.isGood(map))
       embed.setDescription(`Playing on ${map}`)
 
     let players = `${data.players.length}/${data.maxplayers}`;
