@@ -35,13 +35,14 @@ module.exports = class errorListener extends Listener {
             
             if (this.client.dbl && this.client.dbl.token)
                 cleanError.replaceAll(this.client.dbl.token, '"<insert DiscordBots.org token here>"');
+            
+            let errorMessage = 'An error occured.';
+            if (!isOwner)
+                errorMessage += `, please contact ${owners.join(' or ')}.`;
 
-			message.util.send([
-				`An error occured` + isOwner? '' : `, please contact ${owners.join(' or ')}.`,
-				'```js',
-				cleanError,
-				'```'
-			]);
+            errorMessage += `\`\`\`js\n${cleanError}\`\`\``;
+
+			message.util.send(errorMessage);
 		}
     }
 }

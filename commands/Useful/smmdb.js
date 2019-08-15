@@ -127,10 +127,9 @@ module.exports = class SMMDBCourseCommand extends Command {
                     .addInline('Theme', this.SMMtheme(result.courseTheme))
                     .addInline('Difficulty', this.difficulty(result.difficulty))
                     .addInline('Auto-Scroll', this.autoScroll(result.autoScroll))
-                    .addField('Extra',
-                                `**Time:** ${result.time} \n`
-                                `**Stars:** ${result.stars} \n`
-                                `**Level Width:** ${result.width}`)
+                    .addField('Extra', "**Time:** " + result.time + "\n"
+                                     + "**Stars:**" + result.stars + "\n"
+                                     + "**Level Width:**" + result.width)
             } else {
                 CourseEmbed
                     .addField('General Information',
