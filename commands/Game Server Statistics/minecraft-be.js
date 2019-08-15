@@ -26,7 +26,7 @@ module.exports = class MCBedrockCommand extends Command {
   async exec(message, { IP }) {
     let { embed, data } = await this.gameDigServer('minecraftbe', IP);
     embed
-      .setThumbnail("http://www.rw-designer.com/icon-image/5547-256x256x32.png")
+      .setThumbnail(`${this.client.website.URL}/icons/minecraft.png`)
       .setColor("GREEN")
 
     let text = `Information on the "${data.name}" Minecraft (Bedrock Edition) server`;

@@ -17,7 +17,8 @@ module.exports = class MinecraftServerCommand extends Command {
               start: 'Which minecraft server would you like to get stats from?',
               retry: 'That\'s not a server we can get stats from! Try again.'
           },
-          type: 'string'
+          type: 'string',
+          match: 'rest'
         },
         {
           id: 'API',
@@ -52,15 +53,15 @@ module.exports = class MinecraftServerCommand extends Command {
         let result = await minestat(host, port);
 
         MineEmbed
-          .setAuthor(`Minecraft Server Stats: ${result.address}:${result.port}`, 'http://www.rw-designer.com/icon-image/5547-256x256x32.png');
+          .setAuthor(`Minecraft Server Stats: ${result.address}:${result.port}`, `${this.client.website.URL}/icons/minecraft.png`);
 
         if(result.online) {
           MineEmbed
             .setDescription(`:large_blue_circle: Server is online.`)
             .setFooter(`Players: ${result.current_players}/${result.max_players}`);
 
-          if (!isEmpty(removeMinecraftColor(result.motd))) {
-            MineEmbed.addField("Message of the Day", removeMinecraftColor(result.motd));
+          if (this.isGood(this.rvMColor(result.motd))) {
+            MineEmbed.addField("Message of the Day", this.rvMColor(result.motd));
           }
         } else {
           MineEmbed.setDescription(`:red_circle: Server is offline`);
@@ -90,10 +91,10 @@ module.exports = class MinecraftServerCommand extends Command {
 
         if (!isEmpty(body.hostname)) {
           MineEmbed
-            .setAuthor(`Minecraft Server Stats: ${body.hostname}`, (!isEmpty(body.icon) && body.icon.length < 2000) ? body.icon : 'http://www.rw-designer.com/icon-image/5547-256x256x32.png')
+            .setAuthor(`Minecraft Server Stats: ${body.hostname}`, (this.isGood(body.icon) && body.icon.length < 2000) ? body.icon : `${this.client.website.URL}/icons/minecraft.png`)
             .addInline(`Server IP`, '`'+fullIP+'`');
         } else {
-          MineEmbed.setAuthor(`Minecraft Server Stats: ${fullIP}`, body.icon ? body.icon : 'http://www.rw-designer.com/icon-image/5547-256x256x32.png');
+          MineEmbed.setAuthor(`Minecraft Server Stats: ${fullIP}`, (this.isGood(body.icon) && body.icon.length < 2000) ? body.icon : `${this.client.website.URL}/icons/minecraft.png`);
         }
 
         if (!isEmpty(body.motd)) {
@@ -103,7 +104,7 @@ module.exports = class MinecraftServerCommand extends Command {
         if (!isEmpty(body.players)) {
           let players = `${body.players.online}/${body.players.max}`;
           if (!isEmpty(body.players.list)) {
-            players += '\n```http\n'+body.players.list.join('\n')+'```';
+            players += '```http\n'+body.players.list.join('\n')+'```';
           }
           MineEmbed.addField("Players", players);
         }
@@ -113,29 +114,3 @@ module.exports = class MinecraftServerCommand extends Command {
     }
   }
 };
-
-function isEmpty(value) { //Function to check if value is really empty or not
-	return (value == null || value.length === 0);
-}
-
-function removeMinecraftColor(motd) {
-  if (!motd) return '';
-
-  return motd
-    .split('§0').join('')
-    .split('§1').join('')
-    .split('§2').join('')
-    .split('§3').join('')
-    .split('§4').join('')
-    .split('§5').join('')
-    .split('§6').join('')
-    .split('§7').join('')
-    .split('§8').join('')
-    .split('§9').join('')
-    .split('§a').join('')
-    .split('§b').join('')
-    .split('§c').join('')
-    .split('§d').join('')
-    .split('§e').join('')
-    .split('§f').join('')
-}

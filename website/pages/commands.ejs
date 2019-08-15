@@ -99,9 +99,20 @@
 
                   if (cmd.args) {
                     table += '<ul class="list-group list-group-flush">';
-                        for (var arg of cmd.args) {
-                            table += `<li class="list-group-item"><b>${arg.id}</b> ${arg.description ? `- ${arg.description}` : ''}</li>`;
+                    for (var arg of cmd.args) {
+                      if (!arg.description) {
+                        switch (arg.id) {
+                          case 'IP':
+                            arg.description = "This is the server's IP address.";
+                            break;
+                          case 'images':
+                            arg.description = 'These are the images for the command. This can be either attachments, user mentions, user IDs, user names, links or if the channel has an image posted beforehand within the past 50 messages: none. If you use multiple links and/or attachments, you can even layer the image.';
+                            break;
                         }
+                      }
+ 
+                      table += `<li class="list-group-item"><b>${arg.id}</b> ${arg.description ? `- ${arg.description}` : ''}</li>`;
+                    }
                     table += '</ul>';
                   }
 
@@ -111,7 +122,7 @@
               s = s.join("");
               if (s.length > 0) {
                 %><%- `<div class="tab-pane fade ${category == defaultcategory ? 'show active' : ''}" id="${category}" role="tabpanel" aria-labelledby="${category}-tab">
-                        <h1> ${category} [${catCmds.length}] </h1>
+                        <h3> ${category} [${catCmds.length}] </h3>
                         <div id="accordion">${s}</div>
                        </div>` %><%
               }
@@ -147,10 +158,8 @@
                   if (!isEmpty(cmd.description)) {
                     if (typeof cmd.description == 'string') {
                       cmDescription = cmd.description;
-                      //s.push(`<b>${cmd.id}</b>: ${cmd.description}`);
                     } else {
                       cmDescription = cmd.description.content;
-                      //s.push(`<b>${cmd.id}</b>: ${cmd.description.content}`)
                     }
                   }
 
@@ -168,9 +177,20 @@
 
                   if (cmd.args) {
                     table += '<ul class="list-group list-group-flush">';
-                        for (var arg of cmd.args) {
-                            table += `<li class="list-group-item"><b>${arg.id}</b> ${arg.description ? `- ${arg.description}` : ''}</li>`;
+                    for (var arg of cmd.args) {
+                      if (!arg.description) {
+                        switch (arg.id) {
+                          case 'IP':
+                            arg.description = "This is the server's IP address.";
+                            break;
+                          case 'images':
+                            arg.description = 'These are the images for the command. This can be either attachments, user mentions, user IDs, user names, links or if the channel has an image posted beforehand within the past 50 messages: none. If you use multiple links and/or attachments, you can even layer the image.';
+                            break;
                         }
+                      }
+ 
+                      table += `<li class="list-group-item"><b>${arg.id}</b> ${arg.description ? `- ${arg.description}` : ''}</li>`;
+                    }
                     table += '</ul>';
                   }
 
@@ -179,7 +199,7 @@
               });
                 s = s.join("");
                 if (s.length > 0) {
-                  %><%- `<h1> ${category} [${catCmds.length}] </h1>
+                  %><%- `<h3> ${category} [${catCmds.length}] </h3>
                         <div id="accordion">${s}</div><br>` %><%
                 }
               });
