@@ -83,7 +83,7 @@ module.exports = class SpecialYamamuraCommand extends Command {
       }
 
       map = `${data.map.replace('mp_', '').split('_').map(e => e.charAt(0).toUpperCase() + e.slice(1))} - ${gametype}`;
-    } else if((type == 'minecraft' || type == 'minecraftbe') && !isEmpty(data.raw.gametype)) {
+    } else if((type == 'minecraft' || type == 'minecraftbe') && this.isGood(data.raw.gametype)) {
       map = `${data.map} - ${data.raw.gametype}`;
     } else {
       map = data.map;
@@ -93,17 +93,17 @@ module.exports = class SpecialYamamuraCommand extends Command {
       .addField('Server IP', `\`${host}:${port}\``)
       .setImage('https://cache.gametracker.com/server_info/'+host+':'+port+'/b_560_95_1.png')
 
-    let hasDescription = (!isEmpty(this.rvMColor(data.raw.description.text)) || !isEmpty(this.rvMColor(data.raw.description)))
+    let hasDescription = (this.isGood(this.rvMColor(data.raw.description.text)) || this.isGood(this.rvMColor(data.raw.description)))
     if (hasDescription) {
-      if (!isEmpty(this.rvMColor(data.raw.description.text)))
+      if (this.isGood(this.rvMColor(data.raw.description.text)))
         embed.setDescription(this.rvMColor(data.raw.description.text))
-      else if (!isEmpty(this.rvMColor(data.raw.description)))
+      else if (this.isGood(this.rvMColor(data.raw.description)))
         embed.setDescription(this.rvMColor(data.raw.description))
     }
 
-    if (hasDescription && !isEmpty(map))
+    if (hasDescription && !this.isGood(map))
       embed.addField('Map', map);
-    else if (!hasDescription && !isEmpty(map))
+    else if (!hasDescription && !this.isGood(map))
       embed.setDescription(`Playing on ${map}`)
 
     let players = `${data.players.length}/${data.maxplayers}`;
@@ -147,12 +147,14 @@ module.exports = class SpecialYamamuraCommand extends Command {
     if (data.password)
       footerArgs.push('Private Server');
 
-    if (!isEmpty(data.raw.version.name))
-      footerArgs.push(`Version: ${data.raw.version.name}`)
-    else if (!isEmpty(data.raw.version))
-      footerArgs.push(`Version: ${data.raw.version}`)
+    if (this.isGood(data.raw.version)) {
+      if (this.isGood(data.raw.version.name))
+        footerArgs.push(`Version: ${data.raw.version.name}`)
+      else
+        footerArgs.push(`Version: ${data.raw.version}`)
+    }
 
-    if (!isEmpty(data.raw.uptime))
+    if (this.isGood(data.raw.uptime))
       footerArgs.push(`Uptime: ${data.raw.uptime}`);
 
     if (data.password)
