@@ -20,7 +20,7 @@ module.exports = class ReadyListener extends Listener {
 		this.client.user.setStatus('online');
         this.client.util.setDefaultStatus(this.client);
 
-        this.client.website = await require("../../views/website.js")(this.client);
+        this.client.website = await require("../../website/index.js")(this.client);
         this.client.dbl = await new DBL(config.DBLtoken, { webhookPort: this.client.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.client.website.server, statsInterval: 7200000 }, this.client)
 
         this.client.listenerHandler.setEmitters({
@@ -42,7 +42,7 @@ module.exports = class ReadyListener extends Listener {
             
         }
 
-        const { getKey } = require("./../../Configuration"); 
+        const { getKey } = require("../../Configuration"); 
         this.client.db.serverconfig.get = getKey; // Short-hand declare a variable to be an existing function
 
         if (process.env.DBLORGTOKEN) {
