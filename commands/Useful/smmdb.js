@@ -171,10 +171,10 @@ module.exports = class SMMDBCourseCommand extends Command {
         }
 
         if (embed) {
-            embed.addField(`**${parseInt(index)+1}.** ${levels[index].name}`, `${levels[index].description}\n${by}`);
+            embed.addField(`**${parseInt(index)+1}.** ${levels[index].title}`, `${levels[index].description}\n${by}`);
             return embed;
         } else {
-            return `**${parseInt(index)+1}.** ${levels[index].name} (${by}) \n`;
+            return `**${parseInt(index)+1}.** ${levels[index].title} (${by}) \n`;
         }
     }
 
