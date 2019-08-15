@@ -17,7 +17,6 @@ module.exports = class ReadyListener extends Listener {
         const wait = require('util').promisify(setTimeout);
         await wait(5000);
 
-		console.log(`My body, ${this.client.user.username} is ready to serve ${this.client.users.size} users in ${this.client.guilds.size} servers at ${this.client.URL}!`);
 		this.client.user.setStatus('online');
         this.client.util.setDefaultStatus(this.client);
 
@@ -28,7 +27,10 @@ module.exports = class ReadyListener extends Listener {
             dbl: this.client.dbl,
             dblwebhook: this.client.dbl.webhook
         });
+        this.client.listenerHandler.remove('ready')
         this.client.listenerHandler.loadAll();
+
+        console.log(`My body, ${this.client.user.username} is ready to serve ${this.client.users.size} users in ${this.client.guilds.size} servers at ${this.client.website.URL}!`);
 
         const fs = require("fs");
         try {
