@@ -3,30 +3,30 @@ const { createCanvas, loadImage } = require('canvas');
 const path = require('path');
 
 module.exports = class ImageCommand extends Command {
-  constructor(id, options = {}) {
-    super(id, options);
-  }
+	constructor(id, options = {}) {
+		super(id, options);
+	}
 
-  async largestSize(images) {
-    let currentimage;
+	async largestSize(images) {
+		let currentimage;
 
-    let height = 0;
-    let width = 0;
+		let height = 0;
+		let width = 0;
 
-    for (var image of images) {
-      currentimage = await loadImage(image);
+		for (var image of images) {
+			currentimage = await loadImage(image);
 
-      if (height < currentimage.height)
-        height = currentimage.height;
+			if (height < currentimage.height)
+				height = currentimage.height;
 
-      if (width < currentimage.width)
-        width = currentimage.width;
-    }
+			if (width < currentimage.width)
+				width = currentimage.width;
+		}
 
-    return {width: width, height: height};
-  }
+		return {width: width, height: height};
+	}
 
-	static greyscale(ctx, x, y, width, height) {
+	greyscale(ctx, x, y, width, height) {
 		const data = ctx.getImageData(x, y, width, height);
 		for (let i = 0; i < data.data.length; i += 4) {
 			const brightness = (0.34 * data.data[i]) + (0.5 * data.data[i + 1]) + (0.16 * data.data[i + 2]);
@@ -38,7 +38,7 @@ module.exports = class ImageCommand extends Command {
 		return ctx;
 	}
 
-	static invert(ctx, x, y, width, height) {
+	invert(ctx, x, y, width, height) {
 		const data = ctx.getImageData(x, y, width, height);
 		for (let i = 0; i < data.data.length; i += 4) {
 			data.data[i] = 255 - data.data[i];
@@ -49,7 +49,7 @@ module.exports = class ImageCommand extends Command {
 		return ctx;
 	}
 
-	static silhouette(ctx, x, y, width, height) {
+	silhouette(ctx, x, y, width, height) {
 		const data = ctx.getImageData(x, y, width, height);
 		for (let i = 0; i < data.data.length; i += 4) {
 			data.data[i] = 0;
@@ -60,7 +60,7 @@ module.exports = class ImageCommand extends Command {
 		return ctx;
 	}
 
-	static sepia(ctx, x, y, width, height) {
+	sepia(ctx, x, y, width, height) {
 		const data = ctx.getImageData(x, y, width, height);
 		for (let i = 0; i < data.data.length; i += 4) {
 			const brightness = (0.34 * data.data[i]) + (0.5 * data.data[i + 1]) + (0.16 * data.data[i + 2]);
@@ -72,7 +72,7 @@ module.exports = class ImageCommand extends Command {
 		return ctx;
 	}
 
-	static contrast(ctx, x, y, width, height) {
+	contrast(ctx, x, y, width, height) {
 		const data = ctx.getImageData(x, y, width, height);
 		const factor = (259 / 100) + 1;
 		const intercept = 128 * (1 - factor);
@@ -85,7 +85,7 @@ module.exports = class ImageCommand extends Command {
 		return ctx;
 	}
 
-	static distort(ctx, amplitude, x, y, width, height, strideLevel = 4) {
+	distort(ctx, amplitude, x, y, width, height, strideLevel = 4) {
 		const data = ctx.getImageData(x, y, width, height);
 		const temp = ctx.getImageData(x, y, width, height);
 		const stride = width * strideLevel;
@@ -104,7 +104,7 @@ module.exports = class ImageCommand extends Command {
 		return ctx;
 	}
 
-	static drawImageWithTint(ctx, image, color, x, y, width, height) {
+	drawImageWithTint(ctx, image, color, x, y, width, height) {
 		const { fillStyle, globalAlpha } = ctx;
 		ctx.fillStyle = color;
 		ctx.drawImage(image, x, y, width, height);
@@ -114,7 +114,7 @@ module.exports = class ImageCommand extends Command {
 		ctx.globalAlpha = globalAlpha;
 	}
 
-	static shortenText(ctx, text, maxWidth) {
+	shortenText(ctx, text, maxWidth) {
 		let shorten = false;
 		while (ctx.measureText(text).width > maxWidth) {
 			if (!shorten) shorten = true;
@@ -123,7 +123,7 @@ module.exports = class ImageCommand extends Command {
 		return shorten ? `${text}...` : text;
 	}
 
-	static wrapText(ctx, text, maxWidth) {
+	wrapText(ctx, text, maxWidth) {
 		return new Promise(resolve => {
 			if (ctx.measureText(text).width < maxWidth) return resolve([text]);
 			if (ctx.measureText('W').width > maxWidth) return resolve(null);
