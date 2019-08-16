@@ -101,10 +101,10 @@ global.lang.getDuration = function(lang, duration) {
     days = Math.floor(duration / (1000 * 60 * 60 * 24));
 
   let dys, hrs, mins, secs;
-  dys = days == 1 ? __("day") : __("days");
-  hrs = hours == 1 ? __("hour") : __("hours");
-  mins = minutes == 1 ? __("minute") : __("minutes");
-  secs = seconds == 1 ? __("second") : __("seconds");
+  dys = days == 1 ? __("day", 1) : __("days", days);
+  hrs = hours == 1 ? __("hour", 1) : __("hours", hours);
+  mins = minutes == 1 ? __("minute", 1) : __("minutes", minutes);
+  secs = seconds == 1 ? __("second", 1) : __("seconds", seconds);
   
   let dayString = "", hourString = "", minString = "", secString = "";
   if (days > 0) dayString = `${days} ${dys}, `
