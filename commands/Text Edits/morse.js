@@ -26,11 +26,10 @@ module.exports = class MorseCommand extends Command {
     let morseArr = toMorse.match(/([.\-\x{2007}]*\s*)/gmi)
     let isMorse = morseArr.length && morseArr[0].length;
 
-    if (!isMorse) {
+    if (!isMorse)
       message.util.send(toMorse.toLowerCase().split("").map(morse).join(" "));
-    } else {
+    else
       message.util.send(toMorse.split(" ").map(demorse).join("").toUpperCase());
-    }
   }
 
   swap(o) {

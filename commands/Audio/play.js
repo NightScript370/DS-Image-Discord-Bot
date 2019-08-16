@@ -25,8 +25,8 @@ module.exports = class PlayAudioCommand extends Command {
 					id: 'link',
 					description: "You can specify either a specific Youtube video URL or the title of the video. You can also add playlists (put the playlist URL) or songs related to the song that is playing right now (type 'related')",
 					prompt: {
-            start: 'Please state a song from Youtube you\'d like to listen to',
-            retry: 'That\'s not a valid song! Try again.'
+            start: (msg) => global.getString(msg.author.lang, 'Please state a song from Youtube you\'d like to listen to'),
+            retry: (msg) => global.getString(msg.author.lang, 'That\'s not a valid song! Try again.')
           },
 					type: 'string',
           match: 'content'
@@ -36,18 +36,20 @@ module.exports = class PlayAudioCommand extends Command {
 	}
   
   async exec(msg, { link }) {
+		let canSend = msg.channel.sendable;
+
 		// Step 1: Check if the user is in a Voice Channel
 		let voiceChannel = await msg.member.voice.channel;
-		if (!voiceChannel) return msg.util.reply("you need to be in a voice channel in order for me to play music");
-    
+		if (!voiceChannel) return (canSend ? msg.util.reply("you need to be in a voice channel in order for me to play music") : null);
+
     // Step 2: Check the user's perms for that specific voice channel
 		let userperm = await voiceChannel.permissionsFor(msg.member);
-		if (!userperm.has('CONNECT')) return msg.util.reply("You lost perms to connect to the Voice Channel.").catch(console.error);
+		if (!userperm.has('CONNECT')) return (canSend ? msg.util.reply("You lost perms to connect to the Voice Channel.") : null);
 
 		// Step 3: Check the bot perms for that specific voice channel
 		let botperms = await voiceChannel.permissionsFor(msg.client.user);
 		if (!botperms.has('CONNECT')) return msg.util.reply("I can't join. Make sure I have the proper permissions.").catch(console.error);
-		if (!botperms.has('SPEAK'))	 return msg.util.reply("I can't speak. Make sure I have the proper permissions.").catch(console.error);
+		if (!botperms.has('SPEAK'))	 return (canSend ? msg.util.reply("I can't speak. Make sure I have the proper permissions.") : null);
 
     let musicblock = this.client.emojis.get("494355292948004874")
 

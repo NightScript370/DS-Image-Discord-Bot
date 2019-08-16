@@ -35,7 +35,7 @@ module.exports = class SMMDB {
 			if (callback)
 				return callback('Not a valid version');
 			else
-				return 'Not a valid version';
+				return Promise.reject(new Error('Not a valid version'));
 		}
 
 		let APIURL = this.url;
@@ -45,9 +45,12 @@ module.exports = class SMMDB {
 		return this.getBody({ url: APIURL, json: true }, callback);
 	}
 
-	downloadCourse (courseId, target, callback, type) {
+	downloadCourse (type, courseId, target, callback) {
 		if (type !== '3ds' && type !== 'wiiu' && type !== 'smm64') {
-			return callback('Not a valid type');
+			if (callback)
+				return callback('Not a valid type');
+			else
+				return Promise.reject(new Error('Not a valid type'));
 		}
 
 		let APIURL = this.url;
@@ -55,20 +58,20 @@ module.exports = class SMMDB {
 		APIURL += courseId;
 		APIURL += '&type=';
 
+		let format;
+
 		switch (type) {
 			case 'smm64':
 			case 'wiiu':
-				APIURL += 'zip';
+				format = 'zip';
 			case '3ds':
-				APIURL += '3ds';
+				format = '3ds';
 		}
 
-		var req = request({
-			method: 'GET',
-			uri: APIURL
-		});
+		APIURL += format;
+		let req = request({ method: 'GET', uri: APIURL });
 
-		var out = fs.createWriteStream(target + '/smm-course-' + courseId + '.zip');
+		var out = fs.createWriteStream(target + '/smm' + type + '-course-' + courseId + '.' + format);
 		req.pipe(out);
 
 		req.on('error', (error) => {
@@ -85,7 +88,7 @@ module.exports = class SMMDB {
 			if (callback)
 				return callback('No API key provided');
 			else
-				return 'No API key provided';
+				return Promise.reject(new Error('No API key provided'));
 		}
 
 		let APIURL = this.url;
@@ -111,7 +114,7 @@ module.exports = class SMMDB {
 			if (callback)
 				return callback('No API key provided');
 			else
-				return 'No API key provided';
+				return Promise.reject(new Error('No API key provided'));
 		}
 
 		let object = {

@@ -9,8 +9,6 @@ module.exports = class EvalCommand extends Command {
 			category: 'Bot Utilities',
 			description: {
         content: 'Fixes the server configuration in case it\'s not set properly.',
-        usage: '',
-        examples: ''
       },
 			ownerOnly: true
 		});

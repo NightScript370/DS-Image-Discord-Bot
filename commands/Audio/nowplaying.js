@@ -18,9 +18,11 @@ module.exports = class NowPlayingCommand extends Command {
 		if (!fetched)
 			return msg.reply(global.getString(msg.author.lang, "there currently isn't any music playing in this server."));
 
+		const __ = (k, ...v) => global.getString(msg.author.lang, k, ...v)
+
 		let nowPlaying = fetched.queue[0];
 
-		let messagereply = `__**<:music:494355292948004874> ${global.getString(msg.author.lang, "Now Playing: {0}", nowPlaying.songTitle)}**__: <${nowPlaying.url}>`
+		let messagereply = `__**<:music:494355292948004874> ${__("Now Playing: {0}", nowPlaying.songTitle)}**__: <${nowPlaying.url}>`
 
 		let embed;
 		if (msg.guild.me.hasPermission('EMBED_LINKS')) {
@@ -28,8 +30,8 @@ module.exports = class NowPlayingCommand extends Command {
 				.setColor("#FF006E")
 				.setTimestamp(nowPlaying.timerequest)
 				.setThumbnail(nowPlaying.thumbnail)
-				.setFooter(global.getString(msg.author.lang, "Requested by {0}", nowPlaying.requester))
-				.addField(global.getString(msg.author.lang, "Progress"), `${this.progressBar(Math.round(fetched.dispatcher.time/1000), nowPlaying.secs, nowPlaying.url, 15)} (${this.getTime(fetched.dispatcher.time/1000)}/${nowPlaying.length})`, true)
+				.setFooter(__("Requested by {0}", nowPlaying.requester))
+				.addField(__("Progress"), `${this.progressBar(Math.round(fetched.dispatcher.time/1000), nowPlaying.secs, nowPlaying.url, 15)} (${this.getTime(fetched.dispatcher.time/1000)}/${nowPlaying.length})`, true)
 
 			if(nowPlaying.description && nowPlaying.description.length < 1000)
 				embed.setDescription(nowPlaying.description);
@@ -41,16 +43,17 @@ module.exports = class NowPlayingCommand extends Command {
         		if(related.id) continue;
         		if(related.length > 1000) break;
 
+				let videoLink = `https://www.youtube.com/watch?v=${relatedvideo.id}`;
 				try {
-					videoInfo = await getInfo(`https://www.youtube.com/watch?v=${relatedvideo.id}`);
-					relatedvidlist += `**[${relatedvideo.title}](${info.video_url})** by [${relatedvideo.author}](${info.author.channel_url})\n`;
+					videoInfo = await getInfo(videoLink);
+					relatedvidlist += `**[${relatedvideo.title}](${videoLink})** ${__("by {0}"), `[${relatedvideo.author}](${info.author.channel_url})`}\n`;
 				} catch (e) {
-					relatedvidlist += `**[${relatedvideo.title}](https://www.youtube.com/watch?v=${relatedvideo.id})** by ${relatedvideo.author}`
+					relatedvidlist += `**[${relatedvideo.title}](${videoLink})** ${__("by {0}"), relatedvideo.author}\n`
 				}
 			}
 
-			relatedvidlist += "\n " + global.getString(msg.author.lang, "Type `!play related` to play a related video");
-			embed.addField("Related", related);
+			relatedvidlist += "\n " + __("Type `{0}play related` to play a related video", await this.handler.prefix(message));
+			embed.addField(__("Related Videos"), related);
     	} else {
       		let messagenoembed = `\n ${nowPlaying.description} \n\n ${global.getString(msg.author.lang, "Song requested by {0}", nowPlaying.requester)}`;
       		if ((messagereply + messagenoembed).length <= 2000) messagereply = messagereply + messagenoembed

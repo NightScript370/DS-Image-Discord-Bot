@@ -10,15 +10,20 @@ module.exports = class HexCommand extends Command {
         usage: '<text to translate to Hexadecimal Values>',
         examples: ['hello world']
       },
-      args: [{
-        id: 'text',
-        type: 'text-fun',
-        match: 'content'
-      }]
+      args: [
+        {
+          id: 'text',
+          type: 'text-fun',
+          match: 'content'
+        }
+      ]
     });
   }
 
   exec(message, { text }) {
+    if (!text)
+      return message.util.reply("There were no text I can find to convert to hexadecimal.");
+
     return message.util.send(Buffer.from(text).toString('hex'));
   }
 };

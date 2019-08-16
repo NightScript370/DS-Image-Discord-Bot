@@ -141,14 +141,11 @@ class YamamuraClient extends AkairoClient {
         this.commandHandler.resolver.addType('user-commando', async (message, user) => {
             if (!user) return null;
 
-            const matches = user.match(/^(?:<@!?)?([0-9]+)>?$/);
+            const matches = user.match(/^(?:<@!?)?(\d{17,19})>?$/);
             if(matches) {
-                const fetchedUser = await message.client.users.fetch(matches[1]);
-
-                if(!fetchedUser)
-                    return null;
-
-                return fetchedUser;
+                await message.client.users.fetch(matches[1])
+                    .then(fetchedUser => {if (fetchedUser) return fetchedUser;})
+                    .catch();
             }
 
             let userFound = null;

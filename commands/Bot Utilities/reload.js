@@ -12,6 +12,12 @@ module.exports = class ReloadCommand extends Command {
       },
 			ownerOnly: true,
       args: [
+       {
+          id: "mod",
+          description: "This is the module that you would like to reload. It has to be a module of the type that you specified.",
+          type: "string",
+          match: 'rest'
+        },
         {
           id: "type",
           description: "This is the type of module that you would like to reload. It can be a command, an inhibitor, a listener or a file",
@@ -19,33 +25,12 @@ module.exports = class ReloadCommand extends Command {
           default: "command",
           match: 'option',
           flag: 'type:'
-        },
-        {
-          id: "mod",
-          description: "This is the module that you would like to reload. It has to be a module of the type that you specified.",
-          type: "string",
-          match: 'rest'
         }
       ]
 		});
 	}
 
-	/*
-  *args() {
-		const type = yield {
-      type: [['command', 'c'], ['inhibitor', 'i'], ['listener', 'l']],
-      match: 'option',
-      flag: 'type:'
-		};
-		const mod = yield {
-			type: "string"
-		};
-		return { type, mod };
-	}
-  */
-
 	async exec(message, { type, mod }) {
-    console.log(type, "-",  mod)
     if (mod == 'file') {
       return this.reloadModule(mod);
     }

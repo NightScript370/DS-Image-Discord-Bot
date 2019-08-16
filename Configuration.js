@@ -153,7 +153,7 @@ let types = [
     }
 
     static serialize(client, msg, val) {
-      const matches = val.match(/(?:<#)?([0-9]+)>?/);
+      const matches = val.match(/(?:<#)?(\d{17,19})>?/);
       if (matches)
         return matches[1];
 
@@ -178,7 +178,7 @@ let types = [
     static validate(client, msg, val) {
       // console.log(client);
       try {
-        let isID = /(?:<#)?([0-9]+)>?/mi.test(val);
+        let isID = /(?:<#)?(\d{17,19})>?/.test(val);
         let isName = !!msg.guild.channels.find(c => c.name ? c.name.toLowerCase() : "" == val.toLowerCase() && c.type == "text");
         return isName || isID;
       } catch (e) {
@@ -202,7 +202,7 @@ let types = [
     }
 
     static serialize(client, msg, val) {
-      const matches = val.match(/(?:<@&)?([0-9]+)>?/);
+      const matches = val.match(/(?:<@&)?(\d{17,19})>?/);
       if (matches)
         return matches[1];
 
@@ -226,7 +226,7 @@ let types = [
 
     static validate(client, msg, val) {
       try {
-        let isID = /(?:<@&)?([0-9]+)>?/mi.test(val);
+        let isID = /(?:<@&)?(\d{17,19})>?/.test(val);
         let isName = !!msg.guild.roles.filter(r => r.id != r.guild.id).find(c => c.name.toLowerCase() == val.toLowerCase());
         return isName || isID;
       } catch (e) {

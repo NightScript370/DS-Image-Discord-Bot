@@ -10,7 +10,7 @@ module.exports = class MockCommand extends Command {
       category: 'Text Edits',
       args: [
         {
-          id: "target",
+          id: "text",
           type: "text-fun",
           match: 'rest'
         },
