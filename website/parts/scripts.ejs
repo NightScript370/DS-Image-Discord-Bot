@@ -1,20 +1,20 @@
 <script src="https://unpkg.com/tippy.js@3/dist/tippy.all.min.js"></script>
 <script async>
-  if (getCookies().darkmode) {
-    document.getElementById("darkmodeselector").innerHTML = `<i class="twa twa-sun"></i>`;
-  } else {
+  if (getCookies().lightmode) {
     document.getElementById("darkmodeselector").innerHTML = `<i class="twa twa-moon"></i>`;
+  } else {
+    document.getElementById("darkmodeselector").innerHTML = `<i class="twa twa-sun"></i>`;
   }
 
   function darkSwitcher() {
-    if (getCookies().darkmode) {
-      createCookie({key: 'darkmode', value: false});
-      document.querySelector('#darkmode').href = '';
-      document.getElementById('darkmodeselector').innerHTML = '<i class="twa twa-moon"></i>';
-    } else {
-      createCookie({key: 'darkmode', value: true});
+    if (getCookies().lightmode) {
+      createCookie({key: 'lightmode', value: false});
       document.querySelector('#darkmode').href = '/dark.css';
       document.getElementById('darkmodeselector').innerHTML = '<i class="twa twa-sun"></i>';
+    } else {
+      createCookie({key: 'lightmode', value: true});
+      document.querySelector('#darkmode').href = '';
+      document.getElementById('darkmodeselector').innerHTML = '<i class="twa twa-moon"></i>';
     }
   }
 
