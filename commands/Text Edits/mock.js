@@ -36,6 +36,8 @@ module.exports = class MockCommand extends Command {
     for (let i = 0; i < chars.length; i++) {
       newContent += i % 2 == 0 ? chars[i].toUpperCase() : chars[i].toLowerCase();
     }
+    
+    return newContent;
   }
 
   randomMock (string) {
