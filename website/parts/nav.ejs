@@ -1,10 +1,16 @@
 		<div id="boardHeader" class="z-depth-2">
       <a href="/"><img src="/logo.png" class="img-fluid" id="img-logo"></a><br><br>
 
+			<div id="userPanel">
+				<a href="<%=profile%>">
+					<i class="fa fa-user fa-2x" aria-hidden="true"></i>
+				</a>
+			</div>
+
 			<div id="headerNavigation">
 				<div id="navigationContainer">
 					<a class="navigationLinks" href="/commands">Commands</a>
-					<a class="navigationLinks" href="https://discordapp.com/oauth2/authorize?client_id=421158339129638933&scope=bot">Setup</a>
+					<a class="navigationLinks" href="https://discordapp.com/oauth2/authorize?client_id=<%client.user.id%>&scope=bot">Setup</a>
           <a class="navigationLinks" href="https://discord.gg/vbYZCRZ">Community</a>
           <a class="navigationLinks" href="/support">Support</a>
 					<a class="navigationLinks" href="https://gitlab.com/Samplasion/yamamura-discord-bot">Source</a>
