@@ -33,7 +33,8 @@ module.exports = class SurprisedPikaPanelCommand extends Command {
     let endimage;
     let loadimage;
 
-    if (items.length < 1) return message.channel.send(global.getString("en", "There are not enough arguments to this command. The minimum is {0}.", 1));
+    if (items.length < 1)
+      return message.util.send(global.getString(msg.author.lang, "There are not enough arguments to this command. The minimum is {0}.", 1));
 
     let base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'surprisedpika.png'));
     let y = [0, 148, 295, 442, 588];

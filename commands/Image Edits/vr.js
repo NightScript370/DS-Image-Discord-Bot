@@ -30,7 +30,7 @@ module.exports = class VirtualRealityCommand extends Command {
 
 	async exec(message, { images, display }) {
 		if (!this.isGood(images))
-			return message.reply('No images were found. Please try again.')
+			return message.util.reply('No images were found. Please try again.');
 
 		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'vr.png'));
 		const canvas = createCanvas(base.width, base.height);

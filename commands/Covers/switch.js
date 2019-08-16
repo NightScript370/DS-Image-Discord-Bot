@@ -1,4 +1,4 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/Image-Command');
 const { createCanvas, loadImage } = require('canvas');
 const path = require('path');
 
