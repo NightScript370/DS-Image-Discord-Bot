@@ -43,7 +43,7 @@ module.exports = class ToBeContinuedCommand extends Command {
             widthpad = (imagessize.width - currentimage.width) / 2;
             heightpad = (imagessize.height - currentimage.height) / 2;
 
-            this.drawImageWithTint(ctx, currentimage, widthpad, heightpad, currentimage.width, currentimage.height, '#704214');
+            this.drawImageWithTint(ctx, currentimage, '#704214', widthpad, heightpad, currentimage.width, currentimage.height);
         }
 
         const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'to-be-continued.png'));

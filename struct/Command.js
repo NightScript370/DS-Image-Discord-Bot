@@ -1,7 +1,6 @@
 const { Command } = require('discord-akairo');
 const List = require('list-array');
 const source = require('gamedig');
-const { createCanvas } = require('canvas');
 
 module.exports = class SpecialYamamuraCommand extends Command {
   constructor(id, options = {}) {
@@ -264,25 +263,5 @@ module.exports = class SpecialYamamuraCommand extends Command {
   isGood(variable) {
     if (variable && variable !== null && (variable.size || variable.length)) return true;
     return false;
-  }
-
-  drawImageWithTint(ctx, image, x, y, w, h, tint, tintStrength = 0.5) {
-    // These two make the actual tint buffer
-    let coloredCanvas = createCanvas(w, h);
-    let coloredContext = coloredCanvas.getContext("2d");
-
-    // Create the tint
-    coloredContext.fillStyle = tint
-    coloredContext.fillRect(0, 0, w, h);
-
-    // Draw the image onto the canvas
-    ctx.drawImage(image, x, y, w, h);
-
-    // Draw tint over the image
-    ctx.globalAlpha = tintStrength;
-    ctx.drawImage(coloredCanvas, x, y, w, h);
-
-    // Reset alpha
-    ctx.globalAlpha = 1;
   }
 }
