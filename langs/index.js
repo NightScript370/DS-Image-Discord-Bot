@@ -16,5 +16,11 @@ module.exports = [
     name: "Italiano (Italian)",
     flag: ":flag_it:",
     translators: ["Samplasion#0325"]
+  },
+  {
+    code: "pl",
+    name: "Polski (**P**olish)",
+    flag: ":flag_pl:",
+    translators: ["indepth6#3659"]
   }
 ];
