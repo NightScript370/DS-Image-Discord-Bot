@@ -27,7 +27,7 @@ module.exports = class MockCommand extends Command {
     if (!text)
       return message.util.send(global.getString(message.author.lang, "I couldn't get text to mock."));
 
-    message.util.send(random ? randomMock(text) : perLetterMock(text));
+    message.util.send(random ? this.randomMock(text) : this.perLetterMock(text));
   }
 
   perLetterMock (target) {
