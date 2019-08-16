@@ -143,9 +143,11 @@ class YamamuraClient extends AkairoClient {
 
             const matches = user.match(/^(?:<@!?)?(\d{17,19})>?$/);
             if(matches) {
-                await message.client.users.fetch(matches[1])
-                    .then(fetchedUser => {if (fetchedUser) return fetchedUser;})
+                let fetchedUser = await message.client.users.fetch(matches[1])
                     .catch();
+                
+                if (fetchedUser)
+                    return fetchedUser;
             }
 
             let userFound = null;
