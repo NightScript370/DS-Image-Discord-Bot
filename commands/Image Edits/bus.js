@@ -48,7 +48,7 @@ module.exports = class BusCommand extends Command {
 			widthpadthrow = (imagessizethrow.width - currentimage.width) / 2;
 			heightpadthrow = (imagessizethrow.height - currentimage.height) / 2;
 
-			ctx.drawImage(currentimage, widthpadthrow, heightpadthrow, currentimage.width, currentimage.height);
+			ctxthrow.drawImage(currentimage, widthpadthrow, heightpadthrow, currentimage.width, currentimage.height);
 		}
 
 
@@ -62,7 +62,7 @@ module.exports = class BusCommand extends Command {
 			widthpadthrown = (imagessizethrown.width - currentimage.width) / 2;
 			heightpadthrown = (imagessizethrown.height - currentimage.height) / 2;
 
-			ctx.drawImage(currentimage, widthpadthrown, heightpadthrown, currentimage.width, currentimage.height);
+			ctxthrown.drawImage(currentimage, widthpadthrown, heightpadthrown, currentimage.width, currentimage.height);
 		}
 
 
