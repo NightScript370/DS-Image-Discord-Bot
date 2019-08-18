@@ -14,7 +14,7 @@ module.exports = class ServerPointsCommand extends Command {
         {
           id: 'user',
           description: "This field contains the user you'd like to give server points too. This can either be a mention, username or user ID",
-          type: 'user',
+          type: 'user-commando',
           prompt: {
               start: 'Who would you like to donate points to?',
               retry: 'That\'s not something we can give points to! Try again.'

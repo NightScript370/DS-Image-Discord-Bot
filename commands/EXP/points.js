@@ -13,7 +13,7 @@ module.exports = class ServerPointsCommand extends Command {
       args: [
         {
           id: 'user',
-          type: 'user',
+          type: 'user-commando',
           default: msg => msg.author,
           match: 'rest'
         },

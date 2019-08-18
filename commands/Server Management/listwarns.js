@@ -13,7 +13,7 @@ module.exports = class WarnCommand extends Command {
 			args: [
 				{
 					id: "user",
-					type: "user",
+					type: "user-commando",
 					prompt: {
 						start: 'Who would you like to list the warnings of?',
 						retry: 'That\'s not a valid member! Try again.'

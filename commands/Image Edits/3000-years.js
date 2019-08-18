@@ -15,23 +15,29 @@ module.exports = class ThreeThousandYearsCommand extends Command {
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
 				{
-					id: 'user',
-					type: 'user',
-					default: msg => msg.author
+					id: 'images',
+					type: 'image'
 				}
 			]
 		});
 	}
 
-	async exec(message, { user }) {
-		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', '3000-years.png'));
+	async exec(message, { images }) {
+		let currentimage;
 
-		const avatar = await loadImage(user.displayAvatarURL({ format: 'png', size: 256 }));
+		if (!this.isGood(images))
+			return msg.util.reply('No images were found. Please try again.');
+
+		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', '3000-years.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 
     ctx.drawImage(base, 0, 0);
-		ctx.drawImage(avatar, 461, 127, 200, 200);
+
+		for (var image of images) {
+      currentimage = await loadImage(image);
+      await ctx.drawImage(currentimage, 461, 127, 200, 200);
+    }
 
     const attachment = canvas.toBuffer()
     if (Buffer.byteLength(attachment) > 8e+6) return message.util.reply('Resulting image was above 8 MB.');

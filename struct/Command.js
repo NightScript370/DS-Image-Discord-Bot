@@ -7,50 +7,6 @@ module.exports = class SpecialYamamuraCommand extends Command {
     super(id, options);
   }
 
-  weirdUselessAnimeButEnjoyableToOthersForSomeReason (message, victim) {
-    let authorname = message.guild ? message.member.displayName : message.author.username;
-    Array.prototype.random = function() {
-      return this[Math.floor(Math.random() * this.length)];
-    };
-
-    const messages = {
-      kill: {
-        solo: ["{0} decided to commit suicide. Kermit is proud of them!", "{0} decided to put an end to their existence."],
-        else: ["{0} decided to put an end to {1}'s existence."],
-      },
-      kiss: {
-        solo: ["{0} tried to kiss themselves."],
-        else: ["{0} kissed {1}"],
-      },
-      slap: {
-        solo: ["{0} is so stupid they decided to slap themselves"],
-        else: ["{1} is so stupid they got slapped in the face by {0}"],
-      }
-    }
-    
-    let type = messages[message.util.parsed.alias];
-    let phrases = type[message.author.id == victim.id ? "solo" : "else"];
-
-    const images = {
-      kill: {
-        solo: ["{0} decided to commit suicide. Kermit is proud of them!", "{0} decided to put an end to their existence."],
-        else: ["{0} decided to put an end to {1}'s existence."],
-      },
-      kiss: {
-        solo: ["{0} tried to kiss themselves."],
-        else: ["{0} kissed {1}"],
-      },
-      slap: {
-        solo: ["{0} is so stupid they decided to slap themselves"],
-        else: ["{1} is so stupid they got slapped in the face by {0}"],
-      }
-    }
-
-    let returnimage = images[message.util.parsed.alias];
-    let returntext = global.getString(message.author.lang, phrases.random(), "**" + authorname + "**", "**" + victim.username + "**")
-    return {text: returntext};
-  }
-
   async gameDigServer(type, IP) {
     IP = IP.split(':');
     let fullIP = IP.join(':')
