@@ -316,28 +316,6 @@ class YamamuraClient extends AkairoClient {
         this.audio.play = async (msg, client, data) => {
             let playing;
 
-            let relinfo = await Youtube.getInfo(`https://www.youtube.com/watch?v=${data.queue[0].related[0].id}`);
-            let embed = client.util.embed()
-                .setTitle(`<:music:494355292948004874> Now Playing: ${data.queue[0].songTitle}`, data.queue[0].url)
-                .setColor("#FF006E")
-                .addField("Requester", data.queue[0].requester, true)
-                .addField("Duration", data.queue[0].length, true)
-                .addField("Related", `**[${data.queue[0].related[0].title}](${relinfo.video_url})** by ${data.queue[0].related[0].author}`)
-                .setTimestamp(data.queue[0].timerequest)
-                .setThumbnail(data.queue[0].thumbnail)
-                .setServerFooter(msg, true);
-
-            try {
-                let lastChannelMessage = await msg.channel.lastMessage;
-                if (lastChannelMessage.author.id == client.user.id) {
-                    playing = await lastChannelMessage.edit({embed: embed});
-                } else {
-                    playing = await msg.channel.send({embed: embed});
-                }
-            } catch (e) {
-                playing = await msg.channel.send({embed: embed});
-            }
-
             if (!data.connection) {
                 if (!msg.member || !msg.member.voice) return client.audio.finish(msg, client, data.dispatcher);
 
@@ -345,18 +323,56 @@ class YamamuraClient extends AkairoClient {
                 else data.connection = msg.guild.voice.connection;
 		    }
 
-            data.dispatcher = data.connection.play(await Youtube(data.queue[0].url), { type: 'opus', volume: false, passes: 3 })
-                                .on('error', err => {
-                                    console.error('Error occurred in stream dispatcher:', err);
-                                    playing.edit(`An error occurred while playing the song: ${err}`);
-                                    data.dispatcher.guildID = data.guildID;
-                                    client.audio.finish(msg, client, data.dispatcher);
-                                });
-            data.dispatcher.guildID = data.guildID;
+            data.dispatcher = data.connection.play(await Youtube(data.queue[0].url), { type: 'opus', volume: false, passes: 3 });
+            const start = Date.now();
 
-            data.dispatcher.once('end', function() {
-                client.audio.finish(msg, client, this);
-            });
+            data.dispatcher
+                .on('start', () => {
+                    let relinfo = await Youtube.getInfo(`https://www.youtube.com/watch?v=${data.queue[0].related[0].id}`);
+                    let embed = client.util.embed()
+                        .setTitle(`<:music:494355292948004874> Now Playing: ${data.queue[0].songTitle}`, data.queue[0].url)
+                        .setColor("#FF006E")
+                        .addField("Requester", data.queue[0].requester, true)
+                        .addField("Duration", data.queue[0].length, true)
+                        .addField("Related", `**[${data.queue[0].related[0].title}](${relinfo.video_url})** by ${data.queue[0].related[0].author}`)
+                        .setTimestamp(data.queue[0].timerequest)
+                        .setThumbnail(data.queue[0].thumbnail)
+                        .setServerFooter(msg, true);
+
+                    try {
+                        let lastChannelMessage = await msg.channel.lastMessage;
+                        if (lastChannelMessage.author.id == client.user.id) {
+                            playing = await lastChannelMessage.edit({embed: embed});
+                        } else {
+                            playing = await msg.channel.send({embed: embed});
+                        }
+                    } catch (e) {
+                        playing = await msg.channel.send({embed: embed});
+                    }
+
+				    console.log(`Starting song with length of ${data.secs} seconds.`);
+			    	setTimeout(() => {
+		    			console.log('Song should only now be over');
+    				}, data.secs * 1000 + 10000);
+                })
+                .on('error', err => {
+                    console.error('Error occurred in stream dispatcher:', err);
+
+                    if (playing)
+                        playing.edit(`An error occurred while playing the song: ${err.toString()}`);
+                    else
+                        playing = await msg.channel.send(`An error occurred while playing the song: ${err.toString()}`);
+
+                    data.dispatcher.guildID = data.guildID;
+                    client.audio.finish(msg, client, data.dispatcher);
+                })
+                .once('finish', reason => {
+                    let seconds = Math.round((Date.now() - start) / 1000);
+				    console.log(`\tSong was ${info.length_seconds} seconds long, ended after ${seconds} seconds; ${(seconds / info.length_seconds * 100).toFixed(1)}% played.\n\tEnd reason: ${reason}`);
+
+                    data.dispatcher.guildID = data.guildID;
+                    client.audio.finish(msg, client, this);
+                })
         };
         this.audio.finish = async (msg, client, dispatcher) => {
             let fetched = await client.audio.active.get(dispatcher.guildID);
