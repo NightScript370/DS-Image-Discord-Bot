@@ -355,7 +355,7 @@ class YamamuraClient extends AkairoClient {
 		    			console.log('Song should only now be over');
     				}, data.secs * 1000 + 10000);
                 })
-                .on('error', err => {
+                .on('error', async (err) => {
                     console.error('Error occurred in stream dispatcher:', err);
 
                     if (playing)
