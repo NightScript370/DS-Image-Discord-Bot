@@ -368,7 +368,7 @@ class YamamuraClient extends AkairoClient {
                 })
                 .once('finish', reason => {
                     let seconds = Math.round((Date.now() - start) / 1000);
-				    console.log(`\tSong was ${info.length_seconds} seconds long, ended after ${seconds} seconds; ${(seconds / info.length_seconds * 100).toFixed(1)}% played.\n\tEnd reason: ${reason}`);
+				    console.log(`\tSong was ${data.secs} seconds long, ended after ${seconds} seconds; ${(seconds / data.secs * 100).toFixed(1)}% played.\n\tEnd reason: ${reason}`);
 
                     data.dispatcher.guildID = data.guildID;
                     client.audio.finish(msg, client, this);
