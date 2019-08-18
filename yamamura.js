@@ -327,7 +327,7 @@ class YamamuraClient extends AkairoClient {
             const start = Date.now();
 
             data.dispatcher
-                .on('start', () => {
+                .on('start', async () => {
                     let relinfo = await Youtube.getInfo(`https://www.youtube.com/watch?v=${data.queue[0].related[0].id}`);
                     let embed = client.util.embed()
                         .setTitle(`<:music:494355292948004874> Now Playing: ${data.queue[0].songTitle}`, data.queue[0].url)
