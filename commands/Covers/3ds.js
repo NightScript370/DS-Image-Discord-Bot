@@ -81,7 +81,7 @@ module.exports = class Nintendo3DSCommand extends Command {
 
         let ratingtype = (rating ? rating.toUpperCase().split(":")[0] : null);
 
-        switch (rating.toUpperCase()) {
+        switch (rating ? rating.toUpperCase() : null) {
             case 'ESRB:CHILDHOOD':
             case 'ESRB:EC':
                 boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'earlyChildhood.png'));
