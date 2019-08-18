@@ -350,10 +350,10 @@ class YamamuraClient extends AkairoClient {
                         playing = await msg.channel.send({embed: embed});
                     }
 
-				    console.log(`Starting song with length of ${data.secs} seconds.`);
+				    console.log(`Starting song with length of ${data.queue[0].secs} seconds.`);
 			    	setTimeout(() => {
 		    			console.log('Song should only now be over');
-    				}, data.secs * 1000 + 10000);
+    				}, data.queue[0].secs * 1000 + 10000);
                 })
                 .on('error', async (err) => {
                     console.error('Error occurred in stream dispatcher:', err);
@@ -368,10 +368,10 @@ class YamamuraClient extends AkairoClient {
                 })
                 .once('finish', reason => {
                     let seconds = Math.round((Date.now() - start) / 1000);
-				    console.log(`\tSong was ${data.secs} seconds long, ended after ${seconds} seconds; ${(seconds / data.secs * 100).toFixed(1)}% played.\n\tEnd reason: ${reason}`);
+				    console.log(`\tSong was ${data.queue[0].secs} seconds long, ended after ${seconds} seconds; ${(seconds / data.queue[0].secs * 100).toFixed(1)}% played.\n\tEnd reason: ${reason}`);
 
                     data.dispatcher.guildID = data.guildID;
-                    client.audio.finish(msg, client, this);
+                    client.audio.finish(msg, client, data.dispatcher);
                 })
         };
         this.audio.finish = async (msg, client, dispatcher) => {
