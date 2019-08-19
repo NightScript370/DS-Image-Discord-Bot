@@ -18,7 +18,7 @@
       var colValue = ~~(12 / columns);
     %>
 
-    <div class="container grid-member-container">
+    <div class="container grid-member-container" style="margin-top: 20px;">
       <div class="row">
         <% let i = 1; %>
         <% for (const leader of top) { %>
@@ -41,7 +41,7 @@
       </div>
     </div>
 
-  <% } else { %> <!-- if id's else -->
+  <% } else { %> <!-- if there's no ID -->
     <div class="container">
       <% const data = getParams(url.split("?")[1])
       if (!data)
@@ -68,5 +68,6 @@
   <% } %>
 
   <!-- End content -->
+  </div> <!-- Close any open divs -->
   <% include ../parts/footer %>
 </html>
