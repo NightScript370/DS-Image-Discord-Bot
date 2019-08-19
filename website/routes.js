@@ -30,7 +30,8 @@ module.exports = (app, client) => app
   })
   .get("/commands", (request, response) => response.render("commands", parameters(request)))
   .get("/support", (request, response) => {
-    let widgets = [
+    let object = parameters(request)
+    object.widgets = [
       {
         website: 'discordbotlist.com',
         imageurl: `https://discordbotlist.com/bots/${client.user.id}/widget`,
@@ -47,6 +48,6 @@ module.exports = (app, client) => app
         link: `https://discord.boats/bot/${client.user.id}`
       }
     ];
-    response.render("support", Object.assign(parameters(request), widgets))
+    response.render("support", object)
   })
   .get('*', (request, response) => response.redirect("/"));
