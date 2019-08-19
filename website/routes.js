@@ -6,7 +6,7 @@ let parameters = (req) => {
 
 module.exports = (app, client) => app
   .get("/", (request, response) => response.render("index", parameters(request)))
-  .get("/login", passport.authenticate("discord", { failureRedirect: "/" }), (request, response) => response.redirect("/profile", parameters(request)))
+  .get("/login", passport.authenticate("discord", { failureRedirect: "/" }), (request, response) => response.redirect("/profile"))
   .get("/logout", async (request, response) => {
     await req.logout();
     await res.redirect("/");
