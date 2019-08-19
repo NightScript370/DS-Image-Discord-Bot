@@ -19,7 +19,7 @@ module.exports = class BusCommand extends Command {
 				},
         {
           id: "thrower",
-          type: "images",
+          type: "image",
           default: msg => [msg.author.displayAvatarURL()],
           match: "option",
           flag: "thrower:"
