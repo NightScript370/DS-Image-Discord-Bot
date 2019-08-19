@@ -24,7 +24,7 @@ module.exports = class WarnCommand extends Command {
 	}
 
 	async exec(msg, { user }) {
-        if (msg.guild.members.has(user)) {
+        if (msg.guild.members.has(user.id)) {
 			let member = msg.guild.members.get(user.id);
 			let author = msg.member;
 

@@ -10,31 +10,30 @@ module.exports = class messageUpdateListener extends Listener {
   }
 
   exec(oldMessage, newMessage) {
-    if (!oldMessage.content || !newMessage.content) return;
-    if (oldMessage.content == newMessage.content) return;
-		if (oldMessage.content.length < 1 || oldMessage.content.length > 1000 || newMessage.content.length < 1 || newMessage.content.length > 1000) return;
 		if (oldMessage.author.bot) return;
 		if (!oldMessage.guild) return;
 
-    try {
-      const logs = this.client.db.serverconfig.get(this.client, newMessage, "logchan")
+    const logs = this.client.db.serverconfig.get(this.client, newMessage, "logchan")
+      .catch(console.error)
 
-      if (logs && logs.sendable && logs.embedable) {
-  		  let messageUpdateEmbed = this.client.util.embed()
-	  		  .setColor("#0000FF")
-	  		  .setAuthor(`${newMessage.author.username} updated their message`, newMessage.author.displayAvatarURL({format: 'png'}))
-	  		  .setThumbnail(newMessage.guild.iconURL({format: 'png'}))
-	  		  .addField("Before", `${oldMessage.content}`, true)
-	  		  .addField("After", `${newMessage.content}`, true)
-	  		  .addField(":bookmark_tabs: Channel", `${newMessage.channel.name} (#${newMessage.channel.id})`)
-	  		  .addField(":id: Message ID", `${newMessage.id}`)
-	  		  .setTimestamp(new Date())
-	  		  .setFooter(`${newMessage.author.tag} (#${newMessage.author.id})`);
+    if (logs && logs.sendable && logs.embedable) {
+  	  let messageUpdateEmbed = this.client.util.embed()
+  		  .setColor("#0000FF")
+	  	  .setThumbnail(newMessage.guild.iconURL({format: 'png'}))
+	  	  .addField("Before", `${oldMessage.content}`, true)
+			  .addField("After", `${newMessage.content}`, true)
+	  	  .setTimestamp(new Date())
+	  	  .setFooter(`${newMessage.author.tag} (#${newMessage.author.id})`, newMessage.author.displayAvatarURL({format: 'png'}));
 
-	  	  logs.send({ embed: messageUpdateEmbed });
+      let text
+      if (oldMessage.content !== newMessage.content) {
+        text = `${newMessage.author.username} updated their message`;
       }
-    } catch(e) {
-      console.error(e)
+      messageUpdateEmbed
+        .addField(":bookmark_tabs: Channel", `${newMessage.channel.name} (#${newMessage.channel.id})`)
+	  		.addField(":id: Message ID", `${newMessage.id}`)
+
+		  logs.send(text, { embed: messageUpdateEmbed });
     }
   }
 }

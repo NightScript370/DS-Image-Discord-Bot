@@ -55,41 +55,41 @@ module.exports = class BanCommand extends Command {
 			let author = msg.member;
 
 			if (!member.bannable)
-				return msg.reply("I cannot ban this user");
+				return msg.util.reply("I cannot ban this user.");
 
 			if (author.roles.highest <= member.roles.highest)
-				return msg.reply("You can't ban someone who has a higher role position than you.");
+				return msg.util.reply("You can't ban someone who has a higher role position than you.");
 
 			if (member.hasPermission("MANAGE_MESSAGES") && !author.hasPermission("ADMINISTRATOR"))
-				return msg.reply("You need to have the `Administrator` permission in order to ban moderators");
+				return msg.util.reply("You need to have the `Administrator` permission in order to ban moderators.");
 
 			if (member.hasPermission("ADMINISTRATOR") && msg.guild.ownerId !== author.id)
-				return msg.reply("You need to be the server owner in order to ban Administrators");
+				return msg.util.reply("You need to be the server owner in order to ban Administrators.");
 			
 			if (member.id == author.id)
 				return msg.reply("You can't ban yourself!");
 		} else {
 			banList = await msg.guild.fetchBans();
 			if (banList.get(user.id))
-				msg.reply(`${user.tag} was already banned`);
+				return msg.util.reply(`${user.tag} was already banned`);
 		}
 
 		let ban = await this.client.moderation.ban(this.client, user, msg.member, reason, msg, days);
 		if (typeof ban == "boolean" && ban) {
 			if (!check)
-				return msg.reply(`${user.tag} was banned`);
+				return msg.util.reply(`${user.tag} was banned`);
 			else {
 				banList = await msg.guild.fetchBans();
 				if (banList.get(user.id))
-					msg.reply(`${user.tag} was banned`);
+					msg.util.reply(`${user.tag} was banned`);
 				else
-					msg.reply(`The bot replied that the user was banned but Discord's ban list says otherwise. You should never see this error. Please report this issue to the yamamura developers.`);
+					msg.util.reply(`The bot replied that the user was banned but Discord's ban list says otherwise. You should never see this error. Please report this issue to the yamamura developers.`);
 			}
 		} else {
 			if (ban == "no perms")
-				msg.reply(`I do not have the permission to ban ${user.tag}`);
+				msg.util.reply(`I do not have the permission to ban ${user.tag}`);
 			else
-				msg.reply(`The user was not banned due to an internal error`);
+				msg.util.reply(`The user was not banned due to an internal error`);
 		}
 	}
 };
