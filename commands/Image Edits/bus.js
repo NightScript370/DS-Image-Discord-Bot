@@ -31,6 +31,9 @@ module.exports = class BusCommand extends Command {
   async exec(message, { images, thrower }) {
     let currentimage, widthpadthrow, heightpadthrow, widthpadthrown, heightpadthrown;
 
+    console.log(images)
+    console.log(thrower)
+
 		if (!this.isGood(images))
 			return message.util.reply('Nothing valid was found to throw. Please try again.')
 
