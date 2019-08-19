@@ -52,7 +52,7 @@ Don't forget to subscribe to our Youtube channel and check out our website. `)
 
           await chnl.send({embed});
 				} else {
-          await this.sendWelcomeChannel(chnl, serverconfig, member);
+          await this.sendWelcomeChannel(chnl, member);
 				}
 			}
 		}
@@ -62,7 +62,7 @@ Don't forget to subscribe to our Youtube channel and check out our website. `)
 			logchannel.send({embed: logembed});
 	}
 
-  sendWelcomeChannel(channel, server, member) {
+  sendWelcomeChannel(channel, member) {
     Array.prototype.random = function() {
       return this[Math.floor(Math.random() * this.length)];
     };
