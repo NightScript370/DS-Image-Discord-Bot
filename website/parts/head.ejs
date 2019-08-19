@@ -9,6 +9,7 @@
 
   <title><%= subtitle ? `${subtitle} - ${client.user.username}` : `${client.user.username}` %></title>
   
+  <link rel="icon" href="<%= client.user.displayAvatarURL({size: 256}) %>" type="image/png" />
   <link rel="stylesheet" href="/bootstrap.css" crossorigin="anonymous">
   <link rel="stylesheet" href="/mdbootstrap.css">
   <link rel="stylesheet" href="/common.css">
