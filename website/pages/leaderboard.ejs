@@ -24,17 +24,23 @@
         <% for (const leader of top) { %>
           <div class="col-md-<%=colValue%>" style="margin-bottom: 20px;">
             <% if(!guild.members.has(leader.member)) continue; %>
-            <% var user = guild.members.get(leader.member) %> <!-- looks like this unique line of code had messed up the entire leaderboard -->
+            <% var user = guild.members.get(leader.member) %>
             <table class="table table-bordered table-striped" style="margin: auto; padding: 20px;">
-              <tr><th><img src="<%= user.user.displayAvatarURL({size: 256, format:"png"}) %>" style="max-width:20px;max-height:20px;border-radius:50%;" /> <%= i %>. <%= user.displayName %><span class="font-weight-light">#<%= user.user.discriminator %></span></th></tr>
-              <tr><td><b>Points:</b> <%= leader.points %><br><b>Level:</b> <%= leader.level %></td></tr>
+              <tr><th>
+                <img src="<%= user.user.displayAvatarURL({size: 256}) %>" class="commandIcon" />
+                <%= i %>. <%= user.displayName %><span class="font-weight-light">#<%= user.user.discriminator %></span>
+              </th></tr>
+              <tr><td>
+                <b>Points:</b> <%= leader.points %><br>
+                <b>Level:</b> <%= leader.level %>
+              </td></tr>
             </table>
           </div>
           <% i++; %>
         <% } %>
       </div>
     </div>
-  
+
   <% } else { %> <!-- if id's else -->
     <div class="container">
       <% const data = getParams(url.split("?")[1])
@@ -48,7 +54,8 @@
         const user = client.users.get(data.userID);
         if (user) { %> <!-- if user in bot's server -->
           Hey, <%= user.username %>!<br>
-          <% user.client.guilds.forEach(guild => { %>
+          <% client.guilds.forEach(guild => {
+            if (!guild.members.has(user)) continue;%>
             <a href="/leaderboard/<%= guild.id %>">Leaderboard for <%= guild.name %></a><br>
           <% }) %>
         <% } else { %> <!-- if user in bot's server's else -->
