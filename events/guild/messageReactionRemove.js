@@ -12,8 +12,8 @@ module.exports = class messageReactionRemoveListener extends Listener {
     async exec(reaction, user) {
         const client = await this.client;
 		const message = reaction.message;
-        const channel = require("./../../Configuration").getKey(client, message, "starboardchannel");
-        if (message.partial) await reaction.message.fetch();
+        const channel = await this.client.db.serverconfig.get(this.client, message, "starboardchannel");
+        if (message.partial) await message.fetch();
 
 		if (!message.guild) return;
 		if (reaction.emoji.name !== '⭐') return;

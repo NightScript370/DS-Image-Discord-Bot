@@ -10,11 +10,10 @@ module.exports = class messageReactionAddListener extends Listener {
 	}
 
 	async exec(reaction, user) {
-		const client = await this.client;
 		const message = reaction.message;
-		const channel = require("./../../Configuration").getKey(client, message, "starboardchannel");
+		const channel = await this.client.db.serverconfig.get(this.client, message, "starboardchannel");
 
-    	if (reaction.message.partial) await reaction.message.fetch();
+    	if (message.partial) await message.fetch();
 
 		if (!message.guild) return;
 		if (reaction.count < 3) return;

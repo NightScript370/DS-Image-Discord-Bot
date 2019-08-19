@@ -106,6 +106,7 @@ module.exports = {
   "I think it may work better if you are in a voice channel!": "Credo funzionerebbe meglio se tu fossi in un canale vocale.",
   "Now Playing: {0}": "In riproduzione: {0}",
 
+  /*
   "there currently isn't any music playing in this server.": "",
   "I have successfully cleared the configuration": "",
   "I couldn't get text to mock.": '',
@@ -113,4 +114,11 @@ module.exports = {
   'There was no Bs found in the text': '',
   "Related Videos": '',
   "in order to {0} audio, there needs to be audio playing in the channel": '',
+  'Pause the currently playing audio.': '',
+  'Shows information on the currently playing song.': '',
+  'Plays the audio of a Youtube video.': '',
+  'Please state a song from Youtube you\'d like to listen to': '',
+  'That\'s not a valid song! Try again.': '',
+  'Shows the music queue for the current server.': '',
+  */
 };
