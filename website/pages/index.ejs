@@ -3,56 +3,56 @@
   <% var subtitle = "Home" %>
   <% include ../parts/head %>
   <!-- Start content -->
-  
+  <style>
+  .three-cogs {
+  position: relative;
+}
+.three-cogs > .fa:nth-child(1) {
+  animation-duration: 4s;
+}
+.three-cogs > .fa:nth-child(2),
+.three-cogs > .fa:nth-child(3) {
+  position: absolute;
+  top: -0.2em;
+  right: -0.45em;
+  animation-direction: reverse;
+  animation-duration: 2s;
+}
+.three-cogs > .fa:nth-child(3) {
+  top: auto;
+  bottom: -0.2em;
+}
+  </style>
   <div class="jumbotron text-center">
     <h1 class="botDisplay">Introducing <%= client.user.username %></h1>
     <p class="botLead">
       <%= client.user.username %> is an all-in-one Discord bot dedicated to helping modding communities and more.<br>
       It can fulfill your server's moderation needs and create fun events for your community to enjoy
     </p>
+
+    <a class="lead btn btn-success btn-lg" role="button" href="<%=inviteBot%>">Invite bot to Server</a>
+    <a class="lead btn btn-success btn-lg" role="button" href="https://discord.gg/vbYZCRZ">Join us on Discord</a>
   </div>
   
-      <div class=container>
-        
-        <% const features = [
-          {
-            icon: "level-up",
-            text: "Leveling system with configurable point multipliers"
-          },
-          {
-            icon: "cogs",
-            text: "Powerful per-server settings system"
-          },
-          {
-            icon: "gamepad",
-            text: "Tons of fun games"
-          },
-          {
-            icon: "star",
-            text: "Starboard system (if you're into that thing)"
-          },
-          {
-            icon: "key",
-            text: "Strong Server Management Tools"
-          },
-          {
-            icon: "file-code-o",
-            text: "New features added regularly"
-          }
-        ] %>
+      <div class="container">
         
         <h2 class="text-center" id="featuresHeader">Features</h2>
         <br />
 
         <div class="row">
-          
-          <% for (feature of features) { %>
-          <div class="col-<%= feature.col || 4 %> text-center">
+
+        <% for (feature of features) { %>
+          <div class="col-12 col-sm-6 col-md-4 text-center" style="margin-bottom: 20px;">
             <div class="hoverable">
-              <h2>
-                <i class="fa fa-<%= feature.icon %>"></i>
-              </h2>
-              <p><%= feature.text %></p>
+              <% if(feature.icon_html) { %>
+                <%-feature.icon_html%>
+              <% } else if (feature.image) { %>
+                <img src="<%=feature.image%>" width="32"><br>
+              <% } else { %>
+                <i class="fa fa-<%=feature.icon%> fa-2x"></i><br>
+              <% } %> 
+              <b><%= feature.text %></b>
+              <br><%= feature.subtext %>
             </div>
           </div>
           <% } %>
