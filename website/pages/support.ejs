@@ -59,9 +59,9 @@
   <br>
 
   <div class="text-center image-container">
-    <a href="https://discordbotlist.com/bots/<%= client.user.id %>"><img width="380" height="150" src="https://discordbotlist.com/bots/<%= client.user.id %>/widget" alt="<%= client.user.username%> stats on discordbotlist.com"></a>
-    <a href="https://discordbots.org/bot/<%= client.user.id %>"><img src="https://discordbots.org/api/widget/<%= client.user.id %>.svg?usernamecolor=FFFFFF&topcolor=000000" alt="<%= client.user.username%> stats on discordbots.org"></a>
-    <a href="https://discord.boats/bot/<%= client.user.id %>"><img src="https://discord.boats/API/V2/widget/<%= client.user.id %>" alt="<%= client.user.username%> stats on discord.boats"></a>
+    <% for (const widget of widgets) { %>
+      <a href="<%=widget.link%>"><img width="380" height="150" src="<%=widget.imageurl%>" alt="<%client.user.id%> stats on <%=widget.website%>"></a>
+    <% } %>
   </div>
 
   <!-- End content -->

@@ -4,21 +4,16 @@
   <% include ../parts/head %>
   <!-- Start content -->
 
-  <% if (!!id) { %>
-    <%
+  <% if (!!id) { 
       var guild = client.guilds.get(id)
-    %>
 
-    <% 
       var arr = client.db.points.data.filter(p => p.guild === id);
       var filtered = [];
       for (let user of arr) {
         if (!filtered.map(e => e.member).includes(user.member)) filtered.push(user);
       }
       var top = filtered.sort((a, b) => b.points - a.points);
-    %>
 
-    <%
       var columns = 4;
       var colValue = ~~(12 / columns);
     %>
@@ -42,10 +37,16 @@
   
   <% } else { %> <!-- if id's else -->
     <div class="container">
-      <% const data = getParams(url.split("?")[1]) %>
-      <% if (data.userID) { %> <!-- if user id provided -->
-        <% const user = client.users.get(data.userID); %>
-        <% if (user) { %> <!-- if user in bot's server -->
+      <% const data = getParams(url.split("?")[1])
+      if (!data)
+        data = {};
+
+      if (user)
+        data.userID = user;
+
+      if (data.userID) {
+        const user = client.users.get(data.userID);
+        if (user) { %> <!-- if user in bot's server -->
           Hey, <%= user.username %>!<br>
           <% user.client.guilds.forEach(guild => { %>
             <a href="/leaderboard/<%= guild.id %>">Leaderboard for <%= guild.name %></a><br>
@@ -54,7 +55,7 @@
           You are not in any of my servers.
         <% } %>
       <% } else { %> <!-- if user id provided's else -->
-        <a href="/api/discord/login">Login through Discord</a>
+        <a href="/login">Login through Discord</a>
       <% } %>
     </div>
   <% } %>

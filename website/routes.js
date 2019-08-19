@@ -1,6 +1,7 @@
 const passport = require("passport");
+const CheckAuth = require('./isAuth');
 let parameters = (req) => {
-  profile: (req.isAuthenticated() ? "/profile" : "/login")
+  return { profile: (req.isAuthenticated() ? "/profile" : "/login") }
 }
 
 module.exports = (app, client) => app
@@ -10,7 +11,7 @@ module.exports = (app, client) => app
     await req.logout();
     await res.redirect("/");
   })
-  .get("/leaderboard", (request, response) => response.render("leaderboard", Object.assign(parameters(request), { url: request.originalUrl, id: undefined })))
+  .get("/leaderboard", (request, response) => response.render("leaderboard", Object.assign(parameters(request), { url: request.originalUrl, id: undefined, user: (request.isAuthenticated() ? request.user.id : null) })))
   .get("/leaderboard/:guildID", (request, response) => {
     let id = request.params.guildID;
 
@@ -28,5 +29,24 @@ module.exports = (app, client) => app
     response.render("queue", Object.assign(parameters(request), { id }));
   })
   .get("/commands", (request, response) => response.render("commands", parameters(request)))
-  .get("/support", (request, response) => response.render("support", parameters(request)))
+  .get("/support", (request, response) => {
+    let widgets = [
+      {
+        website: 'discordbotlist.com',
+        imageurl: `https://discordbotlist.com/bots/${client.user.id}/widget`,
+        link: `https://discordbotlist.com/bots/${client.user.id}`,
+      },
+      {
+        website: 'discordbots.org',
+        imageurl: `https://discordbots.org/api/widget/${client.user.id}.svg?usernamecolor=FFFFFF&topcolor=000000`,
+        link: `https://discordbots.org/bot/${client.user.id}`
+      },
+      {
+        website: 'discord.boats',
+        imageurl: `https://discord.boats/API/V2/widget/${client.user.id}`,
+        link: `https://discord.boats/bot/${client.user.id}`
+      }
+    ];
+    response.render("support", Object.assign(parameters(request), widgets))
+  })
   .get('*', (request, response) => response.redirect("/"));
