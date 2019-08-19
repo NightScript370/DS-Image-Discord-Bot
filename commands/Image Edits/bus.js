@@ -19,7 +19,7 @@ module.exports = class BusCommand extends Command {
 				},
         {
           id: "thrower",
-          type: "image",
+          type: 'image-nolook',
           default: msg => [msg.author.displayAvatarURL()],
           match: "option",
           flag: "thrower:"
@@ -75,11 +75,11 @@ module.exports = class BusCommand extends Command {
     await mainctx.drawImage(deleteimage, 0, 0, deleteimage.width, deleteimage.height);
 
     mainctx.rotate(-0.2)
-    mainctx.drawImage(canvasthrow, 190, 530, 128, 128)
+    mainctx.drawImage(canvasthrown, 190, 530, 128, 128)
     mainctx.rotate(0.2)
 
     mainctx.rotate(0.3)
-    mainctx.drawImage(canvasthrown, 1150, 420, 128, 128)
+    mainctx.drawImage(canvasthrow, 1150, 420, 128, 128)
     mainctx.rotate(-0.3)
 
     const attachment = await maincanvas.toBuffer();

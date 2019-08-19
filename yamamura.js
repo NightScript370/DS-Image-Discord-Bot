@@ -250,6 +250,42 @@ class YamamuraClient extends AkairoClient {
 
             return null
 		});
+        this.commandHandler.resolver.addType('image-nolook', async (message, argument) => {
+            const fileTypeRe = /\.(jpe?g|png|gif|bmp)$/i;
+            const base64 = /data:image\/(jpe?g|png|gif|bmp);base64,([^\"]*)/;
+            const attachment = message.attachments.first();
+
+            function validateAttachment(attachment) {
+                if (!attachment) return false;
+                if (!attachment.height || !attachment.width) return false;
+                if (attachment.size > 8e+6) return false;
+                if (!fileTypeRe.test(attachment.name)) return false;
+
+                return attachment.url;
+            }
+
+            if (attachment && validateAttachment(attachment)) {
+                return [ attachment.url ];
+            } else if (argument && !isEmpty(argument)) {
+                let user = await client.commandHandler.resolver.types.get("user-commando")(message, argument);
+
+                let splittedarguments = argument.split(' ');
+                let returnargument = [];
+
+                for (var splittedargument of splittedarguments) {
+                    if (fileTypeRe.test(splittedargument.split(/[#?]/gmi)[0]))
+                        returnargument.push(splittedargument);
+                }
+
+                if (!isEmpty(returnargument)) {
+                    return returnargument;
+                } else if (user && !isEmpty(user.displayAvatarURL({format: 'png'}))) {
+                    return [ user.displayAvatarURL({ format: 'png', size: 512 }) ];
+                }
+            }
+
+            return null
+		});
         this.commandHandler.resolver.addType('rps', (message, move) => {
             if (!move) return null;
 
