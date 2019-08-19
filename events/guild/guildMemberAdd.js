@@ -36,7 +36,6 @@ module.exports = class guildMemberAddListener extends Listener {
 			}
 		} else {
 			let chnl = await this.client.db.serverconfig.get(this.client, member, "welcomechan")
-			let chnl = await member.guild.channels.get(serverconfig.welcomechan.value);
 
 			if (chnl && chnl.sendable) {
 				if (member.guild.id == '318882333312679936' && chnl.embedable) {
