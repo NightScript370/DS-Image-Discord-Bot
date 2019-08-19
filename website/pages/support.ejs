@@ -60,7 +60,7 @@
 
   <div class="text-center image-container">
     <% for (const widget of widgets) { %>
-      <a href="<%=widget.link%>"><img width="380" height="150" src="<%=widget.imageurl%>" alt="<%client.user.id%> stats on <%=widget.website%>"></a>
+      <a href="<%=widget.link%>"><img <% if(widget.size) { %>width="<%=widget.size.width%>" height="<%=widget.size.height%>"<% } %> src="<%=widget.imageurl%>" alt="<%=client.user.id%> stats on <%=widget.website%>"></a>
     <% } %>
   </div>
 

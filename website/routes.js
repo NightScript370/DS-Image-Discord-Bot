@@ -36,6 +36,10 @@ module.exports = (app, client) => app
         website: 'discordbotlist.com',
         imageurl: `https://discordbotlist.com/bots/${client.user.id}/widget`,
         link: `https://discordbotlist.com/bots/${client.user.id}`,
+        size: {
+          width: 380,
+          height: 150
+        }
       },
       {
         website: 'discordbots.org',
