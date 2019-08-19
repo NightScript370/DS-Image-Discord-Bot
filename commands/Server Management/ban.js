@@ -50,7 +50,7 @@ module.exports = class BanCommand extends Command {
 	async exec(msg, { user, reason, check, days }) {
 		let banList;
 
-		if (msg.guild.members.has(user)) {
+		if (msg.guild.members.has(user.id)) {
 			let member = msg.guild.members.get(user.id);
 			let author = msg.member;
 
