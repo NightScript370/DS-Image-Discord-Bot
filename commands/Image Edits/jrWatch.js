@@ -27,7 +27,7 @@ module.exports = class BowserMemeCommand extends Command {
   }
 
   async exec(message, { watches, forcestretch }) {
-		if (!this.isGood(images))
+		if (!this.isGood(watches))
 			return message.util.reply('No images were found. Please try again.')
 
     const bowserhide = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'bowsermeme.png'));

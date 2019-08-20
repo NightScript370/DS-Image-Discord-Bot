@@ -35,7 +35,7 @@ module.exports = class ReverseCommand extends Command {
     if (!layerstretch) {
       const imagessize = await this.largestSize(images);
 		  const layeredCanvas = await createCanvas(imagessize.width, imagessize.height);
-			const layeredCtx = canvas.getContext('2d');
+			const layeredCtx = layeredCanvas.getContext('2d');
     }
 
     const baseImage = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'reverse.png'));
