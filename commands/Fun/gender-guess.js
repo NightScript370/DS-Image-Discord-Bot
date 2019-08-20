@@ -37,7 +37,7 @@ module.exports = class GenderGuessCommand extends Command {
 		const { body } = await request
 			.get(`https://api.genderize.io/`)
 			.query({ name });
-		if (!body.gender) return msg.say(`I have no idea what gender ${body.name} is.`);
-		return msg.say(`I'm ${body.probability * 100}% sure ${body.name} is a ${body.gender} name.`);
+		if (!body.gender) return msg.util.reply(`I have no idea what gender ${body.name} is.`);
+		return msg.util.reply(`I'm ${body.probability * 100}% sure ${body.name} is a ${body.gender} name.`);
 	}
 };
