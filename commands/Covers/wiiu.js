@@ -21,6 +21,12 @@ module.exports = class NintendoWiiUCommand extends Command {
           match: 'rest'
 				},
         {
+					id: 'nintendonetwork',
+          description: 'Draw the Nintendo Network logo on the top right of the image',
+          match: 'flag',
+					flag: '--nintendonetwork'
+				},
+        {
 					id: 'rating',
           match: 'option',
 					flag: 'rating:',
@@ -48,7 +54,7 @@ module.exports = class NintendoWiiUCommand extends Command {
 		});
 	}
 
-	async exec(msg, { images, rating, padding, forcestretch, pattern }) {
+	async exec(msg, { images, nintendonetwork rating, padding, forcestretch, pattern }) {
 		let boxrating, BG, currentimage;
 
 		if (!this.isGood(images))
@@ -67,44 +73,61 @@ module.exports = class NintendoWiiUCommand extends Command {
       case 'joker':
         BG = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'patterns', 'joker.png'));
         break;
-    }
-
-    switch (rating.toUpperCase()) {
-      case 'ESRB:CHILDHOOD':
-      case 'ESRB:EC':
-          boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'esrb', 'early_childhood.png'));
-          break;
-      case 'ESRB:E':
-      case 'ESRB:EVERYONE':
-        boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'esrb', 'everyone.png'));
-        break;
-      case 'ESRB:EVERYONE10+':
-      case 'ESRB:E10':
-        boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'esrb', 'everyone_10.png'));
-        break;
-      case 'ESRB:MATURE':
-      case 'ESRB:MATURE17':
-      case 'ESRB:M':
-      case 'ESRB:M17':
-        boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'esrb', 'mature_17.png'));
-        break;
-      case 'ESRB:T':
-      case 'ESRB:TEEN':
-      case 'ESRB:TEENS':
-      case 'ESRB:TEENAGERS':
-        boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'esrb', 'teen.png'));
-        break;
-      case 'ESRB:A':
-      case 'ESRB:AO':
-      case 'ESRB:ADULTS':
-      case 'ESRB:ADULTS18':
-        boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'esrb', 'adults_only_18.png'));
-        break;
-      case 'ESRB:RP':
-      case 'ESRB:RATING_PENDING':
-        boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'esrb', 'rating_pending.png'));
-        break;
     } */
+
+        let ratingtype = (rating ? rating.toUpperCase().split(":")[0] : null);
+
+        switch (rating ? rating.toUpperCase() : null) {
+            case 'ESRB:CHILDHOOD':
+            case 'ESRB:EC':
+                boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'earlyChildhood.png'));
+                break;
+            case 'ESRB:E':
+            case 'ESRB:EVERYONE':
+                boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'everyone.png'));
+                break;
+            case 'ESRB:EVERYONE10+':
+            case 'ESRB:E10':
+                boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'e10.png'));
+                break;
+            case 'ESRB:MATURE':
+            case 'ESRB:MATURE17':
+            case 'ESRB:M':
+            case 'ESRB:M17':
+                boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'mature.png'));
+                break;
+            case 'ESRB:T':
+            case 'ESRB:TEEN':
+            case 'ESRB:TEENS':
+            case 'ESRB:TEENAGERS':
+                boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'teen.png'));
+                break;
+            case 'ESRB:A':
+            case 'ESRB:AO':
+            case 'ESRB:ADULTS':
+            case 'ESRB:ADULTS18':
+                boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'adultsOnly.png'));
+                break;
+            case 'ESRB:RP':
+            case 'ESRB:RATING_PENDING':
+                boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'ratingPending.png'));
+                break;
+            case 'PEGI:3':
+                boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '3.png'));
+                break;
+            case 'PEGI:7':
+                boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '7.png'));
+                break;
+            case 'PEGI:12':
+                boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '12.png'));
+                break;
+            case 'PEGI:16':
+                boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '16.png'));
+                break;
+            case 'PEGI:18':
+                boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '18.png'));
+                break;
+        }
 
     const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'wiiu', 'WiiU_Case.png'));
 		const canvas = createCanvas(base.width, base.height);
@@ -126,9 +149,14 @@ module.exports = class NintendoWiiUCommand extends Command {
       }
     }
 
-    /*if (!isEmpty(boxrating)) {
-      ctx.drawImage(boxrating, 0, 0, base.width, base.height);
-    } */
+    if (nintendonetwork) {
+      let nintendonetworkImage = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'NintendoNetwork.png'));
+      ctx.drawImage(nintendonetworkImage, 1368, 156, 139, 175)
+    }
+
+    if (!isEmpty(boxrating)) {
+      ctx.drawImage(boxrating, 35, 1890, 178, 257);
+    }
       
     ctx.drawImage(base, 0, 0, base.width, base.height);
 

@@ -1,18 +1,18 @@
 const { Command } = require('discord-akairo');
 const request = require('node-superfetch');
 
-module.exports = class ChuckNorrisCommand extends Command {
+module.exports = class GenderGuessCommand extends Command {
 	constructor() {
-		super('chuck-norris', {
-			aliases: ["chuck-norris", 'norris'],
+		super('gender-guess', {
+			aliases: ["gender-guess", 'guess-gender', 'gender'],
 			category: 'Fun',
 			description: {
-				content: 'Says a random chuck noris joke.'
+				content: "Assumes a gender based on a variable input."
 			},
 			credit: [
 				{
-					name: 'The Internet Chuck Norris Database API',
-					url: 'http://www.icndb.com/api/'
+					name: 'Genderize.io',
+					url: 'https://genderize.io/'
 				}
 			],
 			args: [
@@ -27,7 +27,7 @@ module.exports = class ChuckNorrisCommand extends Command {
                         return what;
                     },
 					match: 'content',
-					default: 'Chuck'
+					default: msg => (msg.guild ? msg.member.displayName : msg.user.username)
 				}
 			]
 		});
@@ -35,11 +35,9 @@ module.exports = class ChuckNorrisCommand extends Command {
 
 	async exec(msg, { name }) {
 		const { body } = await request
-			.get('http://api.icndb.com/jokes/random')
-			.query({
-				escape: 'javascript',
-				firstName: name
-			});
-    	return msg.util.send(body.value.joke);
+			.get(`https://api.genderize.io/`)
+			.query({ name });
+		if (!body.gender) return msg.say(`I have no idea what gender ${body.name} is.`);
+		return msg.say(`I'm ${body.probability * 100}% sure ${body.name} is a ${body.gender} name.`);
 	}
 };

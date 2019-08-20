@@ -22,6 +22,7 @@ module.exports = class Nintendo3DSCommand extends Command {
 				},
                 {
 					id: 'nintendonetwork',
+                    description: 'Draw the Nintendo Network logo on the top right of the 3DS case',
                     match: 'flag',
 					flag: '--nintendonetwork'
 				},
