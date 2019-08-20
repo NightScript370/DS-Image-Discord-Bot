@@ -13,8 +13,13 @@ module.exports = class messageUpdateListener extends Listener {
 		if (oldMessage.author.bot) return;
 		if (!oldMessage.guild) return;
 
-    const logs = this.client.db.serverconfig.get(this.client, newMessage, "logchan")
-      .catch(console.error)
+    let logs;
+
+    try {
+      logs = this.client.db.serverconfig.get(this.client, newMessage, "logchan")
+    } catch(e) {
+      console.error(e)
+    }
 
     if (logs && logs.sendable && logs.embedable) {
   	  let messageUpdateEmbed = this.client.util.embed()
