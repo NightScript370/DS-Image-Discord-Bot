@@ -10,8 +10,9 @@ module.exports = class messageUpdateListener extends Listener {
   }
 
   exec(oldMessage, newMessage) {
+    if (!oldMessage) return;
+    if (!oldMessage.guild) return;
 		if (oldMessage.author.bot) return;
-		if (!oldMessage.guild) return;
 
     let logs;
 
