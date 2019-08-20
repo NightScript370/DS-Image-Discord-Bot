@@ -33,9 +33,9 @@ module.exports = class ReverseCommand extends Command {
 			return message.util.reply('No images were found. Please try again.')
 
     if (!layerstretch) {
-      let imagessize = await this.largestSize(images);
-      let layeredCanvas = await createCanvas(imagessize.width, imagessize.height);
-		  let layeredCtx = layeredCanvas.getContext('2d');
+      imagessize = await this.largestSize(images);
+      layeredCanvas = await createCanvas(imagessize.width, imagessize.height);
+		  layeredCtx = layeredCanvas.getContext('2d');
     }
 
     const baseImage = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'reverse.png'));
