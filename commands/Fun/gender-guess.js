@@ -18,7 +18,7 @@ module.exports = class GenderGuessCommand extends Command {
 			args: [
 				{
 					id: 'name',
-					type: (msg, what) => {
+					type: async (msg, what) => {
                         if (!what) return null;
 
                         let user = await msg.client.commandHandler.resolver.types.get("user-commando")(msg, what);
