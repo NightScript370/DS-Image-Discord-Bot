@@ -40,7 +40,7 @@ module.exports = class ReverseCommand extends Command {
 
     const baseImage = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'reverse.png'));
     const baseCanvas = createCanvas(baseImage.width, baseImage.height);
-    const baseCtx = canvas.getContext('2d');
+    const baseCtx = baseCanvas.getContext('2d');
 
     for (var image of images) {
       currentimage = await loadImage(image);
