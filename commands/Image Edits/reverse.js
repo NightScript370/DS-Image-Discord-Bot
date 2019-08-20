@@ -27,14 +27,16 @@ module.exports = class ReverseCommand extends Command {
   }
 
   async exec(message, { images, layerstretch }) {
-    let currentimage, widthpad, heightpad;
+    let currentimage, widthpad, heightpad, imagessize, layeredCanvas, layeredCtx;
 
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.')
 
-    let imagessize = await this.largestSize(images);
-    let layeredCanvas = await createCanvas(imagessize.width, imagessize.height);
-		let layeredCtx = layeredCanvas.getContext('2d');
+    if (!layerstretch) {
+      let imagessize = await this.largestSize(images);
+      let layeredCanvas = await createCanvas(imagessize.width, imagessize.height);
+		  let layeredCtx = layeredCanvas.getContext('2d');
+    }
 
     const baseImage = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'reverse.png'));
     const baseCanvas = createCanvas(baseImage.width, baseImage.height);
@@ -54,7 +56,7 @@ module.exports = class ReverseCommand extends Command {
     }
 
     if (!layerstretch) {
-      baseCtx.drawImage(layeredCtx, 480, 0, baseImage.width-480, 472)
+      baseCtx.drawImage(layeredCanvas, 480, 0, baseImage.width-480, 472)
     }
 
     baseCtx.drawImage(baseImage, 0, 0);
