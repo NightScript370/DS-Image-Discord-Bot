@@ -225,8 +225,19 @@ class YamamuraClient extends AkairoClient {
                 let returnargument = [];
 
                 for (var splittedargument of splittedarguments) {
-                    if (fileTypeRe.test(splittedargument.split(/[#?]/gmi)[0]))
-                        returnargument.push(splittedargument);
+                    if (fileTypeRe.test(splittedargument.split(/[#?]/gmi)[0])) {
+                        if (splittedargument.startsWith('https://github.com') || splittedargument.startsWith('https://www.github.com') || splittedargument.startsWith('http://github.com') || splittedargument.startsWith('http://www.github.com'))
+                            returnargument.push(githubRaw(splittedargument))
+//                        else if (splittedargument.startsWith('https://gitlab.com') || splittedargument.startsWith('https://www.gitlab.com') || splittedargument.startsWith('http://gitlab.com') || splittedargument.startsWith('http://www.gitlab.com'))
+//                            returnargument.push(splittedargument);
+                        else
+                            returnargument.push(splittedargument);
+                    }
+                }
+
+                function githubRaw(url) {
+                    var [https, n, domain, owner, project, blob, branch, ...position] = url.split("/");
+                    return `https://raw.githubusercontent.com/${owner}/${project}/${branch}/${position.join("/")}`;
                 }
 
                 if (!isEmpty(returnargument)) {

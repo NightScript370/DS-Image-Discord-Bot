@@ -42,11 +42,6 @@ module.exports = class DiscordProfileCommand extends Command {
             .setYamamuraCredits(true);
 
         if (member) {
-            const roles = member.roles
-				.filter(role => role.id !== msg.guild.defaultRole.id)
-				.sort((a, b) => b.position - a.position)
-				.map(role => role.name);
-
             let DBuser = this.client.db.points.findOne({guild: msg.guild.id, member: user.id}) || await this.client.db.points.insert({guild: guildFound.id, member: user.id, points: 0, level: 0});
 
             embed
@@ -56,10 +51,19 @@ module.exports = class DiscordProfileCommand extends Command {
 				.setDescription(member.presence.activity
 					? `${activities[member.presence.activity.type]} **${member.presence.activity.name}**`
 					: '')
-                .addField(`Roles (${roles.length})`, roles.length ? this.trimArray(roles).join(', ') : 'None' + '\n\n'
+            
+            try {
+                const roles = (member.roles ? member.roles
+				    .filter(role => role.id !== msg.guild.defaultRole.id)
+				    .sort((a, b) => b.position - a.position)
+				    .map(role => role.name) : []);
+                embed.addField(`Roles (${roles.length})`, roles.length ? this.trimArray(roles).join(', ') : 'None' + '\n\n'
                                              + member.roles.highest.id === member.guild.defaultRole.id ? '' : `**Highest Role:** ${member.roles.highest.name} \n`
                                              + this.isGood(member.roles.hoist) ? `**Hoist Role:** ${member.roles.hoist.name}` : '')
-                .addInline('Server Join Date', moment.utc(member.joinedAt).format('MM/DD/YYYY h:mm A'));
+            } catch (e) {
+                console.error(e);
+            }
+                embed.addInline('Server Join Date', moment.utc(member.joinedAt).format('MM/DD/YYYY h:mm A'));
         }
 
         embed

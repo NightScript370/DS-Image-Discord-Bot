@@ -10,9 +10,9 @@ class BlacklistInhibitor extends Inhibitor {
         })
     }
 
-    exec(message) {
+    exec(message, command) {
       if (message.guild && serverblacklist.includes(message.guild.id)) return true
-  		if (userblacklist.includes(message.author.id)) return true
+  	  if (userblacklist.includes(message.author.id)) return true
 
       return false
     }
