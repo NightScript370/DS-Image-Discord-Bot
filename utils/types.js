@@ -196,10 +196,10 @@ const akairo_types = {
 
 		return address;
 	},
-	'image': imageType(message, argument, true, true),
-	'image-nohistory': imageType(message, argument, true, false),
-	'image-noattachment': imageType(message, argument, false, true),
-	'image-nohistoryattachment': imageType(message, argument, false, true)
+	'image': async (message, argument) => await imageType(message, argument, true, true),
+	'image-nohistory': async (message, argument) => await imageType(message, argument, true, false),
+	'image-noattachment': async (message, argument) => await imageType(message, argument, false, true),
+	'image-nohistoryattachment': async (message, argument) => await imageType(message, argument, false, true)
 }
 
 module.exports = akairo_types;
