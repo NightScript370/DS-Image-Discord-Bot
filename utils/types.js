@@ -115,7 +115,7 @@ const userFilter = (exact, search, guild) => {
 // **** IMAGE ****
 // ***************
 
-const validateAttachment = (attachment) {
+const validateAttachment = (attachment) => {
 	if (!attachment) return false;
 	if (!attachment.height || !attachment.width) return false;
 	if (attachment.size > 8e+6) return false;
@@ -124,7 +124,7 @@ const validateAttachment = (attachment) {
 	return attachment.url;
 }
 
-function githubRaw(url) {
+const githubRaw = (url) => {
 	var [https, n, domain, owner, project, blob, branch, ...position] = url.split("/");
 	return `https://raw.githubusercontent.com/${owner}/${project}/${branch}/${position.join("/")}`;
 }
