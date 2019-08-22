@@ -1,8 +1,10 @@
 // ***************
 // **** IMAGE ****
 // ***************
+const fileTypeRe = /\.(jpe?g|png|gif|bmp)$/i;
 
 const validateAttachment = (attachment) => {
+
 	if (!attachment) return false;
 	if (!attachment.height || !attachment.width) return false;
 	if (attachment.size > 8e+6) return false;
@@ -17,7 +19,6 @@ const githubRaw = (url) => {
 }
 
 const imageType = async (message, argument, attachmentcheck, historycheck) => {
-	const fileTypeRe = /\.(jpe?g|png|gif|bmp)$/i;
 	const base64 = /data:image\/(jpe?g|png|gif|bmp);base64,([^\"]*)/;
 
 	if (message.attachments.size && attachmentcheck) {
