@@ -5,83 +5,83 @@ const config = require("../../config.js");
 const DBL = require("dblapi.js");
 
 module.exports = class ReadyListener extends Listener {
-    constructor() {
-        super('ready', {
-            emitter: 'client',
-            event: 'ready',
-            category: 'botHandler'
-        });
-    }
+	constructor() {
+		super('ready', {
+			emitter: 'client',
+			event: 'ready',
+			category: 'botHandler'
+		});
+	}
 
-    async exec() {
-        const wait = require('util').promisify(setTimeout);
-        await wait(5000);
+	async exec() {
+		const wait = require('util').promisify(setTimeout);
+		await wait(5000);
 
 		this.client.user.setStatus('online');
-        this.client.util.setDefaultStatus(this.client);
+		this.client.util.setDefaultStatus(this.client);
 
-        this.client.website = await require("../../website/index.js")(this.client);
-        this.client.dbl = await new DBL(config.DBLtoken, { webhookPort: this.client.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.client.website.server, statsInterval: 7200000 }, this.client)
+		this.client.website = await require("../../website/index.js")(this.client);
+		this.client.dbl = await new DBL(config.DBLtoken, { webhookPort: this.client.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.client.website.server, statsInterval: 7200000 }, this.client)
 
-        this.client.listenerHandler.setEmitters({
-            dbl: this.client.dbl,
-            dblwebhook: this.client.dbl.webhook,
-			commandHandler: this.commandHandler,
-			listenerHandler: this.listenerHandler
-        });
-        this.client.listenerHandler.remove('ready')
-        this.client.listenerHandler.loadAll();
+		this.client.listenerHandler.setEmitters({
+			dbl: this.client.dbl,
+			dblwebhook: this.client.dbl.webhook,
+			commandHandler: this.client.commandHandler,
+			listenerHandler: this.client.listenerHandler
+		});
+		this.client.listenerHandler.remove('ready')
+		this.client.listenerHandler.loadAll();
 
-        console.log(`My body, ${this.client.user.username} is ready to serve ${this.client.users.size} users in ${this.client.guilds.size} servers at ${this.client.website.URL}!`);
+		console.log(`My body, ${this.client.user.username} is ready to serve ${this.client.users.size} users in ${this.client.guilds.size} servers at ${this.client.website.URL}!`);
 
-        const fs = require("fs");
-        try {
-            const { id: rebootMsgID, channel: rebootMsgChan, cmd, lang } = require('../../reboot.json');
-            const m = await this.client.channels.get(rebootMsgChan).messages.fetch(rebootMsgID);
-            await m.edit(`Done rebooting; it took ${((Date.now() - m.createdTimestamp) / 1000).toFixed(1)}s`);
-            fs.unlink('./reboot.json', ()=>{});
-        } catch(O_o) {
-            
-        }
+		const fs = require("fs");
+		try {
+			const { id: rebootMsgID, channel: rebootMsgChan, cmd, lang } = require('../../reboot.json');
+			const m = await this.client.channels.get(rebootMsgChan).messages.fetch(rebootMsgID);
+			await m.edit(`Done rebooting; it took ${((Date.now() - m.createdTimestamp) / 1000).toFixed(1)}s`);
+			fs.unlink('./reboot.json', ()=>{});
+		} catch(O_o) {
+			
+		}
 
-        const { getKey } = require("../../Configuration"); 
-        this.client.db.serverconfig.get = getKey; // Short-hand declare a variable to be an existing function
+		const { getKey } = require("../../Configuration"); 
+		this.client.db.serverconfig.get = getKey; // Short-hand declare a variable to be an existing function
 
-        if (process.env.DBLORGTOKEN) {
-            try {
-                console.log('[discordbotlist.com] Updating stats');
+		if (process.env.DBLORGTOKEN) {
+			try {
+				console.log('[discordbotlist.com] Updating stats');
 
-                await request
-                    .post(`https://discordbotlist.com/api/bots/${this.client.user.id}/stats`)
-                    .set("Authorization", `Bot ${process.env.DBLORGTOKEN}`)
-                    .send({
-                        shard_id: 0,
-                        guilds: this.client.guilds.size,
-                        users: this.client.users.size,
-                        voice_connections: this.client.voice.connections.size
-                    });
+				await request
+					.post(`https://discordbotlist.com/api/bots/${this.client.user.id}/stats`)
+					.set("Authorization", `Bot ${process.env.DBLORGTOKEN}`)
+					.send({
+						shard_id: 0,
+						guilds: this.client.guilds.size,
+						users: this.client.users.size,
+						voice_connections: this.client.voice.connections.size
+					});
 
-                console.log('[discordbotlist.com] stats updated');
-            } catch(O_o) {
-                console.error(O_o);
-            }
-        }
+				console.log('[discordbotlist.com] stats updated');
+			} catch(O_o) {
+				console.error(O_o);
+			}
+		}
 
-        if (process.env.DBOATPASS) {
-            try {
-                console.log('[discord.boats] Updating stats');
+		if (process.env.DBOATPASS) {
+			try {
+				console.log('[discord.boats] Updating stats');
 
-                await request
-                    .post(`https://discord.boats/api/v2/bot/${this.client.user.id}`)
-                    .set("Authorization", process.env.DBOATPASS)
-                    .send({
-                        server_count: this.client.guilds.size
-                    });
+				await request
+					.post(`https://discord.boats/api/v2/bot/${this.client.user.id}`)
+					.set("Authorization", process.env.DBOATPASS)
+					.send({
+						server_count: this.client.guilds.size
+					});
 
-                console.log('[discord.boats] stats updated');
-            } catch(O_o) {
-                console.error(O_o);
-            }
-        }
+				console.log('[discord.boats] stats updated');
+			} catch(O_o) {
+				console.error(O_o);
+			}
+		}
 	}
 };
