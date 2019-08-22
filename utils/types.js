@@ -1,6 +1,6 @@
 const akairo_types = {
 	'question': (message, phrase) => {
-		if (!phrase || (phrase && !phrase.endsWith('?')) return null;
+		if (!phrase || (phrase && !phrase.endsWith('?'))) return null;
 		return phrase;
 	},
 	'text-fun': async (message, phrase) => {
