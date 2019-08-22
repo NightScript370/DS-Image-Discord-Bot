@@ -5,9 +5,6 @@ const config = require("./config.js");
 const List = require("list-array");
 const BackEmbed = require('./embed.js');
 
-const Youtube = require("ytdl-core-discord");
-const active = new Map();
-
 require("./struct/User.js");
 require("./struct/Guild.js");
 require("./struct/DMChannel.js");

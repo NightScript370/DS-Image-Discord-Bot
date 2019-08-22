@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo');
-const { getInfo } = require("ytdl-core-discord");
+const { getInfo } = require('@favware/ytdl-prismplayer');
 
 module.exports = class NowPlayingCommand extends Command {
 	constructor() {

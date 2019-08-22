@@ -1,3 +1,5 @@
+const Youtube = require('@favware/ytdl-prismplayer');
+
 module.exports = {
 	active: new Map(),
 	play: async (msg, client, data) => {
