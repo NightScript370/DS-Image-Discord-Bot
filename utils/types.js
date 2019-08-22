@@ -132,7 +132,6 @@ const githubRaw = (url) => {
 const imageType = async (message, argument, attachmentcheck, historycheck) => {
 	const fileTypeRe = /\.(jpe?g|png|gif|bmp)$/i;
 	const base64 = /data:image\/(jpe?g|png|gif|bmp);base64,([^\"]*)/;
-	const attachment = message.attachments.first();
 
 	if (message.attachments.size && attachmentcheck) {
 		let attachmentListing = Array.from(message.attachments.values);
