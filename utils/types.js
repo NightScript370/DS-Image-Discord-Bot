@@ -100,11 +100,11 @@ const userSearch = (message, term) => {
 		}
 	}
 
-	let users = message.client.users.filter(userFilterInexact(term));
+	let users = message.client.users.filter(userFilter(false, term, false));
 	if (!users.size)
 		return null;
 
-	const exactUsers = users.filter(userFilterExact(term));
+	const exactUsers = users.filter(userFilter(true, term, false));
 
 	if (exactUsers.size > 0)
 		users = exactUsers;
