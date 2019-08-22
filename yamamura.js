@@ -100,8 +100,9 @@ class YamamuraClient extends AkairoClient {
 					time: 30000
 				}
 			}
-		}).resolver.addTypes(require('./utils/types.js'));
-
+		})
+		
+		this.commandHandler.resolver.addTypes(require('./utils/types.js'));
 		this.inhibitorHandler = new InhibitorHandler(this, { directory: './inhibitors/' });
 		this.listenerHandler = new ListenerHandler(this, { directory: './events/' }).setEmitters({
             process: process,
