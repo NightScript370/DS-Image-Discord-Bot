@@ -200,7 +200,7 @@ module.exports = akairo_types;
 
 
 
-const isGood(variable) {
+const isGood = (variable) => {
 	if (variable && variable !== null && (variable.size || variable.length)) return true;
 		return false;
 }
