@@ -61,10 +61,10 @@ const akairo_types = {
 
 		return address;
 	},
-	'image': await imageType(message, argument, true, true),
-	'image-nohistory': await imageType(message, argument, true, false),
-	'image-noattachment': await imageType(message, argument, false, true),
-	'image-nohistoryattachment': await imageType(message, argument, false, true)
+	'image': imageType(message, argument, true, true),
+	'image-nohistory': imageType(message, argument, true, false),
+	'image-noattachment': imageType(message, argument, false, true),
+	'image-nohistoryattachment': imageType(message, argument, false, true)
 }
 
 // *******************************
