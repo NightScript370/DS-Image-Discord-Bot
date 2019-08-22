@@ -25,7 +25,9 @@ module.exports = class ReadyListener extends Listener {
 
         this.client.listenerHandler.setEmitters({
             dbl: this.client.dbl,
-            dblwebhook: this.client.dbl.webhook
+            dblwebhook: this.client.dbl.webhook,
+			commandHandler: this.commandHandler,
+			listenerHandler: this.listenerHandler
         });
         this.client.listenerHandler.remove('ready')
         this.client.listenerHandler.loadAll();
