@@ -199,7 +199,7 @@ const akairo_types = {
 	'image': async (message, argument) => await imageType(message, argument, true, true),
 	'image-nohistory': async (message, argument) => await imageType(message, argument, true, false),
 	'image-noattachment': async (message, argument) => await imageType(message, argument, false, true),
-	'image-nohistoryattachment': async (message, argument) => await imageType(message, argument, false, true)
+	'image-nohistoryattachment': async (message, argument) => await imageType(message, argument, false, false)
 }
 
 module.exports = akairo_types;
