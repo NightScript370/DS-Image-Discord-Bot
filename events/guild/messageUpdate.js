@@ -11,6 +11,8 @@ module.exports = class messageUpdateListener extends Listener {
 
 	exec(oldMessage, newMessage) {
 		if (!oldMessage) return;
+		if (newMessage.partial) newMessage.fetch();
+
 		if (!newMessage.guild) return;
 		if (newMessage.author.bot) return;
 
