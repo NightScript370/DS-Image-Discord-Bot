@@ -14,7 +14,7 @@ module.exports = {
 				data.connection = msg.guild.voice.connection;
 		}
 
-		data.dispatcher = data.connection.play(await Youtube.play(data.queue[0].url, {filter: 'audioonly'}), { type: 'opus', volume: false });
+		data.dispatcher = data.connection.play(await Youtube.play(data.queue[0].url, {filter: 'lowest'}), { type: 'opus', volume: false });
 		const start = Date.now();
 
 		data.dispatcher
