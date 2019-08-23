@@ -19,6 +19,11 @@ module.exports = {
 
 		data.dispatcher
 			.on('start', async () => {
+				console.log(`Starting song with length of ${data.queue[0].secs} seconds.`);
+				setTimeout(() => {
+					console.log('Song should only now be over');
+				}, data.queue[0].secs * 1000 + 10000);
+
 				let relinfo = await Youtube.getInfo(`https://www.youtube.com/watch?v=${data.queue[0].related[0].id}`);
 				let embed = client.util.embed()
 					.setTitle(`<:music:494355292948004874> Now Playing: ${data.queue[0].songTitle}`, data.queue[0].url)
@@ -40,12 +45,8 @@ module.exports = {
 				} catch (e) {
 					playing = await msg.channel.send({embed: embed});
 				}
-
-				console.log(`Starting song with length of ${data.queue[0].secs} seconds.`);
-				setTimeout(() => {
-					console.log('Song should only now be over');
-				}, data.queue[0].secs * 1000 + 10000);
 			})
+			.on('debug', (packet) => console.log(`[DISPATCHER DEBUG] ${packet}`))
 			.on('error', async (err) => {
 				console.error('Error occurred in stream dispatcher:', err);
 
