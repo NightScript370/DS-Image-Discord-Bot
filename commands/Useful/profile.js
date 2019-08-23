@@ -54,7 +54,7 @@ module.exports = class DiscordProfileCommand extends Command {
             
             try {
                 const roles = (member.roles ? member.roles
-				    .filter(role => role.id !== msg.guild.defaultRole.id)
+				    .filter(role => role.id !== msg.guild.roles.everyone.id)
 				    .sort((a, b) => b.position - a.position)
 				    .map(role => role.name) : []);
                 embed.addField(`Roles (${roles.length})`, roles.length ? this.trimArray(roles).join(', ') : 'None' + '\n\n'

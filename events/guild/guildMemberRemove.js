@@ -19,7 +19,7 @@ module.exports = class guildMemberRemoveListener extends Listener {
         if (!member.partial) {
 			memberRemoveLogEmbed.addField("Joined", member.joinedAt);
             try {
-                let roles = member.roles.filter(role => role.id != member.guild.id).map(r => r.name).join(", ");
+                let roles = member.roles.filter(role => role.id != member.guild.roles.everyone.id).map(r => r.name).join(", ");
                 if(!isEmpty(roles))
                     memberRemoveLogEmbed.addField("Roles", "```"+roles+"```");
             } catch(e) {
