@@ -1,5 +1,5 @@
 const Command = require('../../struct/Command');
-const YTDL = require('@favware/ytdl-prismplayer');
+const YTDL = require('ytdl-core-discord');
 
 const youtubeSearch = require('yt-search');
 const YouTubePlayList = require("ytpl");

@@ -1,4 +1,4 @@
-const Youtube = require('@favware/ytdl-prismplayer');
+const Youtube = require('ytdl-core-discord');
 
 module.exports = {
 	active: new Map(),
@@ -14,7 +14,7 @@ module.exports = {
 				data.connection = msg.guild.voice.connection;
 		}
 
-		data.dispatcher = data.connection.play(await Youtube.play(data.queue[0].url), { type: 'opus', volume: false });
+		data.dispatcher = data.connection.play(await Youtube(data.queue[0].url), { type: 'opus', volume: false });
 		const start = Date.now();
 
 		data.dispatcher
