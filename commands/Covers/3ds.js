@@ -8,7 +8,7 @@ module.exports = class Nintendo3DSCommand extends Command {
 			aliases: ['3ds'],
 			category: 'Covers',
 			description: {
-                content: "Ah, the Nintendo 3DS, the console with the easiest access to Nintendo's SDK. Abuse that power too and make your own game with your own box-art mockup. Just make sure to not make the 3D eye-straining"
+                content: "Put an image on a cover for the eye-straining glasses-free 3D console"
             },
             cooldown: 10000,
             ratelimit: 1,

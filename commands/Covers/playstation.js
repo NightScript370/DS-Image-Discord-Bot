@@ -8,7 +8,7 @@ module.exports = class PlayStationCommand extends Command {
 			aliases: ['ps', 'playstation'],
 			category: 'Covers',
 			description: {
-                content: "Ah, the Sony PlayStation. After Nintendo screwed them over with their plans with Phillips, they decided to enter the console market on their own and become a competitor to Nintendo. With this Yamamura command, you can also become a rebel of Nintendo and develop games for the PlayStation with your own Box Art Concept. Don't forget to be 100% against cross-platform play"
+                content: "Put an image on a cover for the console that was made because Nintendo screwed them over"
             },
             cooldown: 10000,
             ratelimit: 1,

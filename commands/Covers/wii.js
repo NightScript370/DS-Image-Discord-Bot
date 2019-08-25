@@ -8,7 +8,7 @@ module.exports = class WiiCommand extends Command {
 			aliases: ['wii'],
 			category: 'Covers',
 			description: {
-        content: "Ah, the Wii. What was supposed to be a revolution ended up being the best success for Nintendo, since they decided to abandon everyone except everyone in their 90s. With this command, you can make your own game targeted for the 90s with you Box Art Mockup. Just don't forget: motion controls!!"
+        content: "Put an image on a cover for the Nintendo platform filled with Grandma's and Motion Controls"
       },
       cooldown: 10000,
       ratelimit: 1,

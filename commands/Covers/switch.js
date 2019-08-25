@@ -8,7 +8,7 @@ module.exports = class NintendoSwitchCommand extends Command {
 			aliases: ['switch'],
 			category: 'Covers',
 			description: {
-        content: "The Nintendo Switch is Nintendo's latest handheld...console? We're not sure which. Doesn't matter, cause crazy games released on it like Super Mario Odyssey, Breath of the Wild and Super Smash Bros. Ultimate. Now, make your game one of those games with your own box art mockup. Just make sure to accomodate the quick bite-size gaming of handheld mode and the long experience of TV mode."
+        content: "Put an image in the cover for Nintendo's new platform that can't identify if it's a handheld or a home console."
       },
       cooldown: 10000,
       ratelimit: 1,
