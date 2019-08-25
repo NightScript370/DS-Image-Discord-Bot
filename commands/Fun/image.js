@@ -15,15 +15,15 @@ module.exports = class ImageCommand extends Command {
         examples: ['bird', 'cat', 'dog', 'catgirl (NO NSFW)', 'yoshi', 'toad']
       },
 			args: [
-				{
-					id: "species",
-					type: ['yoshi', 'catgirl', 'lewd catgirl', 'cat', 'dog', 'bird', 'toad'],
+        {
+          id: "species",
+          type: ['yoshi', 'catgirl', 'lewd catgirl', 'cat', 'dog', 'bird', 'toad'],
           prompt: {
-              start: 'Which species would you like to get an image of? Available ones: `yoshi`, `dog`, `cat`, `catgirl`, `toad`',
-              retry: 'That\'s not something we can get an image of! Try again.'
+            start: 'Which species would you like to get an image of? Available ones: `yoshi`, `dog`, `cat`, `catgirl`, `toad`',
+            retry: 'That\'s not something we can get an image of! Try again.'
           },
           match: 'content'
-				}
+        }
 			]
 		});
     

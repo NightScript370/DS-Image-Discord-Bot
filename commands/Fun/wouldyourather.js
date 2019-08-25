@@ -12,7 +12,8 @@ module.exports = class WouldYouRatherCommand extends Command {
 		});
 	}
 
-	exec(msg) {
-		return msg.channel.send(questions[Math.floor(Math.random() * questions.length)]);
+	exec(message) {
+		if (message.channel.sendable)
+			return message.util.send(questions[Math.floor(Math.random() * questions.length)]);
 	}
 };

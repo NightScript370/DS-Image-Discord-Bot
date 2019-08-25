@@ -87,7 +87,7 @@ module.exports = class ConsoleHackingGuidesCommand extends Command {
 - Redirect Software data to the SD card to play Game Modifications
 - Customize the functionality of the Wii Menu
 - Play retro software using their respective emulator`)
-                    .setFooter('Guide by Team RiiConnect24', 'https://pbs.twimg.com/profile_images/698944593715310592/wTDlD5rA_400x400.png');
+                    .setFooter('Guide by Team RiiConnect24', 'https://yt3.ggpht.com/a/AGF-l78HICOL8kkki_Tfm9OUBFUrkAX1ai16lkTW=s900-c-k-c0xffffffff-no-rj-mo');
                 break;
             case 'wiiu':
                 embed

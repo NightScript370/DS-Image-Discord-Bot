@@ -19,13 +19,14 @@ module.exports = class GenderGuessCommand extends Command {
 				{
 					id: 'name',
 					type: async (msg, what) => {
-                        if (!what) return null;
+						if (!what) return null;
 
-                        let user = await msg.client.commandHandler.resolver.types.get("user-commando")(msg, what);
-                        if (user) return user.username;
+						let user = await msg.client.commandHandler.resolver.types.get("user-commando")(msg, what);
+						if (user)
+							return user.username;
 
-                        return what;
-                    },
+						return what;
+					},
 					match: 'content',
 					default: msg => (msg.guild ? msg.member.displayName : msg.user.username)
 				}
@@ -33,11 +34,14 @@ module.exports = class GenderGuessCommand extends Command {
 		});
 	}
 
-	async exec(msg, { name }) {
+	async exec(message, { name }) {
 		const { body } = await request
 			.get(`https://api.genderize.io/`)
 			.query({ name });
-		if (!body.gender) return msg.util.reply(`I have no idea what gender ${body.name} is.`);
-		return msg.util.reply(`I'm ${body.probability * 100}% sure ${body.name} is a ${body.gender} name.`);
+
+		if (!body.gender)
+			return message.util.reply(`I have no idea what gender ${body.name} is.`);
+
+		return message.util.reply(`I'm ${body.probability * 100}% sure ${body.name} is a ${body.gender} name.`);
 	}
 };

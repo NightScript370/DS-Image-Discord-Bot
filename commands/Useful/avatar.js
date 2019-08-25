@@ -76,15 +76,14 @@ module.exports = class AmiiboCommand extends Command {
 		return this.uploadAvatar(msg, user, canvas)
   }
   
-  uploadAvatar(msg, user, avatar) {
-    let showcaseMessage;
+  uploadAvatar(message, user, avatar) {
+    let text;
     
-    if (user.tag == msg.author.tag) {
-      showcaseMessage = 'Here is your avatar';
-    } else {
-      showcaseMessage = `Here is ${user.tag}'s avatar`;
-    }
+    if (user.tag == message.author.tag)
+      text = 'Here is your avatar';
+    else
+      text = `Here is ${user.tag}'s avatar`;
 
-    msg.util.reply(showcaseMessage, { files: [{ attachment: avatar, name: `${user.username}-avatar.gif` }] })
+    message.util.reply(text, { files: [{ attachment: avatar, name: `${user.username}-avatar.gif` }] })
   }
 };

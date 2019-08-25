@@ -33,13 +33,15 @@ module.exports = class ChuckNorrisCommand extends Command {
 		});
 	}
 
-	async exec(msg, { name }) {
+	async exec(message, { name }) {
 		const { body } = await request
 			.get('http://api.icndb.com/jokes/random')
 			.query({
 				escape: 'javascript',
 				firstName: name
 			});
-    	return msg.util.send(body.value.joke);
+
+		if (message.channel.sendable)
+    		return msg.util.send(body.value.joke);
 	}
 };

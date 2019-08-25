@@ -33,9 +33,10 @@ module.exports = class Number8ballCommand extends Command {
             let user = client.users.get(id);
             return user ? user.tag : global.getString(message.author.lang, "User not found");
         });
-    
+
 		let response = `❓ **${username}'s Question:** ${question}\n🎱 **Answer:** ${answers[Math.floor(Math.random() * answers.length)]}`;
-        if (response > 2000) return message.util.reply('Too long');
+        if (response > 2000)
+            return message.util.reply('The question is too long to send on discord. Please send a shorter question to ask the mighty 8-Ball');
         message.util.send(response);
 	}
 };

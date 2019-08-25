@@ -27,6 +27,10 @@ module.exports = class PickCommand extends Command {
 
   exec(message, { items }) {
     const picked = items[Math.floor(Math.random() * items.length)];
-    return message.reply(`I picked ${picked.trim()}!`);
+
+    if (message.channel.sendable)
+      message.util.reply(`I picked ${picked.trim()}!`);
+    else
+      message.author.send('I pick ${picked.trim()}!').catch();
   }
 }
