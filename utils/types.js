@@ -4,7 +4,6 @@
 const fileTypeRe = /\.(jpe?g|png|gif|bmp)$/i;
 
 const validateAttachment = (attachment) => {
-
 	if (!attachment) return false;
 	if (!attachment.height || !attachment.width) return false;
 	if (attachment.size > 8e+6) return false;
@@ -22,7 +21,7 @@ const imageType = async (message, argument, attachmentcheck, historycheck) => {
 	const base64 = /data:image\/(jpe?g|png|gif|bmp);base64,([^\"]*)/;
 
 	if (message.attachments.size && attachmentcheck) {
-		let attachmentListing = Array.from(message.attachments.values);
+		let attachmentListing = Array.from(message.attachments.values());
 		let cleanAttachments;
 
 		for (var attachment of attachmentListing) {
@@ -51,9 +50,9 @@ const imageType = async (message, argument, attachmentcheck, historycheck) => {
 				// Convert GitHub URL to raw type
 				splitArg
 					.replace('http://www.github.com', 'https://github.com')
-					.replace('https://www.github.com', 'https://github.com')
+					.replace('https://www.github.com', 'https://github.com');
 
-				testedArgs.push(githubRaw(splitArg))
+				testedArgs.push(githubRaw(splitArg));
 				break;
 			}
 
@@ -79,7 +78,7 @@ const imageType = async (message, argument, attachmentcheck, historycheck) => {
 		return [ att ];
 	}
 
-	return null
+	return null;
 }
 
 // *******************************
