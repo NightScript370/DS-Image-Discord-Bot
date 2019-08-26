@@ -22,7 +22,7 @@ const imageType = async (message, argument, attachmentcheck, historycheck) => {
 
 	if (message.attachments.size && attachmentcheck) {
 		let attachmentListing = Array.from(message.attachments.values());
-		let cleanAttachments;
+		let cleanAttachments = [];
 
 		for (var attachment of attachmentListing) {
 			if (validateAttachment(attachment))
