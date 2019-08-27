@@ -45,8 +45,11 @@ module.exports = class guildMemberUpdateListener extends Listener {
 		if (newMember.roles.size !== oldMember.roles.size) {
 			let changedRoles = [];
 
-        	if (newMember.roles.size < oldMember.roles.size) {
-				for (var role of oldMember.roles) {
+	        let oldRoles = oldMember.roles.array();
+    	    let newRoles = newMember.roles.array();
+
+        	if (oldRoles.length > newRoles.length) {
+        		for (var role of oldMember.roles) {
 					if (!newMember.roles.has(role.id)) continue;
 					changedRoles.push(`${role.name} (#${role.id})`);
 				}
