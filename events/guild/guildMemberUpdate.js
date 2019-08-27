@@ -50,18 +50,20 @@ module.exports = class guildMemberUpdateListener extends Listener {
 
         	if (oldRoles.length > newRoles.length) {
         		for (var role of oldMember.roles) {
-					if (!newMember.roles.has(role.id)) continue;
+					if (newMember.roles.has(role.id)) continue;
 					changedRoles.push(`${role.name} (#${role.id})`);
 				}
 
-				embed.addInline('Removed Roles', changedRoles.join("\n"));
+				if (changedRoles.length)
+					embed.addInline('Removed Roles', changedRoles.join("\n"));
         	} else {
 				for (var role of newMember.roles) {
-					if (!oldMember.roles.has(role.id)) continue;
+					if (oldMember.roles.has(role.id)) continue;
 					changedRoles.push(`${role.name} (#${role.id})`);
 				}
 
-				embed.addInline('Added Roles', changedRoles.join("\n"))
+				if (changedRoles.length)
+					embed.addInline('Added Roles', changedRoles.join("\n"))
         	}
 
 			const roles = (newMember.roles ? newMember.roles
