@@ -46,9 +46,9 @@ module.exports = class NowPlayingCommand extends Command {
 				let videoLink = `https://www.youtube.com/watch?v=${relatedvideo.id}`;
 				try {
 					videoInfo = await getInfo(videoLink);
-					relatedvidlist += `**[${relatedvideo.title}](${videoLink})** ${__("by {0}"), `[${relatedvideo.author}](${info.author.channel_url})`}\n`;
+					relatedvidlist += `**[${relatedvideo.title}](${videoLink})** ${__("by {0}", `[${relatedvideo.author}](${info.author.channel_url})`)}\n`;
 				} catch (e) {
-					relatedvidlist += `**[${relatedvideo.title}](${videoLink})** ${__("by {0}"), relatedvideo.author}\n`
+					relatedvidlist += `**[${relatedvideo.title}](${videoLink})** ${__("by {0}", relatedvideo.author)}\n`
 				}
 			}
 

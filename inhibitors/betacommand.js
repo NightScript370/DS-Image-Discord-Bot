@@ -11,7 +11,7 @@ module.exports = class BetaCommandInhibitor extends Inhibitor {
         if (!command) return false;
 
         if (command.beta)
-            return this.client.ownerID.includes(message.author.id);
+            return !this.client.ownerID.includes(message.author.id);
 
         return false;
     }

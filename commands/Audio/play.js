@@ -120,6 +120,7 @@ module.exports = class PlayAudioCommand extends Command {
         data.guildID = message.guild.id;
 
         data.queue.push({
+            language: message.author.lang,
             songTitle: info.title,
             requester: message.author.tag,
             url: info.video_url,

@@ -1,8 +1,14 @@
 const Youtube = require('ytdl-core-discord');
 
+const isGood = (variable) => {
+	if (variable && variable !== null && (variable.size || variable.length)) return true;
+		return false;
+}
+
 module.exports = {
 	active: new Map(),
 	play: async (msg, client, data) => {
+		const __ = (k, ...v) => global.getString(data.language, k, ...v)
 		let playing;
 
 		if (!data.connection) {
@@ -24,16 +30,26 @@ module.exports = {
 					console.log('Song should only now be over');
 				}, data.queue[0].secs * 1000 + 10000);
 
-				let relinfo = await Youtube.getInfo(`https://www.youtube.com/watch?v=${data.queue[0].related[0].id}`);
 				let embed = client.util.embed()
 					.setTitle(`<:music:494355292948004874> Now Playing: ${data.queue[0].songTitle}`, data.queue[0].url)
 					.setColor("#FF006E")
-					.addField("Requester", data.queue[0].requester, true)
-					.addField("Duration", data.queue[0].length, true)
-					.addField("Related", `**[${data.queue[0].related[0].title}](${relinfo.video_url})** by ${data.queue[0].related[0].author}`)
+					.addInline("Requester", data.queue[0].requester)
+					.addInline("Duration", data.queue[0].length)
 					.setTimestamp(data.queue[0].timerequest)
 					.setThumbnail(data.queue[0].thumbnail)
 					.setServerFooter(msg, true);
+
+				if (isGood(data.queue[0].related) && isGood(data.queue[0].related[0])) {
+					let related = `**[${data.queue[0].related[0].title}](https://www.youtube.com/watch?v=${data.queue[0].related[0].id})** `;
+					try {
+						let relinfo = await Youtube.getInfo(`https://www.youtube.com/watch?v=${data.queue[0].related[0].id}`);
+						related += __("by {0}", `[${data.queue[0].related[0].author}](${info.author.channel_url}`);
+					} catch (e) {
+						related += __("by {0}", data.queue[0].related[0].author);
+					}
+
+					embed.addField("Related", related);
+				}
 
 				try {
 					let lastChannelMessage = await msg.channel.lastMessage;
