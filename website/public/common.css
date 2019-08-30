@@ -200,3 +200,8 @@ html {
 	height: 7px;
 	background-color: #7289DA;
 }
+
+body {
+    text-rendering: optimizeLegibility;
+    font-family: Whitney,'Roboto',Helvetica Neue,Helvetica,Arial,sans-serif;
+}
