@@ -2,7 +2,8 @@ global.lang = {};
 global.lang.default = "en";
 
 String.prototype.replaceAll = (search, replacement) => {
-	let s = this.split(search)
+	var target = this;
+	let s = target.split(search)
 	return s.join(replacement);
 };
 
