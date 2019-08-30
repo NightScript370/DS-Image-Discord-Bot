@@ -1,57 +1,51 @@
-const client = require('../../yamamura')
+module.exports = (client, member, moderator, reason=null, msg=null) => {
+	let text;
 
-module.exports = (client, member, reason, moderator, msg) => {
-  let logembed;
+	if (!member) return "no member";
+	if (!member.guild) return "not guild";
+	if (!member.guild.me.hasPermission('MANAGE_ROLES')) return "no perms";
 
-  if (!member) return "no member";
-  if (!member.guild) return "not guild";
-  if (!member.guild.me.hasPermission('MANAGE_ROLES')) return "no perms";
+	const mutedRole = client.db.serverconfig.get(client, member, "mutedrole");
+	if (!mutedRole) return "role doesn't exist";
 
-  const logchan = msg.guild.channels.find(logchan => logchan.name === this.client.serverconfig.getProp(member.guild.id, "logchannel"));
-  const mutedRole = msg.guild.roles.find(muteRole => muteRole.name === this.client.serverconfig.getProp(member.guild.id, "muteRole"));
-  if (!mutedRole) return "role doesn't exist";
+	const logChannel = client.db.serverconfig.get(client, member, "logchan");
+	let logEmbed = client.util.embed()
+		.setThumbnail(member.guild.iconURL({format: 'png'}))
+		.addInline(":cop: Moderator", `${moderator.user.tag} (#${moderator.id})`)
+		.setFooter(`${member.user.tag} (#${member.user.id})`, member.user.displayAvatarURL({format: 'png'}))
+		.setTimestamp(new Date());
+	
+	if (msg)
+		logEmbed.addInline(":bookmark_tabs: Channel", `${msg.channel.name} (#${msg.channel.id})`)
 
-  if(member.roles.has(mutedRole.id)) {
-    member.removeRole(mutedRole);
+	if (reason)
+		logEmbed.setDescription(reason)
 
-    logembed = client.util.embed()
-      .setColor(0xe00b0b)
-      .setAuthor(`${member.user.username}'s mute was removed`, member.user.displayAvatarURL({format: 'png'}))
-      .setThumbnail(msg.guild.iconURL({format: 'png'}))
-      .setDescription(reason)
-      .setTimestamp(new Date())
-      .addField(":cop: Moderator", `${moderator.user.tag} (#${moderator.id})`)
-      .addField(":bookmark_tabs: Channel", `${msg.channel.name} (#${msg.channel.id})`)
-      .setFooter(`${member.user.tag} (#${member.user.id})`);
+	let hasRole = member.roles.has(mutedRole.id);
+	if (hasRole) {
+		member.roles.add(mutedRole, reason);
+		text = `${member.displayName}'s mute was removed`;
 
-    try {
-      member.send(`You were unmuted from ${msg.guild.name}.`);
-    } catch(e) {
-      if(logchan)	logembed.addField(":warning: No alert was sent", "Please notify him of his removed mute manually");
-      else		moderator.send("Couldn't send the unmute notif. Please notify him manually").catch();
-    }
+		try {
+			member.send(`You were unmuted from ${member.guild.name}.`);
+		} catch(e) {
+			if(logChannel)	logEmbed.addField(":warning: No alert was sent", "Please notify him of his removed mute manually");
+			else			moderator.send("Couldn't send the unmute notif. Please notify him manually").catch();
+		}
+	} else {
+		member.roles.add(mutedRole);
+		text = `:zipper_mouth: ${member.displayName} was muted`;
 
-    if (logchan)	logchan.send(logembed);
-  } else {
-    member.addRole(mutedRole);
+		try {
+			member.send(`You were muted from ${member.guild.name}: ${reason}`);
+		} catch(e) {
+			if(logChannel)	logEmbed.addField(":warning: No alert was sent", "Please notify him of his removed mute manually")
+			else			moderator.send("Couldn't send the unmute notif. Please notify him manually").catch();
+		}
+	}
 
-    logembed = client.util.embed()
-      .setColor(0xe00b0b)
-      .setAuthor(`:zipper_mouth: ${member.user.username} was muted`, member.user.displayAvatarURL)
-      .setThumbnail(msg.guild.iconURL)
-      .setDescription(reason)
-      .setTimestamp(new Date())
-      .addField(":cop: Moderator", `${moderator.user.tag} (#${moderator.id})`)
-      .addField(":bookmark_tabs: Channel", `${msg.channel.name} (#${msg.channel.id})`)
-      .setFooter(`${member.user.tag} (#${member.user.id})`);
+	if (logchan)
+		logchan.send(text, logEmbed);
 
-    try {
-      member.send(`You were muted from ${msg.guild.name}: ${reason}`);
-    } catch(e) {
-      if(logchan)	logembed.addField(":warning: No alert was sent", "Please notify him of his removed mute manually")
-      else		moderator.send("Couldn't send the unmute notif. Please notify him manually").catch();
-    }
-
-    if (logchan)	logchan.send(logembed);
-  }
+	return;
 }

@@ -52,16 +52,11 @@ module.exports = class MuteCommand extends Command {
 
 		if (author.roles.highest.position <= member.roles.highest.position)
 			return msg.util.reply(__("You can't mute someone who has a higher role position than you."));
-		
+
 		if (member.id == author.id)
 			return msg.util.reply(__("You can't mute yourself!"));
 
-		let hasRole = member.roles.has(mutedRole.id);
-		if (hasRole)
-			member.roles.remove(mutedRole, reason)
-		else
-			member.roles.add(mutedRole, reason)
-
+		this.client.moderation.mute(this.client, member, author, reason, msg);
 		return msg.util.reply(__("{0} was successfully {1}", member.displayName, hasRole ? "unmuted" : "muted"));
 	}
 };

@@ -49,9 +49,10 @@ module.exports = class BanCommand extends Command {
 
 	async exec(msg, { user, reason, check, days }) {
 		let banList;
+		let member;
 
 		if (msg.guild.members.has(user.id)) {
-			let member = msg.guild.members.get(user.id);
+			member = msg.guild.members.get(user.id);
 			let author = msg.member;
 
 			if (!member.bannable)
@@ -74,7 +75,7 @@ module.exports = class BanCommand extends Command {
 				return msg.util.reply(`${user.tag} was already banned`);
 		}
 
-		let ban = await this.client.moderation.ban(this.client, user, msg.member, reason, msg, days);
+		let ban = await this.client.moderation.ban(this.client, (member ? member : user), msg.member, reason, msg, days);
 		if (typeof ban == "boolean" && ban) {
 			if (!check)
 				return msg.util.reply(`${user.tag} was banned`);

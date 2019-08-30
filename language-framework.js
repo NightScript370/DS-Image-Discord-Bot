@@ -1,32 +1,26 @@
 global.lang = {};
 global.lang.default = "en";
 
-String.prototype.replaceAll = function(search, replacement) {
-    var target = this;
-    let s = target.split(search)
-    return s.join(replacement);
+String.prototype.replaceAll = (search, replacement) => {
+	let s = this.split(search)
+	return s.join(replacement);
 };
 
-global.lang.defaultData = function(userID) {
-  return {
-    lang: global.lang.default,
-    userID: userID
-  }
+global.lang.defaultData = (userID) => {
+	return {
+		lang: global.lang.default,
+		userID: userID
+	}
 }
 
-global.lang.getUser = function(client, userID) {
-  return client.db.userconfig.findOne({userID: userID}) || client.db.userconfig.insert(global.lang.defaultData(userID))
-}
-
-global.lang.update = function(client, data) {
-  return client.db.userconfig.update(data);
-}
+global.lang.getUser = (client, userID) => client.db.userconfig.findOne({userID: userID}) || client.db.userconfig.insert(global.lang.defaultData(userID));
+global.lang.update = (client, data) => client.db.userconfig.update(data);
 
 /* Get String function
  * Returns a string in the given language
  * Example: getString("en", "Ping: {0} ms", 400)
  */
-global.getString = function(lang, key, ...repl) {
+global.getString = (lang, key, ...repl) => {
   let l;
   if (lang !== 'en') l = require(`./langs/${lang}/index.js`);
   let k = lang == "en" ? key : l[key] || key;
@@ -35,64 +29,53 @@ global.getString = function(lang, key, ...repl) {
 }
 global.lang.getString = global.getString;
 
-global.getStringObject = function(lang, key, ...repl) {
-  let l;
-  if (lang !== 'en') l = require(`./langs/${lang}/index.js`);
-  let k = lang == "en" ? key : l[key] || key;
+global.getStringObject = (lang, key, ...repl) => {
+	let l;
+	if (lang !== 'en') l = require(`./langs/${lang}/index.js`);
+	let k = lang == "en" ? key : l[key] || key;
   
-  return global.lang.formatStringObject(k, ...repl);
+	return global.lang.formatStringObject(k, ...repl);
 }
 global.lang.getStringObject = global.getStringObject;
 
-global.lang.formatStringObject = function(k, obj) {
-  console.log(obj)
-  k = k.replace(new RegExp("(?:(?<!\\\\){)\\s*(.*)\\s*(?:(?<!\\\\)})", "gmi"), (match, key) => {
-    console.log(key);
-    return obj[key];
-  })
-  
-  return k;
+global.lang.formatStringObject = (k, obj) => k.replace(new RegExp("(?:(?<!\\\\){)\\s*(.*)\\s*(?:(?<!\\\\)})", "gmi"), (match, key) => obj[key])
+
+global.lang.formatStringWithChoice = (script, k, ...repl) => {
+	// inline variables
+	// & variable {key}
+	// k = k.replace(/(?:(?<!\\){)\s*key\s*(?:(?<!\\)})/gmi, key)
+	let i = 0
+	repl.forEach(r => {
+		// Escape < and >s in variables
+		k = k.replaceAll(new RegExp(`(?:(?<!\\\\){)\\s*${i}\\s*(?:(?<!\\\\)})`, "gmi"), (r.toString()).replace(/((?<!\\)[<>])/g, "\\$1"))
+		i++
+	})
+
+	if (script) {
+		// inline scripting
+		let reg = /(?:(?<!\\)<)(.*)(?:(?<!\\)>)/gmi
+		let scripts = k.match(reg)
+		if (scripts) {
+			scripts.forEach(script => { // script => "<code>" (eg. "<1 == 1 ? 'a' : 'b'>")
+				try {
+					k = k.replace(script, eval(script.replace(/[<>]/gmi, "")))
+				} catch (e) {
+					console.log(script);
+					console.error(e);
+				}
+			})
+		}
+
+		// Revert the escaped < and >s to normal
+		k = k.replace(/\\([<>])/g, "$1")
+	}
+
+	return k;
 }
 
-global.lang.formatStringWithChoice = function(script, k, ...repl) {
-  // inline variables
-  // & variable {key}
-  // k = k.replace(/(?:(?<!\\){)\s*key\s*(?:(?<!\\)})/gmi, key)
-  let i = 0
-  repl.forEach(r => {
-    // Escape < and >s in variables
-    k = k.replaceAll(new RegExp(`(?:(?<!\\\\){)\\s*${i}\\s*(?:(?<!\\\\)})`, "gmi"), (r.toString()).replace(/((?<!\\)[<>])/g, "\\$1"))
-    i++
-  })
+global.lang.formatString = (k, ...v) => global.lang.formatStringWithChoice(true, k, ...v)
 
-  if (script) {
-    // inline scripting
-    let reg = /(?:(?<!\\)<)(.*)(?:(?<!\\)>)/gmi
-    let scripts = k.match(reg)
-    if (scripts) {
-      scripts.forEach(script => { // script => "<code>" (eg. "<1 == 1 ? 'a' : 'b'>")
-        try {
-          // Are you sure you need to use eval? Isn't it quite dangerous?
-          // We never really open it to the end user, it's just string-wise scripting
-          // Ah, I see
-          k = k.replace(script, eval(script.replace(/[<>]/gmi, "")))
-        } catch (e) {
-          console.log(script);
-          console.error(e);
-        }
-      })
-    }
-    
-    // Revert the escaped < and >s to normal
-    k = k.replace(/\\([<>])/g, "$1")
-  }
-
-  return k;
-}
-
-global.lang.formatString = (k, ...v) => global.lang.formatStringWithChoice(false, k, ...v)
-
-global.lang.getDuration = function(lang, duration) {
+global.lang.getDuration = (lang, duration) => {
   const __ = k => global.lang.getString(lang, k)
   var milliseconds = parseInt((duration % 1000) / 100),
     seconds = Math.floor((duration / 1000) % 60),
@@ -100,22 +83,22 @@ global.lang.getDuration = function(lang, duration) {
     hours = Math.floor((duration / (1000 * 60 * 60)) % 24),
     days = Math.floor(duration / (1000 * 60 * 60 * 24));
 
-  let dys, hrs, mins, secs;
-  dys = days == 1 ? __("day", 1) : __("days", days);
-  hrs = hours == 1 ? __("hour", 1) : __("hours", hours);
-  mins = minutes == 1 ? __("minute", 1) : __("minutes", minutes);
-  secs = seconds == 1 ? __("second", 1) : __("seconds", seconds);
+	let dys, hrs, mins, secs;
+	dys = days == 1 ? __("day", 1) : __("days", days);
+	hrs = hours == 1 ? __("hour", 1) : __("hours", hours);
+	mins = minutes == 1 ? __("minute", 1) : __("minutes", minutes);
+	secs = seconds == 1 ? __("second", 1) : __("seconds", seconds);
   
-  let dayString = "", hourString = "", minString = "", secString = "";
-  if (days > 0) dayString = `${days} ${dys}, `
-  if (hours > 0 || days > 0) hourString = `${hours} ${hrs}, `
-  if (minutes > 0 || hours > 0 || days > 0) minString = `${minutes} ${mins} ${__("and")} `
-  if (seconds > 0 || minutes > 0 || hours > 0 || days > 0) secString = `${seconds} ${secs}`
+	let dayString = "", hourString = "", minString = "", secString = "";
+	if (days > 0) dayString = `${days} ${dys}, `
+	if (hours > 0 || days > 0) hourString = `${hours} ${hrs}, `
+	if (minutes > 0 || hours > 0 || days > 0) minString = `${minutes} ${mins} ${__("and")} `
+	if (seconds > 0 || minutes > 0 || hours > 0 || days > 0) secString = `${seconds} ${secs}`
 
-  hours = (hours < 10) ? "0" + hours : hours;
-  minutes = (minutes < 10) ? "0" + minutes : minutes;
-  seconds = (seconds < 10) ? "0" + seconds : seconds;
+	hours = (hours < 10) ? "0" + hours : hours;
+	minutes = (minutes < 10) ? "0" + minutes : minutes;
+	seconds = (seconds < 10) ? "0" + seconds : seconds;
   
-  // console.log(days, hours, minutes, seconds, dayString, hourString, minString, secString)
-  return `${dayString}${hourString}${minString}${secString}`
+	// console.log(days, hours, minutes, seconds, dayString, hourString, minString, secString)
+	return `${dayString}${hourString}${minString}${secString}`
 }
