@@ -56,7 +56,9 @@ module.exports = class MuteCommand extends Command {
 		if (member.id == author.id)
 			return msg.util.reply(__("You can't mute yourself!"));
 
+		let hasRole = member.roles.has(mutedRole.id);
 		this.client.moderation.mute(this.client, member, author, reason, msg);
+
 		return msg.util.reply(__("{0} was successfully {1}", member.displayName, hasRole ? "unmuted" : "muted"));
 	}
 };
