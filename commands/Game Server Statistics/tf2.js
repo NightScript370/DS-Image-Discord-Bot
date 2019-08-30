@@ -1,21 +1,17 @@
 const Command = require('../../struct/Command');
 
-module.exports = class BF1942Command extends Command {
+module.exports = class TF2Command extends Command {
 	constructor() {
-		super('BattleField1942', {
+		super('TF2', {
 			category: 'Game Server Statistics',
-			aliases: ["BattleField1942", "bf1942"],
+			aliases: ["teamfortress2", "tf2"],
 			clientPermissions: ['EMBED_LINKS'],
-			description: {
-				content: 'Get stats of any Battlefield: 1942 game server.',
-				usage: '<server IP>',
-				examples: ['163.172.13.221:14567']
-			},
+			description: 'Get stats of any Team Fortress 2 game server.',
 			args: [
 				{
 					id: 'IP',
 					prompt: {
-						start: 'Which server would you like to get `Battlefield: 1942` statistics from?',
+						start: 'Which server would you like to get Team Fortress 2 statistics from?',
 						retry: 'That\'s not a server we can get stats from! Try again.'
 					},
 					type: 'externalIP',
@@ -28,13 +24,14 @@ module.exports = class BF1942Command extends Command {
 				}
 			]
 		});
+
+		this.examples = ['rust 139.59.13.119:28015'];
 	}
 
 	async exec(message, { IP, ping }) {
-		let {embed, data} = await this.gameDigServer('bf1942', IP, ping);
-		embed.setColor("BLUE")
+		let { embed, data } = await this.gameDigServer('tf2', IP, ping);
 
-		let text = `Information on the "${data.name}" BattleField 1942 server`;
+		let text = `Information on the "${data.name}" Team Fortress 2 server`;
 		if (message.guild)
 			text += `, requested by ${message.member.displayName}`
 
