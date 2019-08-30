@@ -44,8 +44,8 @@ module.exports = (client, member, moderator, reason=null, msg=null) => {
 		}
 	}
 
-	if (logchan)
-		logchan.send(text, logEmbed);
+	if (logChannel)
+		logChannel.send(text, logEmbed);
 
 	return;
 }
