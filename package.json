@@ -21,7 +21,7 @@
     "express-session": "^1.16.1",
     "fast-levenshtein": "^2.0.6",
     "ffmpeg": "^0.0.4",
-    "gamedig": "^2.0.14",
+    "gamedig": "github:NightYoshi370/node-gamedig#refactor",
     "hangman-game-engine": "^1.1.3",
     "including-range-array": "^1.0.0",
     "list-array": "^2.5.2",
