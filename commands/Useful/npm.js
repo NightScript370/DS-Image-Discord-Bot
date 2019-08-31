@@ -18,7 +18,8 @@ module.exports = class NPMCommand extends Command {
 					id: "pkg",
 					description: "List the NPM package here",
 					prompt: {
-						start: "what NPM pkg would you like to search for?"
+						start: "what NPM pkg would you like to search for?",
+						retry: "That's not a valid package we can look for. Please try again"
 					},
 					match: "content",
 					type: (_, pkg) => pkg ? encodeURIComponent(pkg.toLowerCase().replace(/ /g, "-")) : null
@@ -43,7 +44,7 @@ module.exports = class NPMCommand extends Command {
 		const version = body.versions[body["dist-tags"].latest];
 		const maintainers = this._trimArray(body.maintainers.map(user => user.name).join(", "));
 		const dependencies = version.dependencies ? this._trimArray(Object.keys(version.dependencies)) : "";
-		const embed = this.client.util.embed()
+		let embed = this.client.util.embed()
 			.setColor(0xCB0000)
 			.setAuthor(global.getString(message.author.lang, "NPM Package: {0}", body.name), "https://i.imgur.com/ErKf5Y0.png", `https://www.npmjs.com/package/${pkg}`)
 			.addInline(global.getString(message.author.lang, "Latest Version"), body["dist-tags"].latest)
@@ -51,9 +52,8 @@ module.exports = class NPMCommand extends Command {
 			.addInline(global.getString(message.author.lang, "Author"), body.author ? body.author.name : "???")
 			.addInline(global.getString(message.author.lang, "Creation Date"), moment.utc(body.time.created).format("DD-MM-YYYY kk:mm:ss"))
     
-		if (moment.utc(body.time.modified).format("DD-MM-YYYY kk:mm:ss") !== moment.utc(body.time.created).format("DD-MM-YYYY kk:mm:ss")) {
+		if (moment.utc(body.time.modified).format("DD-MM-YYYY kk:mm:ss") !== moment.utc(body.time.created).format("DD-MM-YYYY kk:mm:ss"))
 			embed.addInline(global.getString(message.author.lang, "Modification Date"), moment.utc(body.time.modified).format("DD-MM-YYYY kk:mm:ss"))
-    }
 
 		embed
 			.addInline(global.getString(message.author.lang, "Main File"), version.main || "index.js")
