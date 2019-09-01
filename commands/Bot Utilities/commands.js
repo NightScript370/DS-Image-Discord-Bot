@@ -155,7 +155,7 @@ module.exports = class CommandsCommand extends Command {
 
 			e.setFooter(__("Total Commands: {0}", cmds.length));
 
-			return msg.util.send(e);
+			return msg.util.send(embed);
 		}
 	}
 };
