@@ -87,9 +87,9 @@ module.exports = class CommandsCommand extends Command {
 				return msg.channel.send(__('Help for command "{0}"', command.id), {embed});
 			}
 
-			let category = this.client.commandHandler.categories.get(__(commandName))
+			let category = this.client.commandHandler.categories.get(titleCase(__(commandName)))
 			if (!this.isGood(category))
-				category = this.client.commandHandler.categories.get(commandName)
+				category = this.client.commandHandler.categories.get(titleCase(commandName))
 
 			if (!this.isGood(category))
 				return msg.util.send(__("Invalid command/category name. Please try again"));
@@ -188,4 +188,13 @@ if (!Array.prototype.flat) {
 
 function isEmpty(value) { //Function to check if value is really empty or not
 	return (value == null || value.length === 0);
+}
+
+function titleCase(str) {
+	str = str.toLowerCase().split(' ');
+	let final = [];
+	for (let word of str) {
+		final.push(word.charAt(0).toUpperCase() + word.slice(1));
+	}
+	return final.join(' ')
 }
