@@ -150,10 +150,10 @@ module.exports = class CommandsCommand extends Command {
 
 			cats.forEach(category => {
 				let catCmds = cmds.filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));
-				if (catCmds.length > 0) embed.addInline(`${__(category)} [${catCmds.length}]`, category.description ? __(category.description) : __('No description available.'));
+				if (catCmds.length > 0) embed.addInline(`${__(category.id)} [${catCmds.length}]`, category.description ? __(category.description) : __('No description available.'));
 			});
 
-			e.setFooter(__("Total Commands: {0}", cmds.length));
+			embed.setFooter(__("Total Commands: {0}", cmds.length));
 
 			return msg.util.send(embed);
 		}
