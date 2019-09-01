@@ -27,7 +27,6 @@ module.exports = class CommandsCommand extends Command {
 		let description;
 
 		let categories = Array.from(this.client.commandHandler.categories.entries());
-		let catNames = categories.map(arr => arr[0]);
 		let cats = categories.map(arr => arr[1]).sort((c1, c2) => c1.id.localeCompare(c2.id));
 
 		let cmds = cats.map(cat => Array.from(cat.entries()).map(c => c[1])).flat();
@@ -106,7 +105,7 @@ module.exports = class CommandsCommand extends Command {
 				if (!makeFields) {
 					description += `**${command.id}**`;
 
-					if (this.isGood(command.description)) {
+					if (command.description) {
 						description += ': ';
 
 						if (command.description.content)
@@ -118,14 +117,12 @@ module.exports = class CommandsCommand extends Command {
 
 					commandList.push(description)
 				} else {
-					if (this.isGood(command.description)) {
+					if (command.description) {
 						if (command.description.content)
 							description += (command.description.content.join ? command.description.content.map(d => __(d)).join("\n") : __(command.description.content));
 						else
 							description += (command.description.join ? command.description.map(d => __(d)).join("\n") : __(command.description));
 					}
-
-					// console.log(description);
 
 					embed.addField(command.id, description || __(command.description.content ? command.description.content : command.description) || __('No description available'))
 				}
