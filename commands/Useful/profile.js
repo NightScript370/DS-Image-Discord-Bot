@@ -41,7 +41,7 @@ module.exports = class DiscordProfileCommand extends Command {
 			.setYamamuraCredits(true);
 
 		if (member) {
-			let DBuser = this.client.db.points.findOne({guild: msg.guild.id, member: user.id}) || await this.client.db.points.insert({guild: guildFound.id, member: user.id, points: 0, level: 0});
+			let DBuser = this.client.db.points.findOne({guild: msg.guild.id, member: user.id}) || await this.client.db.points.insert({guild: msg.guild.id, member: user.id, points: 0, level: 0});
 
 			embed
 				.addInline("Points", DBuser.points == Infinity ? "Infinity" : DBuser.points)

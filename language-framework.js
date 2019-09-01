@@ -22,11 +22,12 @@ global.lang.update = (client, data) => client.db.userconfig.update(data);
  * Example: getString("en", "Ping: {0} ms", 400)
  */
 global.getString = (lang, key, ...repl) => {
-  let l;
-  if (lang !== 'en') l = require(`./langs/${lang}/index.js`);
-  let k = lang == "en" ? key : l[key] || key;
-  
-  return global.lang.formatString(k, ...repl);
+	if (lang !== 'en') {
+		let languageFile = require(`./langs/${lang}/index.js`);
+		key = languageFile[key] ? languageFile[key] : key;
+	}
+
+	return global.lang.formatString(key, ...repl);
 }
 global.lang.getString = global.getString;
 
