@@ -21,7 +21,7 @@ module.exports = {
     "Permissions": "Permessi",
     "Category": "Categoria",
     'Help for command "{0}"': 'Aiuto per il comando "{0}"',
-    'To view a list of all the commands, go to the [Yamamura Website Command Page]({0}).': "Per vedere una lista di tutti i comandi, vai alla [pagina dei comandi sul sito di Yamamura]({0}).",
+    'To view a list of all the commands, please go to our website\'s command page: {0}': "Per vedere una lista di tutti i comandi, vai sul nostro sito: {0}.",
     "To view a list of a command of a specific category, type `{0}commands (category name)`.": "Per vedere una lista di comandi appartenenti ad una specifica categoria, digita `{0}commands (nome categoria)`",
     "Command Listing": "Lista Comandi",
     "{0}ms": "{0}ms",
