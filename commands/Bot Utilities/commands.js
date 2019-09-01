@@ -127,7 +127,7 @@ module.exports = class CommandsCommand extends Command {
 
 					// console.log(description);
 
-					embed.addField(command.id, description || __('No description available'))
+					embed.addField(command.id, description || __(command.description) || __('No description available'))
 				}
 			});
 
