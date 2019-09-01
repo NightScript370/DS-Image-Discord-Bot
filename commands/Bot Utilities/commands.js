@@ -111,8 +111,10 @@ module.exports = class CommandsCommand extends Command {
 
 						if (command.description.content)
 							description += (command.description.content.join ? command.description.content.map(d => __(d)).join("\n") : __(command.description.content));
-						else
+						else {
+							console.log()
 							description += (command.description.join ? command.description.map(d => __(d)).join("\n") : __(command.description));
+						}
 					}
 
 					commandList.push(description)
