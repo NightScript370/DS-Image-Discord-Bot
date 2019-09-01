@@ -112,7 +112,6 @@ module.exports = class CommandsCommand extends Command {
 						if (command.description.content)
 							description += (command.description.content.join ? command.description.content.map(d => __(d)).join("\n") : __(command.description.content));
 						else {
-							console.log()
 							description += (command.description.join ? command.description.map(d => __(d)).join("\n") : __(command.description));
 						}
 					}
@@ -125,6 +124,8 @@ module.exports = class CommandsCommand extends Command {
 						else
 							description += (command.description.join ? command.description.map(d => __(d)).join("\n") : __(command.description));
 					}
+
+					console.log(description);
 
 					embed.addField(command.id, description || __('No description available'))
 				}
