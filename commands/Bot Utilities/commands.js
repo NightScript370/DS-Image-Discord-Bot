@@ -124,29 +124,25 @@ module.exports = class CommandsCommand extends Command {
 							description += (command.description.join ? command.description.map(d => __(d)).join("\n") : __(command.description));
 					}
 
-					embed.addField(cmd.id, description || __('No description available'))
+					embed.addField(command.id, description || __('No description available'))
 				}
 			});
 
 			if (catCmds.length > 0) {
-				embed
-					.setTitle(__("Category listing: {0}", __(category)))
-					.setFooter(__("Total Commands: {0}", commands.length));
-
 				if (!makeFields)
 					embed.setDescription(commandList.join('\n'))
 
-				return msg.channel.send(embed);
+				embed.setFooter(__("Total Commands: {0}", commands.length));
+
+				return msg.channel.send(__("Category listing: {0}", __(category)), embed);
 			}
 		} else {
 			// General command listing
 			// {id: <name>, aliases: [<name>, <name>...], description: <desc>, category.id: <category>}
 			let prefix = await this.handler.prefix(msg);
-
-			embed
-				.setAuthor(__('Command Listing'), this.client.user.displayAvatarURL({format: 'png'}), `${this.client.website.URL}/commands`)
-				.setDescription(__('To view a list of all the commands, go to the [Yamamura Website Command Page]({0}).', `${this.client.website.URL}/commands`) + " \n"
-							  + __("To view a list of a command of a specific category, type `{0}commands (category name)`.", prefix));
+			let text = __("{0}'s Command Listing", this.client.user.username) + "\n\n"
+					 + __("To view a list of all the commands, please go to our website's command page: {0}", `${this.client.website.URL}/commands`) + " \n"
+					 + __("To view a list of a command of a specific category, type `{0}commands (category name)`.", prefix)
 
 			cats.forEach(category => {
 				let catCmds = cmds.filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));
