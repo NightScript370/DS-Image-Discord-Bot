@@ -56,7 +56,8 @@ global.lang.formatStringWithChoice = (script, k, ...repl) => {
 	try {
 		if (script) {
 			// inline scripting
-			let reg = /(?:(?<!\\)<)(.*)(?:(?<!\\)>)/gmi
+			let reg = /(?:(?<!\\)<)(.*)(?:(?<!\\)>)/gmi;
+			if ("object" == typeof k) k = Object.values(k)[0]; // Get the first available string (bad practice, but eh)
 			let scripts = k.match(reg)
 			if (scripts) {
 				scripts.forEach(script => { // script => "<code>" (eg. "<1 == 1 ? 'a' : 'b'>")
