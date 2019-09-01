@@ -11,10 +11,28 @@ require("./struct/DMChannel.js");
 require("./struct/TextChannel.js");
 require("./language-framework.js");
 
-global.consoleLines = {
-	stdout: [],
-	stderr: [],
+console.logs = {
+	log: [],
+	err: [],
 };
+
+// This is used to debug the errors.
+// Defaults to 20 lines max
+const util = require('util');
+var logStdout = process.stdout;
+var logStderr = process.stderr;
+
+console.log = function () {
+  console.logs.log.push(util.format.apply(null, arguments));
+  logStdout.write(util.format.apply(null, arguments) + '\n');
+	if (console.logs.log.length > 20) console.logs.log.shift();
+}
+console.error = function () {
+  console.logs.err.push(util.format.apply(null, arguments));
+  logStderr.write(util.format.apply(null, arguments) + '\n');
+	if (console.logs.err.length > 20) console.logs.err.shift();
+}
+
 
 class YamamuraClient extends AkairoClient {
 	constructor() {
@@ -145,20 +163,3 @@ function isEmpty(value) { //Function to check if value is really empty or not
 
 global.List = List;
 module.exports = client;
-
-// This is used to debug the errors.
-// Defaults to 20 lines max
-const util = require('util');
-var logStdout = process.stdout;
-var logStderr = process.stderr;
-
-console.log = function () {
-  global.consoleLines.stdout.push(util.format.apply(null, arguments));
-  logStdout.write(util.format.apply(null, arguments) + '\n');
-	if (global.consoleLines.stdout.length > 20) global.consoleLines.stdout.shift();
-}
-console.error = function () {
-  global.consoleLines.stderr.push(util.format.apply(null, arguments));
-  logStderr.write(util.format.apply(null, arguments) + '\n');
-	if (global.consoleLines.stderr.length > 20) global.consoleLines.stderr.shift();
-}
