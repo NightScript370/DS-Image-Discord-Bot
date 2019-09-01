@@ -128,7 +128,7 @@ module.exports = class CommandsCommand extends Command {
 				}
 			});
 
-			if (catCmds.length > 0) {
+			if (commands.length > 0) {
 				if (!makeFields)
 					embed.setDescription(commandList.join('\n'))
 

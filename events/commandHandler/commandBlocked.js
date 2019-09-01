@@ -10,16 +10,18 @@ module.exports = class CommandBlockedListener extends Listener {
     }
 
     exec(message, command, reason) {
+		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v);
+
         const text = {
-			owner: () => "we're sorry, but the " + command.id + " command may only be used by the bot owners.",
-			guild: () => "we're sorry, but the " + command.id + " command may only be used in a server."
+			owner: () => __("we're sorry, but the {0} command may only be used by the bot owners.", command.id),
+			guild: () => __("we're sorry, but the {0} command may only be used in a server.", command.id)
 		}[reason];
 
 		const tag = message.guild ? message.guild.name : `DM`;
         console.log(`${message.author.username} (#${message.author.id}) was blocked from using ${command.id} in ${tag} because of ${reason}!`);
 
 		if (!text) return;
-		if (message.guild ? message.channel.permissionsFor(this.client.user).has('SEND_MESSAGES') : true) {
+		if (message.channel.sendable) {
 			message.reply(text());
         }
     }
