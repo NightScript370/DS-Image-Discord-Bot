@@ -125,7 +125,7 @@ module.exports = class CommandsCommand extends Command {
 							description += (command.description.join ? command.description.map(d => __(d)).join("\n") : __(command.description));
 					}
 
-					console.log(description);
+					// console.log(description);
 
 					embed.addField(command.id, description || __('No description available'))
 				}
@@ -137,7 +137,7 @@ module.exports = class CommandsCommand extends Command {
 
 				embed.setFooter(__("Total Commands: {0}", commands.length));
 
-				return msg.channel.send(__("Category listing: {0}", __(category)), embed);
+				return msg.channel.send(__("Category listing: {0}", __(category.id)), embed);
 			}
 		} else {
 			// General command listing
