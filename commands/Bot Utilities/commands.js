@@ -80,7 +80,7 @@ module.exports = class CommandsCommand extends Command {
 				if (command.examples)										examples = command.examples;
 
 				if (examples)
-					embed.addField(__("Examples"), (typeof examples == 'string' ? `\`${examples}\`` : examples.map(example => "`" + example + "`").join("\n"))
+					embed.addField(__("Examples"), (typeof examples == 'string' ? `\`${examples}\`` : examples.map(example => "`" + example + "`").join("\n")))
 
 				embed.setImage(`${this.client.website.URL}/examples/${command.id}.png`);
 
