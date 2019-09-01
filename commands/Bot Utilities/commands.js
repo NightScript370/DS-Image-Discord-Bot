@@ -42,7 +42,7 @@ module.exports = class CommandsCommand extends Command {
 					embed.setDescription(description.join ? description.map(d => __(d)).join("\n") : __(description))
 				}
 
-				if (command.aliases.filter && command.aliases.filter(al => al !== command.id).length)
+				if (command.aliases && command.aliases.filter && command.aliases.filter(al => al !== command.id).length)
 					embed.addField(__("Aliases"), command.aliases.filter(al => al !== command.id).map(alias => `\`${alias}\``).join(", "))
 
 				if (command.category)
@@ -93,7 +93,7 @@ module.exports = class CommandsCommand extends Command {
 			if (!this.isGood(category))
 				return msg.util.send(__("Invalid command/category name. Please try again"));
 
-			let commands = cmds.filter ? cmds.filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id)) : cmds;
+			let commands = cmds && cmds.filter ? cmds.filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id)) : cmds;
 			let makeFields = commands.length < 20;
 
 			description = "";
