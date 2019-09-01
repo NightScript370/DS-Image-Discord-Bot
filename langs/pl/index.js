@@ -137,5 +137,6 @@ module.exports = {
   "{0} Users": "Liczba użytkowników: {0}",
   "{0} Channels": "Liczba kanałów: {0}",
   "{0} Servers": "Liczba serwerów: {0}",
-  "You are missing {0} to use that command.": "Wymagasz uprawnienia {0} żeby użyć tej komendy."
+  "You are missing {0} to use that command.": "Wymagasz uprawnienia {0} żeby użyć tej komendy.",
+  "I'm missing {0} to use that command.": "Potrzebuję {0}, żeby użyć tej komendy."
 }

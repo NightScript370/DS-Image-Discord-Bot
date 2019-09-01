@@ -53,23 +53,28 @@ global.lang.formatStringWithChoice = (script, k, ...repl) => {
 		i++
 	})
 
-	if (script) {
-		// inline scripting
-		let reg = /(?:(?<!\\)<)(.*)(?:(?<!\\)>)/gmi
-		let scripts = k.match(reg)
-		if (scripts) {
-			scripts.forEach(script => { // script => "<code>" (eg. "<1 == 1 ? 'a' : 'b'>")
-				try {
-					k = k.replace(script, eval(script.replace(/[<>]/gmi, "")))
-				} catch (e) {
-					console.log(script);
-					console.error(e);
-				}
-			})
-		}
+	try {
+		if (script) {
+			// inline scripting
+			let reg = /(?:(?<!\\)<)(.*)(?:(?<!\\)>)/gmi
+			let scripts = k.match(reg)
+			if (scripts) {
+				scripts.forEach(script => { // script => "<code>" (eg. "<1 == 1 ? 'a' : 'b'>")
+					try {
+						k = k.replace(script, eval(script.replace(/[<>]/gmi, "")))
+					} catch (e) {
+						console.log(script);
+						console.error(e);
+					}
+				})
+			}
 
-		// Revert the escaped < and >s to normal
-		k = k.replace(/\\([<>])/g, "$1")
+			// Revert the escaped < and >s to normal
+			k = k.replace(/\\([<>])/g, "$1")
+		}
+	} catch (err) {
+		console.error(err);
+		console.log(k)
 	}
 
 	return k;
