@@ -33,7 +33,8 @@ module.exports = class CommandsCommand extends Command {
 		let cmds = cats.map(cat => Array.from(cat.entries()).map(c => c[1])).flat();
 
 		if (this.isGood(commandName)) {
-			if (this.isGood(this.client.commandHandler.aliases.get(commandName))) {
+			let commandExists = this.client.commandHandler.aliases.get(commandName);
+			if (this.isGood(commandExists)) {
 				command = this.client.commandHandler.modules.get(commandExists);
 				if (command.description) {
 					description = command.description
