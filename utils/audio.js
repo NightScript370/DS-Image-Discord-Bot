@@ -41,7 +41,7 @@ module.exports = {
 
 				if (isGood(data.queue[0].related) && isGood(data.queue[0].related[0])) {
 					let related = data.queue[0].related[0];
-					embed.addField("Related", `**[${related.title}](https://www.youtube.com/watch?v=${related.id})** ` + __("by {0}", `[${related.author}](https://youtube.com/channel/${related.ucid})`);
+					embed.addField("Related", `**[${related.title}](https://www.youtube.com/watch?v=${related.id})** ` + __("by {0}", `[${related.author}](https://youtube.com/channel/${related.ucid})`));
 				}
 
 				try {
