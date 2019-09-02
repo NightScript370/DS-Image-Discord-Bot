@@ -10,6 +10,8 @@ const routes = require('./routes.js');
 const http = require('http');
 const { Strategy } = require("passport-discord");
 
+const helmet = require('helmet')
+
 module.exports = (client) => {
     let website = {};
     website.URL = config.url;
@@ -34,6 +36,7 @@ module.exports = (client) => {
     }));
 
     website.express = express()
+		.use(helmet())
         .use(bodyParser.json())
         .use(bodyParser.urlencoded({extended : true}))
         .engine("html", require("ejs").renderFile)
