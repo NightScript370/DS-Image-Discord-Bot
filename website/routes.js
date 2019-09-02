@@ -9,7 +9,7 @@ let parameters = async (req, client) => {
 }
 
 module.exports = (app, client) => app
-	.get("/", await (request, response) => {
+	.get("/", async (request, response) => {
 		let object = await parameters(request, client)
 		object.features = [
 			{
