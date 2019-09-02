@@ -93,7 +93,7 @@ module.exports = class CommandsCommand extends Command {
 				if (iconlist.filter(item => item === `${command.id}.png`).length)
 					embed.setThumbnail(`${this.client.website.URL}/icons/${command.id}.png`);
 
-				return msg.channel.send(command.id + (description ? ' **-** '(description.join ? description.map(d => __(d)).join("-") : __(description)) : ''), {embed});
+				return msg.channel.send(command.id + (description ? ' **-** ' + (description.join ? description.map(d => __(d)).join("-") : __(description)) : ''), {embed});
 			}
 
 			let category = this.client.commandHandler.categories.get(titleCase(__(commandName)))
