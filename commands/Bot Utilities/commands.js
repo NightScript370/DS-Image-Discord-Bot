@@ -25,6 +25,7 @@ module.exports = class CommandsCommand extends Command {
 		let embed = this.client.util.embed()
 
 		let description;
+		let command;
 
 		let categories = Array.from(this.client.commandHandler.categories.entries());
 		let cats = categories.map(arr => arr[1]).sort((c1, c2) => c1.id.localeCompare(c2.id));
@@ -32,8 +33,8 @@ module.exports = class CommandsCommand extends Command {
 		let cmds = cats.map(cat => Array.from(cat.entries()).map(c => c[1])).flat();
 
 		if (this.isGood(commandName)) {
-			let command = this.client.commandHandler.aliases.get(commandName);
-			if (this.isGood(command)) {
+			if (this.isGood(this.client.commandHandler.aliases.get(commandName))) {
+				command = this.client.modules.get(commandExists);
 				if (command.description) {
 					description = command.description
 					if (command.description.content)
@@ -83,7 +84,7 @@ module.exports = class CommandsCommand extends Command {
 
 				embed.setImage(`${this.client.website.URL}/examples/${command.id}.png`);
 
-				return msg.channel.send(__('Help for command "{0}"', command.id), {embed});
+				return msg.channel.send(__("{0} command", command.id), {embed});
 			}
 
 			let category = this.client.commandHandler.categories.get(titleCase(__(commandName)))
