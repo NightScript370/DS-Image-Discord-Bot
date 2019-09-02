@@ -147,6 +147,7 @@
 
 div#accordion div.card {
 	border-radius: 0;
+	background-color: inherit;
 }
 
 img.commandIcon {

@@ -21,8 +21,17 @@ a {
   color: #0a6dd6
 }
 
+.card-link:hover{
+  color: #FFFF;
+}
+
 .card-header {
-  background-color: #000000;
+  background-color: #7289DA;
+  color: #FFFF;
+}
+
+.card-header.collapsed {
+  background-color: #2C2F33;
   color: #FFFF;
 }
 
