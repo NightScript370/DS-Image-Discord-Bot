@@ -9,8 +9,8 @@ let parameters = async (req, client) => {
 }
 
 module.exports = (app, client) => app
-	.get("/", (request, response) => {
-		let object = parameters(request, client)
+	.get("/", await (request, response) => {
+		let object = await parameters(request, client)
 		object.features = [
 			{
 				icon: "level-up",
@@ -53,26 +53,26 @@ module.exports = (app, client) => app
 		await request.logout();
 		await response.redirect("/");
 	})
-	.get("/leaderboard", (request, response) => response.render("leaderboard", Object.assign(parameters(request, client), { url: request.originalUrl, id: undefined, user: (request.isAuthenticated() ? request.user.id : null) })))
-	.get("/leaderboard/:guildID", (request, response) => {
+	.get("/leaderboard", async (request, response) => response.render("leaderboard", Object.assign(await parameters(request, client), { url: request.originalUrl, id: undefined, user: (request.isAuthenticated() ? request.user.id : null) })))
+	.get("/leaderboard/:guildID", async (request, response) => {
 		let id = request.params.guildID;
 
 		if (!id || !client.guilds.has(id))
 			return response.redirect("/leaderboard");
 
-		response.render("leaderboard", Object.assign(parameters(request, client), { id }));
+		response.render("leaderboard", Object.assign(await parameters(request, client), { id }));
 	})
-	.get("/queue/:guildID", (request, response) => {
+	.get("/queue/:guildID", async (request, response) => {
 		let id = request.params.guildID;
 
 		if (!id || !client.guilds.has(id))
 			return response.status(404).render("pages/404");
 
-		response.render("queue", Object.assign(parameters(request, client), { id }));
+		response.render("queue", Object.assign(await parameters(request, client), { id }));
 	})
-	.get("/commands", (request, response) => response.render("commands", parameters(request, client)))
-	.get("/support", (request, response) => {
-		let object = parameters(request, client)
+	.get("/commands", async (request, response) => response.render("commands", await parameters(request, client)))
+	.get("/support", async (request, response) => {
+		let object = await parameters(request, client)
 		object.widgets = [
 			{
 				website: 'discordbotlist.com',
