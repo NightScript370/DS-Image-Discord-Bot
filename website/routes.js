@@ -1,10 +1,11 @@
 const passport = require("passport");
 const CheckAuth = require('./isAuth');
 let parameters = async (req, client) => {
-	return {
-		profile: (req.isAuthenticated() ? "/profile" : "/login"),
-		inviteBot: await client.generateInvite()
-	}
+	let extraparams = {}
+	extraparams.profile = (req.isAuthenticated() ? "/profile" : "/login");
+	extraparams.inviteBot = await client.generateInvite()
+
+	return extraparams;
 }
 
 module.exports = (app, client) => app
