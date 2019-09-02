@@ -45,7 +45,7 @@
     "utf-8-validate": "^5.0.2",
     "weather-js": "^2.0.0",
     "yt-search": "^0.4.1",
-    "ytdl-core-discord": "github:NightYoshi370/ytdl-core-discord#patch-2",
+    "ytdl-core-discord": "github:amishshah/ytdl-core-discord",
     "ytpl": "^0.1.15",
     "zlib-sync": "^0.1.5"
   },

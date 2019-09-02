@@ -20,7 +20,7 @@ module.exports = {
 				data.connection = msg.guild.voice.connection;
 		}
 
-		data.dispatcher = data.connection.play(await Youtube(data.queue[0].url), { type: 'opus', volume: false });
+		data.dispatcher = data.connection.play(await Youtube.download(data.queue[0].url), { type: 'opus', volume: false });
 		const start = Date.now();
 
 		data.dispatcher
@@ -40,15 +40,8 @@ module.exports = {
 					.setServerFooter(msg, true);
 
 				if (isGood(data.queue[0].related) && isGood(data.queue[0].related[0])) {
-					let related = `**[${data.queue[0].related[0].title}](https://www.youtube.com/watch?v=${data.queue[0].related[0].id})** `;
-					try {
-						let relinfo = await Youtube.getInfo(`https://www.youtube.com/watch?v=${data.queue[0].related[0].id}`);
-						related += __("by {0}", `[${data.queue[0].related[0].author}](${info.author.channel_url}`);
-					} catch (e) {
-						related += __("by {0}", data.queue[0].related[0].author);
-					}
-
-					embed.addField("Related", related);
+					let related = data.queue[0].related[0];
+					embed.addField("Related", `**[${related.title}](https://www.youtube.com/watch?v=${related.id})** ` + __("by {0}", `[${related.author}](https://youtube.com/channel/${related.ucid})`);
 				}
 
 				try {

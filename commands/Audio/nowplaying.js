@@ -43,13 +43,7 @@ module.exports = class NowPlayingCommand extends Command {
         		if(related.id) continue;
         		if(related.length > 1000) break;
 
-				let videoLink = `https://www.youtube.com/watch?v=${relatedvideo.id}`;
-				try {
-					videoInfo = await getInfo(videoLink);
-					relatedvidlist += `**[${relatedvideo.title}](${videoLink})** ${__("by {0}", `[${relatedvideo.author}](${info.author.channel_url})`)}\n`;
-				} catch (e) {
-					relatedvidlist += `**[${relatedvideo.title}](${videoLink})** ${__("by {0}", relatedvideo.author)}\n`
-				}
+				relatedvidlist += `**[${relatedvideo.title}](https://www.youtube.com/watch?v=${relatedvideo.id})** ${__("by {0}", `[${relatedvideo.author}](https://youtube.com/channel/${relatedvideo.ucid})`)}\n`;
 			}
 
 			relatedvidlist += "\n " + __("Type `{0}play related` to play a related video", await this.handler.prefix(message));
