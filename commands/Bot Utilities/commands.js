@@ -34,7 +34,7 @@ module.exports = class CommandsCommand extends Command {
 
 		if (this.isGood(commandName)) {
 			if (this.isGood(this.client.commandHandler.aliases.get(commandName))) {
-				command = this.client.modules.get(commandExists);
+				command = this.client.commandHandler.modules.get(commandExists);
 				if (command.description) {
 					description = command.description
 					if (command.description.content)
