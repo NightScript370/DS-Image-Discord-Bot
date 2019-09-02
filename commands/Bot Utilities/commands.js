@@ -1,5 +1,8 @@
 const Command = require('../../struct/Command');
 
+const fs = require('fs')
+const path = require('path')
+
 module.exports = class CommandsCommand extends Command {
 	constructor() {
 		super('commands', {
