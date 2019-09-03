@@ -3,7 +3,7 @@ module.exports = [
     code: "en",
     name: "English",
     flag: ":flag_us:",
-    translators: ["NightYoshi370#5597", "Samplasion#8526"]
+    translators: ["NightYoshi370#5597", "Samplasion#0325"]
   },
   {
     code: "fr",
@@ -15,7 +15,7 @@ module.exports = [
     code: "it",
     name: "Italiano (Italian)",
     flag: ":flag_it:",
-    translators: ["Samplasion#8526", "Miky88#3229"]
+    translators: ["Samplasion#0325", "Miky88#3229"]
   },
   {
     code: "pl",
