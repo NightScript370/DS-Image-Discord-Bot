@@ -19,7 +19,7 @@ module.exports = [
   },
   {
     code: "pl",
-    name: "Polski (**P**olish)",
+    name: "Polski (Polish)",
     flag: ":flag_pl:",
     translators: ["indepth6#3659"]
   }
