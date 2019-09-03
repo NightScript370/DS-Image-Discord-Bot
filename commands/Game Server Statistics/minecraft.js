@@ -22,8 +22,8 @@ module.exports = class MinecraftServerCommand extends Command {
 				},
 				{
 					id: 'API',
-					description: 'Due to the many different version of minecraft, some of them are incompatible with gamedig. Therefore, we have three options for APIs: minestat (for older versions), gamedig (default) and api.mcsrvstat.us',
-					type: ['minestat', 'gamedig', 'api.mcsrvstat.us'],
+					description: 'Due to the many different version of minecraft, some of them are incompatible with gamedig. Therefore, we have three options for APIs: minestat (for older versions), gamedig (default) and mcsrvstat.us (most compatible but slowest)',
+					type: ['minestat', 'gamedig', 'mcsrvstat.us'],
 					match: 'option',
 					flag: 'API:',
 					default: 'gamedig'
@@ -57,9 +57,6 @@ module.exports = class MinecraftServerCommand extends Command {
 
 				let result = await minestat(host, port);
 
-				MineEmbed
-					.setAuthor(`Minecraft Server Stats: ${result.address}:${result.port}`, `${this.client.website.URL}/icons/minecraft.png`);
-
 				if(result.online) {
 					MineEmbed
 						.setDescription(`:large_blue_circle: Server is online.`)
@@ -72,48 +69,43 @@ module.exports = class MinecraftServerCommand extends Command {
 					MineEmbed.setDescription(`:red_circle: Server is offline`);
 				}
 
-				message.channel.send({MineEmbed});
+				message.util.send(`Minecraft Server Stats: ${result.address}:${result.port}`, {embed: MineEmbed});
 				break;
 			case 'gamedig':
 				let { embed, data } = await this.gameDigServer('minecraft', fullIP, ping);
 				embed.setColor('GREEN')
 
-				let text = `Information on the "${data.name}" Minecraft (Java Edition) server`;
+				let text = `Information on the \`${fullIP}\` Minecraft (Java Edition) server`;
 				if (message.guild)
 					text += `, requested by ${message.member.displayName}`
 
 				message.util.send(text, {embed});
 				break;
-			case 'api.mcsrvstat.us':
+			case 'mcsrvstat.us':
 				const request = require("request");
 				const promiseRequest = promisify(request);
 
-				let { body, statusCode } = await promiseRequest({ url: 'https://api.mcsrvstat.us/2/'+encodeURIComponent(host), json: true })
+				let { body, statusCode } = await promiseRequest({ url: 'https://api.mcsrvstat.us/2/'+encodeURIComponent(host), json: true });
 				if (statusCode !== 200) {
 					console.error(`[ERROR][Minecraft Command][api.mcsrvstat.us] statusCode: ${statusCode}`)
 					return msg.reply('An error has occured replating to the API selected. Please try again with a different API, or contact the Yamamura developers');
 				}
 
-				if (this.isGood(body.hostname)) {
-					MineEmbed
-						.setAuthor(`Minecraft Server Stats: ${body.hostname}`, (this.isGood(body.icon) && body.icon.length < 2000) ? body.icon : `${this.client.website.URL}/icons/minecraft.png`)
-						.addInline(`Server IP`, '`'+fullIP+'`');
-				} else {
-					MineEmbed.setAuthor(`Minecraft Server Stats: ${fullIP}`, (this.isGood(body.icon) && body.icon.length < 2000) ? body.icon : `${this.client.website.URL}/icons/minecraft.png`);
-				}
+				if (body.hostname)
+					MineEmbed.addInline(`Server IP`, '`'+fullIP+'`');
 
-				if (this.isGood(body.motd))
+				if (body.motd)
 					MineEmbed.setDescription(body.motd.clean);
 
-				if (this.isGood(body.players)) {
+				if (body.players) {
 					let players = `${body.players.online}/${body.players.max}`;
-					if (!isEmpty(body.players.list)) {
+					if (this.isGood(body.players.list)) {
 						players += '```http\n'+body.players.list.join('\n')+'```';
 					}
 					MineEmbed.addField("Players", players);
 				}
 
-				message.channel.send({MineEmbed});
+				message.util.send(`Minecraft Server Stats: ${body.hostname ? body.hostname : fullIP}`, {embed: MineEmbed});
 				break;
 		}
 	}

@@ -23,7 +23,7 @@ module.exports = (client, member, moderator, reason=null, msg=null) => {
 
 	let hasRole = member.roles.has(mutedRole.id);
 	if (hasRole) {
-		member.roles.add(mutedRole, reason);
+		member.roles.remove(mutedRole, reason);
 		text = `${member.displayName}'s mute was removed`;
 
 		try {
@@ -33,7 +33,7 @@ module.exports = (client, member, moderator, reason=null, msg=null) => {
 			else			moderator.send("Couldn't send the unmute notif. Please notify him manually").catch();
 		}
 	} else {
-		member.roles.add(mutedRole);
+		member.roles.add(mutedRole, reason);
 		text = `:zipper_mouth: ${member.displayName} was muted`;
 
 		try {

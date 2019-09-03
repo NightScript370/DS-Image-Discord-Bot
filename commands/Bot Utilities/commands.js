@@ -1,5 +1,8 @@
 const Command = require('../../struct/Command');
 
+const fs = require('fs')
+const path = require('path')
+
 module.exports = class CommandsCommand extends Command {
 	constructor() {
 		super('commands', {
@@ -25,6 +28,7 @@ module.exports = class CommandsCommand extends Command {
 		let embed = this.client.util.embed()
 
 		let description;
+		let command;
 
 		let categories = Array.from(this.client.commandHandler.categories.entries());
 		let cats = categories.map(arr => arr[1]).sort((c1, c2) => c1.id.localeCompare(c2.id));
@@ -32,14 +36,13 @@ module.exports = class CommandsCommand extends Command {
 		let cmds = cats.map(cat => Array.from(cat.entries()).map(c => c[1])).flat();
 
 		if (this.isGood(commandName)) {
-			let command = this.client.commandHandler.aliases.get(commandName);
-			if (this.isGood(command)) {
+			let commandExists = this.client.commandHandler.aliases.get(commandName);
+			if (this.isGood(commandExists)) {
+				command = this.client.commandHandler.modules.get(commandExists);
 				if (command.description) {
 					description = command.description
 					if (command.description.content)
 						description = command.description.content;
-
-					embed.setDescription(description.join ? description.map(d => __(d)).join("\n") : __(description))
 				}
 
 				if (command.aliases && command.aliases.filter && command.aliases.filter(al => al !== command.id).length)
@@ -81,9 +84,16 @@ module.exports = class CommandsCommand extends Command {
 				if (examples)
 					embed.addField(__("Examples"), (typeof examples == 'string' ? `\`${examples}\`` : examples.map(example => "`" + example + "`").join("\n")))
 
-				embed.setImage(`${this.client.website.URL}/examples/${command.id}.png`);
+				let exmplist = fs.readdirSync(path.join(process.cwd(), 'website', 'public', 'examples'));
+				let iconlist = fs.readdirSync(path.join(process.cwd(), 'website', 'public', 'icons'));
 
-				return msg.channel.send(__('Help for command "{0}"', command.id), {embed});
+				if (exmplist.filter(item => item === `${command.id}.png`).length)
+					embed.setImage(`${this.client.website.URL}/examples/${command.id}.png`);
+
+				if (iconlist.filter(item => item === `${command.id}.png`).length)
+					embed.setThumbnail(`${this.client.website.URL}/icons/${command.id}.png`);
+
+				return msg.channel.send(command.id + (description ? ' **-** ' + (description.join ? description.map(d => __(d)).join("-") : __(description)) : ''), {embed});
 			}
 
 			let category = this.client.commandHandler.categories.get(titleCase(__(commandName)))
