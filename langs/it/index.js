@@ -2,7 +2,6 @@ module.exports = {
     "No description available.": "Nessuna descrizione",
     "Total Commands: {0}": "Comandi disponibili: {0}",
     "There are not enough arguments to this command. The minimum is {0}.": "Non ci sono abbastanza argomenti per questo comando. Il minimo è {0}.",
-    "The language has been changed to {0} **{1}**.": "La lingua è stata cambiata in {0} **{1}**.",
     "Format": "Formato",
     "Dimentions": "Dimensioni",
     "Width": "Larghezza",
@@ -10,7 +9,6 @@ module.exports = {
     "{0} pixels": "{0} pixel",
     "I couldn't find the requested information.": "Non ho potuto trovare le informazioni richieste.",
     "Author": "Autore",
-    "by {0}": "di {0}",
     "commander of this package decided to unpublish it.": "l'autore del pacchetto ha deciso di annullarne la pubblicazione.",
     "Image information requested by {0}": "Informazioni sull'immagine richieste da {0}",
     "Choose a number between 1-{0} (in 1 minute, the command will be canceled)": "Scegli un numero tra 1 e {0} (in un minuto il comando verrà annullato)",
@@ -130,9 +128,14 @@ module.exports = {
 	"**NEXT**: [{0}]({1}) | Requested by {2}": "**PROSSIMO**: [{0}]({1}) | Richiesto da {2}",
 	"{0} Users": "{0} Utenti",
 	"{0} Channels": "{0} Canali",
-	"{0} Servers": "{0} Servers",
-    "": "",
-    "": "",
+    "{0} Servers": "{0} Servers",
+    
+    // Lang command
+    "The language has been changed to {0} **{1}**.": "La lingua è stata cambiata in {0} **{1}**.",
+    "Which language would you like to set? \n Here is a list of the available languages:": "Che lingua vorresti impostare? \n Ecco una lista di lingue disponibili:",
+    "That is an invalid language. Here are the available languages:": "Quella non è una lingua valida. Ecco le lingue disponibili:",
+    "by {0}": "di {0}",
+    
     "": "",
     "": "",
     "": "",
