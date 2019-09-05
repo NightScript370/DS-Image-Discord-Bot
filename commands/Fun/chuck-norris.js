@@ -42,6 +42,6 @@ module.exports = class ChuckNorrisCommand extends Command {
 			});
 
 		if (message.channel.sendable)
-    		return msg.util.send(body.value.joke);
+    		return message.util.send(body.value.joke);
 	}
 };
