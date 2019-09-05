@@ -35,7 +35,7 @@ module.exports = class BrainsCommand extends Command {
     let endimage;
     let loadimage;
 
-    if (items.length < 2) return message.channel.send(global.getString("en", "There are not enough arguments to this command. The minimum is {0}.", 2));
+    if (items.length < 2) return message.channel.send(global.getString(message.author.lang, "There are not enough arguments to this command. The minimum is {0}.", 2));
     if (items.length > 11) items.length = 11;
 
     let base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'brain-template.png'));
@@ -65,7 +65,7 @@ module.exports = class BrainsCommand extends Command {
       }
 
       try {
-        if (fileTypeRe.test(items[index].split(/[#?]/gmi)[0])) {
+        if (!!items[index] && fileTypeRe.test(items[index].split(/[#?]/gmi)[0])) {
           loadimage = await loadImage(items[index])
           ctx.drawImage(loadImage, 0, y[index], 300, endimage)
         } else {
