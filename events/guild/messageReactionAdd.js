@@ -78,7 +78,6 @@ module.exports = class messageReactionAddListener extends Listener {
 				if(!isEmpty(message.content)) embed.setDescription(message.content);
 				if(!isEmpty(image))	embed.setImage(image);
 
-				/* TODO: Check if the bot can send messages in the server */
 				starChannel.send({ embed });
 			}
 		}

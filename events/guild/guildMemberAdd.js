@@ -50,9 +50,9 @@ Don't forget to subscribe to our Youtube channel and check out our website. `)
 						.setFooter(`Please read #welcome-and-news before participating`)
 						.setThumbnail(member.guild.iconURL({format: 'png'}));
 
-          await chnl.send({embed});
+					await chnl.send({embed});
 				} else {
-          await this.sendWelcomeChannel(chnl, member);
+					await this.sendWelcomeChannel(chnl, member);
 				}
 			}
 		}
@@ -62,30 +62,25 @@ Don't forget to subscribe to our Youtube channel and check out our website. `)
 			logchannel.send({embed: logembed});
 	}
 
-  sendWelcomeChannel(channel, member) {
-    Array.prototype.random = function() {
-      return this[Math.floor(Math.random() * this.length)];
-    };
+	sendWelcomeChannel(channel, member) {
+		Array.prototype.random = function() {
+			return this[Math.floor(Math.random() * this.length)];
+		};
 
-    let rawWelcomeMessage = this.client.db.serverconfig.get(this.client, member, "welcomemessage")
-    if (!rawWelcomeMessage) return;
-    if (typeof rawWelcomeMessage !== 'string')
-      rawWelcomeMessage = rawWelcomeMessage.random()
+		let rawWelcomeMessage = this.client.db.serverconfig.get(this.client, member, "welcomemessage")
+		if (!rawWelcomeMessage) return;
+		if (typeof rawWelcomeMessage !== 'string')
+			rawWelcomeMessage = rawWelcomeMessage.random()
 
-    let parsedWelcomeMessage = rawWelcomeMessage
-      .split("{{guild}}").join(member.guild.name)
-      .split("{{server}}").join(member.guild.name)
-      .split("{{user}}").join(member.user.username)
-      .split("{{member}}").join(member.user.username)
-      .split("{{name}}").join(member.user.username)
-      .split("{{username}}").join(member.user.username)
-      .split("{{membername}}").join(member.user.username)
-      .split("{{memberping}}").join(`<@${member.user.id}>`)
-      .split("{{userping}}").join(`<@${member.user.id}>`)
+		let parsedWelcomeMessage = rawWelcomeMessage
+			.replaceAll("{{server}}", member.guild.name)
+			.replaceAll("{{user}}", member.user.username)
+			.replaceAll("{{ping}}" `<@${member.user.id}>`)
+			.replaceAll("{{servercount}}", member.guild.memberCount)
 
-    if (parsedWelcomeMessage) {
-      console.log(`Sent a welcome message for ${member.user.username} (#${member.user.id}) in ${member.guild.name} (${member.guild.id}): ${parsedWelcomeMessage}`)
-      channel.send(parsedWelcomeMessage);
-    }
-  }
+		if (parsedWelcomeMessage) {
+			console.log(`Sent a welcome message for ${member.user.username} (#${member.user.id}) in ${member.guild.name} (${member.guild.id}): ${parsedWelcomeMessage}`)
+			channel.send(parsedWelcomeMessage);
+		}
+	}
 }

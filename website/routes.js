@@ -1,16 +1,14 @@
 const passport = require("passport");
 const CheckAuth = require('./isAuth');
-let parameters = async (req, client) => {
-	let extraparams = {}
-	extraparams.profile = (req.isAuthenticated() ? "/profile" : "/login");
-	extraparams.inviteBot = await client.generateInvite()
-
-	return extraparams;
+let parameters = (req) => {
+	return {
+		profile: (req.isAuthenticated() ? "/profile" : "/login")
+	}
 }
 
 module.exports = (app, client) => app
-	.get("/", async (request, response) => {
-		let object = await parameters(request, client)
+	.get("/", (request, response) => {
+		let object = parameters(request)
 		object.features = [
 			{
 				icon: "level-up",
@@ -53,26 +51,26 @@ module.exports = (app, client) => app
 		await request.logout();
 		await response.redirect("/");
 	})
-	.get("/leaderboard", async (request, response) => response.render("leaderboard", Object.assign(await parameters(request, client), { url: request.originalUrl, id: undefined, user: (request.isAuthenticated() ? request.user.id : null) })))
-	.get("/leaderboard/:guildID", async (request, response) => {
+	.get("/leaderboard", (request, response) => response.render("leaderboard", Object.assign(parameters(request), { url: request.originalUrl, id: undefined, user: (request.isAuthenticated() ? request.user.id : null) })))
+	.get("/leaderboard/:guildID", (request, response) => {
 		let id = request.params.guildID;
 
 		if (!id || !client.guilds.has(id))
 			return response.redirect("/leaderboard");
 
-		response.render("leaderboard", Object.assign(await parameters(request, client), { id }));
+		response.render("leaderboard", Object.assign(parameters(request), { id }));
 	})
-	.get("/queue/:guildID", async (request, response) => {
+	.get("/queue/:guildID", (request, response) => {
 		let id = request.params.guildID;
 
 		if (!id || !client.guilds.has(id))
 			return response.status(404).render("pages/404");
 
-		response.render("queue", Object.assign(await parameters(request, client), { id }));
+		response.render("queue", Object.assign(parameters(request), { id }));
 	})
-	.get("/commands", async (request, response) => response.render("commands", await parameters(request, client)))
-	.get("/support", async (request, response) => {
-		let object = await parameters(request, client)
+	.get("/commands", (request, response) => response.render("commands", parameters(request)))
+	.get("/support", (request, response) => {
+		let object = parameters(request)
 		object.widgets = [
 			{
 				website: 'discordbotlist.com',

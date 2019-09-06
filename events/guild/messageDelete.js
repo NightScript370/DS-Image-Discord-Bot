@@ -45,14 +45,14 @@ module.exports = class MessageDeleteListener extends Listener {
 			}
 
 			messageDeleteEmbed
-				.addInline(":bookmark_tabs: Channel", `${message.channel.name} (#${message.channel.id})`)
+				.addInline(":bookmark_tabs: Channel", `<#${message.channel.id}> (${message.channel.name}) \n#${message.channel.id}`)
 				.addInline(":id: Message ID", message.id);
 
-			const attachment = message.attachments.size > 0 && extention(message.attachments.first()) ? message.attachments.first().proxyURL : '';
+			const attachment = message.attachments.size > 0 && extension(message.attachments.first()) ? message.attachments.first().proxyURL : '';
 			if(!isEmpty(attachment))
 				messageDeleteEmbed
 					.attachFiles([attachment])
-					.setImage(fileName(attachment));
+					.setImage('attachment://'+fileName(attachment));
 
 			messageDeleteEmbed
 				.setFooter(`${message.author.tag} (#${message.author.id})`, message.author.displayAvatarURL({format: 'png'}))
