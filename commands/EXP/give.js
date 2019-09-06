@@ -48,7 +48,7 @@ module.exports = class ServerPointsCommand extends Command {
 				},
 				{
 					id: 'action',
-					description
+					description: "This is the action you will perform for the user. It can be either adding, setting or removing",
 					match: 'option',
 					flag: 'action:',
 					type: ["set", "add", "remove"],
