@@ -27,7 +27,7 @@ module.exports = class HackingGuidesCommand extends Command {
 					description: `List the specific homebrew you would like to view information on.<br>Supported Homebrew: ${filtered.join(', ')}`,
 					type: supported,
 					prompt: {
-						start: `What's the Nintendo DS Homebrew you'd like to see?\nSupported Homebrew: ${filtered.join(', ')}`;
+						start: `What's the Nintendo DS Homebrew you'd like to see?\nSupported Homebrew: ${filtered.join(', ')}`,
 						retry: "There is not a thing we can get information for. Try again."
 					},
 					match: 'content'
