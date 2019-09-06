@@ -21,6 +21,9 @@ module.exports = class guildMemberUpdateListener extends Listener {
 			.setTimestamp(new Date());
 
 		if (oldMember.nickname !== newMember.nickname) {
+			if (newMember.nickname == newMember.guild.memberCount && oldMember.nickname == oldMember.guild.memberCount)
+				return;
+
 			if (newMember.guild.me.hasPermission('VIEW_AUDIT_LOG')) {
 				try {
 					const entry = await newMember.guild.fetchAuditLogs({type: 'MEMBER_UPDATE'}).then(audit => audit.entries.first());
@@ -86,7 +89,7 @@ module.exports = class guildMemberUpdateListener extends Listener {
 		}
 		return arr;
 	}
-} 
+}
 
 function isEmpty(value) { //Function to check if value is really empty or not
 	return (value == null || value.length === 0);

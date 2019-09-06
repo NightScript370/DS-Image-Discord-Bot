@@ -1,72 +1,51 @@
 <!DOCTYPE html>
 <html>
-  <% var subtitle = "Home" %>
-  <% include ../parts/head %>
-  <!-- Start content -->
+	<% var subtitle = "Leaderboard" %>
+	<% include ../parts/head %>
+	<!-- Start content -->
 
-  <% if (!!id) { 
-      var guild = client.guilds.get(id)
+	<%
+		let guild = client.guilds.get(id);
 
-      var arr = client.db.points.data.filter(p => p.guild === id);
-      var filtered = [];
-      for (let user of arr) {
-        if (!filtered.map(e => e.member).includes(user.member)) filtered.push(user);
-      }
-      var top = filtered.sort((a, b) => b.points - a.points);
+		let data = client.db.points.filter({guild: id});
+			.sort((a, b) => b.points - a.points)
+			.reduce((acc, current) => {
+				const x = acc.find(item => item.id === current.id);
+				if (!x) {
+					return acc.concat([current]);
+				} else {
+					return acc;
+				}
+			}, []);
 
-      var columns = 4;
-      var colValue = ~~(12 / columns);
+		let columns = 4;
+		let colValue = ~~(12 / columns);
+		let member;
     %>
 
-    <div class="container grid-member-container" style="margin-top: 20px;">
-      <div class="row">
-        <% let i = 1; %>
-        <% for (const leader of top) { %>
-          <div class="col-md-<%=colValue%>" style="margin-bottom: 20px;">
-            <% if(!guild.members.has(leader.member)) continue; %>
-            <% var user = guild.members.get(leader.member) %>
-            <table class="table table-bordered table-striped" style="margin: auto; padding: 20px;">
-              <tr><th>
-                <img src="<%= user.user.displayAvatarURL({size: 256}) %>" class="commandIcon" />
-                <%= i %>. <%= user.displayName %><span class="font-weight-light">#<%= user.user.discriminator %></span>
-              </th></tr>
-              <tr><td>
-                <b>Points:</b> <%= leader.points %><br>
-                <b>Level:</b> <%= leader.level %>
-              </td></tr>
-            </table>
-          </div>
-          <% i++; %>
-        <% } %>
-      </div>
-    </div>
+	<div class="container grid-member-container" style="margin-top: 20px;">
+		<div class="row">
+			<% let i = 1; %>
+			<% for (const row of data) { %>
+				<div class="col-md-<%=colValue%>" style="margin-bottom: 20px;">
+					<% if (!guild.members.has(row.member)) continue; %>
+					<% member = guild.members.get(row.member) %>
+					<table class="table table-bordered table-striped" style="margin: auto; padding: 20px;">
+						<tr><th>
+							<img src="<%= member.user.displayAvatarURL({size: 256}) %>" class="commandIcon" />
+							<%= i %>. <%= member.displayName %><span class="font-weight-light">#<%= member.user.discriminator %></span>
+						</th></tr>
+						<tr><td>
+							<b>Points:</b> <%= row.points %><br>
+							<b>Level:</b> <%= row.level %>
+						</td></tr>
+					</table>
+				</div>
+				<% i++; %>
+			<% } %>
+		</div>
+	</div>
 
-  <% } else { %> <!-- if there's no ID -->
-    <div class="container">
-      <% const data = getParams(url.split("?")[1])
-      if (!data)
-        data = {};
-
-      if (user)
-        data.userID = user;
-
-      if (data.userID) {
-        const user = client.users.get(data.userID);
-        if (user) { %> <!-- if user in bot's server -->
-          Hey, <%= user.username %>!<br>
-          <% client.guilds.forEach(guild => {
-            if (!guild.members.has(user)) continue;%>
-            <a href="/leaderboard/<%= guild.id %>">Leaderboard for <%= guild.name %></a><br>
-          <% }) %>
-        <% } else { %> <!-- if user in bot's server's else -->
-          You are not in any of my servers.
-        <% } %>
-      <% } else { %> <!-- if user id provided's else -->
-        <a href="/login">Login through Discord</a>
-      <% } %>
-    </div>
-  <% } %>
-
-  <!-- End content -->
-  <% include ../parts/footer %>
+	<!-- End content -->
+	<% include ../parts/footer %>
 </html>
