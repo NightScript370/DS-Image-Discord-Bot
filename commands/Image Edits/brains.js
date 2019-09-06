@@ -52,7 +52,7 @@ module.exports = class BrainsCommand extends Command {
 		ctx.drawImage(base, 0, 0, base.width, base.height);
 
 		let item;
-		for (let index of items) {
+		for (let index in items) {
 			if (isNaN(index)) continue;
 			if (index == 10) {
 				// This is the last image, so use all of the remaining height
