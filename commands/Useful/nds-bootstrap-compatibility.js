@@ -16,7 +16,7 @@ module.exports = class NDSBCompatCommand extends Command {
 			},
 			args: [
 				{
-					id: 'rom',
+					id: 'body',
 					description: "State either the game ID or the game title (with its region at the end) in order to find out if its compatible",
 					type: async (message, gametitle) => {
 						if (!gametitle)
@@ -48,22 +48,22 @@ module.exports = class NDSBCompatCommand extends Command {
 		});
 	}
 
-	async exec(msg, { rom, flashcard }) {
+	async exec(msg, { body, flashcard }) {
 		let infoEmbed = this.client.util.embed();
 
-		if (rom === 'fail')
+		if (body === 'fail')
 			return msg.channel.send("The website is not available. Please try again at a different point in time");
 
-		if (!rom['nds-bootstrap'])
+		if (!body['nds-bootstrap'])
 			return msg.channel.send('This Nintendo-DS title does not have any nds-bootstrap compatibility information. Please try again');
 
-		if (rom.title)
-			infoEmbed.setTitle(rom.title);
+		if (body.title)
+			infoEmbed.setTitle(body.title);
 
-		if (rom.cardID)
+		if (body.cardID)
 			infoEmbed.setThumbnail(`https://art.gametdb.com/ds/coverS/US/${body.cardID}.png`);
 
-		let { embed, text } = this.getCompat(flashcard ? rom['nds-bootstrap'].flashcard : body['nds-bootstrap']['sd-card'], infoEmbed, body)
+		let { embed, text } = this.getCompat(flashcard ? body['nds-bootstrap'].flashcard : body['nds-bootstrap']['sd-card'], infoEmbed, body)
 
 		if (msg.channel.sendable) {
 			if (text)
