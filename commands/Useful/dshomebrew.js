@@ -5,7 +5,7 @@ let filtered = [];
 for (const entry of supported) {
 	if (Array.isArray(entry)) {
 		filtered.push(entry[0]);
-		break;
+		continue;
 	}
 
 	filtered.push(entry);
@@ -50,7 +50,7 @@ module.exports = class HackingGuidesCommand extends Command {
 												  + '• Sega Game Gear/Master System titles (`.gg` & `.sms`) via S8DS \n'
 												  + '• NES/Famicom titles (`.nes`) via nesDS \n'
 												  + '• Super NES/Famicom titles (`.sfc` & `.smc`) via SNEmulDS \n'
-												  + '• Sega Genesis titles (`.gen`) via SNEmulDS \n'
+												  + '• Sega Genesis titles (`.gen`) via jEnesisDS \n'
 												  + '• (Super) Gameboy (Color) Titles (`.gb` & `.gbc`) via GameYob \n'
 												  + '• Gameboy Advanced Titles (`.gba`) via GBARunner2\n'
 												  + '• DSTWO plugins (requires you to have a DSTWO)\n'
@@ -102,7 +102,7 @@ module.exports = class HackingGuidesCommand extends Command {
 					.setImage('http://lolsnes.kuribo64.net/img/lolsnes/lolsnes_release.png')
 					.setFooter('Made by Arisotura', 'http://kuribo64.net/board/userpic/1_1533043859.png')
 				break;
-			case 'nesDS':
+			case 'nesds':
 				text = '**nesDS** is an open-source Nintendo Enterntainment System (NES for short) emulator for a Nintendo DS flashcard or a DSi/3DS SD card.';
 
 				embed
