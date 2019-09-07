@@ -54,7 +54,7 @@ module.exports = class NintendoWiiUCommand extends Command {
 		});
 	}
 
-	async exec(msg, { images, nintendonetwork, rating, padding, forcestretch, pattern }) {
+	async exec(messahe, { images, nintendonetwork, rating, padding, forcestretch, pattern }) {
 		let boxrating, BG, currentimage;
 
 		if (!this.isGood(images))
@@ -161,8 +161,8 @@ module.exports = class NintendoWiiUCommand extends Command {
     ctx.drawImage(base, 0, 0, base.width, base.height);
 
     const attachment = canvas.toBuffer();
-    if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-		return msg.util.send({ files: [{ attachment: attachment, name: 'Nintendo-WiiU.png' }] });
+    if (Buffer.byteLength(attachment) > 8e+6) return message.reply('Resulting image was above 8 MB.');
+		return message.util.send({ files: [{ attachment: attachment, name: 'Nintendo-WiiU.png' }] });
 	}
 };
 
