@@ -54,7 +54,7 @@ module.exports = class NintendoWiiUCommand extends Command {
 		});
 	}
 
-	async exec(messahe, { images, nintendonetwork, rating, padding, forcestretch, pattern }) {
+	async exec(message, { images, nintendonetwork, rating, padding, forcestretch, pattern }) {
 		let boxrating, BG, currentimage;
 
 		if (!this.isGood(images))
