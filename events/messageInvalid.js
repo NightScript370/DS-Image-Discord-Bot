@@ -52,7 +52,7 @@ module.exports = class messageInavlidListener extends Listener {
 
 			distances.push({
 				alias: alias,
-				command: message.util.handler.modules.find(c => c.aliases.includes(alias)).id,
+				command: message.util.handler.modules.find(c => c.aliases.includes(alias)),
 				distance: distancebetween
 			});
 		}
@@ -62,7 +62,7 @@ module.exports = class messageInavlidListener extends Listener {
 
 		if (distances.length) {
 			distances.sort((a, b) => a.dist - b.dist);
-			removeDuplicates(distances, 'command');
+			removeDuplicates(distances, 'command.id');
 
 			let currentcmd;
 			let description;
@@ -78,7 +78,7 @@ module.exports = class messageInavlidListener extends Listener {
 						description = currentcmd.description.content;
 				}
 
-				suggestedCmds.push(`\`${parseInt(index)+1}.\` **${distances[index].alias}:** ${description ? (description.join ? description.map(d => __(d)).join(" - ") : __(description)) : ''}`);
+				suggestedCmds.push(`\`${parseInt(index)+1}.\` **${distances[index].alias} ${description ? ':** ' + (description.join ? description.map(d => __(d)).join(" - ") : __(description)) : '**'}`);
 			}
 		}
 
