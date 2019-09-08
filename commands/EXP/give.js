@@ -112,7 +112,7 @@ module.exports = class ServerPointsCommand extends Command {
 
 		DBuser.level = Math.floor(DBuser.points / 350);
 
-		let BotThanks = `thank you so much for donating ${amount} points to ${user.tag}. He's now at level ${DBuser.level}.`;
+		let BotThanks = `thank you so much for donating ${amount} points to ${user.tag}. They are now at level ${DBuser.level}.`;
 		if (!authorGuildMember.permissions.has('MANAGE_MESSAGES'))
 			BotThanks += `\n Unfortunately, that also means you're now down to ${DBAuthor.points} points, and are now at level ${DBAuthor.level}`;
 
