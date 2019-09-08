@@ -10,19 +10,34 @@ module.exports = class messageUpdateListener extends Listener {
 	}
 
 	async exec(oldMessage, newMessage) {
-		if (!oldMessage) return;
 		if (newMessage.partial) newMessage = await newMessage.fetch();
-
+		if (newMessage.author.partial) newMessage.author = await newMessage.author.fetch();
 		if (!newMessage.guild) return;
-		if (newMessage.author.bot) return;
 
-		let logs;
+		this.removePoints(newMessage);
+		this.log(oldMessage, newMessage);
+	}
 
-		try {
-			logs = this.client.db.serverconfig.get(this.client, newMessage, "logchan")
-		} catch(e) {
-			console.error(e)
-		}
+	async removePoints(message) {
+		const inhibitor = require("../../point-inhibit");
+		if (inhibitor.inhibite(message)) return;
+
+		let channelmultiplier = this.client.db.multiply.findOne({guild: message.guild.id, channel: message.channel.id}) || this.client.db.multiply.insert({channel: message.channel.id, guild: message.guild.id, multiply: 1 });
+		let pointstoadd = random(3) * channelmultiplier.multiply;
+
+		let user = this.client.db.points.findOne({guild: message.guild.id, member: message.author.id});
+		if (!user)
+			return this.client.db.points.insert({guild: message.guild.id, member: message.author.id, points: pointstoadd, level: 0});
+
+		user.points = user.points - pointstoadd;
+		user.level = Math.floor(user.points / 350);
+
+		this.client.db.points.update(user);
+	}
+
+	async log(oldMessage, newMessage) {
+		if (!oldMessage) return;
+		let logs = this.client.db.serverconfig.get(this.client, newMessage, "logchan")
 
 		if (!logs) return;
 		if (!logs.sendable || !logs.embedable) return;

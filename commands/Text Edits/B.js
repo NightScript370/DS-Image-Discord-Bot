@@ -18,11 +18,13 @@ module.exports = class OwoCommand extends Command {
 	}
 
 	exec(message, { toB }) {
-		if (!toB || (toB && (!toB.includes('b') || !toB.includes('B'))))
+		if (!toB)
+			toB = global.getString(message.author.lang, "There were no text to Bify");
+
+		if (!toB.includes('b') || !toB.includes('B'))
 			return message.util.send(global.getString(message.author.lang, 'There was no Bs found in the text'));
 
-		let author = message.guild ? message.member.displayName : message.author.username;
 		let text = toB.replace(/b/gi, "🅱").replace(/B/gi, "🅱")
-		message.util.send(author + ` says: ` + text);
+		message.util.send(text);
 	}
 };

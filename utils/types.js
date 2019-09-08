@@ -61,8 +61,9 @@ const imageType = async (message, argument, attachmentcheck, historycheck) => {
 
 		if (isGood(testedArgs)) {
 			return testedArgs;
-		} else if (user && isGood(user.displayAvatarURL({format: 'png'}))) {
-			return [ user.displayAvatarURL({ format: 'png', size: 512 }) ];
+		} else {
+			if (user)
+				return [ user.displayAvatarURL({ format: 'png', size: 512 }) ];
 		}
 	}
 
@@ -94,7 +95,12 @@ const userSearch = (message, term) => {
 			if (exactMembers.size > 0)
 				members = exactMembers;
 
-			let guildMember = members.first();
+			let guildMember;
+			//if (guildMember.size == 1)
+				guildMember = members.first();
+			//else
+				//
+
 			return guildMember.user;
 		}
 	}

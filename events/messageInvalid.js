@@ -12,140 +12,148 @@ module.exports = class messageInavlidListener extends Listener {
     }
 
 	async exec(message) {
-        if (message.util.parsed.alias && message.channel.sendable) {
-            const distances = [];
-            const attempt = message.util.parsed.alias;
-            if (!!message.util.handler.modules.filter(c => c.aliases.includes(attempt)).size) return;
+		if (this.invalidMessage) return;
 
-            if (message.util.parsed.prefix !== `<@${this.client.user.id}>` && message.guild) {
-                let guildBots = message.guild.members.filter(member => member.user.bot)
-                if (guildBots.size) {
-                    const wait = require('util').promisify(setTimeout);
-                    await wait(1700);
+		if (!message.guild) return;
+		if (this.antispam(message)) return;
+	}
 
-                    let messages = await message.channel.messages.fetch({ limit: 50 });
-                    messages = await messages.filter(channelMessage => channelMessage .author.bot); 
-                    messages = await messages.filter(channelMessage => message.author.id !== this.client.user.id); 
-                    messages = await messages.filter(channelMessage => channelMessage.createdAt >= Date.now() - 1700); 
+	async invalidMessage(message) {
+		if (!message.util.parsed.alias) return false;
+		if (!message.channel.sendable) return false;
 
-                    if (messages.size)
-                        return;
-                }
-            }
+		const attempt = message.util.parsed.alias;
+		if (Array.from(msg.util.handler.aliases.keys()).includes('nop')) return true;
 
-            let categories = Array.from(this.client.commandHandler.categories.entries());
-            let catNames = categories.map(arr => arr[0]);
-            let cats = categories.map(arr => arr[1]).sort((c1, c2) => c1.id.localeCompare(c2.id));
+		if (message.util.parsed.prefix !== `<@${this.client.user.id}>` && message.guild) {
+			let guildBots = message.guild.members.filter(member => member.user.bot)
+			if (guildBots.size) {
+				const wait = require('util').promisify(setTimeout);
+				await wait(1700);
 
-            let cmds = cats.map(cat => Array.from(cat.entries()).map(c => c[1])).flat();
+				let messages = await message.channel.messages.fetch({ limit: 50 });
+					.filter(channelMessage => channelMessage.author.bot)
+					.filter(channelMessage => message.author.id !== this.client.user.id)
+					.filter(channelMessage => channelMessage.createdAt >= Date.now() - 1700)
 
-            let distancebetween;
-            for (const alias of message.util.handler.aliases.keys()) {
-                distancebetween = levenshtein.get(alias, attempt);
-                if (distancebetween > 2) continue;
+				if (messages.size)
+					return true;
+			}
+		}
 
-                let cmd = message.util.handler.modules.filter(c => c.aliases.includes(alias))[0]
-                let newDist = {
-                    dist: distancebetween,
-                    alias,
-                };
+		let distances = [];
+		let distancebetween;
+		let potential;
+		for (const alias of message.util.handler.aliases.keys()) {
+			distancebetween = levenshtein.get(alias, attempt);
+			if (distancebetween > 2) continue;
 
-                if (cmd) newDist.cmd = cmd;
+			distances.push({
+				alias: alias,
+				command: message.util.handler.modules.find(c => c.aliases.includes(alias)).id,
+				distance: distancebetween
+			});
+		}
 
-                distances.push(newDist);
-            }
+		let text = `Hey ${message.guild ? message.member.displayName : message.author.username}, ${attempt} is not a command. \n `;
+		let suggestedCmds = [];
 
-            let text = `Hey ${message.guild ? message.member.displayName : message.author.username}, ${attempt} is not a command. \n `;
-            let suggestedCmds = [];
+		if (distances.length) {
+			distances.sort((a, b) => a.dist - b.dist);
+			removeDuplicates(distances, 'command');
 
-            if (distances.length) {
-                distances.sort((a, b) => a.dist - b.dist);
+			let currentcmd;
+			let description;
 
-                let currentcmd;
-                let description;
+			for (const index in distances) {
+				currentcmd = distances[index].command;
+				if (!currentcmd) continue;
 
-                for (const index in distances) {
-                    var analyzedcmd = distances[index].cmd;
-                    if (!analyzedcmd) continue;
+				description = false;
+				if (currentcmd.description) {
+					description = currentcmd.description
+					if (currentcmd.description.content)
+						description = currentcmd.description.content;
+				}
 
-                    // if (currentcmd && currentcmd.id == message.util.handler.aliases.get(distances[index].alias)) continue;
-                    currentcmd = analyzedcmd;
+				suggestedCmds.push(`\`${parseInt(index)+1}.\` **${distances[index].alias}:** ${description ? (description.join ? description.map(d => __(d)).join(" - ") : __(description)) : ''}`);
+			}
+		}
 
-                    if (currentcmd.description) {
-                        description = currentcmd.description;
-                        if (currentcmd.description.content)
-                            description = currentcmd.description.content;
+		try {
+			let invalidCommandMessage = await message.channel.send(text + (suggestedCmds.length ? `However, here are some commands that you might be looking for \n \n${suggestedCmds.join("\n")}\n` : "") + "If you'd like to see more commands, check out the commands command or the page on our website");
+			invalidCommandMessage.delete({timeout: suggestedCmds.length ? 12000 : 5000})
+		} catch (e) {
+			console.error(e);
+		}
 
-                        if (description.join)
-                            description = description.join("-");
-                    }
-                    suggestedCmds.push(`\`${parseInt(index)+1}.\` **${distances[index].alias}** ${description ? `- ${description}` : ''}`);
-                }
-            }
+		return true;
+	}
 
-            try {
-                let invalidCommandMessage = await message.channel.send(text + (suggestedCmds.length ? `However, here are some commands that you might be looking for \n \n${suggestedCmds.join("\n")}\n` : "") + "If you'd like to see more commands, check out the commands command or the page on our website");
-                invalidCommandMessage.delete({timeout: suggestedCmds.length ? 12000 : 5000})
-            } catch (e) {
-                console.error(e);
-            }
-	    }
-
-        if (!message.guild) return;
-        if (this.antispam(message)) return;
-
+	async handlePoints(message) {
 		const inhibitor = require("../point-inhibit");
 		if (inhibitor.inhibite(message)) return;
 
-        let channelmultiplier = this.client.db.multiply.findOne({guild: message.guild.id, channel: message.channel.id}) || this.client.db.multiply.insert({channel: message.channel.id, guild: message.guild.id, multiply: 1 });
+		let channelmultiplier = this.client.db.multiply.findOne({guild: message.guild.id, channel: message.channel.id}) || this.client.db.multiply.insert({channel: message.channel.id, guild: message.guild.id, multiply: 1 });
 		let pointstoadd = random(3) * channelmultiplier.multiply;
 
-        let user = this.client.db.points.findOne({guild: message.guild.id, member: message.author.id});
-        if (user) {
-            user.points = pointstoadd + user.points;
+		let user = this.client.db.points.findOne({guild: message.guild.id, member: message.author.id});
+		if (!user)
+			return this.client.db.points.insert({guild: message.guild.id, member: message.author.id, points: pointstoadd, level: 0});
 
-            let curLevel = Math.floor(user.points / 350);
-            if (user.level < curLevel) {
-				this.sendLevelUpMessage(message, curLevel)
+		user.points = pointstoadd + user.points;
+
+		let curLevel = Math.floor(user.points / 350);
+		let levelUp = user.level < curLevel;
+
+		user.level = curLevel;
+		this.client.db.points.update(user);
+
+		if (levelUp) {
+			if (!message.channel.sendable) return;
+
+			Array.prototype.random = function() {
+				return this[Math.floor(Math.random() * this.length)];
+			};
+
+			let levelups = message.guild.levelupmsgs;
+			if (!levelups) return console.log(`${server.name} (#${server.id}) does not have level up messages`);
+			let levelupmsg = levelups.random()
+				.replaceAll("{{server}}", message.guild.name)
+				.replaceAll("{{user}}", message.author.username)
+				.replaceAll("{{memberping}}", `<@${message.author.id}>`).replaceAll("{{userping}}", `<@${message.author.id}>`)
+				.replaceAll("{{level}}", level)
+
+			if (levelupmsg) {
+				console.log(`I sent a level up message in ${message.guild.name} (${message.guild.id}) for ${message.author.username} (${message.author.id}): ${parsedLevelUpMessage}`)
+				const sentLevelUpMessage = await message.channel.send(parsedLevelUpMessage);
+				await sentLevelUpMessage.delete({timeout: 5000});
 			}
-            user.level = curLevel;
-
-            this.client.db.points.update(user);
-        } else {
-            this.client.db.points.insert({guild: message.guild.id, member: message.author.id, points: pointstoadd, level: 0})
-        }
+		}
 	}
 
     async sendLevelUpMessage(message, level) {
-        Array.prototype.random = function() {
-            return this[Math.floor(Math.random() * this.length)];
-        };
+		const server = message.guild;
+		if (!message.channel.sendable) return;
+		if (!server.levelupmsgs) return console.log(`${server.name} (#${server.id}) does not have level up messages`);
 
-        try {
-            const server = message.guild;
-            if (!message.channel.sendable) return;
-            if (!server.levelupmsgs) return console.log(`${server.name} (#${server.id}) does not have level up messages`);
+		let rawLevelUpMessage = this.client.db.serverconfig.get(this.client, message, "levelupmsgs").random()
+		let parsedLevelUpMessage = rawLevelUpMessage;
 
-            let rawLevelUpMessage = this.client.db.serverconfig.get(this.client, message, "levelupmsgs").random()
-            let parsedLevelUpMessage = rawLevelUpMessage;
+			let coinEmote = this.client.emojis.get("549336322146566175");
 
-            let coinEmote = this.client.emojis.get("549336322146566175");
+			parsedLevelUpMessage = parsedLevelUpMessage
+				.replaceAll("{{server}}", message.guild.name)
+				.replaceAll("{{user}}", message.author.username).replaceAll("{{member}}", message.author.username).replaceAll("{{username}}", message.author.username).replaceAll("{{membername}}", message.author.username)
+				.replaceAll("{{memberping}}", `<@${message.author.id}>`).replaceAll("{{userping}}", `<@${message.author.id}>`)
+				.replaceAll("{{level}}", level)
+				.replaceAll("{{coin}}", coinEmote)
 
-            parsedLevelUpMessage = parsedLevelUpMessage
-                .replaceAll("{{guild}}", message.guild.name).replaceAll("{{server}}", message.guild.name)
-                .replaceAll("{{user}}", message.author.username).replaceAll("{{member}}", message.author.username).replaceAll("{{username}}", message.author.username).replaceAll("{{membername}}", message.author.username)
-                .replaceAll("{{memberping}}", `<@${message.author.id}>`).replaceAll("{{userping}}", `<@${message.author.id}>`)
-                .replaceAll("{{level}}", level)
-                .replaceAll("{{coin}}", coinEmote)
-
-            if (parsedLevelUpMessage) {
-                console.log(`I sent a level up message in ${message.guild.name} (${message.guild.id}) for ${message.author.username} (${message.author.id}): ${parsedLevelUpMessage}`)
-                const sentLevelUpMessage = await message.channel.send(parsedLevelUpMessage);
-                await sentLevelUpMessage.delete({timeout: 5000});
+			if (parsedLevelUpMessage) {
+				console.log(`I sent a level up message in ${message.guild.name} (${message.guild.id}) for ${message.author.username} (${message.author.id}): ${parsedLevelUpMessage}`)
+				const sentLevelUpMessage = await message.channel.send(parsedLevelUpMessage);
+				await sentLevelUpMessage.delete({timeout: 5000});
             }
-        } catch(e) {
-            console.error(e)
-        }
     }
 
 	antispam(message) {
@@ -168,4 +176,21 @@ module.exports = class messageInavlidListener extends Listener {
 
         return false;
 	}
+}
+
+function removeDuplicates(originalArray, objKey) {
+	var trimmedArray = [];
+	var values = [];
+	var value;
+
+	for(var i = 0; i < originalArray.length; i++) {
+		value = originalArray[i][objKey];
+
+		if(values.indexOf(value) === -1) {
+			trimmedArray.push(originalArray[i]);
+			values.push(value);
+		}
+	}
+
+	return trimmedArray;
 }

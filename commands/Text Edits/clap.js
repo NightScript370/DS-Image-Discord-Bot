@@ -1,39 +1,42 @@
 const { Command } = require('discord-akairo');
 
 module.exports = class ClapCommand extends Command {
-  constructor() {
-    super('clap', {
-      category: 'Text Edits',
-      aliases: ["clap"],
-      description: {
+	constructor() {
+		super('clap', {
+			category: 'Text Edits',
+			aliases: ["clap"],
+			description: {
 				content: 'Add a clap emoji between every word.',
 				usage: '<stentence to clapify>',
 				examples: ['hello there friend', 'here we go again']
 			},
-      args: [{
-        id: 'toClap',
-        type: 'text-fun',
-        match: 'content'
-      }]
-    });
-  }
+			args: [{
+				id: 'toClap',
+				type: 'text-fun',
+				match: 'content'
+			}]
+		});
+	}
 
-  exec(message, { toClap }) {
-    if (!toClap.includes(" "))
-      return message.util.send(this.chunk(toClap, 1).join(" :clap: "))
+	exec(message, { toClap }) {
+		if (!toClap)
+			toClap = global.getString(message.author.lang, "I :clap: need :clap: text :clap: to :clap: clap :clap: to!");
 
-    message.util.send(toClap.replace(/\s+/gmi, " :clap: "));
-  }
+		if (!toClap.includes(" "))
+			return message.util.send(this.chunk(toClap, 1).join(" :clap: "))
 
-  chunk(str, n) {
-    var ret = [];
-    var i;
-    var len;
+		message.util.send(toClap.replace(/\s+/gmi, " :clap: "));
+	}
 
-    for(i = 0, len = str.length; i < len; i += n) {
-       ret.push(str.substr(i, n))
-    }
+	chunk(str, n) {
+		var ret = [];
+		var i;
+		var len;
 
-    return ret
-  };
+		for(i = 0, len = str.length; i < len; i += n) {
+			 ret.push(str.substr(i, n))
+		}
+
+		return ret
+	};
 };

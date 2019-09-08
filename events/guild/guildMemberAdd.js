@@ -75,7 +75,7 @@ Don't forget to subscribe to our Youtube channel and check out our website. `)
 		let parsedWelcomeMessage = rawWelcomeMessage
 			.replaceAll("{{server}}", member.guild.name)
 			.replaceAll("{{user}}", member.user.username)
-			.replaceAll("{{ping}}" `<@${member.user.id}>`)
+			.replaceAll("{{ping}}", `<@${member.user.id}>`)
 			.replaceAll("{{servercount}}", member.guild.memberCount)
 
 		if (parsedWelcomeMessage) {
