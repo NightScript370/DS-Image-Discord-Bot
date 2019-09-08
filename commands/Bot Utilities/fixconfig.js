@@ -45,6 +45,7 @@ module.exports = class EvalCommand extends Command {
         if (["meta", "$loki", "exec", "guildID"].includes(prop)) continue;
         const value = data[prop]
         if (!value || !value.value || typeof value == "string") data[prop] = {type: types[prop], arrayType: "string", value: value || findType(types[prop].nullValue)};
+        if (types[prop] == "array" && !Array.isArray(data[prop].value)) data[prop].value = [data[prop].value];
       }
       
       // await console.log(`Analyzing "${guild.name}" again...`);
