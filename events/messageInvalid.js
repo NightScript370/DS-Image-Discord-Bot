@@ -11,10 +11,12 @@ module.exports = class messageInavlidListener extends Listener {
     }
 
 	async exec(message) {
-		if (this.invalidMessage) return;
+		if (this.invalidMessage(message)) return;
 
 		if (!message.guild) return;
 		if (this.antispam(message)) return;
+
+		this.handlePoints(message)
 	}
 
 	async invalidMessage(message) {
@@ -133,7 +135,7 @@ module.exports = class messageInavlidListener extends Listener {
 
 	antispam(message) {
 		var mod = message.guild.members.get(this.client.user.id);
-		if (!mod.hasPermission(['MANAGE_MESSAGES', 'BAN_MEMBERS'])) return;
+		if (!mod.hasPermission(['MANAGE_MESSAGES', 'BAN_MEMBERS'])) return false;
 
 		// Anti mass mention
 		if (message.mentions && message.mentions.members) {
