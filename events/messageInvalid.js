@@ -57,8 +57,9 @@ module.exports = class messageInavlidListener extends Listener {
 
 		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v);
 
-		let text = `Hey ${message.guild ? message.member.displayName : message.author.username}, ${attempt} is not a command. \n `;
+		let text = `Hey ${message.guild ? message.member.displayName : message.author.username}, ${attempt} is not a command.\n`;
 		let suggestedCmds = [];
+		var iterated = [];
 
 		if (distances.length) {
 			distances.sort((a, b) => a.dist - b.dist);
@@ -70,6 +71,7 @@ module.exports = class messageInavlidListener extends Listener {
 			for (const index in distances) {
 				currentcmd = distances[index].command;
 				if (!currentcmd) continue;
+				if (iterated.includes(currentcmd.id)) continue;
 
 				description = false;
 				if (currentcmd.description) {
@@ -79,6 +81,7 @@ module.exports = class messageInavlidListener extends Listener {
 				}
 
 				suggestedCmds.push(`\`${parseInt(index)+1}.\` **${distances[index].alias} ${description ? ':** ' + (description.join ? description.map(d => __(d)).join(" - ") : __(description)) : '**'}`);
+				iterated.push(currentcmd.id);
 			}
 		}
 
