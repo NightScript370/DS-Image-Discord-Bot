@@ -31,7 +31,7 @@ module.exports = class messageInavlidListener extends Listener {
 				const wait = require('util').promisify(setTimeout);
 				await wait(1700);
 
-				let messages = await message.channel.messages.fetch({ limit: 50 });
+				let messages = (await message.channel.messages.fetch({ limit: 50 }))
 					.filter(channelMessage => channelMessage.author.bot)
 					.filter(channelMessage => message.author.id !== this.client.user.id)
 					.filter(channelMessage => channelMessage.createdAt >= Date.now() - 1700)
@@ -121,7 +121,7 @@ module.exports = class messageInavlidListener extends Listener {
 			let levelupmsg = levelups.random()
 				.replaceAll("{{server}}", message.guild.name)
 				.replaceAll("{{user}}", message.author.username)
-				.replaceAll("{{memberping}}", `<@${message.author.id}>`).replaceAll("{{userping}}", `<@${message.author.id}>`)
+				.replaceAll("{{ping}}", `<@${message.author.id}>`)
 				.replaceAll("{{level}}", level)
 
 			if (levelupmsg) {
@@ -131,30 +131,6 @@ module.exports = class messageInavlidListener extends Listener {
 			}
 		}
 	}
-
-    async sendLevelUpMessage(message, level) {
-		const server = message.guild;
-		if (!message.channel.sendable) return;
-		if (!server.levelupmsgs) return console.log(`${server.name} (#${server.id}) does not have level up messages`);
-
-		let rawLevelUpMessage = this.client.db.serverconfig.get(this.client, message, "levelupmsgs").random()
-		let parsedLevelUpMessage = rawLevelUpMessage;
-
-			let coinEmote = this.client.emojis.get("549336322146566175");
-
-			parsedLevelUpMessage = parsedLevelUpMessage
-				.replaceAll("{{server}}", message.guild.name)
-				.replaceAll("{{user}}", message.author.username).replaceAll("{{member}}", message.author.username).replaceAll("{{username}}", message.author.username).replaceAll("{{membername}}", message.author.username)
-				.replaceAll("{{memberping}}", `<@${message.author.id}>`).replaceAll("{{userping}}", `<@${message.author.id}>`)
-				.replaceAll("{{level}}", level)
-				.replaceAll("{{coin}}", coinEmote)
-
-			if (parsedLevelUpMessage) {
-				console.log(`I sent a level up message in ${message.guild.name} (${message.guild.id}) for ${message.author.username} (${message.author.id}): ${parsedLevelUpMessage}`)
-				const sentLevelUpMessage = await message.channel.send(parsedLevelUpMessage);
-				await sentLevelUpMessage.delete({timeout: 5000});
-            }
-    }
 
 	antispam(message) {
 		var mod = message.guild.members.get(this.client.user.id);
