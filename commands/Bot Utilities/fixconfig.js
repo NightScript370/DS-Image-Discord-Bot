@@ -63,7 +63,7 @@ function unconvert(object) {
 		while (object.value instanceof Array)
 			object.value = object.value[0] || '';
 
-		while (typeof object.value == "object")
+		while (typeof object.value == "object" && object.value !== null)
 			object.value = object.value.value;
 	}
 
