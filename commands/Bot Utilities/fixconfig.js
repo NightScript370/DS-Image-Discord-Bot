@@ -42,7 +42,7 @@ module.exports = class FixConfigCommand extends Command {
 					data[prop] = {type: types[prop], arrayType: "string", value: value || findType(types[prop]).nullValue};
 
 				if (types[prop] == "array")
-					data[prep].value = convert(value, types[prop]) || findType(types[prop]).nullValue;
+					data[prep].value = convert(value.value, types[prop]) || findType(types[prop]).nullValue;
 
 				console.log(prop, data[prop])
 			}
