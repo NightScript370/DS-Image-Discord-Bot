@@ -40,11 +40,9 @@ module.exports = class FixConfigCommand extends Command {
 
 				if (!value || !value.value || typeof value == "string")
 					data[prop] = {type: types[prop], arrayType: "string", value: value || findType(types[prop]).nullValue};
-		        if (types[prop] == "array" && !Array.isArray(data[prop].value)) {
-					var array0 = data[prop].value;
-					if (!array0 || !array0.value || typeof array0 == "string") array0 = {type: "string", value: array0};
-					data[prop].value = [array0];
-				}
+
+				if (types[prop] == "array")
+					data[prep].value = convert(value, types[prop]) || findType(types[prop]).nullValue;
 
 				console.log(prop, data[prop])
 			}
@@ -53,4 +51,22 @@ module.exports = class FixConfigCommand extends Command {
 
 		msg.util.send("Done.")
 	}
+};
+
+function convert(array, propType) {
+    if (typeof array == 'string') {
+        if (!array.trim().length)
+            return [];
+        return [{ type: propType, value: array }];
+    };
+
+    if (!(array instanceof Array))
+        return array;
+
+	let cfg = [];
+	for (var i = 0; i < array.length; i++) {
+		cfg.push({ type: propType, value: array[i] });
+	};
+
+	return cfg;
 };
