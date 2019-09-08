@@ -44,6 +44,8 @@ module.exports = class FixConfigCommand extends Command {
 				if (types[prop] == "array")
 					data[prop].value = convert(value.value, types[prop]) || findType(types[prop]).nullValue;
 
+				unconvert(data[prop]);
+
 				console.log(prop, data[prop])
 			}
 			console.log(`${guild.name}'s server postchange`, data)
@@ -52,6 +54,21 @@ module.exports = class FixConfigCommand extends Command {
 		msg.util.send("Done.")
 	}
 };
+
+function unconvert(object) {
+	if (object.type == 'array')
+		return object;
+
+	if (typeof object.value !== "string") {
+		while (object.value instanceof Array)
+			object.value = object.value[0] || '';
+
+		while (typeof object.value == "object")
+			object.value = object.value.value;
+	}
+
+	return object;
+}
 
 function convert(array, propType) {
     if (typeof array == 'string') {
