@@ -127,8 +127,8 @@ module.exports = class messageInavlidListener extends Listener {
 				.replaceAll("{{level}}", level)
 
 			if (levelupmsg) {
-				console.log(`I sent a level up message in ${message.guild.name} (${message.guild.id}) for ${message.author.username} (${message.author.id}): ${parsedLevelUpMessage}`)
-				const sentLevelUpMessage = await message.channel.send(parsedLevelUpMessage);
+				console.log(`I sent a level up message in ${message.guild.name} (${message.guild.id}) for ${message.author.username} (${message.author.id}): ${levelupmsg}`)
+				const sentLevelUpMessage = await message.channel.send(levelupmsg);
 				await sentLevelUpMessage.delete({timeout: 5000});
 			}
 		}
