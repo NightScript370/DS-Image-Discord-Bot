@@ -1,4 +1,5 @@
 const { Listener } = require('discord-akairo');
+const { random } = require("including-range-array");
 
 module.exports = class messageUpdateListener extends Listener {
 	constructor() {
