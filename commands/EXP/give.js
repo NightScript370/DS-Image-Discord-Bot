@@ -19,7 +19,6 @@ module.exports = class ServerPointsCommand extends Command {
 						start: 'Who would you like to donate points to?',
 						retry: 'That\'s not something we can give points to! Try again.'
 					},
-					unordered: true,
 					match: 'rest'
 				},
 				{
@@ -29,8 +28,7 @@ module.exports = class ServerPointsCommand extends Command {
 					prompt: {
 						start: 'How many points would you like to donate?',
 						retry: 'That\'s an invalid amount of points! Try again.'
-					},
-					unordered: true
+					}
 				},
 				{
 					id: 'guild',
@@ -43,8 +41,7 @@ module.exports = class ServerPointsCommand extends Command {
 						return null;
 					},
 					match: 'option',
-					flag: 'guild:',
-					unordered: true
+					flag: 'guild:'
 				},
 				{
 					id: 'action',
@@ -52,8 +49,7 @@ module.exports = class ServerPointsCommand extends Command {
 					match: 'option',
 					flag: 'action:',
 					type: ["set", "add", "remove"],
-					default: "add",
-					unordered: true
+					default: "add"
 				},
 			],
 		});
@@ -76,7 +72,7 @@ module.exports = class ServerPointsCommand extends Command {
 		} else
 			guildFound = message.guild
 
-		let authorGuildMember = await guildFound.members.get(user.id);
+		let authorGuildMember = await guildFound.members.get(msg.author.id);
 
 		let DBuser = await this.client.db.points.findOne({guild: guildFound.id, member: user.id});
 		if (!DBuser) {
@@ -90,7 +86,7 @@ module.exports = class ServerPointsCommand extends Command {
 		if (!DBAuthor)
 			DBuser = await this.client.db.points.insert({guild: guildFound.id, member: message.author.id, points: 0, level: 0});
 
-		if(authorGuildMember.permissions.has('MANAGE_MESSAGES')) {
+		if (!authorGuildMember.permissions.has('MANAGE_MESSAGES')) {
 			if (user.id == message.author.id) return message.util.reply("you would not benefit from that.");
 			if (amount < 0) return message.util.reply("you may not steal points!");
 
@@ -117,7 +113,7 @@ module.exports = class ServerPointsCommand extends Command {
 		DBuser.level = Math.floor(DBuser.points / 350);
 
 		let BotThanks = `thank you so much for donating ${amount} points to ${user.tag}. He's now at level ${DBuser.level}.`;
-		if (authorGuildMember.permissions.has('MANAGE_MESSAGES'))
+		if (!authorGuildMember.permissions.has('MANAGE_MESSAGES'))
 			BotThanks += `\n Unfortunately, that also means you're now down to ${DBAuthor.points} points, and are now at level ${DBAuthor.level}`;
 
 		await message.util.reply(BotThanks);
