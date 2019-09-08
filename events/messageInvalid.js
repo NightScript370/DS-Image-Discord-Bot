@@ -62,7 +62,7 @@ module.exports = class messageInavlidListener extends Listener {
 
 		if (distances.length) {
 			distances.sort((a, b) => a.dist - b.dist);
-			removeDuplicates(distances, 'command.id');
+			removeDuplicates(distances, 'command', 'id');
 
 			let currentcmd;
 			let description;
@@ -83,7 +83,7 @@ module.exports = class messageInavlidListener extends Listener {
 		}
 
 		try {
-			let invalidCommandMessage = await message.channel.send(text + (suggestedCmds.length ? `However, here are some commands that you might be looking for \n \n${suggestedCmds.join("\n")}\n` : "") + "If you'd like to see more commands, check out the commands command or the page on our website");
+			let invalidCommandMessage = await message.channel.send(text + (suggestedCmds.length ? `However, here are some commands that you might be looking for \n \n${suggestedCmds.join("\n")}\n\n` : "") + "If you'd like to see more commands, check out the commands command or the page on our website");
 			invalidCommandMessage.delete({timeout: suggestedCmds.length ? 12000 : 5000})
 		} catch (e) {
 			console.error(e);
@@ -156,13 +156,15 @@ module.exports = class messageInavlidListener extends Listener {
 	}
 }
 
-function removeDuplicates(originalArray, objKey) {
+function removeDuplicates(originalArray, objKey, subKey) {
 	var trimmedArray = [];
 	var values = [];
 	var value;
 
 	for(var i = 0; i < originalArray.length; i++) {
 		value = originalArray[i][objKey];
+		if (subKey)
+			value = value[subKey]
 
 		if(values.indexOf(value) === -1) {
 			trimmedArray.push(originalArray[i]);
