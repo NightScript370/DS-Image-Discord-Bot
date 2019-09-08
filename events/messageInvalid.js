@@ -20,11 +20,12 @@ module.exports = class messageInavlidListener extends Listener {
 	}
 
 	async invalidMessage(message) {
-		if (!message.util.parsed.alias) return false;
+		const attempt = message.util.parsed.alias;
+
+		if (!attempt) return false;
 		if (!message.channel.sendable) return false;
 
-		const attempt = message.util.parsed.alias;
-		if (Array.from(msg.util.handler.aliases.keys()).includes('nop')) return true;
+		if (Array.from(message.util.handler.aliases.keys()).includes(attempt)) return true;
 
 		if (message.util.parsed.prefix !== `<@${this.client.user.id}>` && message.guild) {
 			let guildBots = message.guild.members.filter(member => member.user.bot)
