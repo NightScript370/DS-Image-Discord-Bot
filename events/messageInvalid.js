@@ -21,12 +21,10 @@ module.exports = class messageInavlidListener extends Listener {
 
 	async invalidMessage(message) {
 		const attempt = message.util.parsed.alias;
-
 		if (!attempt) return false;
-		if (!message.channel.sendable) return false;
-
 		if (Array.from(message.util.handler.aliases.keys()).includes(attempt)) return true;
 
+		if (!message.channel.sendable) return false;
 		if (message.util.parsed.prefix !== `<@${this.client.user.id}>` && message.guild) {
 			let guildBots = message.guild.members.filter(member => member.user.bot)
 			if (guildBots.size) {
@@ -35,7 +33,7 @@ module.exports = class messageInavlidListener extends Listener {
 
 				let messages = (await message.channel.messages.fetch({ limit: 50 }))
 					.filter(channelMessage => channelMessage.author.bot)
-					.filter(channelMessage => message.author.id !== this.client.user.id)
+					.filter(channelMessage => channelMessage.author.id !== this.client.user.id)
 					.filter(channelMessage => channelMessage.createdAt >= Date.now() - 1700)
 
 				if (messages.size)
@@ -56,6 +54,8 @@ module.exports = class messageInavlidListener extends Listener {
 				distance: distancebetween
 			});
 		}
+
+		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v);
 
 		let text = `Hey ${message.guild ? message.member.displayName : message.author.username}, ${attempt} is not a command. \n `;
 		let suggestedCmds = [];
