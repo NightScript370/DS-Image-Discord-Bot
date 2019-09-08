@@ -19,7 +19,7 @@ module.exports = class OwoCommand extends Command {
 
   exec(message, { toB }) {
     if (!toB.includes('b' || 'B'))
-      return message.util.send('There was no Bs found in the text');
+      return message.util.send(global.getString(message.author.lang, 'There was no Bs found in the text'));
 
     let author = message.guild ? message.member.displayName : message.author.username;
     let text = toB.replace(/b/gi, "🅱").replace(/B/gi, "🅱")

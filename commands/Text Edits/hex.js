@@ -22,7 +22,7 @@ module.exports = class HexCommand extends Command {
 
   exec(message, { text }) {
     if (!text)
-      return message.util.reply("There were no text I can find to convert to hexadecimal.");
+      return message.util.reply(global.getString(message.author.lang, "There were no text I can find to convert to hexadecimal."));
 
     return message.util.send(Buffer.from(text).toString('hex'));
   }

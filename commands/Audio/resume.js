@@ -24,9 +24,9 @@ module.exports = class ResumeCommand extends Command {
             return message.util.reply(__("in order to resume audio, there needs to be audio playing in the channel"));
 
         if (!fetched.dispatcher.paused)
-            return message.uitl.reply(__("there is nothing to resume playing: you should be listening to it right now"));
+            return message.util.reply(__("there is nothing to resume playing: you should be listening to it right now"));
 
         fetched.dispatcher.resume();
-        return message.reply(`I have successfully resumed ${fetched.queue[0].songTitle}.`);
+        return message.util.reply(`I have successfully resumed ${fetched.queue[0].songTitle}.`);
     }
 }

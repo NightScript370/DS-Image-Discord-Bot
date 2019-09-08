@@ -57,7 +57,7 @@ class YamamuraClient extends AkairoClient {
                 guildID: guild.id,
                 logchan: {value: logchannel ? logchannel.id : '', type: "channel"},
                 welcomechan: {value: welcomechannel ? welcomechannel.id : '', type: "channel"},
-                welcomemessage: {type: 'array', arrayType: 'string', value: !blank ? [{value: "Welcome {{user}} to {{guild}}! Enjoy your stay", type: "string"}] : [] },
+                welcomemessage: {type: 'array', arrayType: 'string', value: !blank ? [{value: "Welcome {{user}} to {{server}}! Enjoy your stay", type: "string"}] : [] },
                 leavemessage: {type: 'array', arrayType: 'string', value: !blank ? [{value: "Goodbye {{user}}! You'll be missed", type: 'string'}] : []},
                 prefix: { value: config.prefix, type: "string" },
                 makerboard: { value: "", type: "string" },

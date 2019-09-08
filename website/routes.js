@@ -51,7 +51,7 @@ module.exports = (app, client) => app
 		await request.logout();
 		await response.redirect("/");
 	})
-	.get("/leaderboard", (request, response) => response.render("leaderboard", Object.assign(parameters(request), { url: request.originalUrl, id: undefined, user: (request.isAuthenticated() ? request.user.id : null) })))
+	.get("/leaderboard", (request, response) => response.redirect("/profile"))
 	.get("/leaderboard/:guildID", (request, response) => {
 		let id = request.params.guildID;
 
@@ -93,5 +93,8 @@ module.exports = (app, client) => app
 			}
 		];
 		response.render("support", object)
+	})
+	.get("/profile", (request, response) => {
+		user: (request.isAuthenticated() ? request.user.id : null)
 	})
 	.get('*', (request, response) => response.redirect("/"));

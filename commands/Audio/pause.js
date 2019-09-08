@@ -24,9 +24,9 @@ module.exports = class PauseAudioCommand extends Command {
             return message.util.reply(__("in order to pause audio, there needs to be audio playing in the channel"));
 
         if (fetched.dispatcher.paused)
-            return message.uitl.reply(__("the audio that you are currently supposed to be listening to is already paused"));
+            return message.util.reply(__("the audio that you are currently supposed to be listening to is already paused"));
 
         fetched.dispatcher.pause();
-        message.reply(__("I have successfully paused {0}.", fetched.queue[0].songTitle));
+        return message.util.reply(__("I have successfully paused {0}.", fetched.queue[0].songTitle));
     }
 };

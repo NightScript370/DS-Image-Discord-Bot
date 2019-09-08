@@ -77,15 +77,15 @@ module.exports = (client) => {
 	website.express.locals.isEmpty = isEmpty;
 	website.express.locals.util = require("util");
 	website.express.locals.getParams = query => {
-		return query
-			? (/^[?#]/.test(query) ? query.slice(1) : query)
-				.split('&')
-				.reduce((params, param) => {
-					let [key, value] = param.split('=');
-					params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
-					return params;
-				}, {})
-			: {};
+		if (!query) return {};
+
+		return (/^[?#]/.test(query) ? query.slice(1) : query)
+			.split('&')
+			.reduce((params, param) => {
+				let [key, value] = param.split('=');
+				params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
+				return params;
+			}, {})
 	};
 	website.express.locals.List = List;
 	website.express.locals.require = require;
