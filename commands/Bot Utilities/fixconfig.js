@@ -47,7 +47,7 @@ module.exports = class EvalCommand extends Command {
         if (!value || !value.value || typeof value == "string") data[prop] = {type: types[prop], arrayType: "string", value: value || findType(types[prop].nullValue)};
         if (types[prop] == "array" && !Array.isArray(data[prop].value)) {
           var array0 = data[prop].value;
-          if ("string" == typeof array0) array0 = {type: "string", value: array0};
+          if (!array0 || !array0.value || typeof array0 == "string") array0 = {type: "string", value: array0};
           data[prop].value = [array0];
         }
       }
