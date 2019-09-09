@@ -69,19 +69,19 @@ module.exports = class FixConfigCommand extends Command {
 };
 
 function unconvert(object) {
-	let counter = 0;
-	
-	while (typeof object.value !== "string" && counter !== 10) {
-		while (object.value instanceof Array)
-			object.value = object.value[0] || '';
+    let counter = 0;
+    
+    while (typeof object.value !== "string" && counter !== 10) {
+        while (object.value instanceof Array)
+            object.value = object.value[0] || '';
 
-		while (isObject(object.value))
-			object.value = object.value.value;
+        while (isObject(object.value.value))
+            object.value = object.value.value;
 
-		counter++;
-	}
+        counter++;
+    }
 
-	return object;
+    return object;
 }
 
 function convert(array, propType) {
