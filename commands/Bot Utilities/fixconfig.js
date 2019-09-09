@@ -48,7 +48,7 @@ module.exports = class FixConfigCommand extends Command {
 				if (value.type == 'array') {
 					if (value.value == null)
 						value.value = [];
-						/*
+						
 					else if (isObject(value.value))
 						value.value = [value.value];
 					else if (!(value.value instanceof Array))
@@ -57,8 +57,8 @@ module.exports = class FixConfigCommand extends Command {
 					for (var val in value.value) {
 						data[prop].value[0] = unconvert(val);
 					}
-					*/
-					data[prop] = unconvert(value);
+					
+					// data[prop] = unconvert(value);
 				} else
 					data[prop] = unconvert(value);
 
