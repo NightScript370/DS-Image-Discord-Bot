@@ -75,7 +75,7 @@ function unconvert(object) {
 		while (object.value instanceof Array)
 			object.value = object.value[0] || '';
 
-		while (isObject())
+		while (isObject(object.value))
 			object.value = object.value.value;
 
 		counter++;
