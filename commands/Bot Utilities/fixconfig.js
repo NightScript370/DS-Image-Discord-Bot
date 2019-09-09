@@ -41,10 +41,23 @@ module.exports = class FixConfigCommand extends Command {
 				if (!value || !value.value || typeof value == "string")
 					data[prop] = {type: types[prop], arrayType: "string", value: value || findType(types[prop]).nullValue};
 
-				if (types[prop] == "array")
+				if (types[prop] == "array") {
 					data[prop].value = convert(value.value, types[prop]) || findType(types[prop]).nullValue;
+				}
 
-				unconvert(data[prop]);
+				if (value.type == 'array') {
+					if (value.value == null)
+						value.value = [];
+					else if (isObject(value.value))
+						value.value = [value.value];
+					else if (!(value.value instanceof Array))
+						value.value = [{type: 'string', value: value.value}];
+
+					for (var val in value.value) {
+						val = unconvert(val);
+					}
+				} else
+					data[prop] = unconvert(value)
 
 				console.log(prop, data[prop])
 			}
@@ -56,15 +69,16 @@ module.exports = class FixConfigCommand extends Command {
 };
 
 function unconvert(object) {
-	if (object.type == 'array')
-		return object;
-
-	if (typeof object.value !== "string") {
+	let counter = 0;
+	
+	while (typeof object.value !== "string" && counter !== 10) {
 		while (object.value instanceof Array)
 			object.value = object.value[0] || '';
 
-		while (typeof object.value == "object" && object.value !== null)
+		while (isObject())
 			object.value = object.value.value;
+
+		counter++;
 	}
 
 	return object;
@@ -87,3 +101,8 @@ function convert(array, propType) {
 
 	return cfg;
 };
+
+function isObject(val) {
+    if (val === null) { return false;}
+    return ( (typeof val === 'function') || (typeof val === 'object') );
+}
