@@ -3,7 +3,7 @@ const { Command } = require('discord-akairo');
 module.exports = class ConsoleHackingGuidesCommand extends Command {
     constructor() {
         super('consolehackguide', {
-            aliases: ['consolehackguide', 'consolehackingguide', 'consolehackinguide', 'consolemodguide', 'consolemoddingguide', 'consolemodificationguide'],
+            aliases: ["consolemod", 'consolehackguide', 'consolehackingguide', 'consolehackinguide', 'consolemodguide', 'consolemoddingguide', 'consolemodificationguide'],
             category: 'Useful',
             description: {
 				content: 'Returns a link to a Hacking Guide.',
