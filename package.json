@@ -13,7 +13,7 @@
     "chalk": "^2.4.2",
     "dblapi.js": "^2.3.0",
     "discord-akairo": "github:DiscordBots-Archive/discord-akairo",
-    "discord.js": "github:NightYoshi370/discord.js",
+    "discord.js": "github:amishshah/discord.js#voice-pipelining",
     "dotenv": "^8.0.0",
     "ejs": "^2.6.2",
     "erlpack": "^0.1.2",
@@ -46,7 +46,7 @@
     "utf-8-validate": "^5.0.2",
     "weather-js": "^2.0.0",
     "yt-search": "^0.4.1",
-    "ytdl-core-discord": "github:amishshah/ytdl-core-discord",
+    "ytdl-core-discord": "github:amishshah/ytdl-core-discord#dependabot/npm_and_yarn/ytdl-core-0.29.7",
     "ytpl": "^0.1.15",
     "zlib-sync": "^0.1.5"
   },

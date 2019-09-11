@@ -63,7 +63,6 @@ module.exports = class messageInavlidListener extends Listener {
 
 		if (distances.length) {
 			distances.sort((a, b) => a.dist - b.dist);
-			removeDuplicates(distances, 'command', 'id');
 
 			let currentcmd;
 			let description;
@@ -157,23 +156,4 @@ module.exports = class messageInavlidListener extends Listener {
 
         return false;
 	}
-}
-
-function removeDuplicates(originalArray, objKey, subKey) {
-	var trimmedArray = [];
-	var values = [];
-	var value;
-
-	for(var i = 0; i < originalArray.length; i++) {
-		value = originalArray[i][objKey];
-		if (subKey)
-			value = value[subKey]
-
-		if(values.indexOf(value) === -1) {
-			trimmedArray.push(originalArray[i]);
-			values.push(value);
-		}
-	}
-
-	return trimmedArray;
 }

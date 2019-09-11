@@ -73,8 +73,8 @@ Don't forget to subscribe to our Youtube channel and check out our website. `)
 			rawWelcomeMessage = rawWelcomeMessage.random()
 
 		let parsedWelcomeMessage = rawWelcomeMessage
-			.replaceAll("{{server}}", member.guild.name)
-			.replaceAll("{{user}}", member.user.username)
+			.replaceAll(["{{server}}", "{{guild}}"], member.guild.name)
+			.replaceAll(["{{user}}", "{{name}}"], member.user.username)
 			.replaceAll("{{ping}}", `<@${member.user.id}>`)
 			.replaceAll("{{servercount}}", member.guild.memberCount)
 

@@ -2,6 +2,19 @@ const { inspect } = require('util')
 const Command = require('../../struct/Command');
 const { findType } = require("../../Configuration.js");
 
+const types = {
+	logchan: "channel",
+	welcomechan: "channel",
+	welcomemessage: "array",
+	leavemessage: "string",
+	prefix: "string",
+	makerboard: "string",
+	starboardchannel: "channel",
+	levelup: "bool",
+	levelupmsgs: "array",
+	mutedrole: "role"
+}
+
 module.exports = class FixConfigCommand extends Command {
 	constructor() {
 		super('fixconfig', {
@@ -15,19 +28,6 @@ module.exports = class FixConfigCommand extends Command {
 	}
 
 	async exec(msg) {
-		const types = {
-			logchan: "channel",
-			welcomechan: "channel",
-			welcomemessage: "array",
-			leavemessage: "string",
-			prefix: "string",
-			makerboard: "string",
-			starboardchannel: "channel",
-			levelup: "bool",
-			levelupmsgs: "array",
-			mutedrole: "role"
-		}
-
 		this.client.guilds.forEach(async guild => {
 			let data = this.client.db.serverconfig.findOne({guildID: guild.id});
 
@@ -57,8 +57,7 @@ module.exports = class FixConfigCommand extends Command {
 					for (var val in value.value) {
 						data[prop].value[0] = unconvert(val);
 					}
-					
-					// data[prop] = unconvert(value);
+
 				} else
 					data[prop] = unconvert(value);
 

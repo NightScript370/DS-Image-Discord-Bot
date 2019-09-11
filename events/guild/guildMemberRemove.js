@@ -10,11 +10,12 @@ module.exports = class guildMemberRemoveListener extends Listener {
     }
 
     async exec(member) {
+		if (member.guild.partial) await member.guild.fetch()
+
         let memberRemoveLogEmbed = this.client.util.embed()
-			.setAuthor(`${member.user.username} has left`, member.user.displayAvatarURL({format: 'png'}))
             .setThumbnail(member.guild.iconURL({format: 'png'}))
 			.setDescription(`This server now has ${member.guild.memberCount} members`)
-			.setFooter(`${member.user.tag} (#${member.id})`);
+			.setFooter(`${member.user.tag} (#${member.id})`, member.user.displayAvatarURL({format: 'png'}));
 
         if (!member.partial) {
 			memberRemoveLogEmbed.addField("Joined", member.joinedAt);
@@ -29,7 +30,7 @@ module.exports = class guildMemberRemoveListener extends Listener {
 
 		let logchannel = await this.client.db.serverconfig.get(this.client, member, "logchan")
         if (logchannel && logchannel.sendable && logchannel.embedable)
-            logchannel.send({embed: memberRemoveLogEmbed});
+            logchannel.send(`${member.user.username} has left`, {embed: memberRemoveLogEmbed});
     }
 }
 

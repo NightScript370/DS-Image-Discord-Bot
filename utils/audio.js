@@ -12,7 +12,7 @@ module.exports = {
 		let playing;
 
 		if (!data.connection) {
-			if (!msg.member || !msg.member.voice) return client.audio.finish(msg, client, data.dispatcher);
+			if (!msg.member || (msg.member && !msg.member.voice)) return client.audio.finish(msg, client, data.dispatcher);
 
 			if (!msg.guild.voice || (msg.guild.voice && !msg.guild.voice.connection))
 				data.connection = await msg.member.voice.channel.join();
