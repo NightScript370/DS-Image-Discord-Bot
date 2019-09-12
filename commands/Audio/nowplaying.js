@@ -31,7 +31,7 @@ module.exports = class NowPlayingCommand extends Command {
 				.setTimestamp(nowPlaying.timerequest)
 				.setThumbnail(nowPlaying.thumbnail)
 				.setFooter(__("Requested by {0}", nowPlaying.requester))
-				.addField(__("Progress"), `${this.progressBar(Math.round(fetched.dispatcher.time/1000), nowPlaying.secs, nowPlaying.url, 15)} (${this.getTime(fetched.dispatcher.time/1000)}/${nowPlaying.length})`, true)
+				.addField(__("Progress"), `${this.progressBar(Math.round(fetched.dispatcher.streamTime/1000), nowPlaying.secs, nowPlaying.url, 15)} (${this.getTime(fetched.dispatcher.time/1000)}/${nowPlaying.length})`, true)
 
 			if(nowPlaying.description && nowPlaying.description.length < 1000)
 				embed.setDescription(nowPlaying.description);
