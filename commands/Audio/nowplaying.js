@@ -47,7 +47,7 @@ module.exports = class NowPlayingCommand extends Command {
 			}
 
 			relatedvidlist += "\n " + __("Type `{0}play related` to play a related video", await this.handler.prefix(message));
-			embed.addField(__("Related Videos"), related);
+			embed.addField(__("Related Videos"), relatedvidlist);
     	} else {
       		let messagenoembed = `\n ${nowPlaying.description} \n\n ${global.getString(msg.author.lang, "Song requested by {0}", nowPlaying.requester)}`;
       		if ((messagereply + messagenoembed).length <= 2000) messagereply = messagereply + messagenoembed
