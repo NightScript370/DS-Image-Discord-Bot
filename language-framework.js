@@ -7,10 +7,10 @@ String.prototype.replaceAll = function (search, replacement) {
 
 	if (search instanceof Array) {
 		for (var splitvar of search) {
-			result.split(splitvar).join(replacement)
+			result = result.split(splitvar).join(replacement)
 		}
 	} else {
-		result.split(search).join(replacement)
+		result = result.split(search).join(replacement)
 	}
 
 	return result;
