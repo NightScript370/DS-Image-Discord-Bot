@@ -36,14 +36,14 @@ module.exports = class NowPlayingCommand extends Command {
 			if(nowPlaying.description && nowPlaying.description.length < 1000)
 				embed.setDescription(nowPlaying.description);
 
+			const YT = "https://youtube.com/";
 			let relatedvidlist = "";
 
-      		let videoInfo;
       		for (var relatedvideo of nowPlaying.related) {
-        		if(related.id) continue;
-        		if(related.length > 1000) break;
+        		if (!relatedvideo.id) continue;
+        		if (related.length > 1000) break;
 
-				relatedvidlist += `**[${relatedvideo.title}](https://www.youtube.com/watch?v=${relatedvideo.id})** ${__("by {0}", `[${relatedvideo.author}](https://youtube.com/channel/${relatedvideo.ucid})`)}\n`;
+				relatedvidlist += `**[${relatedvideo.title}](${YT}watch?v=${relatedvideo.id})** ${__("by {0}", `[${relatedvideo.author}](${YT}channel/${relatedvideo.ucid})`)}\n`;
 			}
 
 			relatedvidlist += "\n " + __("Type `{0}play related` to play a related video", await this.handler.prefix(message));
