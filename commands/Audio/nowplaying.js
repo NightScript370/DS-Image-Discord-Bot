@@ -14,7 +14,7 @@ module.exports = class NowPlayingCommand extends Command {
 	}
 
 	async exec(message) {
-		const __ = (k, ...v) => global.getString(msg.author.lang, k, ...v)
+		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v)
 
 		let fetched = this.client.audio.active.get(message.guild.id);
 		if (!fetched)
