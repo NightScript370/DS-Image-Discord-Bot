@@ -41,7 +41,7 @@ module.exports = class NowPlayingCommand extends Command {
 
       		for (var relatedvideo of nowPlaying.related) {
         		if (!relatedvideo.id) continue;
-        		if (related.length > 1000) break;
+        		if (relatedvidlist.length > 1000) break;
 
 				relatedvidlist += `**[${relatedvideo.title}](${YT}watch?v=${relatedvideo.id})** ${__("by {0}", `[${relatedvideo.author}](${YT}channel/${relatedvideo.ucid})`)}\n`;
 			}
