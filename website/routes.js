@@ -64,7 +64,7 @@ module.exports = (app, client) => app
 		let id = request.params.guildID;
 
 		if (!id || !client.guilds.has(id))
-			return response.status(404).render("pages/404");
+			return response.status(404).render("404");
 
 		response.render("queue", Object.assign(parameters(request), { id }));
 	})
