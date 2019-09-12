@@ -27,6 +27,6 @@ module.exports = class ResumeCommand extends Command {
             return message.util.reply(__("there is nothing to resume playing: you should be listening to it right now"));
 
         fetched.dispatcher.resume();
-        return message.util.reply(`I have successfully resumed ${fetched.queue[0].songTitle}.`);
+        return message.util.reply(__("I have successfully resumed {0}.", fetched.queue[0].songTitle));
     }
 }

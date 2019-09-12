@@ -3,14 +3,13 @@ global.lang.default = "en";
 
 String.prototype.replaceAll = function (search, replacement) {
 	var target = this;
-	let string;
 
 	if (search instanceof Array) {
 		for (var splitvar in search) {
-			string.split(splitvar).join(replacement)
+			target.split(splitvar).join(replacement)
 		}
 	} else {
-		string.split(search).join(replacement)
+		target.split(search).join(replacement)
 	}
 
 	return target;
