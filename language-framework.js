@@ -6,7 +6,7 @@ String.prototype.replaceAll = function (search, replacement) {
 	let result = target;
 
 	if (search instanceof Array) {
-		for (var splitvar in search) {
+		for (var splitvar of search) {
 			result.split(splitvar).join(replacement)
 		}
 	} else {

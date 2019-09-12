@@ -75,59 +75,59 @@ module.exports = class NintendoWiiUCommand extends Command {
 				break;
 		} */
 
-				let ratingtype = (rating ? rating.toUpperCase().split(":")[0] : null);
+		let ratingtype = (rating ? rating.toUpperCase().split(":")[0] : null);
 
-				switch (rating ? rating.toUpperCase() : null) {
-						case 'ESRB:CHILDHOOD':
-						case 'ESRB:EC':
-								boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'earlyChildhood.png'));
-								break;
-						case 'ESRB:E':
-						case 'ESRB:EVERYONE':
-								boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'everyone.png'));
-								break;
-						case 'ESRB:EVERYONE10+':
-						case 'ESRB:E10':
-								boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'e10.png'));
-								break;
-						case 'ESRB:MATURE':
-						case 'ESRB:MATURE17':
-						case 'ESRB:M':
-						case 'ESRB:M17':
-								boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'mature.png'));
-								break;
-						case 'ESRB:T':
-						case 'ESRB:TEEN':
-						case 'ESRB:TEENS':
-						case 'ESRB:TEENAGERS':
-								boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'teen.png'));
-								break;
-						case 'ESRB:A':
-						case 'ESRB:AO':
-						case 'ESRB:ADULTS':
-						case 'ESRB:ADULTS18':
-								boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'adultsOnly.png'));
-								break;
-						case 'ESRB:RP':
-						case 'ESRB:RATING_PENDING':
-								boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'ratingPending.png'));
-								break;
-						case 'PEGI:3':
-								boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '3.png'));
-								break;
-						case 'PEGI:7':
-								boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '7.png'));
-								break;
-						case 'PEGI:12':
-								boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '12.png'));
-								break;
-						case 'PEGI:16':
-								boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '16.png'));
-								break;
-						case 'PEGI:18':
-								boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '18.png'));
-								break;
-				}
+		switch (rating ? rating.toUpperCase() : null) {
+			case 'ESRB:CHILDHOOD':
+			case 'ESRB:EC':
+				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'earlyChildhood.png'));
+				break;
+			case 'ESRB:E':
+			case 'ESRB:EVERYONE':
+				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'everyone.png'));
+				break;
+			case 'ESRB:EVERYONE10+':
+			case 'ESRB:E10':
+				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'e10.png'));
+				break;
+			case 'ESRB:MATURE':
+			case 'ESRB:MATURE17':
+			case 'ESRB:M':
+			case 'ESRB:M17':
+				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'mature.png'));
+				break;
+			case 'ESRB:T':
+			case 'ESRB:TEEN':
+			case 'ESRB:TEENS':
+			case 'ESRB:TEENAGERS':
+				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'teen.png'));
+				break;
+			case 'ESRB:A':
+			case 'ESRB:AO':
+			case 'ESRB:ADULTS':
+			case 'ESRB:ADULTS18':
+				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'adultsOnly.png'));
+				break;
+			case 'ESRB:RP':
+			case 'ESRB:RATING_PENDING':
+				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'ratingPending.png'));
+				break;
+			case 'PEGI:3':
+				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '3.png'));
+				break;
+			case 'PEGI:7':
+				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '7.png'));
+				break;
+			case 'PEGI:12':
+				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '12.png'));
+				break;
+			case 'PEGI:16':
+				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '16.png'));
+				break;
+			case 'PEGI:18':
+				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '18.png'));
+				break;
+		}
 
 		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'wiiu', 'WiiU_Case.png'));
 		const canvas = createCanvas(base.width, base.height);
