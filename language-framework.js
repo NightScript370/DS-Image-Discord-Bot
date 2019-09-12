@@ -3,16 +3,14 @@ global.lang.default = "en";
 
 String.prototype.replaceAll = function (search, replacement) {
 	var target = this;
-	let regex;
+	let string;
 
 	if (search instanceof Array) {
 		for (var splitvar in search) {
-			regex = new RegExp(splitvar, 'gi')
-			target.replace(regex, replacement)
+			string.split(splitvar).join(replacement)
 		}
 	} else {
-		regex = new RegExp(search, 'gi')
-		target.replace(regex, replacement)
+		string.split(search).join(replacement)
 	}
 
 	return target;

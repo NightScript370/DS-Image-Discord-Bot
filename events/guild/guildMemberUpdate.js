@@ -29,10 +29,12 @@ module.exports = class guildMemberUpdateListener extends Listener {
 
 			if (newMember.guild.me.hasPermission('VIEW_AUDIT_LOG')) {
 				const entry = await newMember.guild.fetchAuditLogs({type: 'MEMBER_UPDATE'}).then(audit => audit.entries.first());
-				if (entry.executer.partial) await entry.executer.fetch();
+				if (entry.executer) {
+					if (entry.executer.partial) await entry.executer.fetch();
 
-				if (entry.target.id == newMember.id && entry.executer.id !== newMember.id)
-					executer = entry.executer.tag;
+					if (entry.target.id == newMember.id && entry.executer.id !== newMember.id)
+						executer = entry.executer.tag;
+				}
 			}
 
 			embed.addInline(`New Nickname ${executer ? `(set by ${executer})` : ''}`, newMember.nickname || "None")
