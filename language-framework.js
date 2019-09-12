@@ -3,16 +3,17 @@ global.lang.default = "en";
 
 String.prototype.replaceAll = function (search, replacement) {
 	var target = this;
+	let result = target;
 
 	if (search instanceof Array) {
 		for (var splitvar in search) {
-			target.split(splitvar).join(replacement)
+			result.split(splitvar).join(replacement)
 		}
 	} else {
-		target.split(search).join(replacement)
+		result.split(search).join(replacement)
 	}
 
-	return target;
+	return result;
 };
 
 global.lang.defaultData = (userID) => {
