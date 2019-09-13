@@ -73,6 +73,7 @@ module.exports = (client) => {
 	// set up modules
 	// ===================
 	website.express.locals.client = client;
+	website.express.locals.inviteBot = `https://discordapp.com/oauth2/authorize?client_id=${client.user.id}&scope=bot`;
 	website.express.locals.isEmpty = isEmpty;
 	website.express.locals.util = require("util");
 	website.express.locals.getParams = query => {
