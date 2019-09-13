@@ -1,6 +1,6 @@
 module.exports = {
 	/* ###Mark: General Usage### */
-	// "Type \`cancel\` to cancel this command.": "Scrivi `cancel` (annulla) per annullare il comando.",
+	"Type `cancel` to cancel this command.": "Napisz `cancel` (anuluj), żeby anulować tą komendę.",
 	"There are not enough arguments to this command. The minimum is {0}.": "Nie ma odpowiednio dużo argumentów do tej komendy. Minimum to {0}.",
 	"by {0}": "przez {0}",
 	"Time ran out, command has been cancelled.": "Czas się skończył, komenda została odwołana.",

@@ -9,7 +9,7 @@ require("./struct/User.js");
 require("./struct/Guild.js");
 require("./struct/DMChannel.js");
 require("./struct/TextChannel.js");
-require("./language-framework.js");
+require("./langs/framework.js");
 
 console.logs = {
 	log: [],
@@ -23,13 +23,13 @@ var logStdout = process.stdout;
 var logStderr = process.stderr;
 
 console.log = function () {
-  console.logs.log.push(util.format.apply(null, arguments));
-  logStdout.write(util.format.apply(null, arguments) + '\n');
+	console.logs.log.push(util.format.apply(null, arguments));
+	logStdout.write(util.format.apply(null, arguments) + '\n');
 	if (console.logs.log.length > 20) console.logs.log.shift();
 }
 console.error = function () {
-  console.logs.err.push(util.format.apply(null, arguments));
-  logStderr.write(util.format.apply(null, arguments) + '\n');
+	console.logs.err.push(util.format.apply(null, arguments));
+	logStderr.write(util.format.apply(null, arguments) + '\n');
 	if (console.logs.err.length > 20) console.logs.err.shift();
 }
 
@@ -109,11 +109,11 @@ class YamamuraClient extends AkairoClient {
 			allowMention: true,
 			argumentDefaults: {
 				prompt: {
-					modifyStart: (msg, text) => text && `${msg.author} **::** ${text}\n${global.getString(msg.author.lang, "Type \`cancel\` to cancel this command.")}`,
-					modifyRetry: (msg, text) => text && `${msg.author} **::** ${text}\n${global.getString(msg.author.lang, "Type \`cancel\` to cancel this command.")}`,
-					timeout: msg => `${msg.author} **::** ${global.getString(msg.author.lang, "Time ran out, command has been cancelled.")}`,
-					ended: msg => `${msg.author} **::** ${global.getString(msg.author.lang, "Too many retries, command has been cancelled.")}`,
-					cancel: msg => `${msg.author} **::** ${global.getString(msg.author.lang, "Command has been cancelled.")}`,
+					modifyStart: (message, text) => text && `${message.author} **::** ${text}\n` + global.getString(message.author.lang, "Type `cancel` to cancel this command."),
+					modifyRetry: (message, text) => text && `${message.author} **::** ${text}\n` + global.getString(message.author.lang, "Type `cancel` to cancel this command."),
+					timeout: message => `${message.author} **::** ` + global.getString(message.author.lang, "Time ran out, command has been cancelled."),
+					ended: message => `${message.author} **::** ` + global.getString(message.author.lang, "Too many retries, command has been cancelled."),
+					cancel: message => `${message.author} **::** ` + global.getString(message.author.lang, "Command has been cancelled."),
 					retries: 4,
 					time: 30000
 				}
