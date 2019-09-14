@@ -152,8 +152,8 @@ module.exports = class PlayStationCommand extends Command {
 			await ctx.drawImage(boxrating, 38, 194, 22, 33);
 
 		const attachment = canvas.toBuffer();
-		if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-		return msg.util.send({ files: [{ attachment: attachment, name: 'Playstation.png' }] });
+		if (Buffer.byteLength(attachment) > 8e+6) return msg.util.reply('Resulting image was above 8 MB.');
+		return msg.util.send(`${message.guild ? message.member.displayName : message.author.username}, I hope you like texture warping`, { files: [{ attachment: attachment, name: 'Playstation.png' }] });
 	}
 };
 
