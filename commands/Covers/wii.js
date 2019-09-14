@@ -135,7 +135,7 @@ module.exports = class WiiCommand extends Command {
 		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'wii', 'wii_case.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
-			
+
 		// Draw background
 		if (!isEmpty(BG))
 			ctx.drawImage(BG, 0, 0, base.width, base.height);
@@ -170,7 +170,7 @@ module.exports = class WiiCommand extends Command {
 
 		const attachment = canvas.toBuffer();
 		if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-		return msg.util.send({ files: [{ attachment: attachment, name: 'Nintendo-Wii-boxart.png' }] });
+		return msg.util.send(`${message.guild ? message.member.displayName : message.author.username}, Wii would like to play`, { files: [{ attachment: attachment, name: 'Nintendo-Wii-boxart.png' }] });
 	}
 };
 

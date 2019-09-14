@@ -137,7 +137,21 @@ const isGood = (variable) => {
 		return false;
 }
 
+const parseMentions (message, variable) => {
+	variable = variable.replace(/<@!?(\d{17,19})>/g, (something, id) => {
+		let user = client.users.get(id);
+		return user ? user.tag : global.getString(message.author.lang, "User not found");
+	});
 
+	if (message.guild) {
+		variable = variable.replace(/<@&!?(\d{17,19})>/g, (something, id) => {
+			let role = message.guild.roles.get(id);
+			return role ? role.name : global.getString(message.author.lang, "Role not found");
+		});
+	}
+
+	return variable
+}
 
 const akairo_types = {
 	'question': (message, phrase) => {
@@ -145,7 +159,7 @@ const akairo_types = {
 		return phrase;
 	},
 	'text-fun': async (message, phrase) => {
-		if (phrase) return phrase;
+		if (phrase) return parseMentions(message, phrase);
 
 		let msgs = await message.channel.messages.fetch({ limit: 100 });
 		let msgArr = msgs.array().sort((a, b) => a.createdAt - b.createdAt);
@@ -162,7 +176,7 @@ const akairo_types = {
 		}
 
 		if (target)
-			return target.cleanContent;
+			return parseMentions(message, target.content);
 
 		return null;
 	},

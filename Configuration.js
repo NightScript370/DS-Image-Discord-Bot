@@ -9,6 +9,19 @@ class ConfigurationValue {
 	}
 }
 
+let settingProps = {
+	logchan: "channel:ex",
+	welcomechan: "channel:ex",
+	welcomemessage: "string:ex",
+	leavemessage: "string:ex",
+	prefix: "string:ex",
+	makerboard: "string",
+	starboardchannel: "channel:ex",
+	levelup: "bool",
+	levelupmsgs: "array:ex",
+	mutedrole: "role:ex"
+}
+
 let types = [
 	class IntType {
 		constructor() {

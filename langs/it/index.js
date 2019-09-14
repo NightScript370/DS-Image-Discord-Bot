@@ -1,6 +1,6 @@
 module.exports = {
 	// MARK: General purpose
-	"Type \`cancel\` to cancel this command.": "Scrivi `cancel` (annulla) per annullare il comando.",
+	"Type `cancel` to cancel this command.": "Scrivi `cancel` (annulla) per annullare il comando.",
 	"by {0}": "di {0}",
 	"There are not enough arguments to this command. The minimum is {0}.": "Non ci sono abbastanza argomenti per questo comando. Il minimo è {0}.",
 

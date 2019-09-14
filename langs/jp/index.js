@@ -1,6 +1,6 @@
 module.exports = {
     // MARK: General purpose
-    "Type \`cancel\` to cancel this command.": "コマンドをキャンセルするには\`cancel\`を入力します",
+    "Type `cancel` to cancel this command.": "コマンドをキャンセルするには\`cancel\`を入力します",
     "by {0}": "- {0}さん",
     "There are not enough arguments to this command. The minimum is {0}.": "このコマンドには十分な引数がありません。最小値は{0}です",
 

@@ -39,7 +39,7 @@ module.exports = (client) => {
 		.use(helmet())
 		.use(bodyParser.json())
 		.use(bodyParser.urlencoded({extended : true}))
-		.engine("html", require("ejs").renderFile)
+		.engine("ejs", require("ejs").renderFile)
 		.use(express.static(path.join(__dirname, "/public")))
 		.set("view engine", "ejs")
 		.set("views", path.join(__dirname, "pages"))
@@ -73,7 +73,7 @@ module.exports = (client) => {
 	// set up modules
 	// ===================
 	website.express.locals.client = client;
-	website.express.locals.inviteBot = client.generateInvite()
+	website.express.locals.inviteBot = `https://discordapp.com/oauth2/authorize?client_id=${client.user.id}&scope=bot`;
 	website.express.locals.isEmpty = isEmpty;
 	website.express.locals.util = require("util");
 	website.express.locals.getParams = query => {
