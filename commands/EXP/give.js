@@ -56,11 +56,14 @@ module.exports = class ServerPointsCommand extends Command {
 	}
 
 	async exec(message, { user, amount, guild, action }) {
+		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v);
 		const client = await this.client
 		let guildFound;
 
 		if (user.bot) return message.util.reply("bots do not collect Experience Points! Please try this command on a different user");
 		if (!guild) return message.util.reply("You need to set a server in order to make a transaction in regards to a member of that server. Try again");
+
+		if (amount > 10000) return message.util.reply(__("you can only give up to 10,000 points at a time."));
 
 		if (!message.guild || (message.guild && message.guild.id !== guild.id)) {
 			let guildFind = client.guilds.get(guild.id)
