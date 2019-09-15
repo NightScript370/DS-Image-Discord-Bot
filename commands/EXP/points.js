@@ -50,7 +50,7 @@ module.exports = class ServerPointsCommand extends Command {
 				guildFound = message.guild
 			}
 
-			let guildMember = guild.members.get(user.id)
+			let guildMember = guildFound.members.get(user.id)
 			let DBuser = await this.client.db.points.findOne({guild: guildFound.id, member: user.id});
 
 			if (!DBuser) {
