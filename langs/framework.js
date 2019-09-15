@@ -32,7 +32,7 @@ global.lang.update = (client, data) => client.db.userconfig.update(data);
  */
 global.getString = (lang, key, ...repl) => {
 	if (lang !== 'en') {
-		let languageFile = require(`./langs/${lang}/index.js`);
+		let languageFile = require(`./${lang}/index.js`);
 		key = languageFile[key] ? languageFile[key] : key;
 	}
 
@@ -42,7 +42,7 @@ global.lang.getString = global.getString;
 
 global.getStringObject = (lang, key, ...repl) => {
 	let l;
-	if (lang !== 'en') l = require(`./langs/${lang}/index.js`);
+	if (lang !== 'en') l = require(`./${lang}/index.js`);
 	let k = lang == "en" ? key : l[key] || key;
   
 	return global.lang.formatStringObject(k, ...repl);
@@ -93,12 +93,12 @@ global.lang.formatStringWithChoice = (script, k, ...repl) => {
 global.lang.formatString = (k, ...v) => global.lang.formatStringWithChoice(true, k, ...v)
 
 global.lang.getDuration = (lang, duration) => {
-  const __ = k => global.lang.getString(lang, k)
-  var milliseconds = parseInt((duration % 1000) / 100),
-    seconds = Math.floor((duration / 1000) % 60),
-    minutes = Math.floor((duration / (1000 * 60)) % 60),
-    hours = Math.floor((duration / (1000 * 60 * 60)) % 24),
-    days = Math.floor(duration / (1000 * 60 * 60 * 24));
+	const __ = k => global.lang.getString(lang, k)
+	var milliseconds = parseInt((duration % 1000) / 100),
+		seconds = Math.floor((duration / 1000) % 60),
+		minutes = Math.floor((duration / (1000 * 60)) % 60),
+		hours = Math.floor((duration / (1000 * 60 * 60)) % 24),
+		days = Math.floor(duration / (1000 * 60 * 60 * 24));
 
 	let dys, hrs, mins, secs;
 	dys = days == 1 ? __("day", 1) : __("days", days);
