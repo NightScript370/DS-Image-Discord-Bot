@@ -39,11 +39,13 @@ module.exports = class ReadyListener extends Listener {
 				const DBL = require("dblapi.js");
 				this.client.dbl = await new DBL(config.DBLtoken, { webhookPort: this.client.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.client.website.server, statsInterval: 7200000 }, this.client);
 
-				if (this.client.dbl)
-					this.client.listenerHandler.setEmitters({
-						dbl: this.client.dbl,
-						dblwebhook: this.client.dbl.webhook
-					});
+				if (this.client.dbl) {
+					if (isEventEmitter(this.client.dbl))
+						this.client.listenerHandler.setEmitters({dbl: this.client.dbl});
+					
+					if (this.client.dbl.webhook && isEventEmitter(this.client.dbl.webhook))
+						this.client.listenerHandler.setEmitters({dblwebhook: this.client.dbl.webhook});
+				}
 			} catch (e) {
 				console.error('[DiscordBots.org] Failed to load: ' + e)
 			}
@@ -100,3 +102,9 @@ module.exports = class ReadyListener extends Listener {
 		}
 	}
 };
+
+function isEventEmitter(value) {
+	return value
+	&& typeof value.on === 'function'
+	&& typeof value.emit === 'function';
+}
