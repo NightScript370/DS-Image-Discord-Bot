@@ -50,7 +50,10 @@ module.exports = class ServerPointsCommand extends Command {
 				guildFound = message.guild
 			}
 
-			let guildMember = guildFound.members.fetch(user.id)
+			let guildMember = guildFound.members.get(user.id)
+			if (!guildMember)
+				guildMember = guildFound.members.fetch(user.id);
+
 			let DBuser = await this.client.db.points.findOne({guild: guildFound.id, member: user.id});
 
 			if (!DBuser) {
@@ -83,7 +86,7 @@ module.exports = class ServerPointsCommand extends Command {
 					.setDescription(`${diff} more points until level up!`)
 			}
 
-			return await message.util.send(`${guildMember ? guildMember.displayName : user.username} is currently standing at level ${DBuser.level} with ${DBuser.points} points.`, {embed: GuildPointsEmbed});
+			return message.util.send(`${guildMember ? guildMember.displayName : user.username} is currently standing at level ${DBuser.level} with ${DBuser.points} points.`, {embed: GuildPointsEmbed});
 		}
 
 		let guildsShare = false;
