@@ -99,8 +99,8 @@ module.exports = class ServerPointsCommand extends Command {
 			DBuser = await this.client.db.points.insert({guild: guildFound.id, member: message.author.id, points: 0, level: 0});
 
 		if (!authorGuildMember.permissions.has('MANAGE_MESSAGES')) {
-			if (user.id == message.author.id) return message.util.reply("you would not benefit from that.");
-			if (amount < 0) return message.util.reply("you may not steal points!");
+			if (user.id == message.author.id && !override) return message.util.reply("you would not benefit from that.");
+			if (amount < 0 &&) return message.util.reply("you may not steal points!");
 
 			if (amount > DBAuthor.points && !override) return message.util.reply("You do not have enough points to donate to the user! Please try again once you collect more points");
 
