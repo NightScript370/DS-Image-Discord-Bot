@@ -63,20 +63,19 @@ module.exports = class ServerPointsCommand extends Command {
 
 	async exec(message, { user, amount, guild, action, override }) {
 		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v);
-		const client = await this.client
 		let guildFound;
 
-		if (user.bot) return message.util.reply("bots do not collect Experience Points! Please try this command on a different user");
-		if (!guild) return message.util.reply("You need to set a server in order to make a transaction in regards to a member of that server. Try again");
+		if (user.bot) return message.util.reply(__("bots do not collect Experience Points! Please try this command on a different user"));
+		if (!guild) return message.util.reply(__"You need to set a server in order to make a transaction in regards to a member of that server. Try again"));
 
 		if (amount > 10000) return message.util.reply(__("you can only give up to 10,000 points at a time."));
 		if (amount < -10000) return message.util.reply(__("you can only take up to 10,000 points at a time."));
 
 		if (!message.guild || (message.guild && message.guild.id !== guild.id)) {
-			let guildFind = client.guilds.get(guild.id)
-			if (!guildFind) return message.util.reply("Yamamura is not in that server. Therefore, I cannot get that server's points");
+			let guildFind = this.client.guilds.get(guild.id)
+			if (!guildFind) return message.util.reply(__("Yamamura is not in that server. Therefore, I cannot get that server's points"));
 
-			if (!guildFind.members.has(message.author.id)) return message.util.reply('you may not see the statistics of a server you are not in. Try again later');
+			if (!guildFind.members.has(message.author.id)) return message.util.reply(__('you may not see the statistics of a server you are not in. Try again later'));
 
 			guildFound = guildFind;
 		} else
@@ -89,7 +88,7 @@ module.exports = class ServerPointsCommand extends Command {
 		let DBuser = await this.client.db.points.findOne({guild: guildFound.id, member: user.id});
 		if (!DBuser) {
 			if (!authorGuildMember)
-				return message.util.reply("you can't give points to someone who is/was not in the server. Please try again on a different user.");
+				return message.util.reply(__("you can't give points to someone who is/was not in the server. Please try again on a different user."));
 
 			DBuser = await this.client.db.points.insert({guild: guildFound.id, member: user.id, points: 0, level: 0});
 		}

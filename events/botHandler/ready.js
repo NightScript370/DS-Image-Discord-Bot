@@ -14,7 +14,10 @@ module.exports = class ReadyListener extends Listener {
 
 	async exec() {
 		const wait = require('util').promisify(setTimeout);
-		await wait(5000);
+		await wait(8000);
+
+		const { getKey } = require("../../Configuration"); 
+		this.client.db.serverconfig.get = getKey; // Short-hand declare a variable to be an existing function
 
 		this.client.user.setStatus('online');
 		this.client.util.setDefaultStatus(this.client);
@@ -60,9 +63,6 @@ module.exports = class ReadyListener extends Listener {
 		} catch(O_o) {
 			
 		}
-
-		const { getKey } = require("../../Configuration"); 
-		this.client.db.serverconfig.get = getKey; // Short-hand declare a variable to be an existing function
 
 		if (process.env.DBLORGTOKEN) {
 			try {

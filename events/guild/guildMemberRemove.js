@@ -25,7 +25,7 @@ module.exports = class guildMemberRemoveListener extends Listener {
 
 		if (!member.roles.everyone) {
 			member.roles.everyone = {};
-			member.roles.everyone.id = msg.guild.id;
+			member.roles.everyone.id = member.guild.id;
 		}
 
 		let roles = member.roles.filter(role => role.id != member.guild.roles.everyone.id).map(r => r.name).join(", ");
