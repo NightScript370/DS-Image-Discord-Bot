@@ -58,7 +58,7 @@ module.exports = class BanCommand extends Command {
 			if (!member.bannable)
 				return msg.util.reply("I cannot ban this user.");
 
-			if (author.roles.highest <= member.roles.highest)
+			if (author.roles.highest.position <= member.roles.highest.position)
 				return msg.util.reply("You can't ban someone who has a higher role position than you.");
 
 			if (member.hasPermission("MANAGE_MESSAGES") && !author.hasPermission("ADMINISTRATOR"))

@@ -50,7 +50,10 @@ module.exports = class ServerPointsCommand extends Command {
 				guildFound = message.guild
 			}
 
-			let guildMember = guild.members.get(user.id)
+			let guildMember = guildFound.members.get(user.id)
+			if (!guildMember)
+				guildMember = guildFound.members.fetch(user.id);
+
 			let DBuser = await this.client.db.points.findOne({guild: guildFound.id, member: user.id});
 
 			if (!DBuser) {
@@ -61,12 +64,13 @@ module.exports = class ServerPointsCommand extends Command {
 			}
 
 			let GuildPointsEmbed = this.client.util.embed()
-				.setAuthor(`Showing stats for ${guildMember.displayName}`, user.displayAvatarURL({format: 'png'}))
 				.setThumbnail(guildFound.iconURL({format: 'png'}))
-				.setColor(guildMember.displayHexColor)
-				.setYamamuraCredits(true)
+				.setFooter("Points system handled by Yamamura", this.client.user.displayAvatarURL())
 				.setTimestamp(new Date());
 
+			if (guildMember)
+				GuildPointsEmbed.setColor(guildMember.displayHexColor)
+	
 			if (DBuser.points === Infinity) {
 				GuildPointsEmbed
 					.addInline("Points", "Infinity")
@@ -82,7 +86,7 @@ module.exports = class ServerPointsCommand extends Command {
 					.setDescription(`${diff} more points until level up!`)
 			}
 
-			return await message.util.send(`${guildMember.displayName} is currently standing at level ${DBuser.level} with ${DBuser.points} points.`, {embed: GuildPointsEmbed});
+			return message.util.send(`${guildMember ? guildMember.displayName : user.username} is currently standing at level ${DBuser.level} with ${DBuser.points} points.`, {embed: GuildPointsEmbed});
 		}
 
 		let guildsShare = false;
