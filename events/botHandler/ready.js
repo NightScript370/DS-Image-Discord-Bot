@@ -2,7 +2,6 @@ const { Listener } = require('discord-akairo');
 const request = require('node-superfetch');
 
 const config = require("../../config.js");
-const DBL = require("dblapi.js");
 
 module.exports = class ReadyListener extends Listener {
 	constructor() {
@@ -20,19 +19,32 @@ module.exports = class ReadyListener extends Listener {
 		this.client.user.setStatus('online');
 		this.client.util.setDefaultStatus(this.client);
 
-		this.client.website = await require("../../website/index.js")(this.client);
-		this.client.dbl = await new DBL(config.DBLtoken, { webhookPort: this.client.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.client.website.server, statsInterval: 7200000 }, this.client)
-
 		this.client.listenerHandler.setEmitters({
-			dbl: this.client.dbl,
-			dblwebhook: this.client.dbl.webhook,
 			commandHandler: this.client.commandHandler,
 			listenerHandler: this.client.listenerHandler
 		});
+
+		try {
+			this.client.website = await require("../../website/index.js")(this.client);
+			this.client.listenerHandler.setEmitters({httpServer: this.client.website.server});
+		} catch (e) {
+			console.error('[WEBSITE] Failed to load: ' + e);
+		}
+
+		if (config.dbl) {
+			const DBL = require("dblapi.js");
+			this.client.dbl = await new DBL(config.DBLtoken, { webhookPort: this.client.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.client.website.server, statsInterval: 7200000 }, this.client);
+
+			this.client.listenerHandler.setEmitters({
+				dbl: this.client.dbl,
+				dblwebhook: this.client.dbl.webhook
+			});
+		}
+
 		this.client.listenerHandler.remove('ready')
 		this.client.listenerHandler.loadAll();
 
-		console.log(`My body, ${this.client.user.username} is ready to serve ${this.client.users.size} users in ${this.client.guilds.size} servers at ${this.client.website.URL}!`);
+		console.log(`My body, ${this.client.user.username} is ready to serve ${this.client.users.size} users in ${this.client.guilds.size} servers!`);
 
 		const fs = require("fs");
 		try {
@@ -74,9 +86,7 @@ module.exports = class ReadyListener extends Listener {
 				await request
 					.post(`https://discord.boats/api/v2/bot/${this.client.user.id}`)
 					.set("Authorization", process.env.DBOATPASS)
-					.send({
-						server_count: this.client.guilds.size
-					});
+					.send({server_count: this.client.guilds.size});
 
 				console.log('[discord.boats] stats updated');
 			} catch(O_o) {

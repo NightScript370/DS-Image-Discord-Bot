@@ -25,10 +25,10 @@ To disable level up messages/welcome messages, type !conf set welcomemessage, th
 
 |                                                                                                                                                                                                                                                                        [![Logo](https://yamamura-bot.tk/logo.png "Yamamura")](https://yamamura-bot.tk)                                                                                                                                                                                                                                                                                     |
 |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-|[![Discord](https://img.shields.io/discord/484464227067887645.svg "Chat")](https://discord.gg/vbYZCRZ)|
+|![Owner](https://discordbots.org/api/widget/owner/421158339129638933.svg "NightYoshi370 - Yamamura Owner") ![Status](https://discordbots.org/api/widget/status/421158339129638933.svg "Bot Status") ![Upvotes](https://discordbots.org/api/widget/upvotes/421158339129638933.svg "Bot Upvotes") ![Server Count](https://discordbots.org/api/widget/servers/421158339129638933.svg "The amount of servers the bot is in") ![Library](https://discordbots.org/api/widget/lib/421158339129638933.svg "The language the bot is coded in") [![Discord](https://img.shields.io/discord/484464227067887645.svg "Chat")](https://discord.gg/vbYZCRZ)|
 
-Yamamura is an all-in-one Discord bot dedicated to helping modding communities and more.   
-It can fulfill your server's moderation needs and create fun events for your community to enjoy
+Yamamura is an all-in-one Discord bot dedicated to helping modding communities and more     
+It can fulfill your server's moderation needs and create fun events for your community to enjoy.
 
 Here are a list of features it can do outside of commands:
 
@@ -50,6 +50,11 @@ That isn't even talking about the commands which you can perform on the bot. The
 
 To check out the commands, either check out our website (which contains other information, found [here](https://yamamura-bot.tk/)) or use the commands command.
 
+## Server Experience Points
+
+Want to have a way to reward your members for being active? Want to have a way to have a shop of sorts? Yamamura can help you with both.
+
+
 ## Customization
 
 Yamamura allows users to customize the bot in many ways possible. From having custom randomized welcome messages and level up messages to enabling server logging (to be used instead of the audit log), the experience can be tweaked to an administrator's liking. Use the !conf command to change a configuration.
@@ -64,6 +69,8 @@ So far, our biggest server is the TWL Mode Hacking server. As such, Yamamura has
 - Get compatibility for nds-bootstrap, the open source NDS title loader (!ndsbcompat [TITLEID, found in the ROM meta data (use google or twilightmenu++ to access it)])
 - Check out a list of useful DS Homebrew (from Pokemon Banks, to a DSi Menu replacement)
 - Follow a Guide on how to install the latest HiyaCFW, the only DSi Custom Firmware on the market (!consolemod dsi)
+
+
 
 ## Bug Reports, Support, Feedback and More
 

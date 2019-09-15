@@ -2,15 +2,12 @@ const config = require("../config.js");
 const List = require("list-array");
 const path = require("path");
 
-const morgan = require('morgan');
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const routes = require('./routes.js');
 const http = require('http');
 const { Strategy } = require("passport-discord");
-
-const helmet = require('helmet')
 
 module.exports = (client) => {
 	let website = {};
@@ -36,7 +33,6 @@ module.exports = (client) => {
 	}));
 
 	website.express = express()
-		.use(helmet())
 		.use(bodyParser.json())
 		.use(bodyParser.urlencoded({extended : true}))
 		.engine("ejs", require("ejs").renderFile)
@@ -65,8 +61,28 @@ module.exports = (client) => {
 					});
 			}
 		})
-		.set('port', process.env.PORT || 3000)
-		.use(morgan('dev'));
+		.set('port', process.env.PORT || 3000);
+
+	try {
+		const helmet = require('helmet');
+		website.express.use(helmet());
+	} catch (e) {
+		console.error("[WEBSITE] Failed to load Helmet!");
+	}
+
+	try {
+		const compression = require('compression');
+		website.express.use(compression())
+	} catch (e) {
+		console.error("[WEBSITE] Failed to load compression!");
+	}
+
+	try {
+		const morgan = require('morgan');
+		website.express.use(morgan('dev'))
+	} catch (e) {
+		console.error("[WEBSITE] Failed to load Morgan!");
+	}
 
 	website.express = routes(website.express, client);
 
@@ -92,10 +108,7 @@ module.exports = (client) => {
 	website.express.locals.require = require;
 
 	website.server = http.createServer(website.express);
-	website.server.listen(website.express.get('port'), (error) => {
-		if (error) throw error;
-		console.log("Express server listening on port " + website.express.get('port'));
-	});
+	website.server.listen(website.express.get('port'));
 
 	return website
 }
