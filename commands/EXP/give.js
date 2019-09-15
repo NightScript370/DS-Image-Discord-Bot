@@ -51,11 +51,17 @@ module.exports = class ServerPointsCommand extends Command {
 					type: ["set", "add", "remove"],
 					default: "add"
 				},
+				{
+					id: 'override',
+					description: "Used by bot owners to override bot limits",
+					match: 'flag',
+					flag: '--bot-owner-override'
+				},
 			],
 		});
 	}
 
-	async exec(message, { user, amount, guild, action }) {
+	async exec(message, { user, amount, guild, action, override }) {
 		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v);
 		const client = await this.client
 		let guildFound;
@@ -94,7 +100,7 @@ module.exports = class ServerPointsCommand extends Command {
 			if (user.id == message.author.id) return message.util.reply("you would not benefit from that.");
 			if (amount < 0) return message.util.reply("you may not steal points!");
 
-			if (amount > DBAuthor.points) return message.util.reply("You do not have enough points to donate to the user! Please try again once you collect more points");
+			if (amount > DBAuthor.points && !override && !this.client.isOwner(authorGuildMember.user)) return message.util.reply("You do not have enough points to donate to the user! Please try again once you collect more points");
 
 			DBAuthor.points = DBAuthor.points - amount;
 			DBAuthor.level = Math.floor(DBAuthor.points / 350);
