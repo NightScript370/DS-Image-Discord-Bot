@@ -53,11 +53,11 @@ module.exports = class PlayStationCommand extends Command {
 		});
 	}
 
-	async exec(msg, { images, rating, padding, gloss, funky, pattern }) {
+	async exec(message, { images, rating, padding, gloss, funky, pattern }) {
 		let boxrating, BG, currentimage;
 
 		if (!this.isGood(images))
-			return msg.util.reply('No images were found. Please try again.');
+			return message.util.reply('No images were found. Please try again.');
 
 		/* switch (pattern.toLowerCase()) {
 			case 'wifi':
@@ -152,8 +152,8 @@ module.exports = class PlayStationCommand extends Command {
 			await ctx.drawImage(boxrating, 38, 194, 22, 33);
 
 		const attachment = canvas.toBuffer();
-		if (Buffer.byteLength(attachment) > 8e+6) return msg.util.reply('Resulting image was above 8 MB.');
-		return msg.util.send(global.getString(msg.author.lang, "{0}, I hope you like texture warping.", message.guild ? message.member.displayName : message.author.username), { files: [{ attachment: attachment, name: 'Playstation.png' }] });
+		if (Buffer.byteLength(attachment) > 8e+6) return message.util.reply('Resulting image was above 8 MB.');
+		return message.util.send(global.getString(message.author.lang, "{0}, I hope you like texture warping.", message.guild ? message.member.displayName : message.author.username), { files: [{ attachment: attachment, name: 'Playstation.png' }] });
 	}
 };
 

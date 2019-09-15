@@ -59,11 +59,11 @@ module.exports = class Nintendo3DSCommand extends Command {
 		});
 	}
 
-	async exec(msg, { images, nintendologo, nintendonetwork, rating, padding, funky, pattern }) {
+	async exec(message, { images, nintendologo, nintendonetwork, rating, padding, funky, pattern }) {
 		let boxrating, BG, currentimage;
 
 		if (!this.isGood(images))
-			return msg.util.reply('No images were found. Please try again.');
+			return message.util.reply('No images were found. Please try again.');
 
 		/* switch (pattern.toLowerCase()) {
 			case 'wifi':
@@ -168,8 +168,8 @@ module.exports = class Nintendo3DSCommand extends Command {
 			await ctx.drawImage(boxrating, 18, 385, 37, 59);
 
 		const attachment = canvas.toBuffer();
-		if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-		return msg.util.send(global.getString(msg.author.lang, "{0}, enjoy your now strained eyes!", message.guild ? message.member.displayName : message.author.username), { files: [{ attachment: attachment, name: 'Nintendo-DS.png' }] });
+		if (Buffer.byteLength(attachment) > 8e+6) return message.reply('Resulting image was above 8 MB.');
+		return message.util.send(global.getString(message.author.lang, "{0}, enjoy your now strained eyes!", message.guild ? message.member.displayName : message.author.username), { files: [{ attachment: attachment, name: 'Nintendo-DS.png' }] });
 	}
 };
 

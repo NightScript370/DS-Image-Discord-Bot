@@ -54,11 +54,11 @@ module.exports = class NintendoDSCommand extends Command {
 		});
 	}
 
-	async exec(msg, { images, rating, padding, internet, funky, pattern }) {
+	async exec(message, { images, rating, padding, internet, funky, pattern }) {
 		let boxrating, BG, currentimage;
 
 		if (!this.isGood(images))
-			return msg.util.reply('No images were found. Please try again.');
+			return message.util.reply('No images were found. Please try again.');
 
 		/* switch (pattern.toLowerCase()) {
 			case 'wifi':
@@ -142,8 +142,8 @@ module.exports = class NintendoDSCommand extends Command {
 
 		const attachment = canvas.toBuffer();
 
-		if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-		return msg.util.send(global.getString(msg.author.lang, "{0}, tappity tap!", message.guild ? message.member.displayName : message.author.username), { files: [{ attachment: attachment, name: 'Nintendo-DS.png' }] });
+		if (Buffer.byteLength(attachment) > 8e+6) return message.reply('Resulting image was above 8 MB.');
+		return message.util.send(global.getString(message.author.lang, "{0}, tappity tap!", message.guild ? message.member.displayName : message.author.username), { files: [{ attachment: attachment, name: 'Nintendo-DS.png' }] });
 	}
 };
 

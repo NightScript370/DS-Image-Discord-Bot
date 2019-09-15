@@ -56,11 +56,11 @@ module.exports = class NintendoSwitchCommand extends Command {
 		});
 	}
 
-	async exec(msg, { images, rating, chubby, forcestretch, internet, funky, pattern }) {
+	async exec(message, { images, rating, chubby, forcestretch, internet, funky, pattern }) {
 		let boxrating, BG, currentimage;
 
 		if (!this.isGood(images))
-			return msg.util.reply('No images were found. Please try again.');
+			return message.util.reply('No images were found. Please try again.');
 
 		switch (pattern ? pattern.toLowerCase() : null) {
 			case 'wifi':
@@ -175,8 +175,8 @@ module.exports = class NintendoSwitchCommand extends Command {
 		ctx.drawImage(base, 0, 0, base.width, base.height);
 
 		const attachment = canvas.toBuffer();
-		if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-		return msg.util.send(global.getString(msg.author.lang, "{0}, here's a console game, now its portable!", message.guild ? message.member.displayName : message.author.username), { files: [{ attachment: attachment, name: 'nintendo-switch-boxart.png' }] });
+		if (Buffer.byteLength(attachment) > 8e+6) return message.reply('Resulting image was above 8 MB.');
+		return message.util.send(global.getString(message.author.lang, "{0}, here's a console game, now its portable!", message.guild ? message.member.displayName : message.author.username), { files: [{ attachment: attachment, name: 'nintendo-switch-boxart.png' }] });
 	}
 };
 

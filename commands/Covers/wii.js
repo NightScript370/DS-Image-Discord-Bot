@@ -58,11 +58,11 @@ module.exports = class WiiCommand extends Command {
 		});
 	}
 
-	async exec(msg, { images, rating, forcestretch, nintendoselects, nintendologo, padding, pattern }) {
+	async exec(message, { images, rating, forcestretch, nintendoselects, nintendologo, padding, pattern }) {
 		let boxrating, BG, currentimage;
 
 		if (!this.isGood(images))
-			return msg.util.reply('No images were found. Please try again.');
+			return message.util.reply('No images were found. Please try again.');
 
 		/* switch (pattern.toLowerCase()) {
 			case 'wifi':
@@ -169,8 +169,8 @@ module.exports = class WiiCommand extends Command {
 		ctx.drawImage(base, 0, 0, base.width, base.height);
 
 		const attachment = canvas.toBuffer();
-		if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-		return msg.util.send(global.getString(msg.author.lang, "{0}, Wii would like to play.", message.guild ? message.member.displayName : message.author.username), { files: [{ attachment: attachment, name: 'Nintendo-Wii-boxart.png' }] });
+		if (Buffer.byteLength(attachment) > 8e+6) return message.reply('Resulting image was above 8 MB.');
+		return message.util.send(global.getString(message.author.lang, "{0}, Wii would like to play.", message.guild ? message.member.displayName : message.author.username), { files: [{ attachment: attachment, name: 'Nintendo-Wii-boxart.png' }] });
 	}
 };
 
