@@ -84,6 +84,8 @@ module.exports = class ServerPointsCommand extends Command {
 
 		let authorGuildMember = await guildFound.members.get(message.author.id);
 
+		if (!this.client.isOwner(authorGuildMember.user)) override = false;
+
 		let DBuser = await this.client.db.points.findOne({guild: guildFound.id, member: user.id});
 		if (!DBuser) {
 			if (!authorGuildMember)
@@ -100,10 +102,12 @@ module.exports = class ServerPointsCommand extends Command {
 			if (user.id == message.author.id) return message.util.reply("you would not benefit from that.");
 			if (amount < 0) return message.util.reply("you may not steal points!");
 
-			if (amount > DBAuthor.points && !override && !this.client.isOwner(authorGuildMember.user)) return message.util.reply("You do not have enough points to donate to the user! Please try again once you collect more points");
+			if (amount > DBAuthor.points && !override) return message.util.reply("You do not have enough points to donate to the user! Please try again once you collect more points");
 
-			DBAuthor.points = DBAuthor.points - amount;
-			DBAuthor.level = Math.floor(DBAuthor.points / 350);
+			if (!override) {
+				DBAuthor.points = DBAuthor.points - amount;
+				DBAuthor.level = Math.floor(DBAuthor.points / 350);
+			}
 
 			action = 'add';
 		}
