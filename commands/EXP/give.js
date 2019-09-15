@@ -64,6 +64,7 @@ module.exports = class ServerPointsCommand extends Command {
 		if (!guild) return message.util.reply("You need to set a server in order to make a transaction in regards to a member of that server. Try again");
 
 		if (amount > 10000) return message.util.reply(__("you can only give up to 10,000 points at a time."));
+		if (amount < -10000) return message.util.reply(__("you can only take up to 10,000 points at a time."));
 
 		if (!message.guild || (message.guild && message.guild.id !== guild.id)) {
 			let guildFind = client.guilds.get(guild.id)
