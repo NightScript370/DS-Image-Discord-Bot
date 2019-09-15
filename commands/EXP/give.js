@@ -66,7 +66,7 @@ module.exports = class ServerPointsCommand extends Command {
 		let guildFound;
 
 		if (user.bot) return message.util.reply(__("bots do not collect Experience Points! Please try this command on a different user"));
-		if (!guild) return message.util.reply(__"You need to set a server in order to make a transaction in regards to a member of that server. Try again"));
+		if (!guild) return message.util.reply(__("You need to set a server in order to make a transaction in regards to a member of that server. Try again"));
 
 		if (amount > 10000) return message.util.reply(__("you can only give up to 10,000 points at a time."));
 		if (amount < -10000) return message.util.reply(__("you can only take up to 10,000 points at a time."));
