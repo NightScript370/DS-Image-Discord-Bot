@@ -36,7 +36,7 @@ module.exports = class KickCommand extends Command {
 		if (!member.kickable)
 			return msg.reply("I cannot kick this user");
 
-		if (msg.member.roles.highest <= member.roles.highest)
+		if (msg.member.roles.highest.position <= member.roles.highest.position)
 			return msg.reply("You can't kick someone who has a higher role position than you.");
 
 		if (member.hasPermission("MANAGE_MESSAGES") && !msg.member.hasPermission("ADMINISTRATOR"))
