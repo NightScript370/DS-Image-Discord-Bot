@@ -3,52 +3,52 @@ const { createCanvas, loadImage } = require('canvas');
 const path = require('path');
 
 module.exports = class BobRossCommand extends Command {
-  constructor() {
-    super('bob-ross', {
-      aliases: ["bobross", 'bob-ross', 'ross'],
-      category: "Image Edits",
-      description: {
-        content: "Shows an image over bob ross's canvas"
-      },
-      clientPermissions: ['ATTACH_FILES'],
-      args: [
-	      {
+	constructor() {
+		super('bob-ross', {
+			aliases: ["bobross", 'bob-ross', 'ross'],
+			category: "Image Edits",
+			description: {
+				content: "Shows an image over bob ross's canvas"
+			},
+			clientPermissions: ['ATTACH_FILES'],
+			args: [
+				{
 					id: 'images',
 					type: 'image',
 					match: 'rest'
 				}
 			],
-    });
-  }
+		});
+	}
 
-  async exec(message, { images }) {
-    let startingTime = Date.now();
+	async exec(message, { images }) {
+		let startingTime = Date.now();
 
-    if (!this.isGood(images))
+		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.')
 
-    const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'bob-ross.png'));
+		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'bob-ross.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 
 		ctx.rotate(0.05);
 
-    let currentcanvas;
+		let currentcanvas;
 		for (var image of images) {
-      currentcanvas = await loadImage(image);
-      ctx.drawImage(currentcanvas, 30, 22, 430, 400);
-    }
+			currentcanvas = await loadImage(image);
+			ctx.drawImage(currentcanvas, 30, 22, 430, 400);
+		}
 
 		ctx.rotate(-0.05);
-    ctx.drawImage(base, 0, 0, base.width, base.height);
-    ctx.fillStyle = 'white';
+		ctx.drawImage(base, 0, 0, base.width, base.height);
+		ctx.fillStyle = 'white';
 
-    const attachment = canvas.toBuffer();
-    if (Buffer.byteLength(attachment) > 8e+6) return message.util.reply('Resulting image was above 8 MB.');
-    message.util.reply(`Here's your beautiful canvas`, { files: [{ attachment, name: 'bob-ross.png' }] });
-    
-    let endingTime = Date.now();
+		const attachment = canvas.toBuffer();
+		if (Buffer.byteLength(attachment) > 8e+6) return message.util.reply('Resulting image was above 8 MB.');
+		message.util.reply(`Here's your beautiful canvas`, { files: [{ attachment, name: 'bob-ross.png' }] });
+		
+		let endingTime = Date.now();
 
-    if (message.author.id == "280399026749440000") message.author.send(`${endingTime-startingTime}ms`);
-  }
+		if (message.author.id == "280399026749440000") message.author.send(`${endingTime-startingTime}ms`);
+	}
 }

@@ -75,7 +75,7 @@ module.exports = class ServerPointsCommand extends Command {
 				GuildPointsEmbed
 					.addInline("Points", "Infinity")
 					.addInline("Level", "Infinity")
-					.setDescription("There's no higher level that this user can reach. He is already at his maximum level possible.")
+					.setDescription("There's no higher level that this user can reach. This user is already at their maximum level possible.")
 			} else {
 				let nextlvl = (DBuser.level + 1) * 350;
 				let diff = nextlvl - DBuser.points;

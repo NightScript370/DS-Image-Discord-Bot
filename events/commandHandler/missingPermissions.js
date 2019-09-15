@@ -27,9 +27,9 @@ class MissingPermissionsListener extends Listener {
 		console.log(`=> ${command.id} ~ ${type}Permissions`, { tag });
 
 		if (!text) return;
-		if (message.channel.sendable) {
-			message.reply(text());
-		}
+		if (!message.channel.sendable) return;
+
+		message.util.reply(text());
 	}
 
 	missingPermissions(channel, user, permissions) {

@@ -143,7 +143,7 @@ module.exports = class NintendoDSCommand extends Command {
 		const attachment = canvas.toBuffer();
 
 		if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-		return msg.util.send(`${message.guild ? message.member.displayName : message.author.username}, tappity tap!`, { files: [{ attachment: attachment, name: 'Nintendo-DS.png' }] });
+		return msg.util.send(global.getString(msg.author.lang, "{0}, tappity tap!", message.guild ? message.member.displayName : message.author.username), { files: [{ attachment: attachment, name: 'Nintendo-DS.png' }] });
 	}
 };
 

@@ -43,6 +43,7 @@ module.exports = (client) => {
 		.use(express.static(path.join(__dirname, "/public")))
 		.set("view engine", "ejs")
 		.set("views", path.join(__dirname, "pages"))
+		.set('trust proxy', 1)
 		.use(session({
 			secret: 'Yamamura Dashboard',
 			resave: false,

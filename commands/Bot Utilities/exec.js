@@ -8,10 +8,10 @@ module.exports = class ExecCommand extends Command {
 			aliases: ['exec'],
 			category: 'Bot Utilities',
 			description: {
-        content: 'Executes code in the console. Only the bot owners may use this command.',
-        usage: '<Code to Execute>',
-        examples: 'pnpm update'
-      },
+				content: 'Executes code in the console. Only the bot owners may use this command.',
+				usage: '<Code to Execute>',
+				examples: 'pnpm update'
+			},
 			ownerOnly: true,
 			args: [
 				{
@@ -21,22 +21,22 @@ module.exports = class ExecCommand extends Command {
 						retry: (msg) => global.getString(msg.author.lang, "That is not code we can execute in the console.")
 					},
 					type: 'string',
-          match: "content"
+					match: "content"
 				}
 			]
 		});
 	}
 
 	async exec(msg, { script }) {
-    const client = this.client;
-    const channel = msg.channel;
-    const message = msg;
+		const client = this.client;
+		const channel = msg.channel;
+		const message = msg;
 
-    try {
-      let result = await exec(script).catch((err) => { throw err; });
+		try {
+			let result = await exec(script).catch((err) => { throw err; });
 
 			const output = result.stdout ? `${"```sh"}\n${result.stdout}\n${"```"}` : "";
-  		const outerr = result.stderr ? `${"```sh"}\n${result.stderr}\n${"```"}` : "";
+			const outerr = result.stderr ? `${"```sh"}\n${result.stderr}\n${"```"}` : "";
 
 			if (output.includes(this.client.token)) output = output.replace(this.client.token, '"If someone tried to make you output the token, you were likely being scammed."')
 			if (outerr.includes(this.client.token)) outerr = outerr.replace(this.client.token, '"If someone tried to make you output the token, you were likely being scammed."')
@@ -48,13 +48,13 @@ module.exports = class ExecCommand extends Command {
 				return msg.channel.send(new MessageAttachment(Buffer.from(outerr), "outerr.txt"));
 			}
 
-      msg.channel.send(!!outerr ? outerr : output)
+			msg.channel.send(!!outerr ? outerr : output)
 
-    } catch(err) {
-      console.error(err)
+		} catch(err) {
+			console.error(err)
 
-      const error = err.toString().replace(this.client.token, '"If someone tried to make you output the token, you were likely being scammed."')
-      return msg.channel.send(error, {code: 'bash'})
-    }
-  }
+			const error = err.toString().replace(this.client.token, '"If someone tried to make you output the token, you were likely being scammed."')
+			return msg.channel.send(error, {code: 'bash'})
+		}
+	}
 };

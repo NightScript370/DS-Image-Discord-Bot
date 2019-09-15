@@ -10,15 +10,13 @@ module.exports = class CooldownListener extends Listener {
 	}
 
 	exec(message, command, time) {
-		const remaining = time / 1000;
-
 		let placeused = 'DM';
 		if (message.guild)
 			placeused = message.guild.name;
 
 		console.log(`${message.author.username} (#${message.author.id}) was blocked from using ${command.id} in ${placeused} because of cooldown!`);
 
-		if (message.guild ? message.channel.permissionsFor(this.client.user).has('SEND_MESSAGES') : true) 
-			message.reply("we're sorry, but you may not use the " + command.id + " command for another " + remaining + " seconds.")
+		if (!message.channel.sendable) return; 
+		message.util.reply(global.getString(message.author.lang, "we're sorry, but you may not use the {0} command for another {1} seconds.", command.id, time / 1000));
 	}
 }

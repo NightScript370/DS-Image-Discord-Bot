@@ -7,37 +7,37 @@ module.exports = class ResizeCommand extends Command {
 			aliases: ["resize", 'stretch'],
 			category: 'Image Edits',
 			description: 'Resizes an image.',
-      cooldown: 10000,
-      ratelimit: 1,
+			cooldown: 10000,
+			ratelimit: 1,
 			clientPermissions: ['ATTACH_FILES'],
 			args: [
 				{
 					id: 'width',
 					type: (msg, phrase) => {
-            if (!phrase || isNaN(phrase)) return null;
-            const num = parseInt(phrase);
-            if (num < 1) return null;
-            return num;
-          },
-          prompt: {
-            start: "What width do you want to apply to the image?",
-            retry: "That's not a valid width we can apply."
-          }
+						if (!phrase || isNaN(phrase)) return null;
+						const num = parseInt(phrase);
+						if (num < 1) return null;
+						return num;
+					},
+					prompt: {
+						start: "What width do you want to apply to the image?",
+						retry: "That's not a valid width we can apply."
+					}
 				},
 				{
 					id: 'height',
 					type: (msg, phrase) => {
-            if (!phrase || isNaN(phrase)) return null;
-            const num = parseInt(phrase);
-            if (num < 1) return null;
-            return num;
-          },
-          prompt: {
-            start: "What height of distortion do you want to apply to the image?",
-            retry: "That's not a valid height we can apply."
-          }
+						if (!phrase || isNaN(phrase)) return null;
+						const num = parseInt(phrase);
+						if (num < 1) return null;
+						return num;
+					},
+					prompt: {
+						start: "What height of distortion do you want to apply to the image?",
+						retry: "That's not a valid height we can apply."
+					}
 				},
-        {
+				{
 					id: 'images',
 					type: 'image',
 					match: 'rest'
@@ -70,7 +70,7 @@ module.exports = class ResizeCommand extends Command {
 
 		ctx.drawImage(canvas2, 0, 0, width, height);
 
-    const attachment = canvas.toBuffer();
+		const attachment = canvas.toBuffer();
 		if (Buffer.byteLength(attachment) > 8e+6) return message.util.reply('Resulting image was above 8 MB.');
 		return message.util.send({ files: [{ attachment: attachment, name: 'stretch.png' }] });
 	}

@@ -19,13 +19,13 @@ module.exports = class ChuckNorrisCommand extends Command {
 				{
 					id: 'name',
 					type: async (msg, what) => {
-                        if (!what) return null;
+						if (!what) return null;
 
-                        let user = await msg.client.commandHandler.resolver.types.get("user-commando")(msg, what);
-                        if (user) return user.username;
+						let user = await msg.client.commandHandler.resolver.types.get("user-commando")(msg, what);
+						if (user) return user.username;
 
-                        return what;
-                    },
+						return what;
+					},
 					match: 'content',
 					default: 'Chuck'
 				}
@@ -42,6 +42,6 @@ module.exports = class ChuckNorrisCommand extends Command {
 			});
 
 		if (message.channel.sendable)
-    		return message.util.send(body.value.joke);
+			return message.util.send(body.value.joke);
 	}
 };

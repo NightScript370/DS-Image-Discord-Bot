@@ -14,6 +14,6 @@ module.exports = class WouldYouRatherCommand extends Command {
 
 	exec(message) {
 		if (message.channel.sendable)
-			return message.util.send(questions[Math.floor(Math.random() * questions.length)]);
+			return message.util.reply(questions[Math.floor(Math.random() * questions.length)]);
 	}
 };

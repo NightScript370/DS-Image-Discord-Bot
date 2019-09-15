@@ -153,7 +153,7 @@ module.exports = class PlayStationCommand extends Command {
 
 		const attachment = canvas.toBuffer();
 		if (Buffer.byteLength(attachment) > 8e+6) return msg.util.reply('Resulting image was above 8 MB.');
-		return msg.util.send(`${message.guild ? message.member.displayName : message.author.username}, I hope you like texture warping`, { files: [{ attachment: attachment, name: 'Playstation.png' }] });
+		return msg.util.send(global.getString(msg.author.lang, "{0}, I hope you like texture warping.", message.guild ? message.member.displayName : message.author.username), { files: [{ attachment: attachment, name: 'Playstation.png' }] });
 	}
 };
 

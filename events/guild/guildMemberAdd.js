@@ -18,11 +18,10 @@ module.exports = class guildMemberAddListener extends Listener {
 		let owner = member.guild.members.get(member.guild.ownerID);
 
 		let logembed = this.client.util.embed()
-			.setAuthor(`${member.user.username} has joined`, member.user.displayAvatarURL({format: 'png'}))
 			.setDescription(`This server now has ${member.guild.memberCount} members`)
 			.setThumbnail(member.guild.iconURL({format: 'png'}))
 			.addField('Account Age', member.user.createdAt)
-			.setFooter(`${member.user.tag} (#${member.user.id})`);
+			.setFooter(`${member.user.tag} (#${member.user.id})`, member.user.displayAvatarURL({format: 'png'}));
 
 		let inviteregex = /(http(s)?:\/\/)?(discord(\.gg|app.com\/invite|.io))\/([a-zA-Z0-9]{1,15})?/gmi;
 		let plsadd = /(pls\s+add|add\s+me)\s+([\.\:\/\w]{0,32})?\s+(\(tag\))\s+([\w#]{0,32})?/gmi;
@@ -59,7 +58,7 @@ Don't forget to subscribe to our Youtube channel and check out our website. `)
 
 		let logchannel = await this.client.db.serverconfig.get(this.client, member, "logchan")
 		if (logchannel && logchannel.sendable && logchannel.embedable)
-			logchannel.send({embed: logembed});
+			logchannel.send(`${member.user.username} has joined`, {embed: logembed});
 	}
 
 	sendWelcomeChannel(channel, member) {

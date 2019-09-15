@@ -45,7 +45,7 @@ module.exports = class WarnCommand extends Command {
 
 		try {
 			this.client.moderation.warn(this.client, member, reason, msg.member, msg);
-			msg.reply(`${member.displayName} was warned!`);
+			msg.util.reply(`${member.displayName} was warned!`);
 		} catch(e) {
 			console.error(e);
 		}

@@ -20,7 +20,7 @@ module.exports = class SkipAudioCommand extends Command {
 		});
 	}
 
-	exec(message, { modskip: modskipidentifier }) {
+	exec(message, { modskip }) {
 		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v);
 
 		let voiceChannel = message.member.voice.channel;
@@ -31,9 +31,8 @@ module.exports = class SkipAudioCommand extends Command {
 		if(!fetched)
 			return message.util.reply(__("there isn't any music playing in the server"));
 
-		let modskip = false;
-		if (modskipidentifier && message.member.hasPermission('MUTE_MEMBERS'))
-			modskip = true;
+		if (!message.member.hasPermission('MUTE_MEMBERS'))
+			modskip = false;
 
 		let uservcCount = message.member.voice.channel.members.size;
 		let requiredToSkip = Math.ceil(uservcCount / 2);

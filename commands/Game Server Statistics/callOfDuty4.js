@@ -6,13 +6,17 @@ module.exports = class COD4Command extends Command {
 			category: 'Game Server Statistics',
 			aliases: ["callOfDuty4", "cod4"],
 			clientPermissions: ['EMBED_LINKS'],
-			description: 'Get stats of any Call of Duty 4: Modern Warfare game server.',
+			description: {
+				content: 'Get stats of any Call of Duty 4: Modern Warfare game server.',
+				usage: '<server IP>',
+				examples: ['139.59.31.128:27016']
+			},
 			args: [
 				{
 					id: 'IP',
 					prompt: {
-						start: 'Which server would you like to get Call Of Duty 4 server statistics from?',
-						retry: 'That\'s not a server we can get stats from! Try again.'
+						start: (msg) => global.getString(msg.author.lang, 'Which server would you like to get `{0}` statistics from?', 'Call Of Duty 4: Modern Warfare'),
+						retry: (msg) => global.getString(msg.author.lang, "That's not a server we can get stats from! Try again.")
 					},
 					type: 'externalIP',
 					match: 'rest'
@@ -24,8 +28,6 @@ module.exports = class COD4Command extends Command {
 				}
 			]
 		});
-
-		this.examples = ['callOfDuty4 139.59.31.128:27016'];
 	}
 
 	async exec(message, { IP, ping }) {

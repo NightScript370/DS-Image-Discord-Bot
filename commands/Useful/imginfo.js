@@ -7,21 +7,21 @@ module.exports = class ImgInfoCommand extends Command {
 			aliases: ["imginfo"],
 			category: 'Useful',
 			description: {
-                content: 'Displays information on either an entire image or individual layers.'
-            },
-            cooldown: 10000,
-            ratelimit: 1,
+				content: 'Displays information on either an entire image or individual layers.'
+			},
+			cooldown: 10000,
+			ratelimit: 1,
 			clientPermissions: ['EMBED_LINKS'],
 			args: [
-                {
+				{
 					id: 'images',
 					type: 'image',
 					match: 'rest'
 				},
 				{
-				    id: 'perlayerView',
-				    match: 'flag',
-				    flag: '--separate'
+					id: 'perlayerView',
+					match: 'flag',
+					flag: '--separate'
 				}
 			]
 		});
@@ -30,76 +30,76 @@ module.exports = class ImgInfoCommand extends Command {
 	async exec(msg, { images, perlayerView }) {
 		let currentimage, widthpad, heightpad, fielddescription;
 
-        if (!this.isGood(images))
-            return msg.reply('No images were found. Please try again.')
+		if (!this.isGood(images))
+			return msg.reply('No images were found. Please try again.')
 
-        if (perlayerView && images instanceof Array && images.length > 8)
-            return msg.reply('Up to 20 layers may be viewed individually');
+		if (perlayerView && images instanceof Array && images.length > 8)
+			return msg.reply('Up to 20 layers may be viewed individually');
 
 		try {
 			const imagessize = await this.largestSize(images);
-            const canvas = await createCanvas(imagessize.width, imagessize.height);
+			const canvas = await createCanvas(imagessize.width, imagessize.height);
 			const ctx = canvas.getContext('2d');
 
-            let ImageInfoEmbed = this.client.util.embed()
-                .setColor("BLUE")
-                .setFooter(global.getString(msg.author.lang, "Image information requested by {0}", msg.author.tag), msg.author.displayAvatarURL());
+			let ImageInfoEmbed = this.client.util.embed()
+				.setColor("BLUE")
+				.setFooter(global.getString(msg.author.lang, "Image information requested by {0}", msg.author.tag), msg.author.displayAvatarURL());
 
-            if (typeof images == "string" || (images instanceof Array && images.length == 1)) {
-                ImageInfoEmbed
-                    .setImage(images instanceof Array ? images[0] : images)
-                    .addInline("Format Extention", this.getExtention(images instanceof Array ? images[0] : images))
-                    .addInline(global.getString(msg.author.lang, "Dimentions"),
-                      `**${global.getString(msg.author.lang, "Width")}**: ${global.getString(msg.author.lang, "{0} pixels", imagessize.width)} \n`
-                    + `**${global.getString(msg.author.lang, "Height")}**: ${global.getString(msg.author.lang, "{0} pixels", imagessize.height)}`);
-            } else {
-                let layerList = "";
-                for (var image of images) {
-                    if(layerList.length < 1000) {
-                        layerList += image + '\n';
-                    }
+			if (typeof images == "string" || (images instanceof Array && images.length == 1)) {
+				ImageInfoEmbed
+					.setImage(images instanceof Array ? images[0] : images)
+					.addInline("Format Extention", this.getExtention(images instanceof Array ? images[0] : images))
+					.addInline(global.getString(msg.author.lang, "Dimentions"),
+					  `**${global.getString(msg.author.lang, "Width")}**: ${global.getString(msg.author.lang, "{0} pixels", imagessize.width)} \n`
+					+ `**${global.getString(msg.author.lang, "Height")}**: ${global.getString(msg.author.lang, "{0} pixels", imagessize.height)}`);
+			} else {
+				let layerList = "";
+				for (var image of images) {
+					if(layerList.length < 1000) {
+						layerList += image + '\n';
+					}
 
-                    currentimage = await loadImage(image);
+					currentimage = await loadImage(image);
 
-    				widthpad = (imagessize.width - currentimage.width) / 2;
-	    			heightpad = (imagessize.height - currentimage.height) / 2;
+					widthpad = (imagessize.width - currentimage.width) / 2;
+					heightpad = (imagessize.height - currentimage.height) / 2;
 
-		    		ctx.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
-                }
+					ctx.drawImage(currentimage, widthpad, heightpad, currentimage.width, currentimage.height);
+				}
 
-                ImageInfoEmbed
-                    .attachFiles([{name: "image.png", attachment: canvas.toBuffer()}])
-                    .setImage('attachment://image.png')
-                    .addField(`Layers (${images.length})`, layerList);
+				ImageInfoEmbed
+					.attachFiles([{name: "image.png", attachment: canvas.toBuffer()}])
+					.setImage('attachment://image.png')
+					.addField(`Layers (${images.length})`, layerList);
 
-                if (perlayerView) {
-                    for (var index in images) {
-                        currentimage = await loadImage(images[index]);
+				if (perlayerView) {
+					for (var index in images) {
+						currentimage = await loadImage(images[index]);
 
-                        fielddescription = '';
-                        fielddescription += `**Format:** ${this.getExtention(images[index])} \n`;
-                        fielddescription += `**${global.getString(msg.author.lang, "Width")}**: ${global.getString(msg.author.lang, "{0} pixels", currentimage.width)} \n`;
-                        fielddescription += `**${global.getString(msg.author.lang, "Height")}**: ${global.getString(msg.author.lang, "{0} pixels", currentimage.height)} \n`;
-                        fielddescription += `**Link to image:** ${images[index]}`;
+						fielddescription = '';
+						fielddescription += `**Format:** ${this.getExtention(images[index])} \n`;
+						fielddescription += `**${global.getString(msg.author.lang, "Width")}**: ${global.getString(msg.author.lang, "{0} pixels", currentimage.width)} \n`;
+						fielddescription += `**${global.getString(msg.author.lang, "Height")}**: ${global.getString(msg.author.lang, "{0} pixels", currentimage.height)} \n`;
+						fielddescription += `**Link to image:** ${images[index]}`;
 
-                        ImageInfoEmbed.addField(`Layer #(${images[index]})`, fielddescription);
-                    }
-                } else {
-                    ImageInfoEmbed.addInline(global.getString(msg.author.lang, "Dimentions"),
-                      `**${global.getString(msg.author.lang, "Width")}**: ${global.getString(msg.author.lang, "{0} pixels", imagessize.width)} \n`
-                    + `**${global.getString(msg.author.lang, "Height")}**: ${global.getString(msg.author.lang, "{0} pixels", imagessize.height)}`);
-                }
-            }
+						ImageInfoEmbed.addField(`Layer #(${images[index]})`, fielddescription);
+					}
+				} else {
+					ImageInfoEmbed.addInline(global.getString(msg.author.lang, "Dimentions"),
+					  `**${global.getString(msg.author.lang, "Width")}**: ${global.getString(msg.author.lang, "{0} pixels", imagessize.width)} \n`
+					+ `**${global.getString(msg.author.lang, "Height")}**: ${global.getString(msg.author.lang, "{0} pixels", imagessize.height)}`);
+				}
+			}
 
 			return msg.util.send({ embed: ImageInfoEmbed });
 		} catch (err) {
-            console.error(err);
+			console.error(err);
 			return msg.reply(global.getString(msg.author.lang, "Oh no, an error occurred: `{0}`. Please report your error to the Yamamura developers!", err.message));
 		}
 	}
 
-    getExtention(link) {
-        let filenameSplit = link.split(/[#?]/)[0].split("/");
-        return filenameSplit[filenameSplit.length-1].split(".")[1];
-    }
+	getExtention(link) {
+		let filenameSplit = link.split(/[#?]/)[0].split("/");
+		return filenameSplit[filenameSplit.length-1].split(".")[1];
+	}
 };

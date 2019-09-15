@@ -176,7 +176,7 @@ module.exports = class NintendoSwitchCommand extends Command {
 
 		const attachment = canvas.toBuffer();
 		if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-		return msg.util.send(`${message.guild ? message.member.displayName : message.author.username}, here's a console game, now its portable!`, { files: [{ attachment: attachment, name: 'nintendo-switch-boxart.png' }] });
+		return msg.util.send(global.getString(msg.author.lang, "{0}, here's a console game, now its portable!", message.guild ? message.member.displayName : message.author.username), { files: [{ attachment: attachment, name: 'nintendo-switch-boxart.png' }] });
 	}
 };
 

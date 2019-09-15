@@ -11,8 +11,8 @@ module.exports = class RustCommand extends Command {
 				{
 					id: 'IP',
 					prompt: {
-						start: 'Which server would you like to get Rust statistics from?',
-						retry: 'That\'s not a server we can get stats from! Try again.'
+						start: (msg) => global.getString(msg.author.lang, 'Which server would you like to get `{0}` statistics from?', 'Rust'),
+						retry: (msg) => global.getString(msg.author.lang, "That's not a server we can get stats from! Try again.")
 					},
 					type: 'externalIP',
 					match: 'rest'

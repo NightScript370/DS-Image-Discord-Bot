@@ -68,7 +68,7 @@ module.exports = class BanCommand extends Command {
 				return msg.util.reply("You need to be the server owner in order to ban Administrators.");
 			
 			if (member.id == author.id)
-				return msg.reply("You can't ban yourself!");
+				return msg.util.reply("You can't ban yourself!");
 		} else {
 			banList = await msg.guild.fetchBans();
 			if (banList.get(user.id))

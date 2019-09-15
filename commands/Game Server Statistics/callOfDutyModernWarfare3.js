@@ -7,14 +7,16 @@ module.exports = class CODMW3Command extends Command {
 			aliases: ["callOfDutyModernWarfare3", "codmw3"],
 			clientPermissions: ['EMBED_LINKS'],
 			description: {
-				content: 'Get stats of any Call of Duty: Modern Warfare 3 game server.'
+				content: 'Get stats of any Call of Duty: Modern Warfare 3 game server.',
+				usage: '<server IP>',
+				examples: ['139.59.31.128:27016']
 			},
 			args: [
 				{
 					id: 'IP',
 					prompt: {
-						start: 'Which server would you like to get `Call of Duty: Modern Warfare 3` statistics from?',
-						retry: 'That\'s not a server we can get stats from! Try again.'
+						start: (msg) => global.getString(msg.author.lang, 'Which server would you like to get `{0}` statistics from?', 'Call Of Duty: Modern Warfare 3'),
+						retry: (msg) => global.getString(msg.author.lang, "That's not a server we can get stats from! Try again.")
 					},
 					type: 'externalIP',
 					match: 'rest'

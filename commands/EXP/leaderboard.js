@@ -15,8 +15,10 @@ module.exports = class LeaderboardCommand extends Command {
 					id: 'guild',
 					type: 'guild',
 					default: msg => {
-						if (msg.guild)	return msg.guild;
-						else						return null;
+						if (msg.guild)
+							return msg.guild;
+
+						return null;
 					},
 					match: 'option',
 					flag: 'guild:'

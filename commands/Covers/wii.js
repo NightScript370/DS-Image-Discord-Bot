@@ -170,7 +170,7 @@ module.exports = class WiiCommand extends Command {
 
 		const attachment = canvas.toBuffer();
 		if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-		return msg.util.send(`${message.guild ? message.member.displayName : message.author.username}, Wii would like to play`, { files: [{ attachment: attachment, name: 'Nintendo-Wii-boxart.png' }] });
+		return msg.util.send(global.getString(msg.author.lang, "{0}, Wii would like to play.", message.guild ? message.member.displayName : message.author.username), { files: [{ attachment: attachment, name: 'Nintendo-Wii-boxart.png' }] });
 	}
 };
 

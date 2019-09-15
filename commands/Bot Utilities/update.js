@@ -15,7 +15,7 @@ module.exports = class UpdateCommand extends Command {
 	}
 
 	async exec(message) {
-		let responce = await message.channel.send('Updating bot');
+		let responce = await message.util.send('Updating bot');
 		
 		try {
 			execSync('git fetch origin && git reset --hard origin/master');

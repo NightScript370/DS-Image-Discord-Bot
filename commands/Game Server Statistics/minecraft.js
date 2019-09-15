@@ -9,13 +9,15 @@ module.exports = class MinecraftServerCommand extends Command {
 			clientPermissions: ['EMBED_LINKS'],
 			description: {
 				content: 'Get stats of any Minecraft game server.',
+				usage: '<server IP>',
+				examples: ['139.59.31.129:25565']
 			},
 			args: [
 				{
 					id: 'IP',
 					prompt: {
-						start: 'Which minecraft server would you like to get stats from?',
-						retry: 'That\'s not a server we can get stats from! Try again.'
+						start: (msg) => global.getString(msg.author.lang, 'Which server would you like to get `{0}` statistics from?', 'Minecraft'),
+						retry: (msg) => global.getString(msg.author.lang, "That's not a server we can get stats from! Try again.")
 					},
 					type: 'string',
 					match: 'rest'
@@ -35,8 +37,6 @@ module.exports = class MinecraftServerCommand extends Command {
 				}
 			]
 		});
-
-		this.examples = ['minecraft 139.59.31.129:25565'];
 	}
 
 	async exec(message, { IP, API, ping }) {

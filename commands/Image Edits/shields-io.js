@@ -20,8 +20,8 @@ module.exports = class ShieldsIoBadgeCommand extends Command {
 				{
 					id: 'subject',
 					prompt: {
-						start: "What should be the subject of the badge?",
-						retry: "That's not a subject that you can apply. Try again!"
+						start: (msg) => global.getString(msg.author.lang, "What should be the subject of the badge?"),
+						retry: (msg) => global.getString(msg.author.lang, "That's not a subject that you can apply. Try again!")
 					},
 					type: 'string'
 				},

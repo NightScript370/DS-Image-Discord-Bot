@@ -10,27 +10,31 @@ module.exports = class guildMemberRemoveListener extends Listener {
     }
 
     async exec(member) {
-		if (member.guild.partial) await member.guild.fetch()
+		if (member.guild.partial) await member.guild.fetch();
 
-        let memberRemoveLogEmbed = this.client.util.embed()
-            .setThumbnail(member.guild.iconURL({format: 'png'}))
+		let memberRemoveLogEmbed = this.client.util.embed()
+			.setThumbnail(member.guild.iconURL({format: 'png'}))
 			.setDescription(`This server now has ${member.guild.memberCount} members`)
 			.setFooter(`${member.user.tag} (#${member.id})`, member.user.displayAvatarURL({format: 'png'}));
 
-        if (!member.partial) {
+		if (member.joinedAt)
 			memberRemoveLogEmbed.addField("Joined", member.joinedAt);
-            try {
-                let roles = member.roles.filter(role => role.id != member.guild.roles.everyone.id).map(r => r.name).join(", ");
-                if(!isEmpty(roles))
-                    memberRemoveLogEmbed.addField("Roles", "```"+roles+"```");
-            } catch(e) {
-                console.error(e);
-            }
-        }
+
+		if (!member.roles)
+			member.roles = new Map();
+
+		if (!member.roles.everyone) {
+			member.roles.everyone = {};
+			member.roles.everyone.id = msg.guild.id;
+		}
+
+		let roles = member.roles.filter(role => role.id != member.guild.roles.everyone.id).map(r => r.name).join(", ");
+		if(!isEmpty(roles))
+			memberRemoveLogEmbed.addField("Roles", "```"+roles+"```");
 
 		let logchannel = await this.client.db.serverconfig.get(this.client, member, "logchan")
-        if (logchannel && logchannel.sendable && logchannel.embedable)
-            logchannel.send(`${member.user.username} has left`, {embed: memberRemoveLogEmbed});
+		if (logchannel && logchannel.sendable && logchannel.embedable)
+			logchannel.send(`${member.user.username} has left`, {embed: memberRemoveLogEmbed});
     }
 }
 

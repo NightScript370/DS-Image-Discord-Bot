@@ -37,13 +37,12 @@ module.exports = class RockPaperScissorsCommand extends Command {
 	exec(msg, { move }) {
 		let compare;
 
-		if (rocks.includes(move)) {
+		if (rocks.includes(move))
 			compare = 0;
-		} else if (paper.includes(move)) {
+		else if (paper.includes(move))
 			compare = 1;
-		} else if (scissors.includes(move)) {
+		else if (scissors.includes(move))
 			compare = 2;
-		}
 
 		let cpumove = random(2);
 

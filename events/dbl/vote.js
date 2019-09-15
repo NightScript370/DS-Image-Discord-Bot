@@ -1,27 +1,27 @@
 const { Listener } = require('discord-akairo');
 
 module.exports = class DBLVotedListener extends Listener {
-    constructor() {
-        super('vote', {
-            emitter: 'dblwebhook',
-            event: 'vote',
-            category: 'dbl'
-        });
-    }
+	constructor() {
+		super('vote', {
+			emitter: 'dblwebhook',
+			event: 'vote',
+			category: 'dbl'
+		});
+	}
 
-    async exec(vote) {
-        if (vote.type == 'test')
-            return console.log('test successful');
-        let message;
+	async exec(vote) {
+		if (vote.type == 'test')
+			return console.log('test successful');
+		let message;
 
-        try {
-            let fetchedUser = await this.client.users.fetch(vote.user);
-            message = `${fetchedUser.tag} just upvoted on DiscordBots.org!`;
-        } catch(e) {
-            message = `${vote.user} upvoted on DiscordBots.org`;
-        }
+		try {
+			let fetchedUser = await this.client.users.fetch(vote.user);
+			message = `${fetchedUser.tag} just upvoted on DiscordBots.org!`;
+		} catch(e) {
+			message = `${vote.user} upvoted on DiscordBots.org`;
+		}
 
-        this.client.channels.get(this.client.log.upvote).send(message);
-        console.log(`[DiscordBots.org] User with ID ${vote.user} just voted!`);
-    }
+		this.client.channels.get(this.client.log.upvote).send(message);
+		console.log(`[DiscordBots.org] User with ID ${vote.user} just voted!`);
+	}
 }

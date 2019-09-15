@@ -30,9 +30,9 @@ module.exports = class PixelizeCommand extends Command {
 					match: 'rest'
 				},
 				{
-						id: 'smoothen',
-						match: 'flag',
-						flag: '--smooth'
+					id: 'smoothen',
+					match: 'flag',
+					flag: '--smooth'
 				}
 			]
 		});
