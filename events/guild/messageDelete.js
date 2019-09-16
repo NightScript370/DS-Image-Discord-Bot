@@ -76,6 +76,8 @@ module.exports = class MessageDeleteListener extends Listener {
 	}
 
 	async removePoints(message) {
+		if (message.author.bot) return;
+
 		const inhibitor = require("../../point-inhibit");
 		if (inhibitor.inhibite(message)) return;
 

@@ -24,7 +24,7 @@ module.exports = class ServerPointsCommand extends Command {
 				{
 					id: 'amount',
 					description: "This argument is the amount of points you'd like to donate to the user.",
-					type: 'integer',
+					type: 'javierInteger',
 					prompt: {
 						start: 'How many points would you like to donate?',
 						retry: 'That\'s an invalid amount of points! Try again.'
@@ -68,9 +68,6 @@ module.exports = class ServerPointsCommand extends Command {
 		if (user.bot) return message.util.reply(__("bots do not collect Experience Points! Please try this command on a different user"));
 		if (!guild) return message.util.reply(__("You need to set a server in order to make a transaction in regards to a member of that server. Try again"));
 
-		if (amount > 10000) return message.util.reply(__("you can only give up to 10,000 points at a time."));
-		if (amount < -10000) return message.util.reply(__("you can only take up to 10,000 points at a time."));
-
 		if (!message.guild || (message.guild && message.guild.id !== guild.id)) {
 			let guildFind = this.client.guilds.get(guild.id)
 			if (!guildFind) return message.util.reply(__("Yamamura is not in that server. Therefore, I cannot get that server's points"));
@@ -97,16 +94,14 @@ module.exports = class ServerPointsCommand extends Command {
 		if (!DBAuthor)
 			DBuser = await this.client.db.points.insert({guild: guildFound.id, member: message.author.id, points: 0, level: 0});
 
-		if (!authorGuildMember.permissions.has('MANAGE_MESSAGES')) {
-			if (user.id == message.author.id && !override) return message.util.reply("you would not benefit from that.");
-			if (amount < 0) return message.util.reply("you may not steal points!");
+		if (!authorGuildMember.permissions.has('MANAGE_MESSAGES') && !override) {
+			if (user.id == message.author.id) return message.util.reply(__("you would not benefit from that."));
+			if (amount < 0) return message.util.reply(__("you may not steal points!"));
 
-			if (amount > DBAuthor.points && !override) return message.util.reply("You do not have enough points to donate to the user! Please try again once you collect more points");
+			if (amount > DBAuthor.points) return message.util.reply("You do not have enough points to donate to the user! Please try again once you collect more points");
 
-			if (!override) {
-				DBAuthor.points = DBAuthor.points - amount;
-				DBAuthor.level = Math.floor(DBAuthor.points / 350);
-			}
+			DBAuthor.points = DBAuthor.points - amount;
+			DBAuthor.level = Math.floor(DBAuthor.points / 350);
 
 			action = 'add';
 		}
@@ -126,7 +121,7 @@ module.exports = class ServerPointsCommand extends Command {
 		DBuser.level = Math.floor(DBuser.points / 350);
 
 		let BotThanks = `thank you so much for donating ${amount} points to ${user.tag}. They are now at level ${DBuser.level}.`;
-		if (!authorGuildMember.permissions.has('MANAGE_MESSAGES'))
+		if (!authorGuildMember.permissions.has('MANAGE_MESSAGES') && !override)
 			BotThanks += `\n Unfortunately, that also means you're now down to ${DBAuthor.points} points, and are now at level ${DBAuthor.level}`;
 
 		await message.util.reply(BotThanks);

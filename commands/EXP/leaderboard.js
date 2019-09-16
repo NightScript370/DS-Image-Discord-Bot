@@ -58,6 +58,7 @@ module.exports = class LeaderboardCommand extends Command {
 			let top10 = filtered.sort((a, b) => b.points - a.points);
 			top10.length = Math.min(numberofresults || top10.length, top10.length);
 			let i = 0;
+			let guildMember;
 
 			if(guildFound.me.hasPermission('EMBED_LINKS')) {
 				if(numberofresults < 9) {
@@ -70,7 +71,7 @@ module.exports = class LeaderboardCommand extends Command {
 						.setColor(0x00AE86);
 
 					for(const lbdata of top10) {
-						if(!this.client.users.has(lbdata.member)) continue;
+						if (!this.client.users.has(lbdata.member)) continue;
 
 						try {
 							i = i + 1
@@ -89,9 +90,11 @@ module.exports = class LeaderboardCommand extends Command {
 									medal = "";
 							}
 
-							// console.log(msg.guild.members.find(member => member.id == lbdata.user))
-							username = msg.guild.members.find(member => member.id == lbdata.member).displayName;
-							guildFieldEmbed.addField(medal + username, `${lbdata.points} points (level ${lbdata.level})`, true);
+							guildMember = guildFound.members.find(member => member.id == lbdata.member);
+							if (guildMember.author.bot)
+								return;
+
+							guildFieldEmbed.addField(medal + guildMember.displayName, `${lbdata.points} points (level ${lbdata.level})`, true);
 
 							if(i == numberofresults)
 								break;
@@ -168,9 +171,9 @@ module.exports = class LeaderboardCommand extends Command {
 
 			let uDataembedless = '';
 			for(const lbdata of top10) {
-				if(!msg.guild.members.has(lbdata.member)) continue;
+				if(!guildFound.members.has(lbdata.member)) continue;
 				try {
-					uDataembedless += `**${i + 1}. ${msg.guild.members.find(member => member.id == lbdata.member).nickname || this.client.users.get(lbdata.member).username}**: ${lbdata.points} points (level ${lbdata.level}) \n`;
+					uDataembedless += `**${i + 1}. ${guildFound.members.find(member => member.id == lbdata.member).displayName || this.client.users.get(lbdata.member).username}**: ${lbdata.points} points (level ${lbdata.level}) \n`;
 					i = i + 1;
 
 					if(i == numberofresults)

@@ -20,6 +20,8 @@ module.exports = class messageUpdateListener extends Listener {
 	}
 
 	async removePoints(message) {
+		if (message.author.bot) return;
+
 		const inhibitor = require("../../point-inhibit");
 		if (inhibitor.inhibite(message)) return;
 
@@ -55,8 +57,8 @@ module.exports = class messageUpdateListener extends Listener {
 
 			if (oldMessage.content.length < 1020 && newMessage.content.length < 1020)
 				messageUpdateEmbed
-				.addField("Before", `${oldMessage.content}`, true)
-				.addField("After", `${newMessage.content}`, true)
+				.addField("Before", oldMessage.content || "Empty", true)
+				.addField("After", newMessage.content || "Empty", true)
 		} else if ((!oldMessage.pinned && newMessage.pinned) || (oldMessage.pinned && !newMessage.pinned)) {
 			text = `A message by ${newMessage.member.displayName} was pinned`;
 			messageUpdateEmbed.setDescription(newMessage.content)

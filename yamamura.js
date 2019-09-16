@@ -80,7 +80,7 @@ class YamamuraClient extends AkairoClient {
 				currentsettings.levelupmsgs = defaultsettings.levelupmsgs;
 				currentsettings.mutedrole = defaultsettings.mutedrole;
 
-				return this.client.db.serverconfig.update(currentsettings);
+				return this.db.serverconfig.update(currentsettings);
 			} 
 			return this.db.serverconfig.insert(defaultsettings);
 		};

@@ -204,6 +204,30 @@ const akairo_types = {
 
 		return userFound;
 	},
+	'javierInteger': async (message, num) => {
+		if (!num) return null;
+
+		//Check if is number and not NaN
+		if (typeof num == 'number' && num+'' !== 'NaN')
+			return num;
+   
+		//Check if is not string
+		if (typeof num !== 'string')
+			return null;
+
+		//Check for special strings
+		if (num == 'NaN')
+			return null;
+		if (num == 'Infinity')
+			return Infinity;
+
+		// Parse int and check NaN
+		let parsed = parseInt(num);
+		if (parsed + '' == 'NaN')
+			return null;
+
+		return parsed;
+	},
 	'externalIP': (message, address) => {
 		if (!address)
 			return null;

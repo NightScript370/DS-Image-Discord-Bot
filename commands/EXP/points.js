@@ -34,16 +34,18 @@ module.exports = class ServerPointsCommand extends Command {
 	}
 
 	async exec(message, { user, guild }) {
-		const client = await this.client
+		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v);
 		let guildFound;
-		if (user.bot) return message.reply("bots do not collect Experience Points! Please try this command on a different user");
-		
+
+		if (user.bot)
+			return message.util.reply(__("bots do not collect Experience Points! Please try this command on a different user"));
+
 		if (guild) {
 			if(!message.guild || (message.guild && message.guild.id !== guild.id)) {
-				let guildFind = client.guilds.get(guild.id)
-				if (!guildFind) return message.reply("Yamamura is not in that server. Therefore, I cannot get that server's points");
+				let guildFind = this.client.guilds.get(guild.id)
+				if (!guildFind) return message.util.reply(__("Yamamura is not in that server. Therefore, I cannot get that server's points"));
 
-				if (!guildFind.members.has(message.author.id)) return message.reply('you may not see the statistics of a server you are not in. Try again later');
+				if (!guildFind.members.has(message.author.id)) return message.util.reply(__('you may not see the statistics of a server you are not in. Try again later'));
 
 				guildFound = guildFind;
 			} else {
@@ -60,7 +62,7 @@ module.exports = class ServerPointsCommand extends Command {
 				if (guildMember)
 					DBuser = await this.client.db.points.insert({guild: guildFound.id, member: user.id, points: 0, level: 0});
 				else
-					return message.reply("you can't see the points of a user who is/was not in the server. Please try again on a different user.");
+					return message.util.reply(__("you can't see the points of a user who is/was not in the server. Please try again on a different user."));
 			}
 
 			let GuildPointsEmbed = this.client.util.embed()
@@ -73,26 +75,26 @@ module.exports = class ServerPointsCommand extends Command {
 	
 			if (DBuser.points === Infinity) {
 				GuildPointsEmbed
-					.addInline("Points", "Infinity")
-					.addInline("Level", "Infinity")
-					.setDescription("There's no higher level that this user can reach. This user is already at their maximum level possible.")
+					.addInline(__("Points"), __("Infinity"))
+					.addInline(__("Level"), __("Infinity"))
+					.setDescription(__("There's no higher level that this user can reach. This user is already at their maximum level possible."))
 			} else {
 				let nextlvl = (DBuser.level + 1) * 350;
 				let diff = nextlvl - DBuser.points;
 
 				GuildPointsEmbed
-					.addInline("Points", DBuser.points)
-					.addInline("Level", DBuser.level)
-					.setDescription(`${diff} more points until level up!`)
+					.addInline(__("Points"), DBuser.points)
+					.addInline(__("Level"), DBuser.level)
+					.setDescription(__('{0} more points until level up!', diff))
 			}
 
-			return message.util.send(`${guildMember ? guildMember.displayName : user.username} is currently standing at level ${DBuser.level} with ${DBuser.points} points.`, {embed: GuildPointsEmbed});
+			return message.util.send(__("{0} is currently standing at level {1} with {2} points.", guildMember ? guildMember.displayName : user.username, DBuser.level, DBuser.points), {embed: GuildPointsEmbed});
 		}
 
 		let guildsShare = false;
 		let UserEmbed = this.client.util.embed()
 			.setColor("#15f153")
-			.setTitle(`Showing stats for ${user.username}`)
+			.setTitle('Showing stats for {0}', user.username)
 			.setTimestamp(new Date())
 			.setThumbnail(user.displayAvatarURL({format: 'png'}))
 			.setYamamuraCredits(true)
@@ -107,7 +109,7 @@ module.exports = class ServerPointsCommand extends Command {
 			UserEmbed.addField(guild.name, `${user.points} (Level: ${user.level})`);
 		});
 
-		if (!guildsShare) return message.reply('we do not share any servers with this user. Please try again with a different user.');
+		if (!guildsShare) return message.util.reply(__('we do not share any servers with this user. Please try again with a different user.'));
 		return await message.util.send({embed: UserEmbed});
 	}
 };
