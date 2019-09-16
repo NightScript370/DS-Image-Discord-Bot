@@ -135,17 +135,9 @@ module.exports = {
 	"I can't speak. Make sure I have the proper permissions.": "Я не могу разговаревать. Подтвердите, что у меня верные права.",
 	"Related Music Search": "Поиск связанной музыкы",
 	"Added {0} song(s) to Queue: {1} | Requested by: {2}": "Добавил {0} песень к очереди: {1} | Запрошен: {2}",
-	"Aggiunto alla coda: {0} | Richiesto da: {1}": "",
 	"**NOW PLAYING**: [{0}]({1}) | Requested by {2}": "**СЕЙЧАС ИГРАЕТ**: [{0}]({1}) | Запрошен {2}",
 	"**NEXT**: [{0}]({1}) | Requested by {2}": "**СЛЕДУЮЩИЙ**: [{0}]({1}) | Запрошен {2}",
 	"{0} Users": "{0} Пользователи",
 	"{0} Channels": "{0} Каналов",
     "{0} Servers": "{0} Серверов",
-
-    "": "",
-    "": "",
-    "": "",
-    "": "",
-    "": "",
-    "": "",
 };
