@@ -109,8 +109,8 @@ class YamamuraClient extends AkairoClient {
 			allowMention: true,
 			argumentDefaults: {
 				prompt: {
-					modifyStart: (message, text) => text && `${message.author} **::** ${text}\n` + global.getString(message.author.lang, "Type `cancel` to cancel this command."),
-					modifyRetry: (message, text) => text && `${message.author} **::** ${text}\n` + global.getString(message.author.lang, "Type `cancel` to cancel this command."),
+					modifyStart: (message, text) => text && `${message.author} **::** ${global.getString(message.author.lang, text)}\n` + global.getString(message.author.lang, "Type `cancel` to cancel this command."),
+					modifyRetry: (message, text) => text && `${message.author} **::** ${global.getString(message.author.lang, text)}\n` + global.getString(message.author.lang, "Type `cancel` to cancel this command."),
 					timeout: message => `${message.author} **::** ` + global.getString(message.author.lang, "Time ran out, command has been cancelled."),
 					ended: message => `${message.author} **::** ` + global.getString(message.author.lang, "Too many retries, command has been cancelled."),
 					cancel: message => `${message.author} **::** ` + global.getString(message.author.lang, "Command has been cancelled."),

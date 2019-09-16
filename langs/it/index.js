@@ -2,13 +2,25 @@ module.exports = {
 	// MARK: General purpose
 	"Type `cancel` to cancel this command.": "Scrivi `cancel` (annulla) per annullare il comando.",
 	"by {0}": "di {0}",
-	"There are not enough arguments to this command. The minimum is {0}.": "Non ci sono abbastanza argomenti per questo comando. Il minimo è {0}.",
+    "There are not enough arguments to this command. The minimum is {0}.": "Non ci sono abbastanza argomenti per questo comando. Il minimo è {0}.",
+    "Time ran out, command has been cancelled.": "Tempo scaduto; il comando è stato annullato.",
+    "Too many retries, command has been cancelled.": "Troppi tentativi; il comando è stato annullato.",
+    "Command has been cancelled.": "Il comando è stato annullato.",
+    "Progress": "Progresso",
+
+    // MARK: General purpose - Audio
+    "Now Playing: {0}": "In riproduzione: {0}",
+	"**NOW PLAYING**: [{0}]({1}) | Requested by {2}": "**IN RIPRODUZIONE**: [{0}]({1}) | Richiesto da {2}",
+	"**NEXT**: [{0}]({1}) | Requested by {2}": "**PROSSIMO**: [{0}]({1}) | Richiesto da {2}",
+    "Requested by {0}": "Richiesto da {0}",
+
+    // MARK: Nowplaying command
+    "there currently isn't any music playing in this server.": "non c'è musica in riproduzione nel server in questo momento",
 
 	// MARK: Commands command
 	"No description available.": "Nessuna descrizione",
 	"Total Commands: {0}": "Comandi disponibili: {0}",
 
-	"Progress": "Progresso",
 	"Examples": "Esempi",
 	"Aliases": "Alias",
 	"Permissions": "Permessi",
@@ -110,12 +122,9 @@ module.exports = {
     "Enabled": "Abilitato",
     "Disabled": "Non abilitato",
 
-    "Requested by {0}": "Richiesto da {0}",
     "I have successfully paused {0}.": "Ho messo in pausa {0}.",
     "I think it may work better if you are in a voice channel!": "Credo funzionerebbe meglio se tu fossi in un canale vocale.",
-    "Now Playing: {0}": "In riproduzione: {0}",
 
-    "there currently isn't any music playing in this server.": "non c'è musica in riproduzione nel server in questo momento",
     "I have successfully cleared the configuration": "Ho ripristinato la configurazione.",
     "I couldn't get text to mock.": "Non c'era testo da prendere in giro.",
     "There were no text I can find to convert to hexadecimal.": "Non c'era testo da convertire in esadecimale.",
@@ -136,8 +145,6 @@ module.exports = {
 	"Related Music Search": "Ricerca musica inerente",
 	"Added {0} song(s) to Queue: {1} | Requested by: {2}": "Aggiunte {0} canzone/i alla Coda: {1} | Richiesto da: {2}",
 	"Aggiunto alla coda: {0} | Richiesto da: {1}": "",
-	"**NOW PLAYING**: [{0}]({1}) | Requested by {2}": "**IN RIPRODUZIONE**: [{0}]({1}) | Richiesto da {2}",
-	"**NEXT**: [{0}]({1}) | Requested by {2}": "**PROSSIMO**: [{0}]({1}) | Richiesto da {2}",
 	"{0} Users": "{0} Utenti",
 	"{0} Channels": "{0} Canali",
     "{0} Servers": "{0} Servers",
