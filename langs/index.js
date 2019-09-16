@@ -28,5 +28,11 @@ module.exports = [
     name: "Polski (Polish)",
     flag: ":flag_pl:",
     translators: ["indepth6#3659"]
-  }
+  },
+  {
+    code: "ru",
+    name: "Русский (Russian)",
+    flag: ":flag_ru:",
+    translators: ["_Mapple2#5492"]
+  },
 ];
