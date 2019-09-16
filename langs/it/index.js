@@ -13,9 +13,16 @@ module.exports = {
 	"**NOW PLAYING**: [{0}]({1}) | Requested by {2}": "**IN RIPRODUZIONE**: [{0}]({1}) | Richiesto da {2}",
 	"**NEXT**: [{0}]({1}) | Requested by {2}": "**PROSSIMO**: [{0}]({1}) | Richiesto da {2}",
     "Requested by {0}": "Richiesto da {0}",
+    "Type `{0}play related` to play a related video": "Scrivi `{0}play related` per avviare la riproduzione di un video correlato.",
 
     // MARK: Nowplaying command
     "there currently isn't any music playing in this server.": "non c'è musica in riproduzione nel server in questo momento",
+
+    // MARK: Pause command
+    "in order to use audio commands, you will need to be in a voice channel": "devi essere in un canale vocale per usare i comandi musicali",
+    "in order to pause audio, there needs to be audio playing in the channel": "devi essere in un canale vocale per poter mettere in pausa la musica",
+    "the audio that you are currently supposed to be listening to is already paused": "il brano che in teoria stai ascoltando è già in pausa",
+    "I have successfully paused {0}.": "Ho messo in pausa {0}.",
 
 	// MARK: Commands command
 	"No description available.": "Nessuna descrizione",
@@ -142,7 +149,7 @@ module.exports = {
 	"You lost perms to connect to the Voice Channel.": "Non hai il permesso di connetterti al Canale Vocale",
 	"I can't join. Make sure I have the proper permissions.": "Non posso entrare. Assicurati che io abbia i permessi per farlo",
 	"I can't speak. Make sure I have the proper permissions.": "Non posso parlare. Assicurati che io abbia i permessi per farlo",
-	"Related Music Search": "Ricerca musica inerente",
+	"Related Music Search": "Ricerca musica correlata",
 	"Added {0} song(s) to Queue: {1} | Requested by: {2}": "Aggiunte {0} canzone/i alla Coda: {1} | Richiesto da: {2}",
 	"Aggiunto alla coda: {0} | Richiesto da: {1}": "",
 	"{0} Users": "{0} Utenti",
