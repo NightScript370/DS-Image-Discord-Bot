@@ -5,7 +5,7 @@ const path = require('path');
 module.exports = class PlayStationCommand extends Command {
 	constructor() {
 		super('playstation', {
-			aliases: ['ps', 'playstation'],
+			aliases: ['ps', 'playstation', 'プレイステーション'],
 			category: 'Covers',
 			description: {
 				content: "Put an image on a cover for the console that was made because Nintendo screwed them over"

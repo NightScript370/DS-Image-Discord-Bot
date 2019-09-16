@@ -1,26 +1,93 @@
 module.exports = {
     // MARK: General purpose
-    "Type `cancel` to cancel this command.": "コマンドをキャンセルするには\`cancel\`を入力します",
+    "Type `cancel` to cancel this command.": "コマンドをキャンセルするには`cancel`を入力します",
     "by {0}": "- {0}さん",
+    "Requested by {0}": "{0}さんによるリクエスト",
     "There are not enough arguments to this command. The minimum is {0}.": "このコマンドには十分な引数がありません。最小値は{0}です",
+    "command canceled": "コマンドはキャンセルされました",
+    "Command has been cancelled": "コマンドはキャンセルされました",
+    "Too many retries, command has been cancelled.": "再試行が多すぎるため、コマンドはキャンセルされました",
+    "Time ran out, command has been cancelled.": "時間切れ、コマンドはキャンセルされました",
+
+    // MARK: pick
+    "What items would you like to pick from?": "どのアイテムから選びますか？",
+    "Type them in separate messages.": "別のメッセージに入力してください。",
+    "Type stop when you are done.": "完了したか、`stop`を入力します",
+
+    // MARK: Categories
+    "Audio": "オーディオ",
+    "Bot Utilities": "ボットユーティリティ",
+    "Covers": "カバー",
+    "Experience Points": "経験値",
+    "Fun": "楽しい",
+    "Game Server Statistics": "ゲームサーバーの統計",
+    "Games": "ゲーム",
+    "Image Edits": "画像編集",
+    "Server Management": "サーバー管理",
+    "Text Edits": "テキスト編集",
+    "Useful": "有用",
+
+    // MARK: Audio category
+    "Shows information on the currently playing song.": "現在再生中の曲に関する情報を表示します",
+    "Pause the currently playing audio.": "現在再生中のオーディオを一時停止する",
+    "Plays the audio of a Youtube video.": "YouTubeビデオのオーディオを再生します",
+    "Shows the music queue for the current server.": "現在のサーバーのミュージックキューを表示します",
+    "Resume the currently paused audio.": "現在再生中のオーディオを再開する",
+    "Adds a vote to skip the currently playing music.": "現在再生中のミュージックをスキップする投票を追加します",
+    "Stops the music.": "ミュージックを止める",
+
+    "I have successfully resumed {0}.": "{0}を再開しました",
+    "I have successfully paused {0}.": "{0}を一時停止しました",
+    "I think it may work better if you are in a voice channel!": "ボイスチャンネルにいればもっとうまくいくと思います！",
+    "Now Playing: {0}": "再生中：{0}",
+
+    "**NOW PLAYING**: [{0}]({1}) | Requested by {2}": "**再生中**：[{0}]({1}) | {2}さんによるリクエスト",
+    "**NEXT**: [{0}]({1}) | Requested by {2}": "**次**：[{0}]({1}) | {2}さんによるリクエスト",
+
+    "Music Search": "ミュージック検索",
+
+    // MARK: Experiece points category
+    "Give a server member a specified amount of points.": "サーバーメンバーに指定された量の経験値を与えます",
+    "List all those with the highest amount of points": "最高ポイントの人をリストする",
+    "Shows a user's experience points.": "ユーザーの経験値を表示する",
+
+    // MARK: Lang command
+    "The language has been changed to {0} **{1}**.": "言語が{0}**{1}**に変更されました",
+    "Which language would you like to set? \nHere is a list of the available languages:": "どの言語を設定しますか？\n利用可能な言語のリストは次のとおりです：",
+    "That is an invalid language. Here are the available languages:": "それは無効な言語です。利用可能な言語のリストは次のとおりです：",
 
     // MARK: Commands command
     "No description available.": "説明はありません",
     "Total Commands: {0}": "合計コマンド：{0}",
 
     // MARK: Imginfo command
-    "Format": "フォーマット",
+    "Format Extention": "フォーマットの拡張子", // Extension
     "Dimentions": "大きさ",
     "Width": "幅",
     "Height": "高さ",
     "{0} pixels": "{0}ピクセル",
-    
+
+    // MARK: Time
+    "day": "日",
+    "days": "日",
+    "hour": "時間",
+    "hours": "時間",
+    "minute": "分",
+    "minutes": "分",
+    "second": "秒",
+    "seconds": "秒",
+    "and": "と", // Is this related to time?
+    "ago": "前",
+    "Uptime": "稼働時間",
+    "Creation date": "作成日",
+
+    // MARK: Other
     "I couldn't find the requested information.": "要求された情報が見つかりませんでした",
     "Author": "著者",
     "commander of this package decided to unpublish it.": "パッケージの作成者が発行をキャンセルすることを決定しました",
     "Image information requested by {0}": "{0}さんによる要求された画像情報",
     "Choose a number between 1-{0} (in 1 minute, the command will be canceled)": "1〜{0}の番号を選択します（1分後にコマンドはキャンセルされます）",
-    "Within the next 30 seconds, you'll need to pick a number between 1-{0}. The command will be automatically canceled canceled in 30 seconds if no selection has been made. Alternatively, type `cancel` to manually cancel the command, skipping the countdown": "次の30秒以内に、1〜{0}の間の数値を選択する必要があります。選択が行われなかった場合、コマンドは30秒後に自動的にキャンセルされます。",
+    "Within the next 30 seconds, you'll need to pick a number between 1-{0}. The command will be automatically canceled canceled in 30 seconds if no selection has been made.Alternatively, type `cancel` to manually cancel the command, skipping the countdown": "次の30秒以内に、1〜{0}の間の数値を選択する必要があります。選択が行われなかった場合、コマンドは30秒後に自動的にキャンセルされます。",
     "Progress": "プログレス",
     "Examples": "例",
     "Aliases": "エリアス",
@@ -34,25 +101,15 @@ module.exports = {
     "The message round-trip took {0}": "メッセージの往復にが{0}かかりました",
     "The heartbeat ping is {0}": "ハートビートピングは{0}です",
     "Welcome to {0}": "{0}へようこそ",
-    "This is a discord bot made in Discord-Akairo written for MakerBoard connectivity.": "これはMakerBoard接続用にDiscord-Akairoで作成されたDiscordボットです",
+    "{0} is an all-in-one Discord bot dedicated to helping modding communities and more.": "{0}はコミュニティの改造などを支援するオールインワンのDiscordボットです",
+    "It can fulfill your server's moderation needs and create fun events for your community to enjoy": "サーバーのモデレートのニーズを満たし、コミュニティが楽しめる楽しいイベントを作成できます",
     "If you'd like to see all the available commands, please take a look at our website or type {0}commands": "利用可能なすべてのコマンドを表示するには、Webサイトにアクセスか、`{0}commands`を入力してください",
+    "Links": "リンク",
     "Publicity": "宣伝",
     "Usage": "使用量",
     "Resource Usage": "リソース使用量",
     "Backends": "バックエンド",
     "Database System": "データベースシステム",
-    "day": "日",
-    "days": "日",
-    "hour": "時間",
-    "hours": "時間",
-    "minute": "分",
-    "minutes": "分",
-    "second": "秒",
-    "seconds": "秒",
-    "and": "と",
-    "ago": "前",
-    "Uptime": "稼働時間",
-    "Creation date": "作成日",
     "Total Events": "合計イベント",
     "{0} total commands": "合計{0}コマンド",
     "{0} total listeners": "合計{0}リスナー",
@@ -70,19 +127,12 @@ module.exports = {
     "This value is empty": "この値は空です",
     "You can use `{0}config set <key> null` to set a value to an empty state.": "`{0}config set <キー> null`を使用して、値を空の状態に設定できます",
     "The input `{0}` is not valid for the type `{1}`.": "入力`{0}`はタイプ`{1}`には無効です",
-    "Administration": "管理",
-    "Experience Points": "経験値",
-    "Games": "ゲーム",
-    "MakerBoard Connectivity": "MakerBoard接続",
-    "Useful": "有用",
-    "Audio": "オーディオ",
-    "Fun": "楽しい",
-    "Image Edits": "画像編集",
-    "Moderation": "管理",
-    "Bot Utilities": "ボットユーティリティ",
-    "Game Server Statistics": "ゲームサーバーの統計",
-    "Image Fun": "画像の楽しみ",
-    "Text Edits": "テキスト編集",
+    "{0}'s Command Listing": "{0}のコマンドリスト",
+    "Category listing: {0}": "カテゴリーリスト：{0}",
+    "Administration": "管理", // Unused?
+    "MakerBoard Connectivity": "MakerBoard接続", // Unused?
+    "Moderation": "管理", // Unused?
+    "Image Fun": "画像の楽しみ", // Unused?
     "View and set your server's config for the bot.": "サーバーのボットの設定を表示と設定します",
     "Log channel": "ログチャンネル",
     "Welcome channel": "ようこそチャンネル",
@@ -106,11 +156,6 @@ module.exports = {
     "Enabled": "オン",
     "Disabled": "オフ",
 
-    "Requested by {0}": "{0}さんによるリクエスト",
-    "I have successfully paused {0}.": "{0}を一時停止しました",
-    "I think it may work better if you are in a voice channel!": "ボイスチャンネルにいればもっとうまくいくと思います！",
-    "Now Playing: {0}": "再生中：{0}",
-
     "there currently isn't any music playing in this server.": "現在、このサーバーで再生しているミュージックはありません",
     "I have successfully cleared the configuration": "設定を正常にクリアしました",
     "I couldn't get text to mock.": "モックへのテキストを取得できませんでした",
@@ -119,12 +164,8 @@ module.exports = {
     "Related Videos": "関連動画",
     "in order to pause audio, there needs to be audio playing in the channel": "オーディオを一時停止するには、チャンネルでオーディオを再生する必要があります",
     "in order to resume audio, there needs to be audio playing in the channel": "オーディオを再開するには、チャンネルでオーディオを再生する必要があります",
-    "Pause the currently playing audio.": "現在再生中のオーディオを一時停止する",
-    "Shows information on the currently playing song.": "現在再生中の曲に関する情報を表示します",
-    "Plays the audio of a Youtube video.": "YouTubeビデオのオーディオを再生します",
     "Please state a song from Youtube you'd like to listen to": "Youtubeから聴きたい曲を入力してください",
     "That's not a valid song! Try again.": "これは有効な曲ではありません！再試行する",
-    "Shows the music queue for the current server.": "現在のサーバーのミュージックキューを表示します",
     "you need to be in a voice channel in order for me to play music": "私がミュージックを再生するためには、あなたにはボイスチャンネルにいる必要があります",
     "You lost perms to connect to the Voice Channel.": "ボイスチャンネルに接続する権限を失いました",
     "I can't join. Make sure I have the proper permissions.": "参加できません。適切な権限があることを確認してください",
@@ -132,21 +173,7 @@ module.exports = {
     "Related Music Search": "関連ミュージック検索",
     "Added {0} song(s) to Queue: {1} | Requested by: {2}": "{0}曲が{1}キューを追加されました | {2}さんによるリクエスト",
     "Aggiunto alla coda: {0} | Richiesto da: {1}": "",
-    "**NOW PLAYING**: [{0}]({1}) | Requested by {2}": "**再生中**：[{0}]({1}) | {2}さんによるリクエスト",
-    "**NEXT**: [{0}]({1}) | Requested by {2}": "**次**：[{0}]({1}) | {2}さんによるリクエスト",
     "{0} Users": "{0}ユーザー",
     "{0} Channels": "{0}チャンネル",
     "{0} Servers": "{0}サーバー",
-    
-    // MARK: Lang command
-    "The language has been changed to {0} **{1}**.": "言語が{0}**{1}**に変更されました",
-    "Which language would you like to set? \nHere is a list of the available languages:": "どの言語を設定しますか？\n利用可能な言語のリストは次のとおりです：",
-    "That is an invalid language. Here are the available languages:": "それは無効な言語です。利用可能な言語のリストは次のとおりです：",
-
-    "": "",
-    "": "",
-    "": "",
-    "": "",
-    "": "",
-    "": "",
 };

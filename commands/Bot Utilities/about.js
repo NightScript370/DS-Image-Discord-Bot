@@ -3,7 +3,7 @@ const { Command } = require('discord-akairo');
 module.exports = class aboutCommand extends Command {
 	constructor() {
 		super('about', {
-            aliases: ["info", 'about', 'help'],
+            aliases: ["info", 'about', 'help', 'ヘルプ'],
 			category: 'Bot Utilities',
             clientPermissions: ['EMBED_LINKS'],
 			description: {

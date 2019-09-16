@@ -7,7 +7,7 @@ const req = promisify(request);
 module.exports = class ImageCommand extends Command {
 	constructor() {
 		super('image', {
-			aliases: ["image", "img"],
+			aliases: ["image", "img", "イメージ", "画像"],
 			category: 'Fun',
 			description: {
 				content: 'Shows a picture of a random species. Could range from Yoshis, Dogs, Cats, Birds, and Catgirls.',
