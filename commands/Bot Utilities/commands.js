@@ -6,7 +6,7 @@ const path = require('path')
 module.exports = class CommandsCommand extends Command {
 	constructor() {
 		super('commands', {
-			aliases: ['commands', "cmds"],
+			aliases: ['commands', "cmds", 'コマンド'],
 			category: 'Bot Utilities',
 			clientPermissions: ['EMBED_LINKS'],
 			description: {

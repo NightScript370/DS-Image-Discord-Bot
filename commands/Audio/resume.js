@@ -3,7 +3,7 @@ const { Command } = require('discord-akairo');
 module.exports = class ResumeCommand extends Command {
     constructor() {
         super('resume', {
-            aliases: ['resume'],
+            aliases: ['resume', '再開'],
             category: 'Audio',
             description: {
                 content: 'Resume the currently paused audio.'

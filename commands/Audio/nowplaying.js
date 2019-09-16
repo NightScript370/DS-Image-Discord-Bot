@@ -4,7 +4,7 @@ const { getInfo } = require('ytdl-core-discord');
 module.exports = class NowPlayingCommand extends Command {
 	constructor() {
 		super('nowplaying', {
-			aliases: ['np', 'nowplaying'],
+			aliases: ['np', 'nowplaying', '再生中'],
 			category: 'Audio',
 			description: {
 				content: 'Shows information on the currently playing song.'

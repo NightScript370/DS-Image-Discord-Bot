@@ -3,7 +3,7 @@ const { Command } = require('discord-akairo');
 module.exports = class ServerPointsCommand extends Command {
 	constructor() {
 		super('points', {
-			aliases: ['points', "level"],
+			aliases: ['points', "level", "レベル"],
 			category: 'Experience Points',
 			description: {
 				content: 'Shows a user\'s experience points.',

@@ -13,7 +13,7 @@ const playlistRegex = /(http(s)?:\/\/((www\.)?(youtube\.com|youtu.be))\/playlist
 module.exports = class PlayAudioCommand extends Command {
 	constructor() {
 		super('play', {
-			aliases: ['play'],
+			aliases: ['play', '再生'],
 			category: 'Audio',
 			description: {
 				content: 'Plays the audio of a Youtube video.',

@@ -5,7 +5,7 @@ module.exports = class LanguageCommand extends Command {
 	constructor() {
 		super("language", {
 			category: 'Bot Utilities',
-			aliases: ["language", "lang"],
+			aliases: ["language", "lang", '言語'],
 			description: {
 				content: `Sets your preferred language for the bot`,
 				examples: ['lang', "lang list", "lang set en"],
