@@ -3,7 +3,7 @@ const { Command } = require('discord-akairo');
 module.exports = class QueueCommand extends Command {
 	constructor() {
 		super("queue", {
-			aliases: ['queue'],
+			aliases: ['queue', 'キュー'],
 			category: 'Audio',
 			description: { content: 'Shows the music queue for the current server.' },
 			channelRestriction: 'guild'

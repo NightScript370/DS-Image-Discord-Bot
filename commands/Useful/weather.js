@@ -8,7 +8,7 @@ module.exports = class weatherCommand extends Command {
 	constructor() {
 		super("weather", {
 			category: 'Useful',
-			aliases: ["weather"],
+			aliases: ["weather", "天気"],
 			clientPermissions: ['EMBED_LINKS'],
 			description: {
 				content: `Returns the weather for the location you specify`,

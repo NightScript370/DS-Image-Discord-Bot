@@ -5,7 +5,7 @@ module.exports = class MinecraftServerCommand extends Command {
 	constructor() {
 		super('minecraft', {
 			category: 'Game Server Statistics',
-			aliases: ["minecraft", "mc"],
+			aliases: ["minecraft", "mc", "マインクラフト", "マイクラ"],
 			clientPermissions: ['EMBED_LINKS'],
 			description: {
 				content: 'Get stats of any Minecraft game server.',

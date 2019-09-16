@@ -6,7 +6,7 @@ module.exports = class RebootCommand extends Command {
 	constructor() {
 		super('reboot', {
 			category: 'Bot Utilities',
-			aliases: ["restart", "respawn", 'reboot'],
+			aliases: ['restart', 'respawn', 'reboot', '再起動'],
 			description: {
 				content: 'Reboots the bot.'
 			},

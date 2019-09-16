@@ -3,7 +3,7 @@ const { Command } = require('discord-akairo');
 module.exports = class StopAudioCommand extends Command {
 	constructor() {
 		super('stop', {
-			aliases: ['stop', 'stopplaying', 'stopplayingmusic', 'stopplayingaudio'],
+			aliases: ['stop', 'stopplaying', 'stopplayingmusic', 'stopplayingaudio', '停止'],
 			category: 'Audio',
 			description: {
 				content: 'Stops the music.'

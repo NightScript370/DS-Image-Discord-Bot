@@ -3,7 +3,7 @@ const { Command } = require('discord-akairo');
 module.exports = class SkipAudioCommand extends Command {
 	constructor() {
 		super('skip', {
-			aliases: ['skip'],
+			aliases: ['skip', 'スキップ'],
 			category: 'Audio',
 			description: {
 				content: 'Adds a vote to skip the currently playing music.'

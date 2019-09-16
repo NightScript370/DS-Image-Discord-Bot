@@ -3,7 +3,7 @@ const { Command } = require('discord-akairo');
 module.exports = class PauseAudioCommand extends Command {
     constructor() {
         super('pause', {
-            aliases: ['pause'],
+            aliases: ['pause', '一時停止'],
             category: 'Audio',
             description: {
                 content: 'Pause the currently playing audio.'
