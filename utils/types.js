@@ -139,7 +139,7 @@ const isGood = (variable) => {
 
 const parseMentions = (message, variable) => {
 	variable = variable.replace(/<@!?(\d{17,19})>/g, (something, id) => {
-		let user = client.users.get(id);
+		let user = message.client.users.get(id);
 		return user ? user.tag : global.getString(message.author.lang, "User not found");
 	});
 
