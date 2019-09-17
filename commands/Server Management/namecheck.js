@@ -13,8 +13,8 @@ module.exports = class NameCheckCommand extends Command {
 		});
 	}
 
-	async exec(msg) {
-		const members = msg.guild.members.filter(member => member.displayName && !member.displayName.match(/^[A-Za-z0-9._'-@]/g));
-		return msg.channel.send(members.map(member => `\`${member.id}\` ${member.displayName}`).join("\n") || global.getString(msg.author.lang, "Nobody has a name with weird characters."));
+	async exec(message) {
+		const members = message.guild.members.filter(member => member.displayName && !member.displayName.match(/^[A-Za-z0-9._'-@]/g));
+		return message.channel.send(members.map(member => `\`${member.id}\` ${member.displayName}`).join("\n") || global.getString(message.author.lang, "Nobody has a name with weird characters."));
 	}
 };

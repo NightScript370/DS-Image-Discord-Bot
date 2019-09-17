@@ -82,7 +82,7 @@ module.exports = class PickCommand extends Command {
 		}
 
 		game.guess(action)
-		
+
 		if (game.status != "IN_PROGRESS")
 			return this.endgame(msg, game);
 
@@ -106,7 +106,7 @@ module.exports = class PickCommand extends Command {
 			.setTitle("Hangman game results")
 			.setDescription((game.status == "WON" ? `You won!\n` : `You lost!\n`) + `\n The word was: **${game.word}**`);
 
-		message.util.send(e)
+		message.util.send({embed: embed})
 
 		const key = message.channel.id
 		delete this.games[key]

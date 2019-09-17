@@ -153,10 +153,10 @@ module.exports = class PlayAudioCommand extends Command {
 		if (embed) {
 			embed.addField(
 				`**${parseInt(index)+1}.** ${video.title} [${video.timestamp}]`,
-				`[Link](https://youtube.com${video.url}) | ${__("by {0}", (this.isGood(video.author.channelUrl) ? `[${video.author.name}](${video.author.channel_url})` : video.author.name))}`
+				`[${__("Link")}](https://youtube.com${video.url}) | ${__("by {0}", (this.isGood(video.author.channelUrl) ? `[${video.author.name}](${video.author.channelUrl})` : video.author.name))}`
 			);
 		} else {
-			return `**${parseInt(index)+1}.** [${videos[index].title}](https://youtube.com${videos[index].url}) ${__("by {0}", (this.isGood(video.author.channelUrl) ? `[${video.author.name}](${video.author.channel_url})` : video.author.name))} \`[${videos[index].timestamp}]\`\n`;
+			return `**${parseInt(index)+1}.** [${videos[index].title}](https://youtube.com${videos[index].url}) ${__("by {0}", (this.isGood(video.author.channelUrl) ? `[${video.author.name}](${video.author.channelUrl})` : video.author.name))} \`[${videos[index].timestamp}]\`\n`;
 		}
 
 		return embed

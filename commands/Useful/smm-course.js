@@ -78,44 +78,40 @@ module.exports = class CourseCommand extends Command {
 	}
 
 	async handleLevel(msg, ID) {
-		try {
-			let levelinfo = await bookmarkAPI(ID)
+		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v);
+		let levelinfo = await bookmarkAPI(ID)
 
-			let clears = `**__${levelinfo.clears}/${levelinfo.attempts} (${levelinfo.clear_rate}%)__** \n`;
+		let clears = `**__${levelinfo.clears}/${levelinfo.attempts} (${levelinfo.clear_rate}%)__** \n`;
 
-			if (levelinfo.world_record)
-				clears += `\n **World Record:** ${levelinfo.world_record.time} by [${levelinfo.world_record.name}](${levelinfo.world_record.user_url})`;
+		if (levelinfo.world_record)
+			clears += `\n **${__("World Record")}:** ${levelinfo.world_record.time}` + __("by {0}", `[${levelinfo.world_record.name}](${levelinfo.world_record.user_url})`);
 
-			if (levelinfo.first_clear)
-				clears += `\n **First Clear:** ${global.getString(msg.author.lang, "by {0}", `[${levelinfo.first_clear.name}](${levelinfo.first_clear.user_url})`)}`
+		if (levelinfo.first_clear)
+			clears += `\n **${__("First Clear")}:**` + __("by {0}", `[${levelinfo.first_clear.name}](${levelinfo.first_clear.user_url})`);
 
-			let CourseEmbed = this.client.util.embed()
-				.setImage(levelinfo.course_img_full)
-				.setThumbnail(levelinfo.course_img)
-				.setTimestamp(new Date())
-				.setFooter(`Created by ${levelinfo.creator_name} on ${levelinfo.created_at}`, levelinfo.creator_img_url)
-				.addInline('Clears', clears)
-				.addInline('Level information', `**Difficulty:** ${levelinfo.difficulty} \n **Stars:** ${levelinfo.stars} \n **Game Style:** ${levelinfo.game_style}`);
+		let CourseEmbed = this.client.util.embed()
+			.setImage(levelinfo.course_img_full)
+			.setThumbnail(levelinfo.course_img)
+			.setTimestamp(new Date())
+			.setFooter(__('Created by {0} on {1}', levelinfo.creator_name, levelinfo.created_at), levelinfo.creator_img_url)
+			.addInline(__('Clears'), clears)
+			.addInline(__('Level information'), `**${__("Difficulty")}:** ${levelinfo.difficulty} \n **${__("Stars")}:** ${levelinfo.stars} \n **${__("Game Style")}:** ${levelinfo.game_style}`);
 
-			switch(levelinfo.game_style_raw) {
-				case "sb":
-					CourseEmbed.setColor("#D54B00");
-					break;
-				case "sb3":
-					CourseEmbed.setColor("#FAEBD6");
-					break;
-				case "sw":
-					CourseEmbed.setColor("#01F406");
-					break;
-				case "sbu":
-					CourseEmbed.setColor("#0096C8");
-			}
-
-			msg.channel.send(`**${levelinfo.course_title}** - ${ID}`, {embed: CourseEmbed})
-		} catch (e) {
-			console.error(e);
-			msg.channel.send('An unknown error has occured. Please report it to the Yamamura developers')
+		switch(levelinfo.game_style_raw) {
+			case "sb":
+				CourseEmbed.setColor("#D54B00");
+				break;
+			case "sb3":
+				CourseEmbed.setColor("#FAEBD6");
+				break;
+			case "sw":
+				CourseEmbed.setColor("#01F406");
+				break;
+			case "sbu":
+				CourseEmbed.setColor("#0096C8");
 		}
+
+		msg.channel.send(`**${levelinfo.course_title}** - ${ID}`, {embed: CourseEmbed})
 	}
 
 	async handleSelector(levels, index, embed=null, language=null) {

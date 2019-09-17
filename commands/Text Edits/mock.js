@@ -7,7 +7,7 @@ module.exports = class MockCommand extends Command {
 			description: {
 				content: "Mock someone's words with this"
 			},
-			category: 'Text Edits',
+			category: 'Text Fun',
 			args: [
 				{
 					id: "text",
@@ -27,7 +27,11 @@ module.exports = class MockCommand extends Command {
 		if (!text)
 			return message.util.send(global.getString(message.author.lang, "I couldn't get text to mock."));
 
-		message.util.send(random ? this.randomMock(text) : this.perLetterMock(text));
+		let embed;
+		if (message.guild)
+			embed = this.client.util.embed().setFooter(global.getString(message.author.lang, 'This command was ran by {0}', message.member.displayName));
+
+		message.util.send(random ? this.randomMock(text) : this.perLetterMock(text), (embed && message.channel.embedable ? {embed} : {}));
 	}
 
 	perLetterMock (target) {

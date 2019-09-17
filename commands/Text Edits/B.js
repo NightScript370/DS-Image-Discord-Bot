@@ -1,9 +1,9 @@
 const { Command } = require('discord-akairo');
 
-module.exports = class OwoCommand extends Command {
+module.exports = class toBCommand extends Command {
 	constructor() {
 		super('b', {
-			category: 'Text Edits',
+			category: 'Text Fun',
 			aliases: ["b", '🅱'],
 			description: {
 				content: 'replace every b/B with a 🅱.',
@@ -25,6 +25,10 @@ module.exports = class OwoCommand extends Command {
 			return message.util.send(global.getString(message.author.lang, 'There was no Bs found in the text'));
 
 		let text = toB.replace(/b/gi, "🅱").replace(/B/gi, "🅱")
-		message.util.send(text);
+		let embed;
+
+		if (message.guild)
+			embed = this.client.util.embed().setFooter(global.getString(message.author.lang, 'This command was ran by {0}', message.member.displayName));
+		message.util.send(text, (embed && message.channel.embedable ? {embed} : {}));
 	}
 };

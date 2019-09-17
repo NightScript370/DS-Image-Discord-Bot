@@ -1,11 +1,8 @@
 const { Command } = require("discord-akairo");
+const request = require("util").promisify(require("request"));
 
 const moment = require("moment");
 require("moment-duration-format");
-
-const request = require("request");
-const {promisify, inspect} = require("util");
-const req = promisify(request);
 
 module.exports = class NPMCommand extends Command {
 	constructor() {
@@ -19,10 +16,22 @@ module.exports = class NPMCommand extends Command {
 					description: "List the NPM package here",
 					prompt: {
 						start: "what NPM pkg would you like to search for?",
-						retry: "That's not a valid package we can look for. Please try again"
+						retry: "That's not a valid package we can get information for. Please try again"
 					},
 					match: "content",
-					type: (_, pkg) => pkg ? encodeURIComponent(pkg.toLowerCase().replace(/ /g, "-")) : null
+					type: (_, pkg) => {
+						if (!pkg) return null;
+
+						try {
+							let data = await request({ url: encodeURIComponent(pkg.toLowerCase().replace(/ /g, "-")), json: true })
+							if (data.statusCode === 404)
+								return null;
+
+							return data;
+						} catch (e) {
+							return "error";
+						}
+					}
 				}
 			],
 			description: {
@@ -34,10 +43,8 @@ module.exports = class NPMCommand extends Command {
 	}
 
 	async exec(message, { pkg }) {
-		let { body, statusCode, response } = await req({ url: `https://registry.npmjs.com/${pkg}`, json: true });
+		let { body } = pkg;
 
-		if (statusCode === 404)
-			return message.util.send(global.getString(message.author.lang, "I couldn't find the requested information."));
 		if (body.time === undefined)
 			return message.util.reply(global.getString(message.author.lang, "commander of this package decided to unpublish it."));
 
@@ -46,12 +53,12 @@ module.exports = class NPMCommand extends Command {
 		const dependencies = version.dependencies ? this._trimArray(Object.keys(version.dependencies)) : "";
 		let embed = this.client.util.embed()
 			.setColor(0xCB0000)
-			.setAuthor(global.getString(message.author.lang, "NPM Package: {0}", body.name), "https://i.imgur.com/ErKf5Y0.png", `https://www.npmjs.com/package/${pkg}`)
+			.setThumbnail("https://i.imgur.com/ErKf5Y0.png")
 			.addInline(global.getString(message.author.lang, "Latest Version"), body["dist-tags"].latest)
 			.addInline(global.getString(message.author.lang, "License"), body.license || global.getString(message.author.lang, "None"))
 			.addInline(global.getString(message.author.lang, "Author"), body.author ? body.author.name : "???")
 			.addInline(global.getString(message.author.lang, "Creation Date"), moment.utc(body.time.created).format("DD-MM-YYYY kk:mm:ss"))
-    
+
 		if (moment.utc(body.time.modified).format("DD-MM-YYYY kk:mm:ss") !== moment.utc(body.time.created).format("DD-MM-YYYY kk:mm:ss"))
 			embed.addInline(global.getString(message.author.lang, "Modification Date"), moment.utc(body.time.modified).format("DD-MM-YYYY kk:mm:ss"))
 
@@ -64,7 +71,7 @@ module.exports = class NPMCommand extends Command {
 
 		if (body.author && maintainers.toUpperCase() !== body.author.name.toUpperCase())
 			embed.addField(global.getString(message.author.lang, "Maintainers"), maintainers);
-		return message.util.send({ embed });
+		return message.util.send(global.getString(message.author.lang, "NPM Package: {0}", body.name) + `\nhttps://www.npmjs.com/package/${pkg}`, { embed });
 	}
 
 	_trimArray(arr) {

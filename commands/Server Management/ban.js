@@ -6,8 +6,8 @@ module.exports = class BanCommand extends Command {
 			aliases: ["ban-hammer", "b-h", 'ban'],
 			category: 'Server Management',
 			description: {
-                content: 'Bans a user via a mention or user ID. You can use it on users not even in the server.'
-            },
+				content: 'Bans a user via a mention or user ID. You can use it on users not even in the server.'
+			},
 			examples: ["ban @InfamousGuy003 spamming in #general-talk"],
 			channelRestriction: 'guild',
 			clientPermissions: ["BAN_MEMBERS"],
@@ -18,22 +18,22 @@ module.exports = class BanCommand extends Command {
 					description: 'This parameter would be the user you would like to ban. It can be a mention, the name of someone in a server or the ID of someone not in the server',
 					type: "user-commando",
 					prompt: {
-                        start: 'Who would you like to ban?',
-                        retry: 'That\'s not something we can ban! Try again.'
-                    },
+						start: (msg) => global.getString(msg.author.lang, 'Who would you like to ban?'),
+						retry: (msg) => global.getString(msg.author.lang, "That's not something we can ban! Try again.")
+					},
 				},
 				{
 					id: "reason",
 					description: 'This field is for the reason you are banning the user',
 					default: '',
 					type: "string",
-                    match: 'rest'
+					match: 'rest'
 				},
 				{
-				    id: "check",
+					id: "check",
 					description: 'This field is for checking the ban list if the user really was banned or not.',
-				    match: 'flag',
-				    flag: '--check'
+					match: 'flag',
+					flag: '--check'
 				},
 				{
 					id: 'days',
@@ -48,6 +48,8 @@ module.exports = class BanCommand extends Command {
 	}
 
 	async exec(msg, { user, reason, check, days }) {
+		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v)
+
 		let banList;
 		let member;
 
@@ -56,41 +58,41 @@ module.exports = class BanCommand extends Command {
 			let author = msg.member;
 
 			if (!member.bannable)
-				return msg.util.reply("I cannot ban this user.");
+				return msg.util.reply(__("I cannot ban this user."));
 
 			if (author.roles.highest.position <= member.roles.highest.position)
-				return msg.util.reply("You can't ban someone who has a higher role position than you.");
+				return msg.util.reply(__("You can't ban someone who has a higher role position than you."));
 
 			if (member.hasPermission("MANAGE_MESSAGES") && !author.hasPermission("ADMINISTRATOR"))
-				return msg.util.reply("You need to have the `Administrator` permission in order to ban moderators.");
+				return msg.util.reply(__("You need to have the `Administrator` permission in order to ban moderators."));
 
 			if (member.hasPermission("ADMINISTRATOR") && msg.guild.ownerId !== author.id)
-				return msg.util.reply("You need to be the server owner in order to ban Administrators.");
-			
+				return msg.util.reply(__("You need to be the server owner in order to ban Administrators."));
+
 			if (member.id == author.id)
-				return msg.util.reply("You can't ban yourself!");
+				return msg.util.reply(__("You can't ban yourself!"));
 		} else {
 			banList = await msg.guild.fetchBans();
 			if (banList.get(user.id))
-				return msg.util.reply(`${user.tag} was already banned`);
+				return msg.util.reply(__('{0} was already banned', user.tag));
 		}
 
 		let ban = await this.client.moderation.ban(this.client, (member ? member : user), msg.member, reason, msg, days);
 		if (typeof ban == "boolean" && ban) {
 			if (!check)
-				return msg.util.reply(`${user.tag} was banned`);
+				return msg.util.reply(__('{0} is now banned', user.tag));
 			else {
 				banList = await msg.guild.fetchBans();
 				if (banList.get(user.id))
-					msg.util.reply(`${user.tag} was banned`);
+					msg.util.reply(__('{0} is now banned', user.tag));
 				else
-					msg.util.reply(`The bot replied that the user was banned but Discord's ban list says otherwise. You should never see this error. Please report this issue to the yamamura developers.`);
+					msg.util.reply(__("The bot replied that the user was banned but Discord's ban list says otherwise. You should never see this error. Please report this issue to the yamamura developers."));
 			}
 		} else {
 			if (ban == "no perms")
-				msg.util.reply(`I do not have the permission to ban ${user.tag}`);
+				msg.util.reply(__('I do not have the permission to ban {0}', user.tag));
 			else
-				msg.util.reply(`The user was not banned due to an internal error`);
+				msg.util.reply(__('An internal error occured. {0} may or may not have been banned', user.tag));
 		}
 	}
 };

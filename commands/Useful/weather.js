@@ -1,17 +1,13 @@
 const { Command } = require('discord-akairo');
-const weather = require(`weather-js`);
-
-const { promisify } = require("util");
-const asyncWeather = promisify(weather.find);
+const weather = require("util").promisify(require('weather-js').find);
 
 module.exports = class weatherCommand extends Command {
 	constructor() {
 		super("weather", {
 			category: 'Useful',
 			aliases: ["weather", "天気"],
-			clientPermissions: ['EMBED_LINKS'],
 			description: {
-				content: `Returns the weather for the location you specify`,
+				content: 'Returns the weather for the location you specify',
 			},
  			args: [
 				{
@@ -29,23 +25,25 @@ module.exports = class weatherCommand extends Command {
 	}
 
 	async exec(message, { area }) {
+		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v)
+
 		let result = await asyncWeather({ search: area, degreeType: 'C' }); 
-		if (isEmpty(result)) {
-			return message.channel.send("There were no results found for your location. Please try again later.");
-		}
+		if (isEmpty(result))
+			return message.channel.send(__("There were no results found for your location. Please try again later."));
 
 		let current = result[0].current;
 		let location = result[0].location;
 
 		let embed = this.client.util.embed()
 			.setThumbnail(current.imageUrl)
-			.addInline('Timezone', `UTC${location.timezone}`)
-			.addInline('Degree Type', location.degreetype)
-			.addInline('Temperature', `${current.temperature} Degrees`)
-			.addInline('Feels Like', `${current.feelslike} Degrees`)
-			.addInline('Winds', current.winddisplay)
-			.addInline('Humidity', `${current.humidity}%`);
-		message.channel.send(`${current.skytext} weather in ${current.observationpoint}`, message.channel.embedable ? {embed} : {});
+			.addInline(__('Timezone'), `UTC${location.timezone}`)
+			.addInline(__('Degree Type'), location.degreetype)
+			.addInline(__('Temperature'), `${current.temperature} Degrees`)
+			.addInline(__('Feels Like'), `${current.feelslike} Degrees`)
+			.addInline(__('Winds'), current.winddisplay)
+			.addInline(__('Humidity'), `${current.humidity}%`);
+
+		message.util.send(__('{0} weather in {1}', current.skytext, current.observationpoint), message.channel.embedable ? {embed} : {});
 
 		return result;
 	}

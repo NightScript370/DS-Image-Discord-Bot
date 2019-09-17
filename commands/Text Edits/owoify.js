@@ -3,7 +3,7 @@ const { Command } = require('discord-akairo');
 module.exports = class OwoCommand extends Command {
 	constructor() {
 		super('owoify', {
-			category: 'Text Edits',
+			category: 'Text Fun',
 			aliases: ["owoifi", 'owoify', 'owo-ify'],
 			description: {
 				content: 'Owoify what you say.',
@@ -18,7 +18,11 @@ module.exports = class OwoCommand extends Command {
 	}
 
 	exec(message, { toOwo }) {
-		message.channel.send(this.OwOify(toOwo));
+		let embed;
+		if (message.guild)
+			embed = this.client.util.embed().setFooter(global.getString(message.author.lang, 'This command was ran by {0}', message.member.displayName));
+
+		message.channel.send(this.OwOify(toOwo), (embed && message.channel.embedable ? {embed} : {}));
 	}
 
 	OwOify(text) {

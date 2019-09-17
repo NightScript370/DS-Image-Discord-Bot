@@ -195,15 +195,14 @@ module.exports = class LeaderboardCommand extends Command {
 			.setTimestamp(new Date())
 			.setColor(0x00AE86);
 
-		this.client.guilds.forEach(guild => {
-			var filtered = this.client.db.points.find({ guild: guildFound.id });
-			var sorted = filtered.sort((a, b) => b.points - a.points);
-			var top10 = sorted.splice(0, 1);
+		this.client.guilds.filter(guild => guild.members.has(msg.author.id)).forEach(guild => {
+			var leaderboard = this.client.db.points.find({ guild: guildFound.id }).sort((a, b) => b.points - a.points);
+			var topuser = leaderboard[0];
 
-			for(const lbdata of top10) {
-				if(!guild.members.has(lbdata.member)) continue;
-				DMembed.addField(guild.name, `${this.client.users.get(lbdata.member).tag} (${lbdata.points} points)`);
-			}
+			if (!guild.members.has(topuser.member)) continue;
+			DMembed.addField(guild.name, `${this.client.users.get(topuser.member).tag} (${topuser.points} points)`);
 		});
+
+		message.util.send(DMembed)
 	}
 };

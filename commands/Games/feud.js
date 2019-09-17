@@ -18,16 +18,19 @@ module.exports = class FeudCommand extends Command {
 	}
 
 	async exec(msg) {
-		const client = await this.client;
+		const __ = (k, ...v) => global.getString(msg.author.lang, k, ...v);
 
-		if (this.playing.has(msg.channel.id)) return msg.reply('Only one fight may be occurring per channel.');
+		if (this.playing.has(msg.channel.id))
+			return msg.util.reply(__('Only one fight may be occurring per channel.'));
+
 		this.playing.add(msg.channel.id);
 
 		try {
 			let question = questions[Math.floor(Math.random() * questions.length)];
 
 			const suggestions = await this.fetchSuggestions(question);
-			if (!suggestions) return msg.say('Could not find any results.');
+			if (!suggestions)
+				return msg.util.reply(__('I could not find any results.'));
 
 			const display = new Array(suggestions.length).fill(this.hiddenCharacter);
 			let tries = 3;
@@ -35,7 +38,7 @@ module.exports = class FeudCommand extends Command {
 				const embed = this.client.util.embed()
 					.setColor(0x005AF0)
 					.setTitle(`${question}...`)
-					.setDescription('Type the choice you think is a suggestion _without_ the question.')
+					.setDescription(__('Type the choice you think is a suggestion _without_ the question.'))
 					.setFooter(`${tries} ${tries === 1 ? 'try' : 'tries'} remaining!`);
 				for (let i = 0; i < suggestions.length; i++) embed.addField(`❯ ${10000 - (i * 1000)}`, display[i], true);
 				await msg.channel.send(embed);
@@ -64,7 +67,7 @@ module.exports = class FeudCommand extends Command {
 			let embed2 = this.client.util.embed()
 				.setColor(0x005AF0)
 				.setTitle(`${question}...`)
-				.setDescription(`You win! Nice job, master of Google! You scored ${score} points.`);
+				.setDescription(__("You win! Nice job, master of Google! You scored {0} points.", score));
 			let i = 0;
 			suggestions.forEach(s => {
 				embed2.addField(`❯ ${10000 - (i * 1000)}`, s, true);
@@ -72,14 +75,13 @@ module.exports = class FeudCommand extends Command {
 			});
 			if (!display.includes(this.hiddenCharacter)) return msg.channel.send(embed2);
 			embed2
-					.setDescription(`Better luck next time! You scored ${score} points.`);
+				.setDescription(`Better luck next time! You scored ${score} points.`);
 			return msg.channel.send(embed2);
 		} catch (err) {
 			if (this.playing.has(msg.channel.id))
 				this.playing.delete(msg.channel.id);
 
-			console.error(err);
-			return msg.util.send(`Oh no, an error occurred: \`${err.message}\`. Please report this to the Yamamura developers!`);
+			throw new Error(err);
 		}
 	}
 	

@@ -3,7 +3,7 @@ const { Command } = require('discord-akairo');
 module.exports = class ClapCommand extends Command {
 	constructor() {
 		super('clap', {
-			category: 'Text Edits',
+			category: 'Text Fun',
 			aliases: ["clap"],
 			description: {
 				content: 'Add a clap emoji between every word.',
@@ -22,10 +22,14 @@ module.exports = class ClapCommand extends Command {
 		if (!toClap)
 			toClap = global.getString(message.author.lang, "I :clap: need :clap: text :clap: to :clap: clap :clap: to!");
 
-		if (!toClap.includes(" "))
-			return message.util.send(this.chunk(toClap, 1).join(" :clap: "))
+		let embed;
+		if (message.guild)
+			embed = this.client.util.embed().setFooter(global.getString(message.author.lang, 'This command was ran by {0}', message.member.displayName));
 
-		message.util.send(toClap.replace(/\s+/gmi, " :clap: "));
+		if (!toClap.includes(" "))
+			return message.util.send(this.chunk(toClap, 1).join(" :clap: "), (embed && message.channel.embedable ? {embed} : {}))
+
+		message.util.send(toClap.replace(/\s+/gmi, " :clap: "), (embed && message.channel.embedable ? {embed} : {}));
 	}
 
 	chunk(str, n) {
@@ -33,8 +37,8 @@ module.exports = class ClapCommand extends Command {
 		var i;
 		var len;
 
-		for(i = 0, len = str.length; i < len; i += n) {
-			 ret.push(str.substr(i, n))
+		for (i = 0, len = str.length; i < len; i += n) {
+			ret.push(str.substr(i, n))
 		}
 
 		return ret

@@ -22,12 +22,16 @@ module.exports = class NDSBCompatCommand extends Command {
 						if (!gametitle)
 							return null;
 
-						let { body, statusCode } = await req({ url: `http://nds-library-api.glitch.me/${encodeURIComponent(gametitle)}`, json: true });
-						if (statusCode !== 200) {
-							if (statusCode == 404 && body.message == "invalid title provided")
-								return null;
+						try {
+							let { body, statusCode } = await req({ url: `http://nds-library-api.glitch.me/${encodeURIComponent(gametitle)}`, json: true });
+							if (statusCode !== 200) {
+								if (statusCode == 404 && body.message == "invalid title provided")
+									return null;
 
-							return 'fail';
+								return 'fail';
+							}
+						} catch (e) {
+							return 'backfail';
 						}
 
 						return body;
@@ -52,10 +56,10 @@ module.exports = class NDSBCompatCommand extends Command {
 		let infoEmbed = this.client.util.embed();
 
 		if (body === 'fail')
-			return msg.channel.send("The website is not available. Please try again at a different point in time");
+			return msg.util.send("The website is not available. Please try again at a different point in time");
 
 		if (!body['nds-bootstrap'])
-			return msg.channel.send('This Nintendo-DS title does not have any nds-bootstrap compatibility information. Please try again');
+			return msg.util.send('This Nintendo-DS title does not have any nds-bootstrap compatibility information. Please try again');
 
 		if (body.title)
 			infoEmbed.setTitle(body.title);

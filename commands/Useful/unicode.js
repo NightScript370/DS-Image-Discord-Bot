@@ -1,22 +1,22 @@
 const { Command } = require('discord-akairo');
 
 module.exports = class UnicodeCommand extends Command {
-  constructor() {
-    super('unicode', {
-      aliases: ['unicode'],
-      description: {
-        content: "Get information on each unicode character"
-      },
-      category: 'Useful',
-      args: [
-        {
-          id: "text",
-          type: "text-fun",
-          match: 'rest'
-        }
-      ]
-    });
-  }
+	constructor() {
+		super('unicode', {
+			aliases: ['unicode'],
+			description: {
+				content: "Get information on each unicode character"
+			},
+			category: 'Useful',
+			args: [
+				{
+					id: "text",
+					type: "text-fun",
+					match: 'rest'
+				}
+			]
+		});
+	}
 
 	async exec(message, { text }) {
 		if (!text)
