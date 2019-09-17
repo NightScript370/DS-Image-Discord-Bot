@@ -23,11 +23,11 @@ module.exports = class RomanCommand extends Command {
 						if (returnvalue > 4999) return null;
 
 						return returnvalue;
-					}
+					},
 					prompt: {
 						start: 'What would you like to translate to a roman numeral?',
 						retry: 'That\'s not something we can translate! Try again.'
-					},
+					}
 				}
 			]
 		});
