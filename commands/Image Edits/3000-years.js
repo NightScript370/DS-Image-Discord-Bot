@@ -26,7 +26,7 @@ module.exports = class ThreeThousandYearsCommand extends Command {
 		let currentimage;
 
 		if (!this.isGood(images))
-			return msg.util.reply('No images were found. Please try again.');
+			return message.util.reply('No images were found. Please try again.');
 
 		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', '3000-years.png'));
 		const canvas = createCanvas(base.width, base.height);
