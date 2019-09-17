@@ -199,7 +199,7 @@ module.exports = class LeaderboardCommand extends Command {
 			var leaderboard = this.client.db.points.find({ guild: guildFound.id }).sort((a, b) => b.points - a.points);
 			var topuser = leaderboard[0];
 
-			if (!guild.members.has(topuser.member)) continue;
+			if (!guild.members.has(topuser.member)) return;
 			DMembed.addField(guild.name, `${this.client.users.get(topuser.member).tag} (${topuser.points} points)`);
 		});
 
