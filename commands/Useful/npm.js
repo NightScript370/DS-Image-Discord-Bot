@@ -19,7 +19,7 @@ module.exports = class NPMCommand extends Command {
 						retry: "That's not a valid package we can get information for. Please try again"
 					},
 					match: "content",
-					type: (_, pkg) => {
+					type: async (_, pkg) => {
 						if (!pkg) return null;
 
 						try {
