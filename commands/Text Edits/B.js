@@ -21,7 +21,7 @@ module.exports = class toBCommand extends Command {
 		if (!toB)
 			toB = global.getString(message.author.lang, "There were no text to Bify");
 
-		if (!toB.includes('b') || !toB.includes('B'))
+		if (!toB.includes('b') && !toB.includes('B'))
 			return message.util.send(global.getString(message.author.lang, 'There was no Bs found in the text'));
 
 		let text = toB.replace(/b/gi, "🅱").replace(/B/gi, "🅱")
