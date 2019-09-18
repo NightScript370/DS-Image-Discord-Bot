@@ -1,14 +1,3 @@
-class ConfigurationValue {
-	constructor(v, type) {
-		this.value = v;
-		this.type = type;
-	}
-	
-	serialize(client, msg) {
-		return {type: this.type.id, value: this.type.serialize(client, msg, this.value)};
-	}
-}
-
 let settingProps = {
 	logchan: "channel:ex",
 	welcomechan: "channel:ex",
@@ -126,7 +115,7 @@ let types = [
 			return "command";
 		}
 
-		static serialize(client, msg, val) {
+		static serialize(client, _, val) {
 			let cmd = client.commandHandler.aliases.get(val);
 			if (cmd)
 				return cmd.id;
@@ -134,13 +123,41 @@ let types = [
 			return this.nullValue;
 		}
 
-		static deserialize(client, msg, val) {
-			return val ? client.commandHandler.modules.get(val) : this.nullValue;
+		static deserialize(client, _, values) {
+			if (!values) return this.nullValue;
+
+			if (Array.isArray(values)) {
+				let array = [];
+
+				for (var value of values) {
+					array.push(client.commandHandler.modules.get(value));
+				}
+
+				return array;
+			}
+
+			return client.commandHandler.modules.get(values);
 		}
-		
-		static render(client, msg, val) {
-			let cmd = this.deserialize(client, msg, val);
-			return cmd ? cmd.id : this.nullValue;
+
+		static render(client, _, values) {
+			let command;
+			if (!values) return this.nullValue;
+
+			if (Array.isArray(values)) {
+				let array = [];
+
+				for (var value of values) {
+					command = this.deserialize(client, _, value);
+
+					if (!command) continue;
+					array.push(command.id);
+				}
+
+				return array;
+			}
+
+			command = this.deserialize(client, _, values);
+			return command ? command.id : this.nullValue;
 		}
 
 		static validate(client, _, val) {
@@ -290,18 +307,17 @@ let types = [
 	},
 ];
 
-function findType(id) {
-	return types.filter(type => type.id == id)[0];
+function findType(key) {
+	return types.filter(type => type.id == settingProps[key.replace(":ex", '')])[0];
 }
 
 function getKey(client, msg, key) {
 	let data = client.db.serverconfig.findOne({guildID: msg.guild.id});
-	//console.log(data, key, data[key])
-	let obj = data[key];
-	return findType(obj.type).deserialize(client, msg, obj.value);
+
+	let value = data[key];
+	return findType(key).deserialize(client, msg, value);
 }
 
 module.exports = {
-//	ConfigurationKey,
 	types, findType, getKey
 };

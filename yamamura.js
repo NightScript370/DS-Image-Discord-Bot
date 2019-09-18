@@ -45,45 +45,6 @@ class YamamuraClient extends AkairoClient {
 		});
 
 		this.db = require('./utils/database.js');
-		this.setDefaultSettings = (guild, blank = false, scan = true) => {
-			let channels = guild.channels;
-
-			let logchannel = scan ? channels.find(channel => channel.name === "discord-logs") : null;
-			let welcomechannel = scan ? channels.find(channel => channel.name === "general") : null;
-			let starboardchannel = scan ? channels.find(channel => channel.name === "starboard") : null;
-			let mutedrole = scan ? guild.roles.find(role => role.name === "Muted") : null;
-
-			let defaultsettings = {
-				guildID: guild.id,
-				logchan: {value: logchannel ? logchannel.id : '', type: "channel"},
-				welcomechan: {value: welcomechannel ? welcomechannel.id : '', type: "channel"},
-				welcomemessage: {type: 'array', arrayType: 'string', value: !blank ? [{value: "Welcome {{user}} to {{server}}! Enjoy your stay", type: "string"}] : [] },
-				leavemessage: {type: 'array', arrayType: 'string', value: !blank ? [{value: "Goodbye {{user}}! You'll be missed", type: 'string'}] : []},
-				prefix: { value: config.prefix, type: "string" },
-				makerboard: { value: "", type: "string" },
-				starboardchannel: { value: starboardchannel ? starboardchannel.id : '', type: "channel" },
-				levelup: { type: 'bool', value: 'true' },
-				levelupmsgs: { type: 'array', arrayType: 'string', value: !blank ? [{value: "Congratulations {{user}}! You've leveled up to level {{level}}!", type: "string"}] : [] },
-				mutedrole: { type: 'role', value: mutedrole ? mutedrole.id : '' },
-			};
-
-			let currentsettings = this.db.serverconfig.findOne({guildID: guild.id});
-			if (currentsettings) {
-				currentsettings.logchan = defaultsettings.logchan;
-				currentsettings.welcomechan = defaultsettings.welcomechan;
-				currentsettings.welcomemessage = defaultsettings.welcomemessage;
-				currentsettings.leavemessage = defaultsettings.leavemessage;
-				currentsettings.prefix = defaultsettings.prefix;
-				currentsettings.makerboard = defaultsettings.makerboard;
-				currentsettings.starboardchannel = defaultsettings.starboardchannel;
-				currentsettings.levelup = defaultsettings.levelup;
-				currentsettings.levelupmsgs = defaultsettings.levelupmsgs;
-				currentsettings.mutedrole = defaultsettings.mutedrole;
-
-				return this.db.serverconfig.update(currentsettings);
-			} 
-			return this.db.serverconfig.insert(defaultsettings);
-		};
 
 		this.commandHandler = new CommandHandler(this, {
 			directory: './commands/',
