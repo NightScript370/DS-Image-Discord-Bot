@@ -53,6 +53,8 @@ module.exports = class ReadyListener extends Listener {
 		this.client.listenerHandler.remove('ready')
 		this.client.listenerHandler.loadAll();
 
+		this.commandHandler.loadAll();
+
 		console.log(`My body, ${this.client.user.username} is ready to serve ${this.client.users.size} users in ${this.client.guilds.size} servers!`);
 
 		const fs = require("fs");

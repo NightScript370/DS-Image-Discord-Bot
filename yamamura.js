@@ -94,8 +94,6 @@ class YamamuraClient extends AkairoClient {
 		this.commandHandler.useListenerHandler(this.listenerHandler);
 		this.listenerHandler.load(process.cwd() +'/events/botHandler/ready.js');
 
-		this.commandHandler.loadAll();
-
 		this.moderation = require('./utils/moderation.js');
 
 		this.util.embed = () => {return new BackEmbed();}
