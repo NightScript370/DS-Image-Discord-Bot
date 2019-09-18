@@ -8,7 +8,7 @@ module.exports = class EvalCommand extends Command {
 			category: 'Bot Utilities',
 			description: {
 				content: 'Executes JavaScript code. Only the bot owners may use this command.',
-				usage: '<Javascript Code to Execute>',
+				usage: '<Javascript Code to Execute> [--deleteog if you want to delete your message] [--hideresponce if you would like to hide the bot response]',
 				examples: 'msg.channel.send(\'Hi\');'
 			},
 			ownerOnly: true,

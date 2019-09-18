@@ -20,6 +20,8 @@ module.exports = class messageInavlidListener extends Listener {
 	}
 
 	async invalidMessage(message) {
+		if (!Object.keys(message.util.parsed).length) return false;
+
 		const attempt = message.util.parsed.alias;
 		if (!attempt) return false;
 		if (Array.from(message.util.handler.aliases.keys()).includes(attempt)) return true;

@@ -35,8 +35,8 @@ module.exports = class ExecCommand extends Command {
 		try {
 			let result = await exec(script).catch((err) => { throw err; });
 
-			const output = result.stdout ? `${"```sh"}\n${result.stdout}\n${"```"}` : "";
-			const outerr = result.stderr ? `${"```sh"}\n${result.stderr}\n${"```"}` : "";
+			const output = result.stdout ? "```sh\n" + result.stdout + "```" : "";
+			const outerr = result.stderr ? "```sh\n" + result.stderr + "```" : "";
 
 			if (output.includes(this.client.token)) output = output.replace(this.client.token, '"If someone tried to make you output the token, you were likely being scammed."')
 			if (outerr.includes(this.client.token)) outerr = outerr.replace(this.client.token, '"If someone tried to make you output the token, you were likely being scammed."')
