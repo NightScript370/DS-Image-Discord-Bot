@@ -16,8 +16,7 @@ module.exports = class ReadyListener extends Listener {
 		const wait = require('util').promisify(setTimeout);
 		await wait(8000);
 
-		const { getKey } = require("../../Configuration"); 
-		this.client.db.serverconfig.get = getKey; // Short-hand declare a variable to be an existing function
+		this.client.db.serverconfig.get = require("../../Configuration").getKey; // Short-hand declare a variable to be an existing function
 
 		this.client.user.setStatus('online');
 		this.client.util.setDefaultStatus(this.client);

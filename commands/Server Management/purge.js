@@ -45,6 +45,27 @@ module.exports = class PurgeCommand extends Command {
 					flag: 'matchRegex:'
 				},
 				{
+					id: "startsWith",
+					default: null,
+					type: 'string',
+					match: 'option',
+					flag: 'startsWith:'
+				},
+				{
+					id: "includes",
+					default: null,
+					type: 'string',
+					match: 'option',
+					flag: 'includes:'
+				},
+				{
+					id: "endsWith",
+					default: null,
+					type: 'string',
+					match: 'option',
+					flag: 'endsWith:'
+				},
+				{
 					id: "deleteOld",
 					match: 'flag',
 					flag: '--deleteOld'
@@ -58,7 +79,7 @@ module.exports = class PurgeCommand extends Command {
 		});
 	}
 
-	async exec(commandMessage, { amount, who, regex, deleteOld, deletePins }) {
+	async exec(commandMessage, { amount, who, regex, startsWith, includes, endsWith, deleteOld, deletePins }) {
 		let messages = await commandMessage.channel.messages.fetch({ limit: amount });
 
 		if (regex) {
@@ -70,6 +91,15 @@ module.exports = class PurgeCommand extends Command {
 
 			messages = await messages.filter(message => message.content.match(pattern));
 		}
+
+		if (startsWith)
+			messages = await.messages.filter(message => message.content.startsWith(startsWith));
+
+		if (includes)
+			messages = await.messages.filter(message => message.content.includes(includes));
+
+		if (endsWith)
+			messages = await.messages.filter(message => message.content.endsWith(endsWith));
 
 		if (who)
 			messages = await messages.filter(message => (who == "bot" ? message.author.bot : message.author == who));

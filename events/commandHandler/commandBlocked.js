@@ -21,7 +21,8 @@ module.exports = class CommandBlockedListener extends Listener {
 		console.log(`${message.author.username} (#${message.author.id}) was blocked from using ${command.id} in ${tag} because of ${reason}!`);
 
 		if (!text) return;
-		if (message.channel.sendable)
-			message.util.reply(text());
+		if (!message.channel.sendable) return;
+
+		message.util.reply(text());
 	}
 };
