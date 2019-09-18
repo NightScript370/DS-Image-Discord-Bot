@@ -61,6 +61,15 @@ module.exports = {
     "you may not see the statistics of a server you are not in. Try again later": "あなたがメンバーしていないサーバーの統計が表示されない場合があります。別のサーバーでもう一度お試しください",
     "you can't see the points of a user who is/was not in the server. Please try again on a different user.": "サーバーにいないユーザーのポイントを見ることができません。別のユーザーでもう一度お試しください",
 
+    "This field contains the user you'd like to give server points too. This can either be a mention, username or user ID": "このフィールドには、サーバーポイントを付与するユーザーが含まれます。これは、メンション、ユーザー名、またはユーザーIDのいずれかです", // To
+    "Who would you like to donate points to?": "誰にポイントを寄付しますか？",
+    "That's not something we can give points to! Try again.": "それはポイントを与えることができるものではありません！再試行する",
+    "This argument is the amount of points you'd like to donate to the user.": "これはユーザーに寄付したいポイントの量です。",
+    "How many points would you like to donate?": "何点寄付しますか？",
+    "That's an invalid amount of points! Try again": "それは無効なポイントです！ 再試行する",
+    "This argument is for the guild ID you'd like your transactions to go through. Will default itself to the guild ID of the current server if its on a server.": "これはトランザクションを通過させたいギルドID用です。現在のサーバーのギルドIDにデフォルトで設定されます",
+    "This is the action you will perform for the user. It can be either adding, setting or removing": "これはユーザーに対して実行するアクションです。追加、設定、または削除できます",
+    "Used by bot owners to override bot limits": "ボットの制限を無効にするためにボットの所有者が使用します",
     "you can't give points to someone who is/was not in the server. Please try again on a different user.": "サーバーにいないユーザーにポイント与えることはできません。別のユーザーでもう一度お試しください",
     "you would not benefit from that.": "あなたはそれから利益を得ないでしょう",
     "you may not steal points!": "あなたはポイントを盗むことはできません！",
