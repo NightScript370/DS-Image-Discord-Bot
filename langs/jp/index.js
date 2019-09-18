@@ -24,7 +24,7 @@ module.exports = {
     "Games": "ゲーム",
     "Image Edits": "画像編集",
     "Server Management": "サーバー管理",
-    "Text Edits": "テキスト編集",
+    "Text Fun": "テキストの楽しい",
     "Useful": "有用",
 
     // MARK: Audio category
@@ -46,10 +46,53 @@ module.exports = {
 
     "Music Search": "ミュージック検索",
 
+    // MARK: Bot utilites category
+    "Invite Bot": "ボットを招待",
+    "Website": "Webサイト",
+    "Commands": "コマンド",
+    "Support Server": "サポートサーバー",
+
     // MARK: Experiece points category
     "Give a server member a specified amount of points.": "サーバーメンバーに指定された量の経験値を与えます",
     "List all those with the highest amount of points": "最高ポイントの人をリストする",
     "Shows a user's experience points.": "ユーザーの経験値を表示する",
+    "bots do not collect Experience Points! Please try this command on a different user": "ボットは経験値を収集しません！別のユーザーでこのコマンドを試してください",
+    "Yamamura is not in that server. Therefore, I cannot get that server's points": "Yamamuraはそのサーバーにはいません。したがって、そのサーバーのポイントを取得できません",
+    "you may not see the statistics of a server you are not in. Try again later": "あなたがメンバーしていないサーバーの統計が表示されない場合があります。別のサーバーでもう一度お試しください",
+    "you can't see the points of a user who is/was not in the server. Please try again on a different user.": "サーバーにいないユーザーのポイントを見ることができません。別のユーザーでもう一度お試しください",
+
+    "This field contains the user you'd like to give server points too. This can either be a mention, username or user ID": "このフィールドには、サーバーポイントを付与するユーザーが含まれます。これは、メンション、ユーザー名、またはユーザーIDのいずれかです", // To
+    "Who would you like to donate points to?": "誰にポイントを寄付しますか？",
+    "That's not something we can give points to! Try again.": "それはポイントを与えることができるものではありません！再試行する",
+    "This argument is the amount of points you'd like to donate to the user.": "これはユーザーに寄付したいポイントの量です。",
+    "How many points would you like to donate?": "何点寄付しますか？",
+    "That's an invalid amount of points! Try again": "それは無効なポイントです！ 再試行する",
+    "This argument is for the guild ID you'd like your transactions to go through. Will default itself to the guild ID of the current server if its on a server.": "これはトランザクションを通過させたいギルドID用です。現在のサーバーのギルドIDにデフォルトで設定されます",
+    "This is the action you will perform for the user. It can be either adding, setting or removing": "これはユーザーに対して実行するアクションです。追加、設定、または削除できます",
+    "Used by bot owners to override bot limits": "ボットの制限を無効にするためにボットの所有者が使用します",
+    "you can't give points to someone who is/was not in the server. Please try again on a different user.": "サーバーにいないユーザーにポイント与えることはできません。別のユーザーでもう一度お試しください",
+    "you would not benefit from that.": "あなたはそれから利益を得ないでしょう",
+    "you may not steal points!": "あなたはポイントを盗むことはできません！",
+    "You do not have enough points to donate to the user! Please try again once you collect more points": "あなたはそのユーザーに寄付するのに十分なポイントがありません！さらにポイントを集めてからもう一度お試しください",
+    "thank you so much for donating {0} points to {1}. They are now at level {2}": "{0}ポイントを{1}に寄付していただき、ありがとうございます。{1}はレベル{2}になりました",
+    "\n Unfortunately, that also means you're now down to {0} points, and are now at level {1}": "\n残念ながら、それはまたあなたが{0}ポイントとレベル{1}になり",
+
+    "Leaderboard for {0}": "{0}のリーダーボード",
+    "Handled by Yamamura": "Yamamuraが操作",
+    "Top {0} posters": "上位{0}ユーザー",
+    "**{0}. {1}: {2} points (level {3}) \n": "**{0}. {1}：{2}ポイント（レベル{3}）\n",
+    " Leaderboard - Top {0}": "のリーダボート - 上位{0}",
+    "Yamamura Leaderboard": "Yamamuraのリーダーボード",
+    "{0} ({1} points)": "{0}（{1}ポイント）",
+
+    "Points system handled by Yamamura": "Yamamuraがポイントシステムを操作",
+    "Points": "ポイント",
+    "Level": "レベル",
+    "There's no higher level that this user can reach. This user is already at their maximum level possible.": "このユーザーが到達できるより高いレベルはありません。このユーザーはすでに可能な最大レベルに達しています。",
+    "{0} more points until level up!": "さらに{0}ポイントでレベルアップ！",
+    "{0} is currently standing at level {1} with {2} points.": "{0}さんは現在、{2}ポイントでレベル{1}です",
+    "Showing stats for {0}": "{0}の統計を表示しています",
+    "we do not share any servers with this user. Please try again with a different user.": "このユーザーとサーバーを共有しません。 別のユーザーでもう一度お試しください",
 
     // MARK: Lang command
     "The language has been changed to {0} **{1}**.": "言語が{0}**{1}**に変更されました",
@@ -106,7 +149,7 @@ module.exports = {
     "If you'd like to see all the available commands, please take a look at our website or type {0}commands": "利用可能なすべてのコマンドを表示するには、Webサイトにアクセスか、`{0}commands`を入力してください",
     "Links": "リンク",
     "Publicity": "宣伝",
-    "Usage": "使用量",
+    "Usage": "使用法",
     "Resource Usage": "リソース使用量",
     "Backends": "バックエンド",
     "Database System": "データベースシステム",
@@ -129,10 +172,6 @@ module.exports = {
     "The input `{0}` is not valid for the type `{1}`.": "入力`{0}`はタイプ`{1}`には無効です",
     "{0}'s Command Listing": "{0}のコマンドリスト",
     "Category listing: {0}": "カテゴリーリスト：{0}",
-    "Administration": "管理", // Unused?
-    "MakerBoard Connectivity": "MakerBoard接続", // Unused?
-    "Moderation": "管理", // Unused?
-    "Image Fun": "画像の楽しみ", // Unused?
     "View and set your server's config for the bot.": "サーバーのボットの設定を表示と設定します",
     "Log channel": "ログチャンネル",
     "Welcome channel": "ようこそチャンネル",
