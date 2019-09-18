@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo');
-const { findType } = require('../../Configuration');
+const { findType, types } = require('../../Configuration');
 
 module.exports = class ConfigCommand extends Command {
 	constructor() {
@@ -70,7 +70,7 @@ module.exports = class ConfigCommand extends Command {
 				for (let k in data) {
 					let v = data[k];
 					if (["meta", "$loki", "guildID"].includes(k)) continue;
-					let type = findType(v.type);
+					let type = types[v.type];
 					console.log(v, v.type, type)
 					try {
 						let deserializedValue = type.render(this.client, msg, v.value);
@@ -85,7 +85,7 @@ module.exports = class ConfigCommand extends Command {
 			case 'get':
 				if (!key) return msg.channel.send(__("You didn't specify a key!"));
 
-				let type = findType(data[key].type);
+				let type = types[data[key].type];
 				let deserializedValue = type.render(this.client, msg, data[key].value);
 
 				return msg.channel.send(deserializedValue == type.nullValue || deserializedValue == undefined || (deserializedValue == [] || deserializedValue[0] == undefined) ? __("This value is empty") : deserializedValue)
@@ -93,11 +93,11 @@ module.exports = class ConfigCommand extends Command {
 			case 'set':
 				if (!key) return msg.channel.send(__("You didn't specify a key!"));
 				if (!data[key]) return msg.channel.send(__("The key `{0}` does not exist.", key));
-				if (data[key].type == "array") return await this.setArray(msg, data, key, value);
+				if (types[key].endsWith(":ex")) return await this.setArray(msg, data, key, value);
 
 				if (!value) return msg.channel.send(__("You didn't specify a value!"));
 				if (!key in data) return msg.channel.send(__("There's no `{0}` key in the configuration!", key));
-				let t = findType(data[key].type);
+				let t = types[data[key].type];
 
 				if (!t) return msg.channel.send(__("An error occurred: {0}.\nAlert the bot owners to let them fix this error", __("There's no type with ID `{0}`", data[key].type)));
 				if (!t.validate(this.client, msg, value)) return msg.channel.send(__("The input `{0}` is not valid for the type `{1}`.", value, t.id));
@@ -122,7 +122,7 @@ module.exports = class ConfigCommand extends Command {
 					} catch (e) {
 						console.error(e);
 						console.log(this.client.db)
-						return msg.util.send(__("There has been an error with the configuration clearance. Please report this bug to the {0} Developers", this.client.user.username));
+						return msg.util.send(__("There has been an error while clearing the configuration. Please report this bug to the {0} Developers", this.client.user.username));
 					}
 				}
 				return msg.util.reply(__("action cancelled"));
@@ -133,9 +133,11 @@ module.exports = class ConfigCommand extends Command {
 		}
 	}
 
-	async setArray(msg, data, key, value) {
+	async setArray(msg, data, key, value, recursionDepth = 0) {
 		const __ = (k, ...v) => global.getString(msg.author.lang, k, ...v);
-		let t = findType("array");
+		let t = findType(key);
+
+		let nonextendedType = t.replace(":ex", "");
 
 		let action = await this.awaitReply(msg, __("What do you want to do with the values? [`add` a value/`clear` the values]"), 30000);
 		action = action.toLowerCase();
@@ -152,7 +154,7 @@ module.exports = class ConfigCommand extends Command {
 					return msg.util.reply(__("I have successfully cleared the array"));
 				} catch (e) {
 					console.error(e);
-					return msg.util.send(__("There has been an error with the array clearance. Please report this bug to the {0} Developers", this.client.user.username));
+					return msg.util.send(__("There has been an error while clearing the array. Please report this bug to the {0} Developers", this.client.user.username));
 				}
 			}
 			return msg.util.reply(__("action cancelled"));
@@ -160,7 +162,10 @@ module.exports = class ConfigCommand extends Command {
 			let resp = ""
 			let arr = [];
 			while (typeof resp == "string" && resp.toLowerCase() != "stop") {
-				if (resp) arr.push({ type: data[key].arrayType || "string", value: resp });
+				if (resp) {
+					let actualValue = findType(nonextendedType).serialize(this.client, msg, resp);
+					arr.push({ value: actualValue });
+				}
 				resp = await this.awaitReply(msg, __("Enter the value you want to add, or type `stop` (or wait 30 seconds) to stop"), 30000);
 			}
 
@@ -168,9 +173,20 @@ module.exports = class ConfigCommand extends Command {
 			data[key].value = arr.concat(data[key].value);
 
 			// await this.client.db.serverconfig.update(data);
-			return msg.util.send(require("util").inspect(data[key]), {code: 'js'});
+			msg.util.send(require("util").inspect(data[key]), {code: 'js'});
 		} else {
-			return msg.util.send(__("The action must be one of [{0}]!", "add, clear"));
+			msg.util.send(__("The action must be one of [{0}]!", "add, clear"));
+		}
+
+		if (recursionDepth < 5) {
+			let naction = await this.awaitReply(msg, __("Do something else? [`y`/`n`]"), 30000);
+			naction = naction.toLowerCase();
+
+			if (!!naction && naction == "y") {
+				return this.setArray(msg, data, key, value, ++recursionDepth);
+			} else {
+				return msg.util.reply(__("action cancelled"));
+			}
 		}
 	}
 

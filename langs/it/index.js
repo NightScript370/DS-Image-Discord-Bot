@@ -85,7 +85,7 @@ module.exports = {
 	"Are you ___**100%**___ sure you want to reset the configuration? [Y/N]": "Sei sicuro al ___**100%**___ di voler ripristinare la configurazione? [Y (sì)/N (no)]",
 	"action cancelled": "azione annullata",
 	"There's no `{0}` key in the configuration!": "Non c'è alcuna chiave `{0}` nella configurazione!",
-	"There has been an error with the configuration clearance. Please report this bug to the {0} Developers": "Si è verificato un errore durante il ripristino della configurazione. Riporta il bug agli sviluppatori di {0}",
+	"There has been an error while clearing the configuration. Please report this bug to the {0} Developers": "Si è verificato un errore durante il ripristino della configurazione. Riporta il bug agli sviluppatori di {0}",
 	"{0} - by {1}": "{0} - di {1}",
 	"An error occurred: {0}.\nAlert the bot owners to let them fix this error": "Si è verificato un errore: {0}.\nAvvisa gli sviluppatori per far correggere questo errore",
 	"There's no type with ID `{0}`": "Non esiste alcun tipo con ID `{0}`",

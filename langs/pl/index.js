@@ -75,7 +75,7 @@ module.exports = {
 	"action cancelled": "akcja anulowana",
 	"There's no `{0}` key in the configuration!": "Nie ma klucza `{0}` w konfiguracji!",
 	"I have successfully cleared the configuration": "Pomyślnie wyczyszczono konfigurację.",
-	"There has been an error with the configuration clearance. Please report this bug to the {0} Developers": "Si è verificato un errore durante il ripristino della configurazione. Proszę zgłosić ten błąd do {0} Deweloperów",
+	"There has been an error while clearing the configuration. Please report this bug to the {0} Developers": "Si è verificato un errore durante il ripristino della configurazione. Proszę zgłosić ten błąd do {0} Deweloperów",
 	"{0} - by {1}": "{0} - przez {1}",
 	"An error occurred: {0}.\nAlert the bot owners to let them fix this error": "Wystąpił błąd: {0}.\nOstrzeż właścicieli bota, żeby mogli naprawić ten błąd", 
 	"There's no type with ID `{0}`": "Nie istnieje typ z ID `{0}`",
