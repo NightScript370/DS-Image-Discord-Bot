@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo');
-const { findType, types } = require('../../Configuration');
+const { findType, settingProps } = require('../../Configuration');
 
 module.exports = class ConfigCommand extends Command {
 	constructor() {
@@ -68,16 +68,27 @@ module.exports = class ConfigCommand extends Command {
 					.setYamamuraCredits(true);
 
 				for (let k in data) {
-					let v = data[k];
 					if (["meta", "$loki", "guildID"].includes(k)) continue;
-					let type = types[v.type];
-					console.log(v, v.type, type)
+
+					let v = data[k];
+					let type = findType(k);
+					console.log(k, v, type)
+
+					let embedValue;
+
 					try {
 						let deserializedValue = type.render(this.client, msg, v.value);
-						embed.addField(titles[k] + " [`" + k + "`]", deserializedValue == type.nullValue || deserializedValue == undefined || (deserializedValue == [] || deserializedValue[0] == undefined)	? __("This value is empty") : deserializedValue)
+						if (deserializedValue == type.nullValue
+						 || deserializedValue == undefined
+						 || (deserializedValue == [] || deserializedValue[0] == undefined)
+							embedValue = __("This value is empty");
+						else
+							embedValue = deserializedValue;
 					} catch (e) {
-						embed.addField(titles[k] + " [`" + k + "`]", "Error field")
+						embedValue = "This field has an error";
 					}
+
+					embed.addField(titles[k] + " [`" + k + "`]", embedValue)
 				}
 
 				return msg.util.send(embed);
@@ -85,19 +96,18 @@ module.exports = class ConfigCommand extends Command {
 			case 'get':
 				if (!key) return msg.util.send(__("You didn't specify a key!"));
 
-				let type = types[data[key].type];
+				let type = findType(key);
 				let deserializedValue = type.render(this.client, msg, data[key].value);
 
 				return msg.util.send(deserializedValue == type.nullValue || deserializedValue == undefined || (deserializedValue == [] || deserializedValue[0] == undefined) ? __("This value is empty") : deserializedValue)
 				break;
 			case 'set':
 				if (!key) return msg.util.send(__("You didn't specify a key!"));
-				if (!data[key]) return msg.util.send(__("The key `{0}` does not exist.", key));
-				if (types[key].endsWith(":ex")) return await this.setArray(msg, data, key, value);
+				if (!settingProps[key]) return msg.util.send(__("The key `{0}` does not exist.", key));
+				if (settingProps[key].endsWith(":ex")) return await this.setArray(msg, data, key, value);
 
 				if (!value) return msg.util.send(__("You didn't specify a value!"));
-				if (!key in data) return msg.util.send(__("There's no `{0}` key in the configuration!", key));
-				let t = types[data[key].type];
+				let t = findType(key);
 
 				if (!t) return msg.util.send(__("An error occurred: {0}.\nAlert the bot owners to let them fix this error", __("There's no type with ID `{0}`", data[key].type)));
 				if (!t.validate(this.client, msg, value)) return msg.util.send(__("The input `{0}` is not valid for the type `{1}`.", value, t.id));
@@ -121,7 +131,7 @@ module.exports = class ConfigCommand extends Command {
 						return msg.util.reply(__("I have successfully cleared the configuration"));
 					} catch (e) {
 						console.error(e);
-						console.log(this.client.db)
+						console.log(msg.guild.config.data)
 						return msg.util.send(__("There has been an error while clearing the configuration. Please report this bug to the {0} Developers", this.client.user.username));
 					}
 				}

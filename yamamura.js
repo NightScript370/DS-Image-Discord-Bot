@@ -52,10 +52,7 @@ class YamamuraClient extends AkairoClient {
 				if (msg.channel.type == "dm") return ['', config.prefix];
 				if (msg.guild) {
 					try {
-						let serverconfig = this.db.serverconfig.findOne({ guildID: msg.guild.id }) || await this.setDefaultSettings(msg.guild);
-
-						if (serverconfig && serverconfig.prefix && serverconfig.prefix.value)
-							return serverconfig.prefix.value;
+						return msg.guild.config.data.prefix;
 					} catch(e) {
 						console.error(e)
 					}
