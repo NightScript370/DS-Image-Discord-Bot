@@ -31,6 +31,12 @@ module.exports = class DiscordProfileCommand extends Command {
 	}
 
 	async exec(msg, { user }) {
+		if (msg.author.id !== user.id) {
+			let guildsTogether = this.client.guilds.filter(guild => guild.members.has(user.id) && guild.member.has(msg.author.id));
+			if (!guildsTogether.size)
+				return msg.reply("We're sorry, but you may not use the profile command to find users that you do not share a server with. Please try again on a different member.");
+		}
+
 		let member;
 		if (msg.guild)
 			member = await msg.guild.members.get(user.id);
