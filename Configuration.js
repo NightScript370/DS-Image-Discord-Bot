@@ -62,7 +62,7 @@ let types = [
 		static deserialize(client, _, val) {
 			return val == "false" ? false : true;
 		}
-		
+
 		static render(client, msg, val) {
 			return getString(msg.author.lang, val.toString() == "true" ? "Enabled" : "Disabled");
 		}
@@ -92,7 +92,7 @@ let types = [
 		static deserialize(client, _, val) {
 			return "" + val;
 		}
-		
+
 		static render(client, _, val) {
 			return "" + val;
 		}
