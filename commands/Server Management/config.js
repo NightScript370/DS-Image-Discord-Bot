@@ -147,8 +147,6 @@ module.exports = class ConfigCommand extends Command {
 		const __ = (k, ...v) => global.getString(msg.author.lang, k, ...v);
 		let t = findType(key);
 
-		let nonextendedType = t.replace(":ex", "");
-
 		let action = await this.awaitReply(msg, __("What do you want to do with the values? [`add` a value/`clear` the values]"), 30000);
 		action = action.toLowerCase();
 
