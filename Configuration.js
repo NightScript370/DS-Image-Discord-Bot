@@ -1,5 +1,5 @@
 let settingProps = {
-	logchan: "channel:ex",
+	logchan: "channel",
 	welcomechan: "channel:ex",
 	welcomemessage: "string:ex",
 	leavemessage: "string:ex",
@@ -37,7 +37,7 @@ let types = [
 			return parseInt(val);
 		}
 
-		static validate(client, msg, val) {
+		static validate(client, _, val) {
 			return !isNaN(val);
 		}
 	},
@@ -67,7 +67,7 @@ let types = [
 			return getString(msg.author.lang, val.toString() == "true" ? "Enabled" : "Disabled");
 		}
 
-		static validate(client, msg, val) {
+		static validate(client, _, val) {
 			return ["true", "false"].includes(val.toLowerCase());
 		}
 	},
@@ -197,7 +197,7 @@ let types = [
 		}
 		
 		static deserialize(client, msg, val) {
-			return val ? client.channels.get(val) : this.nullValue;
+			return val ? msg.guild.channels.get(val) : this.nullValue;
 		}
 
 		static render(client, msg, val) {
@@ -206,15 +206,18 @@ let types = [
 		}
 
 		static validate(client, msg, val) {
-			// console.log(client);
-			try {
-				let isID = /(?:<#)?(\d{17,19})>?/.test(val);
-				let isName = !!msg.guild.channels.find(c => c.name ? c.name.toLowerCase() : "" == val.toLowerCase() && c.type == "text");
-				return isName || isID;
-			} catch (e) {
-				console.error(e);
-				return false;
+			let channelIDregex = /(?:<#)?(\d{17,19})>?/;
+			if (channelIDregex.test(val)) {
+				let channelID = val.match(channelIDregex)[1];
+				if (msg.guild.channels.has(channelID))
+					return true;
 			}
+
+			let isName = msg.guild.channels.find(c => c.name ? c.name.toLowerCase() : "" == val.toLowerCase() && c.type == "text");
+			if (isName)
+				return true;
+
+			return false;
 		}
 	},
 
@@ -264,47 +267,7 @@ let types = [
 				return false;
 			}
 		}
-	},
-
-	// Array is a bit of a special one; in the (de)serialization methods,
-	// the val variable refers to an array of objects, not of values themselves,
-	// where the objects are something like {type: "string", value: "something just like this"}
-	class ArrayType {
-		constructor() {
-			this.id = "array"
-		}
-
-		static get nullValue() {
-			return [];
-		}
-
-		static get id() {
-			return "array";
-		}
-
-		static serialize(client, msg, val) {
-			return val.map(value => {
-				// console.log(value, findType(value.type), findType(value.type).serialize);
-				return { type: value.type, value: findType(value.type).serialize(client, msg, value.value) };
-			})
-		}
-
-		static deserialize(client, msg, val) {
-			//console.log(val)
-			return val instanceof Array ? val.map(value => {
-				// console.log(value, findType(value.type));
-				return findType(value.type).deserialize(client, msg, value.value)
-			}) : [val];
-		}
-		
-		static render(client, msg, val) {
-			return ArrayType.deserialize(client, msg, val).join("\n");
-		}
-
-		static validate(client, msg, val) {
-			return Array.isArray(val) && val.every(value => !!value.type && value.value != undefined);
-		}
-	},
+	}
 ];
 
 function findType(key) {
@@ -319,5 +282,5 @@ function getKey(client, msg, key) {
 }
 
 module.exports = {
-	types, findType, getKey
+	types, findType, getKey, settingProps
 };

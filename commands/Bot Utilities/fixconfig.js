@@ -1,19 +1,7 @@
-const { inspect } = require('util')
 const Command = require('../../struct/Command');
-const { findType } = require("../../Configuration.js");
+const { findType, settingProps } = require("../../Configuration.js");
 
-const types = {
-	logchan: "channel",
-	welcomechan: "channel",
-	welcomemessage: "array",
-	leavemessage: "string",
-	prefix: "string",
-	makerboard: "string",
-	starboardchannel: "channel",
-	levelup: "bool",
-	levelupmsgs: "array",
-	mutedrole: "role"
-}
+const isObject = (val) => typeof val === 'object' && !(val instanceof Array) && val !== null;
 
 module.exports = class FixConfigCommand extends Command {
 	constructor() {
@@ -36,30 +24,30 @@ module.exports = class FixConfigCommand extends Command {
 				if (["meta", "$loki", "exec", "guildID"].includes(prop)) continue;
 
 				const value = data[prop];
-				console.log(prop, value, types[prop]);
+				console.log(prop, value, settingProps[prop]);
 
-				if (!value || !value.value || typeof value == "string")
-					data[prop] = {type: types[prop], arrayType: "string", value: value || findType(types[prop]).nullValue};
+				if (!value)
+					value = findType(prop).nullValue;
 
-				if (types[prop] == "array") {
-					data[prop].value = convert(value.value, types[prop]) || findType(types[prop]).nullValue;
+				while (isObject(value)) {
+					value = value.value
 				}
 
-				if (value.type == 'array') {
-					if (value.value == null)
-						value.value = [];
-						
-					else if (isObject(value.value))
-						value.value = [value.value];
-					else if (!(value.value instanceof Array))
-						value.value = [{type: 'string', value: value.value}];
-
-					for (var val in value.value) {
-						data[prop].value[0] = unconvert(val);
+				if (!settingProps[prop].endsWith(':ex')) {
+					while (value instanceof Array) {
+						break; // Do this for now until we have actual code that can undo an array into string
 					}
+				} else {
+					for (var valueinvalue of value) {
+						while (valueinvalue instanceof Array) {
+							break;
+						}
 
-				} else
-					data[prop] = unconvert(value);
+						while (isObject(valueinvalue)) {
+							valueinvalue = valueinvalue.value
+						}
+					}
+				}
 
 				console.log(prop, data[prop])
 			}
@@ -103,8 +91,3 @@ function convert(array, propType) {
 
 	return cfg;
 };
-
-function isObject(val) {
-    if (val === null) { return false;}
-    return ( (typeof val === 'function') || (typeof val === 'object') );
-}
