@@ -24,27 +24,29 @@ module.exports = class WarnCommand extends Command {
 	}
 
 	async exec(msg, { user }) {
+		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v);
+
         if (msg.guild.members.has(user.id)) {
 			let member = msg.guild.members.get(user.id);
 			let author = msg.member;
 
-			if (author.roles.highest <= members.roles.highest)
-				return msg.reply("You can't list the warnings of someone who has a higher role position than you.");
+			if (author.roles.highest.position <= member.roles.highest.position)
+				return msg.util.reply(__("You can't list the warnings of someone who has a higher role position than you."));
 
 			if (member.hasPermission("MANAGE_MESSAGES") && !author.hasPermission("ADMINISTRATOR"))
-				return msg.reply("You need to have the `Administrator` permission in order to look at a moderators warnings");
+				return msg.util.reply(__("You need to have the `Administrator` permission in order to look at a moderators warnings"));
 
 			if (member.hasPermission("ADMINISTRATOR") && msg.guild.ownerId !== author.id)
-				return msg.reply("You need to be the server owner in order to list an Administrators warning")
+				return msg.util.reply(__("You need to be the server owner in order to list an Administrators warning"));
 		}
 
 		let warns = await this.client.db.infractions.find({guild: msg.guild.id, user: user.id});
         let description = '';
 
-        let text = `${user.username}'s warning count - **${warns.length}**`;
+        let text = __("{0}'s warning count - **{1}**", user.username, warns.length);
 		let embed = this.client.util.embed()
-			.setAuthor(`A list of ${user.username}'s warnings`, user.displayAvatarURL({format: 'png'}))
-			.setFooter(`There are ${warns.length} warnings in total for ${user.tag} (#${user.id})`)
+			.setAuthor(__("A list of {0}'s warnings", user.username), user.displayAvatarURL({format: 'png'}))
+			.setFooter(__("There are {0} warnings in total for {1} (#{2})", warns.length, user.tag, user.id))
 			.setThumbnail(msg.guild.iconURL({format: 'png'}));
 
         let moderator;

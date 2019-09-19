@@ -43,8 +43,10 @@ module.exports = class NPMCommand extends Command {
 	}
 
 	async exec(message, { pkg }) {
-		let { body } = pkg;
+		if (pkg == "error")
+			return message.util.reply(global.getString(message.author.lang, "there has been an error while trying to get the NPM data. Please try again later"));
 
+		let body = pkg.body;
 		if (body.time === undefined)
 			return message.util.reply(global.getString(message.author.lang, "commander of this package decided to unpublish it."));
 
