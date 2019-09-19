@@ -57,7 +57,7 @@ module.exports = class ConfigCommand extends Command {
 
 	async exec(msg, { action, key, value }) {
 		const __ = (k, ...v) => global.getString(msg.author.lang, k, ...v);
-		let data = this.client.db.serverconfig.findOne({ guildID: msg.guild.id });
+		let data = msg.guild.config.data;
 
 		switch (action) {
 			case 'view':
@@ -83,24 +83,24 @@ module.exports = class ConfigCommand extends Command {
 				return msg.util.send(embed);
 				break;
 			case 'get':
-				if (!key) return msg.channel.send(__("You didn't specify a key!"));
+				if (!key) return msg.util.send(__("You didn't specify a key!"));
 
 				let type = types[data[key].type];
 				let deserializedValue = type.render(this.client, msg, data[key].value);
 
-				return msg.channel.send(deserializedValue == type.nullValue || deserializedValue == undefined || (deserializedValue == [] || deserializedValue[0] == undefined) ? __("This value is empty") : deserializedValue)
+				return msg.util.send(deserializedValue == type.nullValue || deserializedValue == undefined || (deserializedValue == [] || deserializedValue[0] == undefined) ? __("This value is empty") : deserializedValue)
 				break;
 			case 'set':
-				if (!key) return msg.channel.send(__("You didn't specify a key!"));
-				if (!data[key]) return msg.channel.send(__("The key `{0}` does not exist.", key));
+				if (!key) return msg.util.send(__("You didn't specify a key!"));
+				if (!data[key]) return msg.util.send(__("The key `{0}` does not exist.", key));
 				if (types[key].endsWith(":ex")) return await this.setArray(msg, data, key, value);
 
-				if (!value) return msg.channel.send(__("You didn't specify a value!"));
-				if (!key in data) return msg.channel.send(__("There's no `{0}` key in the configuration!", key));
+				if (!value) return msg.util.send(__("You didn't specify a value!"));
+				if (!key in data) return msg.util.send(__("There's no `{0}` key in the configuration!", key));
 				let t = types[data[key].type];
 
-				if (!t) return msg.channel.send(__("An error occurred: {0}.\nAlert the bot owners to let them fix this error", __("There's no type with ID `{0}`", data[key].type)));
-				if (!t.validate(this.client, msg, value)) return msg.channel.send(__("The input `{0}` is not valid for the type `{1}`.", value, t.id));
+				if (!t) return msg.util.send(__("An error occurred: {0}.\nAlert the bot owners to let them fix this error", __("There's no type with ID `{0}`", data[key].type)));
+				if (!t.validate(this.client, msg, value)) return msg.util.send(__("The input `{0}` is not valid for the type `{1}`.", value, t.id));
 
 				if (value != "null") {
 					let newValue = t.serialize(this.client, msg, value);
@@ -117,7 +117,7 @@ module.exports = class ConfigCommand extends Command {
 				if (resp && typeof resp == 'string' && resp.toLowerCase() == "y") {
 					console.log(msg.author.tag + " accepted to clear " + msg.guild.name + "'s settings")
 					try {
-						await this.client.setDefaultSettings(msg.guild, false, false);
+						await msg.guild.config.setDefaultSettings(false, false);
 						return msg.util.reply(__("I have successfully cleared the configuration"));
 					} catch (e) {
 						console.error(e);

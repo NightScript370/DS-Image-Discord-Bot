@@ -17,7 +17,7 @@ module.exports = class FixConfigCommand extends Command {
 
 	async exec(msg) {
 		this.client.guilds.forEach(async guild => {
-			let data = this.client.db.serverconfig.findOne({guildID: guild.id});
+			let data = guild.config.data;
 
 			console.log(`${guild.name}'s server prechange`, data)
 			for (const prop in data) {
