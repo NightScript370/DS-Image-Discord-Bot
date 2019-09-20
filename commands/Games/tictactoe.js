@@ -44,7 +44,6 @@ module.exports = class TTTCommand extends Command {
 	}
 
 	async exec(msg, { moveOrCmd: action }) {
-		const client = await this.client;
 		const matchRe = /([1-3])(?: )*(?:|,|\$|\-|\.|\\|\/|\||&)?(?: )*([1-3])/;
 
 		let embed = this.client.util.embed()
