@@ -2,7 +2,7 @@ const { Command } = require('discord-akairo');
 const { TicTacToe } = require('tictactoejs');
 
 module.exports = class TTTCommand extends Command {
-	constructor(client) {
+	constructor() {
 		super("tictactoe", {
 			category: 'Games',
 			aliases: ["ttt", "tris", "xandos", 'tictactoe'],
@@ -53,7 +53,7 @@ module.exports = class TTTCommand extends Command {
 
 		let games = this.games;
 		var game;
-		const key = `${msg.author.id}`
+		const key = msg.author.id
 		const shouldMove = matchRe.test(action) // matches "1,3", "1, 3", "1|3" and "13"
 		if (!shouldMove || (shouldMove && !this.games[key])) {
 			action = this.games[key] ? "grid" : "new"
@@ -83,9 +83,8 @@ module.exports = class TTTCommand extends Command {
 
 		games[key] = game;
 
-		if (game.status() != "in progress") {
+		if (game.status() != "in progress")
 			return this.deleteGame(msg, key);
-		}
 
 		game.turn();
 		game.randomMove();
@@ -109,10 +108,10 @@ module.exports = class TTTCommand extends Command {
 		let embed = this.client.util.embed()
 			.setAuthor(msg.guild ? msg.member.displayName : msg.author.username, msg.author.displayAvatarURL({format: 'png'}))
 			.setTitle("Tic-Tac-Toe game results")
-			.setDescription(this.checkStatus(game.status()) + '**```' + game.ascii() + '```**')
+			.setDescription(this.checkStatus(this.games[key]) + '**```' + game.ascii() + '```**')
 		msg.util.send(embed)
 
-		let game = this.games[key];
-		delete this.games[key]
+		if (this.games[key])
+			delete this.games[key]
 	}
 };

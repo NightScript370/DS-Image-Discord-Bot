@@ -108,7 +108,7 @@ module.exports = class PickCommand extends Command {
 
 		message.util.send({embed: embed})
 
-		const key = message.channel.id
-		delete this.games[key]
+		if (this.games[message.channel.id])
+			delete this.games[message.channel.id]
 	}
 }
