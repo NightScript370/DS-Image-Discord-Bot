@@ -141,7 +141,8 @@ module.exports = {
 	"{0} Users": "{0} Пользователи",
 	"{0} Channels": "{0} Каналов",
     "{0} Servers": "{0} Серверов",
-
+    "Resume the currently paused audio": "Прдолжыть музыку, которую вы остановили"
+    "Stops the music": "Остановляет музыку"
     "": "",
     "": "",
     "": "",
