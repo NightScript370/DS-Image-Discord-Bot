@@ -16,18 +16,18 @@ module.exports = class ReadyListener extends Listener {
 		const wait = require('util').promisify(setTimeout);
 		await wait(8000);
 
-		this.listenerHandler.load(process.cwd() +'/events/commandHandler/load.js');
-		this.commandHandler.loadAll();
-
 		this.client.db.serverconfig.get = require("../../Configuration").getKey; // Short-hand declare a variable to be an existing function
-
-		this.client.user.setStatus('online');
-		this.client.util.setDefaultStatus(this.client);
 
 		this.client.listenerHandler.setEmitters({
 			commandHandler: this.client.commandHandler,
 			listenerHandler: this.client.listenerHandler
 		});
+
+		this.listenerHandler.load(process.cwd() +'/events/commandHandler/load.js');
+		this.commandHandler.loadAll();
+
+		this.client.user.setStatus('online');
+		this.client.util.setDefaultStatus(this.client);
 
 		try {
 			this.client.website = await require("../../website/index.js")(this.client);
