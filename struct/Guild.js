@@ -26,7 +26,7 @@ module.exports = Structures.extend("Guild", Guild => {
 						starboardchannel: starboardchannel ? starboardchannel.id : '',
 						levelup: true,
 						levelupmsgs: !blank ? ["Congratulations {{user}}! You've leveled up to level {{level}}!"] : [],
-						mutedrole: value: mutedrole ? mutedrole.id : '',
+						mutedrole: mutedrole ? mutedrole.id : '',
 					};
 
 					let currentsettings = this.db.serverconfig.findOne({guildID: this.id});
