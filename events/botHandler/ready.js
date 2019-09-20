@@ -16,6 +16,9 @@ module.exports = class ReadyListener extends Listener {
 		const wait = require('util').promisify(setTimeout);
 		await wait(8000);
 
+		this.listenerHandler.load(process.cwd() +'/events/commandHandler/load.js');
+		this.commandHandler.loadAll();
+
 		this.client.db.serverconfig.get = require("../../Configuration").getKey; // Short-hand declare a variable to be an existing function
 
 		this.client.user.setStatus('online');
@@ -50,10 +53,9 @@ module.exports = class ReadyListener extends Listener {
 			}
 		} */
 
-		this.client.listenerHandler.remove('ready')
+		this.client.listenerHandler.remove('ready');
+		this.client.listenerHandler.remove('load');
 		this.client.listenerHandler.loadAll();
-
-		this.commandHandler.loadAll();
 
 		console.log(`My body, ${this.client.user.username} is ready to serve ${this.client.users.size} users in ${this.client.guilds.size} servers!`);
 

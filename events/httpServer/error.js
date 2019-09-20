@@ -10,10 +10,10 @@ module.exports = class httpErrorListener extends Listener {
 	}
 
 	exec(error) {
-		if (err.syscall !== "listen")
+		if (error.syscall !== "listen")
 			console.error(`Could not start http server: ${err}`);
 
-		switch(err.code) {
+		switch(error.code) {
 			case "EACCES":
 				console.error(`Port ${this.client.website.express.get('port')} requires elevated privileges`);
 				break;
