@@ -8,7 +8,8 @@ module.exports = class ReadyListener extends Listener {
 		super('ready', {
 			emitter: 'client',
 			event: 'ready',
-			category: 'botHandler'
+			category: 'botHandler',
+			type: 'once'
 		});
 	}
 
