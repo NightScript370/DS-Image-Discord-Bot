@@ -23,8 +23,8 @@ module.exports = class ReadyListener extends Listener {
 			listenerHandler: this.client.listenerHandler
 		});
 
-		this.listenerHandler.load(process.cwd() +'/events/commandHandler/load.js');
-		this.commandHandler.loadAll();
+		this.client.listenerHandler.load(process.cwd() +'/events/commandHandler/load.js');
+		this.client.commandHandler.loadAll();
 
 		this.client.user.setStatus('online');
 		this.client.util.setDefaultStatus(this.client);
