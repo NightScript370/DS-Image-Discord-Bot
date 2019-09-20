@@ -24,7 +24,7 @@ module.exports = class PickCommand extends Command {
 
 	exec(msg, { action }) {
 		const current = this.client.commandHandler.games.get(msg.author.id);
-		if (current && current.name !== this.id) return msg.util.reply(__("Please wait until the current game of {0} is finished.", current.name);
+		if (current && current.name !== this.id) return msg.util.reply(__("Please wait until the current game of {0} is finished.", current.name));
 
 		let embed = this.client.util.embed()
 			.setColor("GREEN")

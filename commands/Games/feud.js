@@ -20,7 +20,7 @@ module.exports = class FeudCommand extends Command {
 		const __ = (k, ...v) => global.getString(msg.author.lang, k, ...v);
 
 		const current = this.client.commandHandler.games.get(msg.author.id);
-		if (current) return msg.util.reply(__("Please wait until the current game of {0} is finished.", current.name);
+		if (current) return msg.util.reply(__("Please wait until the current game of {0} is finished.", current.name));
 		this.client.commandHandler.games.set(msg.author.id, { name: this.id });
 
 		let question = questions[Math.floor(Math.random() * questions.length)];
