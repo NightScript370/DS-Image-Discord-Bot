@@ -49,7 +49,7 @@ module.exports = Structures.extend("Guild", Guild => {
 					return db.serverconfig.insert(defaultsettings);
 				},
 				get data() {
-					return db.serverconfig.findOne({ guildID: this });
+					return db.serverconfig.findOne({ guildID: this.id });
 				}
 			}
 		}
