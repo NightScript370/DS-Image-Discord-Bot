@@ -64,7 +64,7 @@ module.exports = class ConfigCommand extends Command {
 				let titles = this.getTitles(__);
 				let embed = this.client.util.embed()
 					.setTitle(__("Server configuration for {0}", msg.guild.name))
-					.setDescription(__("You can use `{0}config set <key> null` to set a value to an empty state.", await this.handler.prefix(msg)))
+					.setDescription(__("You can use `{0}config set <key> null` to set a value to an empty state.", this.handler.prefix(msg)))
 					.setYamamuraCredits(true);
 
 				for (let k in data) {
