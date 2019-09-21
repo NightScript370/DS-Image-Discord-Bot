@@ -1,5 +1,6 @@
 const { Structures } = require("discord.js");
 const { getKey } = require('./../Configuration.js');
+const db = require('../utils/database.js')
 
 // This extends Discord's native Guild class with our own methods and properties
 module.exports = Structures.extend("Guild", Guild => {
@@ -29,7 +30,7 @@ module.exports = Structures.extend("Guild", Guild => {
 						mutedrole: mutedrole ? mutedrole.id : '',
 					};
 
-					let currentsettings = this.db.serverconfig.findOne({guildID: this.id});
+					let currentsettings = db.serverconfig.findOne({guildID: this.id});
 					if (currentsettings) {
 						currentsettings.logchan = defaultsettings.logchan;
 						currentsettings.welcomechan = defaultsettings.welcomechan;
@@ -42,13 +43,13 @@ module.exports = Structures.extend("Guild", Guild => {
 						currentsettings.levelupmsgs = defaultsettings.levelupmsgs;
 						currentsettings.mutedrole = defaultsettings.mutedrole;
 
-						return this.client.db.serverconfig.update(currentsettings);
+						return db.serverconfig.update(currentsettings);
 					}
 
-					return this.db.serverconfig.insert(defaultsettings);
+					return db.serverconfig.insert(defaultsettings);
 				},
 				get data() {
-					return this.client.db.serverconfig.findOne({ guildID: this });
+					return db.serverconfig.findOne({ guildID: this });
 				}
 			}
 		}
