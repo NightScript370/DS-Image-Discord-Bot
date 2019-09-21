@@ -3,7 +3,7 @@ let settingProps = {
 	welcomechan: "channel:ex",
 	welcomemessage: "string:ex",
 	leavemessage: "string:ex",
-	prefix: "string:ex",
+	prefix: "string",
 	makerboard: "string",
 	starboardchannel: "channel:ex",
 	levelup: "bool",
