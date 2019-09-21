@@ -80,7 +80,7 @@ module.exports = class ConfigCommand extends Command {
 						let deserializedValue = type.render(this.client, msg, v.value);
 						if (deserializedValue == type.nullValue
 						 || deserializedValue == undefined
-						 || (deserializedValue == [] || deserializedValue[0] == undefined)
+						 || (deserializedValue == [] || deserializedValue[0] == undefined))
 							embedValue = __("This value is empty");
 						else
 							embedValue = deserializedValue;
