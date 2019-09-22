@@ -318,7 +318,7 @@ let types = [
 ];
 
 function findType(key) {
-	return types.filter(type => type.id == settingProps[key.replace(":ex", '')])[0];
+	return types.filter(type => type.id == settingProps[key].replace(":ex", ''))[0];
 }
 
 function getKey(client, msg, key) {
