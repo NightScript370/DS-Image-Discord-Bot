@@ -1,6 +1,7 @@
 const { Structures } = require("discord.js");
 const { getKey } = require('./../Configuration.js');
-const db = require('../utils/database.js')
+const db = require('../utils/database.js');
+const config = require("../config.js");
 
 // This extends Discord's native Guild class with our own methods and properties
 module.exports = Structures.extend("Guild", Guild => {
@@ -13,13 +14,13 @@ module.exports = Structures.extend("Guild", Guild => {
 		DBinit() {
 			let guild = this;
 			this.config = {
-				setDefaultSettings: async (blank = false, scan = true) => {
+				setDefaultSettings: (blank = false, scan = true) => {
 					let channels = guild.channels;
 
-					let logchannel = scan ? await channels.find(channel => channel.name === "discord-logs") : null;
-					let welcomechannel = scan ? await channels.find(channel => channel.name === "general") : null;
-					let starboardchannel = scan ? await channels.find(channel => channel.name === "starboard") : null;
-					let mutedrole = scan ? await guild.roles.find(role => role.name === "Muted") : null;
+					let logchannel = scan ? channels.find(channel => channel.name === "discord-logs") : null;
+					let welcomechannel = scan ? channels.find(channel => channel.name === "general") : null;
+					let starboardchannel = scan ? channels.find(channel => channel.name === "starboard") : null;
+					let mutedrole = scan ? guild.roles.find(role => role.name === "Muted") : null;
 
 					let defaultsettings = {
 						guildID: guild.id,

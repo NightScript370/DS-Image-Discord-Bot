@@ -93,13 +93,13 @@ module.exports = class PurgeCommand extends Command {
 		}
 
 		if (startsWith)
-			messages = await.messages.filter(message => message.content.startsWith(startsWith));
+			messages = await messages.filter(message => message.content.startsWith(startsWith));
 
 		if (includes)
-			messages = await.messages.filter(message => message.content.includes(includes));
+			messages = await messages.filter(message => message.content.includes(includes));
 
 		if (endsWith)
-			messages = await.messages.filter(message => message.content.endsWith(endsWith));
+			messages = await messages.filter(message => message.content.endsWith(endsWith));
 
 		if (who)
 			messages = await messages.filter(message => (who == "bot" ? message.author.bot : message.author == who));
