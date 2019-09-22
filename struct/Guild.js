@@ -7,17 +7,22 @@ module.exports = Structures.extend("Guild", Guild => {
 	return class YamamuraGuild extends Guild {
 		constructor(...args) {
 			super(...args);
+			this.DBinit();
+		}
+		
+		async DBinit() {
+			let guild = this;
 			this.config = {
 				setDefaultSettings: (blank = false, scan = true) => {
-					let channels = this.channels;
+					let channels = guild.channels;
 
-					let logchannel = scan ? channels.find(channel => channel.name === "discord-logs") : null;
-					let welcomechannel = scan ? channels.find(channel => channel.name === "general") : null;
-					let starboardchannel = scan ? channels.find(channel => channel.name === "starboard") : null;
-					let mutedrole = scan ? this.roles.find(role => role.name === "Muted") : null;
+					let logchannel = scan ? await channels.find(channel => channel.name === "discord-logs") : null;
+					let welcomechannel = scan ? await channels.find(channel => channel.name === "general") : null;
+					let starboardchannel = scan ? await channels.find(channel => channel.name === "starboard") : null;
+					let mutedrole = scan ? await guild.roles.find(role => role.name === "Muted") : null;
 
 					let defaultsettings = {
-						guildID: this.id,
+						guildID: guild.id,
 						logchan: logchannel ? logchannel.id : '',
 						welcomechan: welcomechannel ? welcomechannel.id : '',
 						welcomemessage: !blank ? ["Welcome {{user}} to {{server}}! Enjoy your stay"] : [],
@@ -30,7 +35,7 @@ module.exports = Structures.extend("Guild", Guild => {
 						mutedrole: mutedrole ? mutedrole.id : '',
 					};
 
-					let currentsettings = db.serverconfig.findOne({guildID: this.id});
+					let currentsettings = db.serverconfig.findOne({guildID: guild.id});
 					if (currentsettings) {
 						currentsettings.logchan = defaultsettings.logchan;
 						currentsettings.welcomechan = defaultsettings.welcomechan;
@@ -49,8 +54,8 @@ module.exports = Structures.extend("Guild", Guild => {
 					return db.serverconfig.insert(defaultsettings);
 				},
 				get data() {
-					let data = db.serverconfig.findOne({ guildID: this.id }) || this.config.setDefaultSettings();
-					console.log(data)
+					let data = db.serverconfig.findOne({ guildID: guild.id }) || this.setDefaultSettings();
+					console.log(data);
 					return data;
 				}
 			}
