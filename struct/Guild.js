@@ -56,7 +56,6 @@ module.exports = Structures.extend("Guild", Guild => {
 				},
 				get data() {
 					let data = db.serverconfig.findOne({ guildID: guild.id }) || this.setDefaultSettings();
-					console.log(data);
 					return data;
 				}
 			}

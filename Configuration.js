@@ -85,20 +85,67 @@ let types = [
 			return "string";
 		}
 
-		static serialize(client, _, val) {
-			return "" + val;
+		static serialize(client, _, values) {
+			if (!values) return "";
+
+			if (Array.isArray(values)) {
+				let array = [];
+
+				for (var value of values) {
+					array.push("" + value);
+				}
+
+				return value;
+			}
+
+			return "" + values;
 		}
 
-		static deserialize(client, _, val) {
-			return "" + val;
+		static deserialize(client, _, values) {
+			if (!values) return "";
+
+			if (Array.isArray(values)) {
+				let array = [];
+
+				for (var value of values) {
+					array.push("" + value);
+				}
+
+				return value;
+			}
+
+			return "" + values;
 		}
 
-		static render(client, _, val) {
-			return "" + val;
+		static render(client, _, values) {
+			if (!values) return "";
+
+			if (Array.isArray(values)) {
+				let array = [];
+
+				for (var value of values) {
+					array.push("" + value);
+				}
+
+				return value;
+			}
+
+			return "" + values;
 		}
 
-		static validate() {
-			return true;
+		static validate(client, _, values) {
+			if (!values) return false;
+
+			if (Array.isArray(values)) {
+				for (var value of values) {
+					if (typeof value !== "string")
+						return false;
+				}
+
+				return true;
+			}
+
+			return typeof values == "string";
 		}
 	},
 
