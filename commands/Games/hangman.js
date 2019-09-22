@@ -29,10 +29,10 @@ module.exports = class PickCommand extends Command {
 		let embed = this.client.util.embed()
 			.setColor("GREEN")
 
-		let gamedata;
+		let game;
 		if (!current) {
 			let word = extra.words.random()
-			gamedata = new Hangman(word, {maxAttempt: extra.heads.length});
+			game = new Hangman(word, {maxAttempt: extra.heads.length});
 
 			let letters = global.List.fromArray(word.split(""))
 			global.List.of(letters.first, letters.last).uniq().forEach(letter => game.guess(letter))
@@ -40,11 +40,11 @@ module.exports = class PickCommand extends Command {
 			embed.setDescription(extra.heads[0])
 
 			msg.util.reply(`New word: ${game.hiddenWord.join("")}`, embed)
-			this.client.commandHandler.games.set(msg.author.id, { name: this.id, data: gamedata });
-			return gamedata;
+			this.client.commandHandler.games.set(msg.author.id, { name: this.id, data: game });
+			return game;
 		}
 
-		gamedata = this.client.commandHandler.games.get(msg.author.id).data;
+		game = this.client.commandHandler.games.get(msg.author.id).data;
 		let message = "";
 
 		if (action && /[a-z]/gmi.test(action) && action !== "endgame") {
@@ -57,7 +57,7 @@ module.exports = class PickCommand extends Command {
 			}
 		}
 
-		if (gamedata.status !== "IN_PROGRESS" || action == "endgame") {
+		if (game.status !== "IN_PROGRESS" || action == "endgame") {
 			let head;
 
 			if (game.status == "WON") {
