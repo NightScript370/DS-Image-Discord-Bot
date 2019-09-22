@@ -4,7 +4,7 @@ const Hangman = require('hangman-game-engine');
 const extra = require("./../../assets/JSON/hangman.json");
 
 
-module.exports = class PickCommand extends Command {
+module.exports = class HangmanCommand extends Command {
 	constructor() {
 		super('hangman', {
 			aliases: ['hangman', 'hman'],
@@ -72,7 +72,7 @@ module.exports = class PickCommand extends Command {
 			embed.setDescription(head);
 
 			this.client.commandHandler.games.delete(msg.author.id);
-			return message.util.reply({embed: embed})
+			return message.reply({embed: embed})
 		}
 
 		const [fAtt, rAtt] = [game.failedGuesses, game.config.maxAttempt-game.failedGuesses]
@@ -82,7 +82,7 @@ module.exports = class PickCommand extends Command {
 
 		embed
 			.setDescription(extra.heads[game.failedGuesses])
-			.addInline(`Right guesses (${rAtt})`, rightGuesses.join(", ") || "None")
+			.addInline(`Right guesses (${rightGuesses.length})`, rightGuesses.join(", ") || "None")
 			.addInline(`Wrong guesses (${fAtt})`, game.guessedLetters.filter(gl => !game.hiddenWord.map(l => l.toLowerCase()).includes(gl)).join(", ") || "None")
 			.addField("Guessed letters", game.guessedLetters.join(", ") || "None")
 			.setFooter(`Remaining Attempts: ${rAtt}`)
