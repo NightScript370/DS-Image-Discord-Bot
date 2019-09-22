@@ -19,9 +19,9 @@ module.exports = class errorListener extends Listener {
 		Logger.stacktrace(error);
 
 		if (command) {
-			const current = this.client.commandHandler.games.get(msg.author.id);
+			const current = this.client.commandHandler.games.get(message.author.id);
 			if (current && current.name == command.id)
-				this.client.commandHandler.games.delete(msg.author.id);
+				this.client.commandHandler.games.delete(message.author.id);
 		}
 
 		if (message.channel.sendable) {
