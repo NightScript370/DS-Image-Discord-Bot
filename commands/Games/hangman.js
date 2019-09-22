@@ -39,7 +39,7 @@ module.exports = class PickCommand extends Command {
 
 			embed.setDescription(extra.heads[0])
 
-			msg.util.reply(`New word: ${game.hiddenWord.join("")}`, embed)
+			msg.util.reply("New word: `" + game.hiddenWord.join("") + "`", embed)
 			this.client.commandHandler.games.set(msg.author.id, { name: this.id, data: game });
 			return game;
 		}

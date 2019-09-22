@@ -37,7 +37,7 @@ module.exports = class ReadyListener extends Listener {
 			console.error('[WEBSITE] Failed to load: ' + e);
 		}
 
-		/* if (config.dbl) {
+		if (config.dbl) {
 			try {
 				const DBL = require("dblapi.js");
 				this.client.dbl = await new DBL(config.DBLtoken, { webhookPort: this.client.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.client.website.server, statsInterval: 7200000 }, this.client);
@@ -52,7 +52,7 @@ module.exports = class ReadyListener extends Listener {
 			} catch (e) {
 				console.error('[DiscordBots.org] Failed to load: ' + e)
 			}
-		} */
+		}
 
 		this.client.listenerHandler.remove('ready');
 		this.client.listenerHandler.remove('load');
