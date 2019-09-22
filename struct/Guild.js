@@ -9,11 +9,11 @@ module.exports = Structures.extend("Guild", Guild => {
 			super(...args);
 			this.DBinit();
 		}
-		
-		async DBinit() {
+
+		DBinit() {
 			let guild = this;
 			this.config = {
-				setDefaultSettings: (blank = false, scan = true) => {
+				setDefaultSettings: async (blank = false, scan = true) => {
 					let channels = guild.channels;
 
 					let logchannel = scan ? await channels.find(channel => channel.name === "discord-logs") : null;
