@@ -72,12 +72,12 @@ module.exports = class ConfigCommand extends Command {
 
 					let v = data[k];
 					let type = findType(k);
-					console.log(k, v, type)
+					console.log(k, v, type.id)
 
 					let embedValue;
 
 					try {
-						let deserializedValue = type.render(this.client, msg, v.value);
+						let deserializedValue = type.render(this.client, msg, v);
 						if (deserializedValue == type.nullValue
 						 || deserializedValue == undefined
 						 || (deserializedValue == [] || deserializedValue[0] == undefined))

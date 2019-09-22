@@ -1,13 +1,13 @@
 let settingProps = {
 	logchan: "channel",
-	welcomechan: "channel:ex",
+	welcomechan: "channel",
 	welcomemessage: "string:ex",
 	leavemessage: "string:ex",
 	prefix: "string",
 	makerboard: "string",
 	starboardchannel: "channel:ex",
 	levelup: "bool",
-	levelupmsgs: "array:ex",
+	levelupmsgs: "string:ex",
 	mutedrole: "role:ex"
 }
 
