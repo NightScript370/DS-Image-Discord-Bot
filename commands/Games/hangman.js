@@ -51,7 +51,7 @@ module.exports = class PickCommand extends Command {
 			if (game.guessedLetters.includes(action))
 				message = "You have already guessed that letter. Please pick another letter to try again with"
 			else {
-				game.guess(attempt);
+				game.guess(action);
 
 				//TODO: Display message if it was a correct guess or a wrong one
 			}
