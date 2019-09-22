@@ -72,7 +72,7 @@ module.exports = class ConfigCommand extends Command {
 
 					let v = data[k];
 					let type = findType(k);
-					console.log(k, v, type.id)
+					console.log(k, v, (type ? type.id : type))
 
 					let embedValue;
 
