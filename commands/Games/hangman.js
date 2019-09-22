@@ -1,8 +1,7 @@
 const { Command } = require('discord-akairo');
 const Hangman = require('hangman-game-engine');
 
-const extra = require("./../../assets/JSON/hangman.json");
-
+const heads = require("./../../assets/JSON/hangman.json");
 
 module.exports = class HangmanCommand extends Command {
 	constructor() {
@@ -31,13 +30,14 @@ module.exports = class HangmanCommand extends Command {
 
 		let game;
 		if (!current) {
-			let word = extra.words.random()
-			game = new Hangman(word, {maxAttempt: extra.heads.length});
+			let listWords = require(`../../langs/${msg.author.lang}/hangman`);
+			let word = listWords.random()
+			game = new Hangman(word, {maxAttempt: heads.length});
 
 			let letters = global.List.fromArray(word.split(""))
 			global.List.of(letters.first, letters.last).uniq().forEach(letter => game.guess(letter))
 
-			embed.setDescription(extra.heads[0])
+			embed.setDescription(heads[0])
 
 			msg.util.reply("New word: `" + game.hiddenWord.join("") + "`", embed)
 			this.client.commandHandler.games.set(msg.author.id, { name: this.id, data: game });
@@ -49,9 +49,12 @@ module.exports = class HangmanCommand extends Command {
 
 		if (action && /[a-z]/gmi.test(action) && action !== "endgame") {
 			if (game.guessedLetters.includes(action))
-				message = "You have already guessed that letter. Please pick another letter to try again with"
+				message = "You have already guessed those characters. Please pick another character to try again with"
 			else {
-				game.guess(action);
+				if (action == game.hiddenWord)
+					game.status == "WON";
+				else
+					game.guess(action);
 
 				//TODO: Display message if it was a correct guess or a wrong one
 			}
@@ -62,17 +65,17 @@ module.exports = class HangmanCommand extends Command {
 
 			if (game.status == "WON") {
 				message = "Congratulations! You have won the game of Hangman";
-				head = extra.heads[game.failedGuesses];
+				head = heads[game.failedGuesses];
 			} else {
 				message = "Oh well, better luck next time";
-				head = extra.heads[extra.heads.length];
+				head = heads[heads.length];
 			}
 
 			message += "\n The word was " + game.word;
 			embed.setDescription(head);
 
 			this.client.commandHandler.games.delete(msg.author.id);
-			return message.reply({embed: embed})
+			return message.util.reply(message, {embed: embed})
 		}
 
 		const [fAtt, rAtt] = [game.failedGuesses, game.config.maxAttempt-game.failedGuesses]
@@ -81,10 +84,10 @@ module.exports = class HangmanCommand extends Command {
 		message += "\n`" + game.hiddenWord.join("") + "`";
 
 		embed
-			.setDescription(extra.heads[game.failedGuesses])
+			.setDescription(heads[game.failedGuesses])
 			.addInline(`Right guesses (${rightGuesses.length})`, rightGuesses.join(", ") || "None")
 			.addInline(`Wrong guesses (${fAtt})`, game.guessedLetters.filter(gl => !game.hiddenWord.map(l => l.toLowerCase()).includes(gl)).join(", ") || "None")
-			.addField("Guessed letters", game.guessedLetters.join(", ") || "None")
+			.addField("Guessed Attempts", game.guessedLetters.join(", ") || "None")
 			.setFooter(`Remaining Attempts: ${rAtt}`)
 
 		msg.util.send(message, {embed: embed})

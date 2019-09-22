@@ -26,6 +26,7 @@
     "hangman-game-engine": "^1.1.3",
     "helmet": "^3.20.1",
     "including-range-array": "^1.0.0",
+    "list": "^2.0.18",
     "list-array": "^2.5.2",
     "lokijs": "^1.5.6",
     "moment": "^2.24.0",
