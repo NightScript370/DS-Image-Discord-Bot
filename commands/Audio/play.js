@@ -16,7 +16,7 @@ module.exports = class PlayAudioCommand extends Command {
 			aliases: ['play', '再生'],
 			category: 'Audio',
 			description: {
-				content: 'Plays the audio of a Youtube video.',
+				content: 'Plays audio. Can either be a Youtube video or one of the streams from listen.moe',
 				usage: '<video link or name>'
 			},
 			channelRestriction: 'guild',
