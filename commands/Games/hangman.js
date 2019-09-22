@@ -82,7 +82,7 @@ module.exports = class PickCommand extends Command {
 
 		embed
 			.setDescription(extra.heads[game.failedGuesses])
-			.addInline(`Right guesses (${rightGuesses})`, rightGuesses.join(", ") || "None")
+			.addInline(`Right guesses (${rAtt})`, rightGuesses.join(", ") || "None")
 			.addInline(`Wrong guesses (${fAtt})`, game.guessedLetters.filter(gl => !game.hiddenWord.map(l => l.toLowerCase()).includes(gl)).join(", ") || "None")
 			.addField("Guessed letters", game.guessedLetters.join(", ") || "None")
 			.setFooter(`Remaining Attempts: ${rAtt}`)
