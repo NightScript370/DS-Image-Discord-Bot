@@ -9,7 +9,9 @@ require("./struct/User.js");
 require("./struct/Guild.js");
 require("./struct/DMChannel.js");
 require("./struct/TextChannel.js");
+require("./struct/GuildMember.js");
 require("./langs/framework.js");
+require("./utils/extraFunctions.js");
 
 console.logs = {
 	log: [],
@@ -56,11 +58,10 @@ class YamamuraClient extends AkairoClient {
 						prefix = msg.guild.config.data.prefix;
 					} catch(e) {
 						console.error(e)
-						prefix = config.prefix
+						prefix = config.prefix;
 					}
-				} else {
+				} else
 					prefix = ['', config.prefix]
-				}
 
 				return prefix;
 			},

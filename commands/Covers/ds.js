@@ -23,6 +23,7 @@ module.exports = class NintendoDSCommand extends Command {
 				},
 				{
 					id: 'rating',
+					type: 'gamerating',
 					match: 'option',
 					flag: 'rating:',
 					default: null
@@ -48,6 +49,7 @@ module.exports = class NintendoDSCommand extends Command {
 					id: 'pattern',
 					match: 'option',
 					flag: 'pattern:',
+					type: 'image-patterns',
 					default: null
 				}
 			]
@@ -55,82 +57,30 @@ module.exports = class NintendoDSCommand extends Command {
 	}
 
 	async exec(message, { images, rating, padding, internet, funky, pattern }) {
-		let boxrating, BG, currentimage;
+		let currentimage;
 
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.');
-
-		/* switch (pattern.toLowerCase()) {
-			case 'wifi':
-				BG = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'patterns', 'wifi.png'));
-				break;
-			case 'sponge':
-				BG = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'patterns', 'sponge.png'));
-				break;
-			case 'jungle':
-				BG = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'patterns', 'jungle.png'));
-				break;
-			case 'joker':
-				BG = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'patterns', 'joker.png'));
-				break;
-		}
-
-		switch (rating.toUpperCase()) {
-			case 'ESRB:CHILDHOOD':
-			case 'ESRB:EC':
-				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'esrb', 'early_childhood.png'));
-				break;
-			case 'ESRB:E':
-			case 'ESRB:EVERYONE':
-				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'esrb', 'everyone.png'));
-				break;
-			case 'ESRB:EVERYONE10+':
-			case 'ESRB:E10':
-				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'esrb', 'everyone_10.png'));
-				break;
-			case 'ESRB:MATURE':
-			case 'ESRB:MATURE17':
-			case 'ESRB:M':
-			case 'ESRB:M17':
-				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'esrb', 'mature_17.png'));
-				break;
-			case 'ESRB:T':
-			case 'ESRB:TEEN':
-			case 'ESRB:TEENS':
-			case 'ESRB:TEENAGERS':
-				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'esrb', 'teen.png'));
-				break;
-			case 'ESRB:A':
-			case 'ESRB:AO':
-			case 'ESRB:ADULTS':
-			case 'ESRB:ADULTS18':
-				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'esrb', 'adults_only_18.png'));
-				break;
-			case 'ESRB:RP':
-			case 'ESRB:RATING_PENDING':
-				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'esrb', 'rating_pending.png'));
-				break;
-			} */
 
 		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'ds', 'DS_Case.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 
 		// Draw background
-		if (BG)
-			ctx.drawImage(BG, 0, 0, base.width, base.height);
+		//if (pattern)
+			//ctx.drawImage(pattern, 0, 0, base.width, base.height);
 
 		for (var image of images) {
 			currentimage = await loadImage(image);
 			await ctx.drawImage(currentimage, 104+padding, 17+padding, 672-padding, 697-padding);
 		}
 
-		if (boxrating)
-			await ctx.drawImage(boxrating, 0, 0, base.width, base.height);
+		// if (rating)
+			// await ctx.drawImage(rating, 0, 0, base.width, base.height);
 
 		if (funky) {
-			let funkyImg = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'ds', 'funkymode.png'));
-			await ctx.drawImage(funkyImg, 0, 0, base.width, base.height);
+			let funkyImg = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'funkymode.png'));
+			await ctx.drawImage(funkyImg, 455, 18, 321, 193);
 		}
 
 		await ctx.drawImage(base, 0, 0, base.width, base.height);
