@@ -51,6 +51,10 @@ module.exports = class WarnCommand extends Command {
 		let moderator;
 		warns.forEach(async (warn, index) => {
 			if (index >= warns.length) return;
+			if (1998 < description.length) {
+				if (description.length < 2000) description += '...';
+				return;
+			}
 			if(this.client.users.has(warn.moderator))
 				moderator = this.client.users.get(warn.moderator)
 			else
@@ -66,11 +70,6 @@ module.exports = class WarnCommand extends Command {
 					description += `\n **${index + 1}.** ${warn.reason} (by ${moderator} (at ${warn.time})`;
 				else
 					description += `\n **${index + 1}.** ${warn.reason} (by ${warn[index].moderator} (at ${warn.time})`;
-
-				if (description.length > 1997) {
-					description += '...';
-					break;
-				}
 			}
 		});
 		/*
