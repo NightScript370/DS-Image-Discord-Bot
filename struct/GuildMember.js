@@ -43,10 +43,9 @@ module.exports = Structures.extend("GuildMember", GuildMember => {
 		}
 
 		set exp(points) {
-			let exp = this.exp;
-			let dbdata = db.points.findOne({this.guild.id, member: this.id});
+			let dbdata = db.points.findOne({guild: this.guild.id, member: this.id});
 
-			dbdata.points = points
+			dbdata.points = points;
 			dbdata.level = Math.floor(this.points / 350);
 
 			db.points.update(dbdata);
