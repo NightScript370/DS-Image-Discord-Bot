@@ -75,7 +75,7 @@ module.exports = class HangmanCommand extends Command {
 			embed.setDescription(head);
 
 			this.client.commandHandler.games.delete(msg.author.id);
-			return message.util.reply(message, {embed: embed})
+			return msg.util.reply(message, {embed: embed})
 		}
 
 		const [fAtt, rAtt] = [game.failedGuesses, game.config.maxAttempt-game.failedGuesses]
