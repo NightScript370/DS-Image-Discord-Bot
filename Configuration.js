@@ -8,7 +8,7 @@ let settingProps = {
 	starboardchannel: "channel:ex",
 	levelup: "bool",
 	levelupmsgs: "string:ex",
-	mutedrole: "role:ex"
+	mutedRole: "role:ex"
 }
 
 let types = [
