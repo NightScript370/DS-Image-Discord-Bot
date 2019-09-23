@@ -72,32 +72,6 @@ module.exports = class WarnCommand extends Command {
 					description += `\n **${index + 1}.** ${warn.reason} (by ${warn[index].moderator} (at ${warn.time})`;
 			}
 		});
-		/*
-		for (var index in warns) {
-
-			if(this.client.users.has(warns[index].moderator))
-				moderator = this.client.users.get(warns[index].moderator)
-			else
-				moderator = await this.client.users.fetch(warns[index].moderator).catch((e) => console.error(e, warns[index].moderator))
-			
-			if (warns.length < 10) {
-				if (moderator)
-					await embed.addField(`${index + 1}. Warned by ${moderator.tag} (at ${warns[index].time}`, warns[index].reason);
-				else
-					await embed.addField(`${index + 1}. ${warns[index].reason}`, `by ${warns[index].moderator} (at ${warns[index].time})`);
-			} else {
-				if(moderator)
-					description += `\n **${index + 1}.** ${warns[index].reason} (by ${moderator} (at ${warns[index].time})`;
-				else
-					description += `\n **${index + 1}.** ${warns[index].reason} (by ${warn[index].moderator} (at ${warns[index].time})`;
-
-				if (description.length > 2000) {
-					description += '...';
-					break;
-				}
-			}
-		}
-		*/
 
 		if (description.length)
 			embed.setDescription(description);
