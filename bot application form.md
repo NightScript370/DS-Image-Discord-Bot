@@ -90,7 +90,7 @@ If so, here's how you can help us out:
 - Spread the word! The more servers the bot is in, there will be more people to experience the bot.
 - Join our [Discord Server](https://discord.gg/vbYZCRZ)! You can express your opinion about the bot there as well as partake in development.
 - Let us know what you think of the bot, and what we should add or change! We take your opinion seriously.
-- Upvote the bots on [discordbotlist.com](https://discordbotlist.com/bots/421158339129638933), [discordbots.org](https://discordbots.org/bot/421158339129638933) & [discord.boats](https://discord.boats/bot/421158339129638933).
+- Upvote the bot on [discordbotlist.com](https://discordbotlist.com/bots/421158339129638933), [discordbots.org](https://discordbots.org/bot/421158339129638933) & [discord.boats](https://discord.boats/bot/421158339129638933).
 - If you're a programmer, you can help out with Yamamura development sending pull requests on our [GitLab repository](https://gitlab.com/Samplasion/yamamura-discord-bot). We're currently looking for help in regards to code cleaning and adding highly requested and complex features. We use Node.JS as the language backend alongside Discord.JS with Discord-Akairo.
 - Help [JeDaYoshi#7942](https://jedayoshi.com) pay for a server by donating to his [PayPal](https://paypal.me/Naydire). Currently, Yamamura is running on a VPS he's borrowing, but by donating, you can help maintain the server and buy a better one.
 - Documentation is quite sparse at the moment. We need you to help fill it out by documenting what each command does and give descriptions to the command parameters. You can do so by Sending a Pull Request on our GitLab repository.

@@ -10,6 +10,7 @@ require("./struct/Guild.js");
 require("./struct/DMChannel.js");
 require("./struct/TextChannel.js");
 require("./langs/framework.js");
+require("./utils/extraFunctions.js");
 
 console.logs = {
 	log: [],
