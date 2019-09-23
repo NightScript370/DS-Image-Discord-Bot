@@ -49,7 +49,7 @@ module.exports = class WarnCommand extends Command {
 			.setThumbnail(msg.guild.iconURL({format: 'png'}));
 
 		let moderator;
-		warns.forEach((warn, index) => {
+		warns.forEach(async (warn, index) => {
 			if (index >= warns.length) return;
 			if(this.client.users.has(warn.moderator))
 				moderator = this.client.users.get(warn.moderator)
