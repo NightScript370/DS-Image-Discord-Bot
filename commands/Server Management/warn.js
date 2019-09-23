@@ -35,13 +35,13 @@ module.exports = class WarnCommand extends Command {
 
 	exec(msg, { member, reason }) {
 		if (msg.member.roles.highest.position <= member.roles.highest.position)
-			return msg.reply("You can't warn someone who has a higher role position than you.");
+			return msg.util.reply("You can't warn someone who has a higher role position than you.");
 
 		if (member.hasPermission("MANAGE_MESSAGES") && !msg.member.hasPermission("ADMINISTRATOR"))
-			return msg.reply("You need to have the `Administrator` permission in order to warn moderators");
+			return msg.util.reply("You need to have the `Administrator` permission in order to warn moderators");
 
 		if (member.hasPermission("ADMINISTRATOR") && msg.guild.owner.id != msg.member.id)
-			return msg.reply("You need to be the server owner in order to warn Administrators")
+			return msg.util.reply("You need to be the server owner in order to warn Administrators")
 
 		try {
 			this.client.moderation.warn(this.client, member, reason, msg.member, msg);

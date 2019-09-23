@@ -9,6 +9,7 @@ require("./struct/User.js");
 require("./struct/Guild.js");
 require("./struct/DMChannel.js");
 require("./struct/TextChannel.js");
+require("./struct/GuildMember.js");
 require("./langs/framework.js");
 require("./utils/extraFunctions.js");
 

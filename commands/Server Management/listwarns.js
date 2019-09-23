@@ -26,7 +26,7 @@ module.exports = class WarnCommand extends Command {
 	async exec(msg, { user }) {
 		const __ = (k, ...v) => global.getString(msg.author.lang, k, ...v);
 
-        if (msg.guild.members.has(user.id)) {
+		if (msg.guild.members.has(user.id)) {
 			let member = msg.guild.members.get(user.id);
 			let author = msg.member;
 
@@ -41,39 +41,43 @@ module.exports = class WarnCommand extends Command {
 		}
 
 		let warns = await this.client.db.infractions.find({guild: msg.guild.id, user: user.id});
-        let description = '';
+		let description = '';
 
-        let text = __("{0}'s warning count - **{1}**", user.username, warns.length);
+		let text = __("{0}'s warnings - **{1}**", user.username, warns.length);
 		let embed = this.client.util.embed()
-			.setAuthor(__("A list of {0}'s warnings", user.username), user.displayAvatarURL({format: 'png'}))
-			.setFooter(__("There are {0} warnings in total for {1} (#{2})", warns.length, user.tag, user.id))
+			.setFooter(__("{0} (#{1})", user.tag, user.id), user.displayAvatarURL({format: 'png'}))
 			.setThumbnail(msg.guild.iconURL({format: 'png'}));
 
-        let moderator;
-		for(var index in warns) {
-            if(this.client.users.get(warns[index].moderator))
-                moderator = await this.client.users.get(warns[index].moderator)
-            else
-                moderator = await this.client.users.fetch(warns[index].moderator).catch((e) => console.error(e, warns[index].moderator))
+		let moderator;
+		for (var warn of warns) {
+			if(this.client.users.has(warn.moderator))
+				moderator = this.client.users.get(warn.moderator)
+			else
+				moderator = await this.client.users.fetch(warns[index].moderator).catch((e) => console.error(e, warns[index].moderator))
 
-            if (warns.length > 10) {
-                if (moderator)
-                    await embed.addField(`${index + 1}. Warned by ${moderator.tag} (at ${warns[index].time}`, warns[index].reason);
-                else
-                	await embed.addField(`${index + 1}. ${warns[index].reason}`, `by ${warns[index].moderator} (at ${warns[index].time})`);
-            } else {
-                if(moderator)
-                    description += `\n **${index + 1}.** ${warns[index].reason} (by ${moderator} (at ${warns[index].time})`;
-                else
-                    description += `\n **${index + 1}.** ${warns[index].reason} (by ${warns[index].moderator} (at ${warns[index].time})`;
+			if (warns.length < 10) {
+				if (moderator)
+					await embed.addField(`${index + 1}. Warned by ${moderator.tag} (at ${warn.time}`, warn.reason);
+				else
+					await embed.addField(`${index + 1}. ${warn.reason}`, `by ${warn.moderator} (at ${warn.time})`);
+			} else {
+				if(moderator)
+					description += `\n **${index + 1}.** ${warn.reason} (by ${moderator} (at ${warn.time})`;
+				else
+					description += `\n **${index + 1}.** ${warn.reason} (by ${warn.moderator} (at ${warn.time})`;
 
-                if (description.length > 2000) {
-                    description += '...';
-                    break;
-                }
-            }
+				if (description.length > 2000) {
+					description += '...';
+					break;
+				}
+			}
 		}
 
-		return msg.util.send({embed: embed});
+		if (description.length)
+			embed.setDescription(description);
+		else if (!warns.length)
+			embed.setDescription("Congrats - This user does not have any warnings!")
+
+		return msg.util.send(text, {embed: embed});
 	}
 };
