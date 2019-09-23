@@ -1,6 +1,4 @@
-const L = require("list");
-
-module.exports = L.list(
+module.exports = [
 	"about",
 	"search",
 	"other",
@@ -5461,4 +5459,4 @@ module.exports = L.list(
 	"outlets",
 	"arbor",
 	"poison"
-);
+];
