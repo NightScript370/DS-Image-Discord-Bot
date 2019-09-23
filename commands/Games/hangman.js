@@ -32,7 +32,7 @@ module.exports = class HangmanCommand extends Command {
 		if (!current) {
 			let listWords = require(`../../langs/${msg.author.lang}/hangman`);
 			let word = listWords.random()
-			game = new Hangman(word, {maxAttempt: heads.length});
+			game = new Hangman(word, {maxAttempt: heads.length - 1});
 
 			let letters = global.List.fromArray(word.split(""))
 			global.List.of(letters.first, letters.last).uniq().forEach(letter => game.guess(letter))
@@ -68,7 +68,7 @@ module.exports = class HangmanCommand extends Command {
 				head = heads[game.failedGuesses];
 			} else {
 				message = "Oh well, better luck next time";
-				head = heads[heads.length];
+				head = heads[game.config.maxAttempt];
 			}
 
 			message += "\n The word was " + game.word;
