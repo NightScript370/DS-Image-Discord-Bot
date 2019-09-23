@@ -1,8 +1,5 @@
 const List = require("list");
-
-List.prototype.random = function() {
-	return this[Math.floor((Math.random()*this.length))];
-}
+console.log(List);
 
 Array.prototype.random = function() {
 	return this[Math.floor(Math.random() * this.length)];
