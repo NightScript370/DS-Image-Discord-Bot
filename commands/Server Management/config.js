@@ -97,7 +97,7 @@ module.exports = class ConfigCommand extends Command {
 				if (!key) return msg.util.send(__("You didn't specify a key!"));
 
 				let type = findType(key);
-				let deserializedValue = type.render(this.client, msg, data[key].value);
+				let deserializedValue = type.render(this.client, msg, data[key]);
 
 				return msg.util.send(deserializedValue == type.nullValue || deserializedValue == undefined || (deserializedValue == [] || deserializedValue[0] == undefined) ? __("This value is empty") : deserializedValue)
 				break;
@@ -114,9 +114,9 @@ module.exports = class ConfigCommand extends Command {
 
 				if (value != "null") {
 					let newValue = t.serialize(this.client, msg, value);
-					data[key].value = newValue;
+					data[key] = newValue;
 				} else
-					data[key].value = t.nullValue;
+					data[key] = t.nullValue;
 
 				return msg.util.send(require("util").inspect(data[key]), {code: 'js'});
 				break;
@@ -157,7 +157,7 @@ module.exports = class ConfigCommand extends Command {
 
 			if (resp && typeof resp == "string" && resp.toLowerCase() == "y") {
 				try {
-					data[key].value = [];
+					data[key] = [];
 
 					return msg.util.reply(__("I have successfully cleared the array"));
 				} catch (e) {
@@ -172,13 +172,13 @@ module.exports = class ConfigCommand extends Command {
 			while (typeof resp == "string" && resp.toLowerCase() != "stop") {
 				if (resp) {
 					let actualValue = findType(nonextendedType).serialize(this.client, msg, resp);
-					arr.push({ value: actualValue });
+					arr.push(actualValue);
 				}
 				resp = await this.awaitReply(msg, __("Enter the value you want to add, or type `stop` (or wait 30 seconds) to stop"), 30000);
 			}
 
 			// console.log(arr);
-			data[key].value = arr.concat(data[key].value);
+			data[key] = arr.concat(data[key]);
 
 			// await this.client.db.serverconfig.update(data);
 			msg.util.send(require("util").inspect(data[key]), {code: 'js'});
