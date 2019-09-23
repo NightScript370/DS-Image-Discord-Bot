@@ -319,7 +319,7 @@ const akairo_types = {
 		}
 
 		return BG;
-	}
+	},
 	'image': async (message, argument) => await imageType(message, argument, true, true),
 	'image-nohistory': async (message, argument) => await imageType(message, argument, true, false),
 	'image-noattachment': async (message, argument) => await imageType(message, argument, false, true),
