@@ -49,13 +49,32 @@ module.exports = class WarnCommand extends Command {
 			.setThumbnail(msg.guild.iconURL({format: 'png'}));
 
 		let moderator;
-		for (var index in warns) {
+		warns.forEach((warn, index) => {
+			if (index >= warns.length) return;
+			if(this.client.users.has(warn.moderator))
+				moderator = this.client.users.get(warn.moderator)
+			else
+				moderator = await this.client.users.fetch(warn.moderator).catch((e) => console.error(e, warn.moderator))
 			
-			// Skip a loop on js pseudo-methods
-			if (
-				["random1", "removeByStart1", "removeByEnd1", "removeByContent1",
-					"filterByStart1", "filterByEnd1", "filterByContent1", "flat1"]
-					.includes(warns[index].reason)) continue;
+			if (warns.length < 10) {
+				if (moderator)
+					await embed.addField(`${index + 1}. Warned by ${moderator.tag} (at ${warn.time}`, warn.reason);
+				else
+					await embed.addField(`${index + 1}. ${warn.reason}`, `by ${warn.moderator} (at ${warn.time})`);
+			} else {
+				if(moderator)
+					description += `\n **${index + 1}.** ${warn.reason} (by ${moderator} (at ${warn.time})`;
+				else
+					description += `\n **${index + 1}.** ${warn.reason} (by ${warn[index].moderator} (at ${warn.time})`;
+
+				if (description.length > 1997) {
+					description += '...';
+					break;
+				}
+			}
+		});
+		/*
+		for (var index in warns) {
 
 			if(this.client.users.has(warns[index].moderator))
 				moderator = this.client.users.get(warns[index].moderator)
@@ -79,6 +98,7 @@ module.exports = class WarnCommand extends Command {
 				}
 			}
 		}
+		*/
 
 		if (description.length)
 			embed.setDescription(description);
