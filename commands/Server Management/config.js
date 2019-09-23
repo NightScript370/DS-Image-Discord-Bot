@@ -96,7 +96,7 @@ module.exports = class ConfigCommand extends Command {
 			case 'get':
 				if (!key) return msg.util.send(__("You didn't specify a key!"));
 
-				let type = findType(settingsProps[key]);
+				let type = findType(settingProps[key]);
 				let deserializedValue = type.render(this.client, msg, data[key]);
 
 				return msg.util.send(deserializedValue == type.nullValue || deserializedValue == undefined || (deserializedValue == [] || deserializedValue[0] == undefined) ? __("This value is empty") : deserializedValue)
