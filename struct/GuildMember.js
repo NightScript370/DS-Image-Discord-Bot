@@ -49,7 +49,7 @@ module.exports = Structures.extend("GuildMember", GuildMember => {
 			dbdata.level = Math.floor(this.points / 350);
 
 			db.points.update(dbdata);
-			return { dbdata.points, dbdata.level };
+			return { points: dbdata.points, level: dbdata.level };
 		}
 
 		warn (reason, moderator) {
