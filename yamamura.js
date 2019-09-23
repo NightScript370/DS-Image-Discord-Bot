@@ -50,16 +50,19 @@ class YamamuraClient extends AkairoClient {
 		this.commandHandler = new CommandHandler(this, {
 			directory: './commands/',
 			prefix: msg => {
-				if (msg.channel.type == "dm") return ['', config.prefix];
+				let prefix;
+
 				if (msg.guild) {
 					try {
-						return msg.guild.config.data.prefix;
+						prefix = msg.guild.config.data.prefix;
 					} catch(e) {
-						console.error(e);
+						console.error(e)
+						prefix = config.prefix;
 					}
-				}
+				} else
+					prefix = ['', config.prefix]
 
-				return config.prefix;
+				return prefix;
 			},
 			handleEdits: true,
 			commandUtil: true,
