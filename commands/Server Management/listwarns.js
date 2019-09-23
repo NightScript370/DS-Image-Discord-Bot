@@ -3,7 +3,7 @@ const { Command } = require('discord-akairo');
 module.exports = class WarnCommand extends Command {
 	constructor() {
 		super('listwarns', {
-			aliases: ["listwarns", "listwarn"],
+			aliases: ["listwarns", "listwarn", "warns"],
 			category: 'Server Management',
 			description: {
 				content: 'List a member\'s warnings.'
@@ -50,11 +50,18 @@ module.exports = class WarnCommand extends Command {
 
 		let moderator;
 		for (var index in warns) {
+			
+			// Skip a loop on js pseudo-methods
+			if (
+				["random1", "removeByStart1", "removeByEnd1", "removeByContent1",
+					"filterByStart1", "filterByEnd1", "filterByContent1", "flat1"]
+					.includes(warns[index].reason)) continue;
+
 			if(this.client.users.has(warns[index].moderator))
 				moderator = this.client.users.get(warns[index].moderator)
 			else
 				moderator = await this.client.users.fetch(warns[index].moderator).catch((e) => console.error(e, warns[index].moderator))
-
+			
 			if (warns.length < 10) {
 				if (moderator)
 					await embed.addField(`${index + 1}. Warned by ${moderator.tag} (at ${warns[index].time}`, warns[index].reason);
