@@ -2,7 +2,7 @@ const { Listener } = require('discord-akairo');
 
 module.exports = class LoadListener extends Listener {
 	constructor() {
-		super('load', {
+		super('commandHandlerLoad', {
 			emitter: 'commandHandler',
 			event: 'load',
 			category: 'commandHandler'
@@ -11,8 +11,8 @@ module.exports = class LoadListener extends Listener {
 
 	exec(cmd, reload) {
 		if (reload)
-			console.log(`[RELOAD] ${cmd.id} reloaded`);
+			console.log(`[COMMAND][RELOAD] ${cmd.id} reloaded`);
 		else
-			console.log(`[LOAD] ${cmd.id} loaded`);
+			console.log(`[COMMAND][LOAD] ${cmd.id} loaded`);
 	}
 }

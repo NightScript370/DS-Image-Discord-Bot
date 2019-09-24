@@ -92,11 +92,11 @@ class YamamuraClient extends AkairoClient {
 			inhibitorHandler: this.inhibitorHandler
 		});
 
-		this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
-		this.inhibitorHandler.loadAll();
-
 		this.commandHandler.useListenerHandler(this.listenerHandler);
 		this.listenerHandler.load(process.cwd() +'/events/botHandler/ready.js');
+
+		this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
+		this.inhibitorHandler.loadAll();
 
 		this.moderation = require('./utils/moderation.js');
 
