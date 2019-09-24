@@ -11,10 +11,10 @@ module.exports = class messageInavlidListener extends Listener {
     }
 
 	async exec(message) {
-		if (this.invalidMessage(message)) return console.log("This is caught by the invalid message catcher");
+		if (this.invalidMessage(message) == true) return console.log("This is caught by the invalid message catcher");
 
 		if (!message.guild) return console.log("This is not a guild");
-		if (this.antispam(message)) return console.log("This is caught by the anti-spam");
+		if (this.antispam(message) == true) return console.log("This is caught by the anti-spam");
 
 		this.handlePoints(message)
 	}
