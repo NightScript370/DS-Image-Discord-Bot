@@ -114,9 +114,9 @@ module.exports = class ConfigCommand extends Command {
 
 				if (value != "null") {
 					let newValue = t.serialize(this.client, msg, value);
-					msg.guild.config.set(key, newValue);
+					msg.guild.config.set[key] = newValue;
 				} else
-					msg.guild.config.set(key, t.nullValue);
+					msg.guild.config.set[key] = t.nullValue;
 
 				return msg.util.send(require("util").inspect(data[key]), {code: 'js'});
 				break;
@@ -157,7 +157,7 @@ module.exports = class ConfigCommand extends Command {
 
 			if (resp && typeof resp == "string" && resp.toLowerCase() == "y") {
 				try {
-					msg.guild.config.set(key, []);
+					msg.guild.config.set[key] = [];
 
 					return msg.util.reply(__("I have successfully cleared the array"));
 				} catch (e) {
@@ -178,7 +178,7 @@ module.exports = class ConfigCommand extends Command {
 			}
 
 			// console.log(arr);
-			msg.guild.config.set(key, arr.concat(data[key]));
+			msg.guild.config.set[key] = arr.concat(data[key]);
 
 			// await this.client.db.serverconfig.update(data);
 			msg.util.send(require("util").inspect(data[key]), {code: 'js'});
@@ -199,7 +199,7 @@ module.exports = class ConfigCommand extends Command {
 	}
 
 	async awaitReply(msg, question, limit = 60000) {
-		const filter = m=>(m.author.id == msg.author.id);
+		const filter = m => m.author.id == msg.author.id;
 		await msg.channel.send(question);
 		try {
 			const collected = await msg.channel.awaitMessages(filter, { max: 1, time: limit, errors: ["time"] });
