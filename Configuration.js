@@ -322,7 +322,7 @@ function findType(key) {
 }
 
 function getKey(client, msg, key) {
-	let data = require("../database.js").serverconfig.findOne({guildID: msg.guild.id});
+	let data = require("./utils/database.js").serverconfig.findOne({guildID: msg.guild.id});
 
 	let value = data[key];
 	return findType(key).deserialize(client, msg, value);
