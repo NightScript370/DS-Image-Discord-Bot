@@ -19,6 +19,6 @@ module.exports = (client, member, reason, moderator, msg) => {
 		else			moderator.send("Couldn't send the warning. Please notify him manually").catch();
 	}
 
-	if(logs && logs.sendable && logs.embedable)
+	if (logs && logs.sendable && logs.embedable)
 		logs.send(`:warning: ${member.displayName} was warned`, embed);
 }

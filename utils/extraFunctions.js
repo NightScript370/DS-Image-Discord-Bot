@@ -1,5 +1,8 @@
-const List = require("list");
-console.log(List);
+const { length, list, nth, List } = require("list")
+
+List.prototype.random = function () {
+	return nth(Math.floor(Math.random() * length(this)), this)
+}
 
 Array.prototype.random = function() {
 	return this[Math.floor(Math.random() * this.length)];

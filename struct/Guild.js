@@ -4,64 +4,117 @@ const db = require('../utils/database.js');
 const config = require("../config.js");
 
 // This extends Discord's native Guild class with our own methods and properties
-module.exports = Structures.extend("Guild", Guild => {
-	return class YamamuraGuild extends Guild {
-		constructor(...args) {
-			super(...args);
-			this.DBinit();
-		}
+module.exports = Structures.extend("Guild", Guild => class YamamuraGuild extends Guild {
+	constructor(...args) {
+		super(...args);
+		this.DBinit();
+	}
 
-		DBinit() {
-			let guild = this;
-			this.config = {
-				setDefaultSettings: (blank = false, scan = true) => {
-					let channels = guild.channels;
+	DBinit() {
+		let guild = this;
+		this.config = {
+			setDefaultSettings: (blank = false, scan = true) => {
+				let channels = guild.channels;
 
-					let logchannel = scan ? channels.find(channel => channel.name === "discord-logs") : null;
-					let welcomechannel = scan ? channels.find(channel => channel.name === "general") : null;
-					let starboardchannel = scan ? channels.find(channel => channel.name === "starboard") : null;
-					let mutedrole = scan ? guild.roles.find(role => role.name === "Muted") : null;
+				let logchannel = scan ? channels.find(channel => channel.name === "discord-logs") : null;
+				let welcomechannel = scan ? channels.find(channel => channel.name === "general") : null;
+				let starboardchannel = scan ? channels.find(channel => channel.name === "starboard") : null;
+				let mutedrole = scan ? guild.roles.find(role => role.name === "Muted") : null;
 
-					let defaultsettings = {
-						guildID: guild.id,
-						logchan: logchannel ? logchannel.id : '',
-						welcomechan: welcomechannel ? welcomechannel.id : '',
-						welcomemessage: !blank ? ["Welcome {{user}} to {{server}}! Enjoy your stay"] : [],
-						leavemessage: !blank ? ["Goodbye {{user}}! You'll be missed"] : [],
-						prefix: config.prefix,
-						makerboard: "",
-						starboardchannel: starboardchannel ? starboardchannel.id : '',
-						levelup: true,
-						levelupmsgs: !blank ? ["Congratulations {{user}}! You've leveled up to level {{level}}!"] : [],
-						mutedrole: mutedrole ? mutedrole.id : '',
-					};
+				let defaultsettings = {
+					guildID: guild.id,
+					logchan: logchannel ? logchannel.id : '',
+					welcomechan: welcomechannel ? welcomechannel.id : '',
+					welcomemessage: !blank ? ["Welcome {{user}} to {{server}}! Enjoy your stay"] : [],
+					leavemessage: !blank ? ["Goodbye {{user}}! You'll be missed"] : [],
+					prefix: config.prefix,
+					makerboard: "",
+					starboardchannel: starboardchannel ? starboardchannel.id : '',
+					levelup: true,
+					levelupmsgs: !blank ? ["Congratulations {{user}}! You've leveled up to level {{level}}!"] : [],
+					mutedrole: mutedrole ? mutedrole.id : '',
+				};
 
+				let currentsettings = db.serverconfig.findOne({guildID: guild.id});
+				if (currentsettings) {
+					currentsettings.logchan = defaultsettings.logchan;
+					currentsettings.welcomechan = defaultsettings.welcomechan;
+					currentsettings.welcomemessage = defaultsettings.welcomemessage;
+					currentsettings.leavemessage = defaultsettings.leavemessage;
+					currentsettings.prefix = defaultsettings.prefix;
+					currentsettings.makerboard = defaultsettings.makerboard;
+					currentsettings.starboardchannel = defaultsettings.starboardchannel;
+					currentsettings.levelup = defaultsettings.levelup;
+					currentsettings.levelupmsgs = defaultsettings.levelupmsgs;
+					currentsettings.mutedrole = defaultsettings.mutedrole;
+
+					return db.serverconfig.update(currentsettings);
+				}
+
+				return db.serverconfig.insert(defaultsettings);
+			},
+			get data() {
+				let data = db.serverconfig.findOne({ guildID: guild.id }) || this.setDefaultSettings();
+				return data;
+			},
+			set: {
+				set logchan (value) {
 					let currentsettings = db.serverconfig.findOne({guildID: guild.id});
-					if (currentsettings) {
-						currentsettings.logchan = defaultsettings.logchan;
-						currentsettings.welcomechan = defaultsettings.welcomechan;
-						currentsettings.welcomemessage = defaultsettings.welcomemessage;
-						currentsettings.leavemessage = defaultsettings.leavemessage;
-						currentsettings.prefix = defaultsettings.prefix;
-						currentsettings.makerboard = defaultsettings.makerboard;
-						currentsettings.starboardchannel = defaultsettings.starboardchannel;
-						currentsettings.levelup = defaultsettings.levelup;
-						currentsettings.levelupmsgs = defaultsettings.levelupmsgs;
-						currentsettings.mutedrole = defaultsettings.mutedrole;
+					currentsettings['logchan'] = value;
 
-						return db.serverconfig.update(currentsettings);
-					}
-
-					return db.serverconfig.insert(defaultsettings);
+					return db.serverconfig.update(currentsettings);
 				},
-				get data() {
-					let data = db.serverconfig.findOne({ guildID: guild.id }) || this.setDefaultSettings();
-					return data;
-				},
-				set: (key, newValue) => {
+				set welcomechan (value) {
 					let currentsettings = db.serverconfig.findOne({guildID: guild.id});
+					currentsettings['welcomechan'] = value;
 
-					currentsettings[key] = newValue;
+					return db.serverconfig.update(currentsettings);
+				},
+				set welcomemessage (value) {
+					let currentsettings = db.serverconfig.findOne({guildID: guild.id});
+					currentsettings['welcomemessage'] = value;
+
+					return db.serverconfig.update(currentsettings);
+				},
+				set leavemessage (value) {
+					let currentsettings = db.serverconfig.findOne({guildID: guild.id});
+					currentsettings['leavemessage'] = value;
+
+					return db.serverconfig.update(currentsettings);
+				},
+				set prefix (value) {
+					let currentsettings = db.serverconfig.findOne({guildID: guild.id});
+					currentsettings['prefix'] = value;
+
+					return db.serverconfig.update(currentsettings);
+				},
+				set makerboard (value) {
+					let currentsettings = db.serverconfig.findOne({guildID: guild.id});
+					currentsettings['makerboard'] = value;
+
+					return db.serverconfig.update(currentsettings);
+				},
+				set starboardchannel (value) {
+					let currentsettings = db.serverconfig.findOne({guildID: guild.id});
+					currentsettings['starboardchannel'] = value;
+
+					return db.serverconfig.update(currentsettings);
+				},
+				set levelup (value) {
+					let currentsettings = db.serverconfig.findOne({guildID: guild.id});
+					currentsettings['levelup'] = value;
+
+					return db.serverconfig.update(currentsettings);
+				},
+				set levelupmsgs (value) {
+					let currentsettings = db.serverconfig.findOne({guildID: guild.id});
+					currentsettings['levelupmsgs'] = value;
+
+					return db.serverconfig.update(currentsettings);
+				},
+				set mutedrole (value) {
+					let currentsettings = db.serverconfig.findOne({guildID: guild.id});
+					currentsettings['mutedrole'] = value;
 
 					return db.serverconfig.update(currentsettings);
 				}
