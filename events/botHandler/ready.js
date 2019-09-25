@@ -14,10 +14,7 @@ module.exports = class ReadyListener extends Listener {
 	}
 
 	async exec() {
-		const wait = require('util').promisify(setTimeout);
-		await wait(8000);
-
-		this.client.db.serverconfig.get = require("../../Configuration").getKey; // Short-hand declare a variable to be an existing function
+		this.client.db.serverconfig.getKey = require("../../Configuration").getKey; // Short-hand declare a variable to be an existing function
 
 		this.client.listenerHandler.setEmitters({
 			commandHandler: this.client.commandHandler,

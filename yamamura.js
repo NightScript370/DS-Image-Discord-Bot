@@ -1,4 +1,5 @@
-require('dotenv').config();
+try { require('cache-require-paths'); } catch {}
+try {   require('dotenv').config();   } catch {}
 
 const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler, ClientUtil } = require('discord-akairo');
 const config = require("./config.js");
