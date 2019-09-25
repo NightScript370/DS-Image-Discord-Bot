@@ -57,6 +57,8 @@ class YamamuraClient extends AkairoClient {
 				if (msg.guild) {
 					try {
 						prefix = msg.guild.config.data.prefix;
+						if (prefix.value)
+							prefix = prefix.value;
 					} catch(e) {
 						console.error(e)
 						prefix = config.prefix;
