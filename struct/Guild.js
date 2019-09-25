@@ -57,67 +57,11 @@ module.exports = Structures.extend("Guild", Guild => class YamamuraGuild extends
 				let data = db.serverconfig.findOne({ guildID: guild.id }) || this.setDefaultSettings();
 				return data;
 			},
-			set: {
-				set logchan (value) {
-					let currentsettings = db.serverconfig.findOne({guildID: guild.id});
-					currentsettings['logchan'] = value;
+			set: (key, newValue) => {
+				let currentsettings = db.serverconfig.findOne({guildID: guild.id});
+				currentsettings[key] = newValue;
 
-					return db.serverconfig.update(currentsettings);
-				},
-				set welcomechan (value) {
-					let currentsettings = db.serverconfig.findOne({guildID: guild.id});
-					currentsettings['welcomechan'] = value;
-
-					return db.serverconfig.update(currentsettings);
-				},
-				set welcomemessage (value) {
-					let currentsettings = db.serverconfig.findOne({guildID: guild.id});
-					currentsettings['welcomemessage'] = value;
-
-					return db.serverconfig.update(currentsettings);
-				},
-				set leavemessage (value) {
-					let currentsettings = db.serverconfig.findOne({guildID: guild.id});
-					currentsettings['leavemessage'] = value;
-
-					return db.serverconfig.update(currentsettings);
-				},
-				set prefix (value) {
-					let currentsettings = db.serverconfig.findOne({guildID: guild.id});
-					currentsettings['prefix'] = value;
-
-					return db.serverconfig.update(currentsettings);
-				},
-				set makerboard (value) {
-					let currentsettings = db.serverconfig.findOne({guildID: guild.id});
-					currentsettings['makerboard'] = value;
-
-					return db.serverconfig.update(currentsettings);
-				},
-				set starboardchannel (value) {
-					let currentsettings = db.serverconfig.findOne({guildID: guild.id});
-					currentsettings['starboardchannel'] = value;
-
-					return db.serverconfig.update(currentsettings);
-				},
-				set levelup (value) {
-					let currentsettings = db.serverconfig.findOne({guildID: guild.id});
-					currentsettings['levelup'] = value;
-
-					return db.serverconfig.update(currentsettings);
-				},
-				set levelupmsgs (value) {
-					let currentsettings = db.serverconfig.findOne({guildID: guild.id});
-					currentsettings['levelupmsgs'] = value;
-
-					return db.serverconfig.update(currentsettings);
-				},
-				set mutedrole (value) {
-					let currentsettings = db.serverconfig.findOne({guildID: guild.id});
-					currentsettings['mutedrole'] = value;
-
-					return db.serverconfig.update(currentsettings);
-				}
+				return db.serverconfig.update(currentsettings);
 			}
 		}
 	}
