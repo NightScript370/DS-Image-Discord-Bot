@@ -19,11 +19,23 @@ module.exports = class messageUpdateListener extends Listener {
 		this.log(oldMessage, newMessage);
 	}
 
+	async invalidMessage(message) {
+		if (!Object.keys(message.util.parsed).length)
+			return false;
+
+		const attempt = message.util.parsed.alias;
+		if (!attempt)
+			return false;
+
+		return true;
+	}
+
 	async removePoints(message) {
 		if (message.author.bot) return;
 
 		const inhibitor = require("../../point-inhibit");
 		if (inhibitor.inhibite(message)) return;
+		if (this.invalidMessage == true) return;
 
 		let channelmultiplier = this.client.db.multiply.findOne({guild: message.guild.id, channel: message.channel.id}) || this.client.db.multiply.insert({channel: message.channel.id, guild: message.guild.id, multiply: 1 });
 		let pointstoadd = random(3) * channelmultiplier.multiply;
@@ -40,7 +52,7 @@ module.exports = class messageUpdateListener extends Listener {
 
 	async log(oldMessage, newMessage) {
 		if (!oldMessage) return;
-		let logs = this.client.db.serverconfig.get(this.client, newMessage, "logchan")
+		let logs = newMessage.guild.config.render("logchan")
 
 		if (!logs) return;
 		if (!logs.sendable || !logs.embedable) return;

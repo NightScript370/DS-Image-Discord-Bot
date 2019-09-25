@@ -44,7 +44,7 @@ module.exports = class MakerBoardCommand extends Command {
 					default: msg => {
 						if (!msg.guild) return null;
 						
-						return this.client.db.serverconfig.get(this.client, msg, "makerboard");
+						return msg.guild.conf.data.makerboard;
 					}
 				},
 				{

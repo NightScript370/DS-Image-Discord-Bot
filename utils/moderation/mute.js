@@ -5,10 +5,10 @@ module.exports = (client, member, moderator, reason=null, msg=null) => {
 	if (!member.guild) return "not guild";
 	if (!member.guild.me.hasPermission('MANAGE_ROLES')) return "no perms";
 
-	const mutedRole = client.db.serverconfig.get(client, member, "mutedrole");
+	const mutedRole = member.guild.config.render("mutedrole");
 	if (!mutedRole) return "role doesn't exist";
 
-	const logChannel = client.db.serverconfig.get(client, member, "logchan");
+	const logChannel = member.guild.config.render("logchan");
 	let logEmbed = client.util.embed()
 		.setThumbnail(member.guild.iconURL({format: 'png'}))
 		.addInline(":cop: Moderator", `${moderator.user.tag} (#${moderator.id})`)

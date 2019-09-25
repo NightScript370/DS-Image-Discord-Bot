@@ -130,10 +130,6 @@ module.exports = class messageInavlidListener extends Listener {
 		if (levelUp) {
 			if (!message.channel.sendable) return;
 
-			Array.prototype.random = function() {
-				return this[Math.floor(Math.random() * this.length)];
-			};
-
 			let levelups = message.guild.config.data.levelupmsgs;
 			if (!levelups) return console.log(`${server.name} (#${server.id}) does not have level up messages`);
 			let levelupmsg = levelups.random()

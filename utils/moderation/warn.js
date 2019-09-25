@@ -1,7 +1,7 @@
 module.exports = (client, member, reason, moderator, msg) => {
 	member.warn(reason, moderator);
 
-	const logs = client.db.serverconfig.get(client, msg, "logchan")
+	const logs = member.guild.config.render("logchan")
 	
 	let embed = client.util.embed()
 		.setColor(15844367)

@@ -34,7 +34,7 @@ module.exports = class guildMemberAddListener extends Listener {
 				logembed.addField(':warning: Potential Malicious Account', 'I do not have the permissions nessesary to ban him')
 			}
 		} else {
-			let chnl = await this.client.db.serverconfig.get(this.client, member, "welcomechan")
+			let chnl = await member.guild.config.render("welcomechan")
 
 			if (chnl && chnl.sendable) {
 				if (member.guild.id == '318882333312679936' && chnl.embedable) {
@@ -68,7 +68,7 @@ Don't forget to subscribe to our Youtube channel and check out our website. `)
 			}
 		}
 
-		let logchannel = await this.client.db.serverconfig.get(this.client, member, "logchan")
+		let logchannel = await member.guild.config.render("logchan")
 		if (logchannel && logchannel.sendable && logchannel.embedable)
 			logchannel.send(`${member.user.username} has joined`, {embed: logembed});
 	}

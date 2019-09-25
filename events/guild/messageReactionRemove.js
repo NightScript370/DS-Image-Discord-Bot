@@ -1,28 +1,27 @@
 const { Listener } = require('discord-akairo');
 
 module.exports = class messageReactionRemoveListener extends Listener {
-    constructor() {
-        super('messageReactionRemove', {
-            emitter: 'client',
-            event: 'messageReactionRemove',
-            category: 'guild'
-        });
-      }
+	constructor() {
+		super('messageReactionRemove', {
+			emitter: 'client',
+			event: 'messageReactionRemove',
+			category: 'guild'
+		});
+	  }
 
-    async exec(reaction, user) {
-        const client = await this.client;
+	async exec(reaction, user) {
 		const message = reaction.message;
-        const channel = await this.client.db.serverconfig.get(this.client, message, "starboardchannel");
-        if (message.partial) await message.fetch();
-
+		if (message.partial) await message.fetch();
 		if (!message.guild) return;
+
+		const starChannel = await message.guild.config.render("starboardchannel");
+
 		if (reaction.emoji.name !== '⭐') return;
 		if (message.author.id === user.id) return;
-		if (channel && message.channel.id == channel.id) return;
+		if (starChannel && message.channel.id == starChannel.id) return;
 
 		const reacount = await (await reaction.users.fetch()).filter(r => r.id !== message.author.id && !r.bot).size;
 
-		const starChannel = channel // message.guild.channels.find("name", "starboard");
 		if (starChannel && starChannel.sendable && starChannel.embedable) {
 			const image = message.attachments.size > 0 ? extension(message.attachments.array()[0].url) : '';
 
@@ -62,14 +61,14 @@ module.exports = class messageReactionRemoveListener extends Listener {
 			}
 		}
 
-        let pointsUser = this.client.db.points.findOne({guild: message.guild.id, member: message.author.id}) || this.client.db.points.insert({guild: message.guild.id, member: message.author.id, points: 0, level: 0});
+		let pointsUser = this.client.db.points.findOne({guild: message.guild.id, member: message.author.id}) || this.client.db.points.insert({guild: message.guild.id, member: message.author.id, points: 0, level: 0});
 
-        if(reacount == 3) {
-            //If the reaction count is 3, the user gets 20 points
-            pointsUser.points = 20 + user.points;
-        } else if (reacount > 3) {
-            pointsUser.points = 5 + user.points;
-        }
+		if(reacount == 3) {
+			//If the reaction count is 3, the user gets 20 points
+			pointsUser.points = 20 + user.points;
+		} else if (reacount > 3) {
+			pointsUser.points = 5 + user.points;
+		}
 
 		if((reacount+1) > 3) {
 			// If the reaction count was above 3, the user gets -5 points
@@ -79,7 +78,7 @@ module.exports = class messageReactionRemoveListener extends Listener {
 			pointsUser.points = user.points - 20;
 		}
 
-        this.client.db.points.update(pointsUser);
+		this.client.db.points.update(pointsUser);
 	}
 }
 

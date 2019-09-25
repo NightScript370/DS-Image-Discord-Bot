@@ -9,7 +9,7 @@ module.exports = async (client, member, moderator, reason=null, msg = null, days
 
 	let user = member.user ? member.user : member;
 
-	let logChannel = client.db.serverconfig.get(client, container, "logchan");
+	let logChannel = container.guild.config.render("logchan");
 	let BanLogEmbed = client.util.embed()
 		.setColor("#FF0000")
 		.setThumbnail(container.guild.iconURL({format: 'png'}))

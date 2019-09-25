@@ -1,5 +1,5 @@
 const { Structures } = require("discord.js");
-const { getKey } = require('./../Configuration.js');
+const { findType } = require('./../Configuration.js');
 const db = require('../utils/database.js');
 const config = require("../config.js");
 
@@ -57,11 +57,18 @@ module.exports = Structures.extend("Guild", Guild => class YamamuraGuild extends
 				let data = db.serverconfig.findOne({ guildID: guild.id }) || this.setDefaultSettings();
 				return data;
 			},
-			set: (key, newValue) => {
+			set: (key, newValue, update=true) => {
 				let currentsettings = db.serverconfig.findOne({guildID: guild.id});
 				currentsettings[key] = newValue;
 
-				return db.serverconfig.update(currentsettings);
+				if (update)
+					return db.serverconfig.update(currentsettings);
+			},
+			render: (key) => {
+				let data = this.data;
+				let value = data[key];
+
+				return findType(key).deserialize(guild.client, { guild }, value);
 			}
 		}
 	}
