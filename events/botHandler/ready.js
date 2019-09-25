@@ -54,9 +54,9 @@ module.exports = class ReadyListener extends Listener {
 			}
 		}
 
-		this.client.listenerHandler.remove('ready');
-		this.client.listenerHandler.remove('commandHandlerLoad');
-		this.client.listenerHandler.loadAll();
+		await this.client.listenerHandler.remove('ready');
+		await this.client.listenerHandler.remove('commandHandlerLoad');
+		await this.client.listenerHandler.loadAll();
 
 		console.log(`My body, ${this.client.user.username} is ready to serve ${this.client.users.size} users in ${this.client.guilds.size} servers!`);
 
