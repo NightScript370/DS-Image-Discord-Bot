@@ -21,7 +21,7 @@ module.exports = Structures.extend("Guild", Guild => class YamamuraGuild extends
 				let starboardchannel = scan ? channels.find(channel => channel.name === "starboard") : null;
 				let mutedrole = scan ? guild.roles.find(role => role.name === "Muted") : null;
 
-				let defaultsettings = {
+				let defaultSettings = {
 					guildID: guild.id,
 					logchan: logchannel ? logchannel.id : '',
 					welcomechan: welcomechannel ? welcomechannel.id : '',
@@ -37,21 +37,14 @@ module.exports = Structures.extend("Guild", Guild => class YamamuraGuild extends
 
 				let currentsettings = db.serverconfig.findOne({guildID: guild.id});
 				if (currentsettings) {
-					currentsettings.logchan = defaultsettings.logchan;
-					currentsettings.welcomechan = defaultsettings.welcomechan;
-					currentsettings.welcomemessage = defaultsettings.welcomemessage;
-					currentsettings.leavemessage = defaultsettings.leavemessage;
-					currentsettings.prefix = defaultsettings.prefix;
-					currentsettings.makerboard = defaultsettings.makerboard;
-					currentsettings.starboardchannel = defaultsettings.starboardchannel;
-					currentsettings.levelup = defaultsettings.levelup;
-					currentsettings.levelupmsgs = defaultsettings.levelupmsgs;
-					currentsettings.mutedrole = defaultsettings.mutedrole;
+					for (var key in defaultSettings) {
+						currentsettings[key] = defaultSettings[key];
+					}
 
 					return db.serverconfig.update(currentsettings);
 				}
 
-				return db.serverconfig.insert(defaultsettings);
+				return db.serverconfig.insert(defaultSettings);
 			},
 			get data() {
 				let data = db.serverconfig.findOne({ guildID: guild.id }) || this.setDefaultSettings();
@@ -65,7 +58,7 @@ module.exports = Structures.extend("Guild", Guild => class YamamuraGuild extends
 					return db.serverconfig.update(currentsettings);
 			},
 			render: (key) => {
-				let data = this.data;
+				let data = db.serverconfig.findOne({ guildID: guild.id }) || this.setDefaultSettings();
 				let value = data[key];
 
 				return findType(key).deserialize(guild.client, { guild }, value);
