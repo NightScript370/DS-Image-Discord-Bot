@@ -305,16 +305,16 @@ const akairo_types = {
 
 		switch (pattern ? pattern.toLowerCase() : null) {
 			case 'wifi':
-				BG = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'patterns', 'wifi.png'));
+				BG = await loadImage(path.join(__dirname, '..', 'assets', 'images', 'switch', 'patterns', 'wifi.png'));
 				break;
 			case 'sponge':
-				BG = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'patterns', 'sponge.png'));
+				BG = await loadImage(path.join(__dirname, '..', 'assets', 'images', 'switch', 'patterns', 'sponge.png'));
 				break;
 			case 'jungle':
-				BG = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'patterns', 'jungle.png'));
+				BG = await loadImage(path.join(__dirname, '..', 'assets', 'images', 'switch', 'patterns', 'jungle.png'));
 				break;
 			case 'joker':
-				BG = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'patterns', 'joker.png'));
+				BG = await loadImage(path.join(__dirname, '..', 'assets', 'images', 'switch', 'patterns', 'joker.png'));
 				break;
 		}
 

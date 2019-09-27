@@ -23,38 +23,50 @@ module.exports = class FixConfigCommand extends Command {
 			for (const prop in data) {
 				if (["meta", "$loki", "exec", "guildID"].includes(prop)) continue;
 
-				const value = data[prop];
+				let value = data[prop];
 				console.log(prop, value, settingProps[prop]);
 
 				if (!value)
 					value = findType(prop).nullValue;
 
-				while (isObject(value)) {
-					value = value.value
+				while (isObject(value) && value.value) {
+					value = value.value;
 				}
 
 				if (!settingProps[prop].endsWith(':ex')) {
 					while (value instanceof Array) {
-						break; // Do this for now until we have actual code that can undo an array into string
+						value = value[0];
 					}
 				} else {
 					for (var valueinvalue of value) {
-						while (valueinvalue instanceof Array) {
-							break;
-						}
+						while (typeof valueinvalue !== 'string') {
+							while (valueinvalue instanceof Array) {
+								valueinvalue = valueinvalue[0];
+							}
 
-						while (isObject(valueinvalue)) {
-							valueinvalue = valueinvalue.value
+							while (isObject(valueinvalue)) {
+								valueinvalue = valueinvalue.value
+							}
 						}
 					}
 				}
 
-				console.log(prop, data[prop])
+				if (settingProps[prop].endsWith(':ex') && !(Array.isArray(value)))
+					value = [ value ];
+
+				guild.config.set(prop, value, false);
+				data[prop] = value;
+
+				console.log(prop, data[prop]);
 			}
+
+			this.client.db.serverconfig.update(data);
 			console.log(`${guild.name}'s server postchange`, data)
 		});
 
-		msg.util.send("Done.")
+		console.log("Done");
+		if (msg.channel.sendable)
+			msg.util.send("Done.")
 	}
 };
 

@@ -75,8 +75,7 @@ module.exports = class BrainsCommand extends Command {
 			}
 
 			if (this.checkString(item).includes("smashbrosbrawl"))
-				ctx.drawImage(tabuu, 300, y[index], base.width - 300, endimage)
-					.catch()
+				ctx.drawImage(tabuu, 300, y[index], base.width - 300, endimage);
 		}
 
 		let attachment = canvas.toBuffer()
