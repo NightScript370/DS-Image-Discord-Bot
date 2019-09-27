@@ -16,7 +16,7 @@ module.exports = class FixConfigCommand extends Command {
 	}
 
 	async exec(msg) {
-		this.client.guilds.forEach(async guild => {
+		this.client.guilds.forEach(guild => {
 			let data = guild.config.data;
 
 			console.log(`${guild.name}'s server prechange`, data)
@@ -24,12 +24,12 @@ module.exports = class FixConfigCommand extends Command {
 				if (["meta", "$loki", "exec", "guildID"].includes(prop)) continue;
 
 				let value = data[prop];
-				console.log(prop, value, settingProps[prop]);
+				console.log(`Old ${prop}`, value, settingProps[prop]);
 
 				if (!value)
 					value = findType(prop).nullValue;
 
-				while (isObject(value) && value.value) {
+				while (value.value) {
 					value = value.value;
 				}
 
@@ -47,7 +47,7 @@ module.exports = class FixConfigCommand extends Command {
 								valueinvalue = valueinvalue[0];
 							}
 
-							while (isObject(valueinvalue)) {
+							while (value.value) {
 								valueinvalue = valueinvalue.value
 							}
 						}
@@ -57,7 +57,7 @@ module.exports = class FixConfigCommand extends Command {
 				guild.config.set(prop, value, false);
 				data[prop] = value;
 
-				console.log(prop, data[prop]);
+				console.log(`New ${prop}`, data[prop]);
 			}
 
 			this.client.db.serverconfig.update(data);
