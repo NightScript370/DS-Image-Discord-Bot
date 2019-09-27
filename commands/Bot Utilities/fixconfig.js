@@ -38,6 +38,9 @@ module.exports = class FixConfigCommand extends Command {
 						value = value[0];
 					}
 				} else {
+					if (!(Array.isArray(value)))
+						value = [ value ];
+
 					for (var valueinvalue of value) {
 						while (typeof valueinvalue !== 'string') {
 							while (valueinvalue instanceof Array) {
@@ -50,9 +53,6 @@ module.exports = class FixConfigCommand extends Command {
 						}
 					}
 				}
-
-				if (settingProps[prop].endsWith(':ex') && !(Array.isArray(value)))
-					value = [ value ];
 
 				guild.config.set(prop, value, false);
 				data[prop] = value;
