@@ -30,11 +30,11 @@ module.exports = class NDSBCompatCommand extends Command {
 
 								return 'fail';
 							}
+
+							return body;
 						} catch (e) {
 							return 'backfail';
 						}
-
-						return body;
 					},
 					prompt: {
 						start: "What's the Nintendo DS title you'd like to check if it is compatible with nds-bootstrap?",
