@@ -1,7 +1,7 @@
 module.exports = {
 	// MARK: General purpose
 	"Type `cancel` to cancel this command.": "Напишите `cancel`, чтобы отменить эту команду.",
-	"by {0}": "на {0}",
+	"by {0}": "от {0}",
 	"There are not enough arguments to this command. The minimum is {0}.": "Не хватает аргументов для этой команди. Минимум это {0}.",
 
 	// MARK: Commands command
@@ -61,20 +61,20 @@ module.exports = {
     "Total Events": "Все мероприятия",
 	"{0} total commands": "{0} команд",
 	"{0} total listeners": "{0} слушителей",
-	"You didn't specify a key!": "Вы не выбрали клавишу!",
+	"You didn't specify a key!": "Вы не выбрали числа!",
 	"You didn't specify a value!": "Вы не вибрали значение!",
 	"Are you ___**100%**___ sure you want to reset the configuration? [Y/N]": "Вы ___**100%**___ уверини, что хотите сделать сброс конфигурации? [Y (да)/N (нет)]",
 	"action cancelled": "действие отменено",
 	"There's no `{0}` key in the configuration!": "Нету числа `{0}` в конфигурации!",
 	"There has been an error with the configuration clearance. Please report this bug to the {0} Developers": "Была ошибка с очисткой конфигурации. Пожалуйста, объясните это с авторами {0}",
 	"{0} - by {1}": "{0} - на {1}",
-	"An error occurred: {0}.\nAlert the bot owners to let them fix this error": "Была ошибка: {0}.\nОбъясните об этом, чтобы оны её исправили ",
+	"An error occurred: {0}.\nAlert the bot owners to let them fix this error": "Была ошибка: {0}.\nОбъясните об этом авторам бота, чтобы оны её исправили ",
 	"There's no type with ID `{0}`": "Нету типа с ID `{0}`",
     "The action must be one of [{0}]!": "Действие должно быть одно из [{0}]!",
     "Server configuration for {0}": "Серверная конфигурация для {0}",
 	"This value is empty": "Это значение пусто",
-	"You can use `{0}config set <key> null` to set a value to an empty state.": "Вы можете исползовать `{0}config set <chiave> null` чтобы позначить значение как пустое.",
-	"The input `{0}` is not valid for the type `{1}`.": "Значение `{0}` не верный для `{1}`",
+	"You can use `{0}config set <key> null` to set a value to an empty state.": "Вы можете исползовать `{0}config set <число> null` чтобы позначить значение как пустое.",
+	"The input `{0}` is not valid for the type `{1}`.": "Значение `{0}` не верное для `{1}`",
 	"Administration": "Администрация",
 	"Experience Points": "Опыт",
 	"Games": "Игры",
@@ -138,11 +138,17 @@ module.exports = {
 	"Aggiunto alla coda: {0} | Richiesto da: {1}": "",
 	"**NOW PLAYING**: [{0}]({1}) | Requested by {2}": "**СЕЙЧАС ИГРАЕТ**: [{0}]({1}) | Запрошен {2}",
 	"**NEXT**: [{0}]({1}) | Requested by {2}": "**СЛЕДУЮЩИЙ**: [{0}]({1}) | Запрошен {2}",
-	"{0} Users": "{0} Пользователи",
+	"{0} Users": "{0} Изпользователёв",
 	"{0} Channels": "{0} Каналов",
     "{0} Servers": "{0} Серверов",
-    "Resume the currently paused audio": "Прдолжыть музыку, которую вы остановили"
+    "Resume the currently paused audio": "Продолжыть музыку, которую вы остановили"
+    
     "Stops the music": "Остановляет музыку"
+    "Yamamura - by NightYoshi370 & Samplasion": "Yamamura - от NightYoshi370 и Samplasion"
+    "It can fulfill your server's moderation needs and create fun events for your community to enjoy": "Он может надать вам вашые требования модерации и создавать для вашего сообщества ивенты и игры" //Damn this was hard to translate along with the next line.
+    "Yamamura is an all-in-one Discord bot dedicated to helping modding communities and more.": "Yamamura - это всё-в-одном Дискорд бот преданный помагать сообществам моддингу и болше."
+    "Adds a vote to skip the currently playing music.": "Добавляет голос пропутить сейчас-играющюю музыку."
+    
     "": "",
     "": "",
     "": "",
