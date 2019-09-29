@@ -41,15 +41,21 @@ module.exports = class FixConfigCommand extends Command {
 					if (!(Array.isArray(value)))
 						value = [ value ];
 
+					let numrefresh;
+
 					for (var valueinvalue of value) {
-						while (typeof valueinvalue !== 'string') {
-							while (valueinvalue instanceof Array) {
+						numrefresh = 0;
+
+						while (typeof valueinvalue !== 'string' && numrefresh < 100) {
+							while (Array.isArray(valueinvalue)) {
 								valueinvalue = valueinvalue[0];
 							}
 
-							while (value.value) {
+							while (valueinvalue.value) {
 								valueinvalue = valueinvalue.value
 							}
+
+							numrefresh++;
 						}
 					}
 				}
