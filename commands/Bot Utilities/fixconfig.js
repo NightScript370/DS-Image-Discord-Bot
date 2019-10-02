@@ -29,7 +29,7 @@ module.exports = class FixConfigCommand extends Command {
 				if (!value)
 					value = findType(prop).nullValue;
 
-				while (value.value) {
+				while ("value" in value) {
 					value = value.value;
 				}
 
@@ -44,25 +44,25 @@ module.exports = class FixConfigCommand extends Command {
 					if (!(Array.isArray(value)))
 						value = [ value ];
 
-					for (var valueinvalue of value) {
+					for (var index in value) {
 						numrefresh = 0;
 
-						while (typeof valueinvalue !== 'string' && numrefresh < 100) {
-							console.log("PRE MODS FOR " + prop + ":", valueinvalue)
+						while (typeof value[index] !== 'string' && numrefresh < 100) {
+							console.log("PRE MODS FOR " + prop + ":", value[index])
 
-							if (Array.isArray(valueinvalue) && valueinvalue.length) {
-								console.log("PRE ARRAY FOR " + prop + ":", valueinvalue)
-								valueinvalue = valueinvalue[0];
-								console.log("POST ARRAY FOR " + prop + ":", valueinvalue)
+							if (Array.isArray(value[index]) && value[index].length) {
+								console.log("PRE ARRAY FOR " + prop + ":", value[index])
+								value[index] = value[index][0];
+								console.log("POST ARRAY FOR " + prop + ":", value[index])
 							}
 
-							if ("value" in valueinvalue) {
-								console.log("PRE TAKEOUTVALUE FOR " + prop + ":", valueinvalue)
-								valueinvalue = valueinvalue.value;
-								console.log("POST TAKEOUTVALUE FOR " + prop + ":", valueinvalue)
+							if ("value" in value[index]) {
+								console.log("PRE TAKEOUTVALUE FOR " + prop + ":", value[index])
+								value[index] = value[index].value;
+								console.log("POST TAKEOUTVALUE FOR " + prop + ":", value[index])
 							}
 
-							console.log("POST MODS FOR " + prop + ":", valueinvalue)
+							console.log("POST MODS FOR " + prop + ":", value[index])
 							numrefresh++;
 						}
 					}
