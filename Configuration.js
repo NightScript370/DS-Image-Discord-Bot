@@ -5,10 +5,10 @@ let settingProps = {
 	leavemessage: "string:ex",
 	prefix: "string",
 	makerboard: "string",
-	starboardchannel: "channel:ex",
+	starboardchannel: "channel",
 	levelup: "bool",
 	levelupmsgs: "string:ex",
-	mutedrole: "role:ex"
+	mutedrole: "role"
 }
 
 let types = [
@@ -33,8 +33,20 @@ let types = [
 			return parseInt(val);
 		}
 		
-		static render(client, _, val) {
-			return parseInt(val);
+		static render(client, _, values) {
+			if (!values) return this.nullValue;
+
+			if (Array.isArray(values)) {
+				let array = [];
+
+				for (var value of values) {
+					array.push(parseInt(value));
+				}
+
+				return array;
+			}
+
+			return parseInt(values);
 		}
 
 		static validate(client, _, val) {

@@ -67,10 +67,32 @@ module.exports = class messageUpdateListener extends Listener {
 		if (oldMessage.content !== newMessage.content) {
 			text = `${newMessage.member.displayName} updated their message`;
 
-			if (oldMessage.content.length < 1020 && newMessage.content.length < 1020)
-				messageUpdateEmbed
-				.addField("Before", oldMessage.content || "Empty", true)
-				.addField("After", newMessage.content || "Empty", true)
+			let oldMessageContent = "Error Field";
+			let newMessageContent = "Error Field"
+
+			if (oldMessage.content) {
+				oldMessageContent = oldMessage.content;
+				if (oldMessageContent.length > 1020) {
+					oldMessageContent.length = 1020;
+					oldMessageContent += "...";
+				} else if (!oldMessageContent.length) {
+					oldMessageContent = "Empty"
+				}
+			}
+
+			if (newMessage.content) {
+				newMessageContent = newMessage.content;
+				if (newMessageContent.length > 1020) {
+					newMessageContent.length = 1020;
+					newMessageContent += "...";
+				} else if (!newMessageContent.length) {
+					newMessageContent = "Empty"
+				}
+			}
+
+			messageUpdateEmbed
+				.addInline("Before", oldMessageContent)
+				.addInline("After", newMessageContent)
 		} else if ((!oldMessage.pinned && newMessage.pinned) || (oldMessage.pinned && !newMessage.pinned)) {
 			text = `A message by ${newMessage.member.displayName} was pinned`;
 			messageUpdateEmbed.setDescription(newMessage.content)
