@@ -107,7 +107,7 @@ module.exports = class TTTCommand extends Command {
 		let embed = this.client.util.embed()
 			.setAuthor(msg.guild ? msg.member.displayName : msg.author.username, msg.author.displayAvatarURL({format: 'png'}))
 			.setTitle("Tic-Tac-Toe game results")
-			.setDescription(this.checkStatus(this.games[key]) + '**```' + game.ascii() + '```**')
+			.setDescription(this.checkStatus(this.games[key]) + '**```' + this.games[key].ascii() + '```**')
 		msg.util.send(embed)
 
 		if (this.games[key])
