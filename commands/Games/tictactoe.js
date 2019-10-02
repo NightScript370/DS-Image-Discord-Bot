@@ -50,7 +50,7 @@ module.exports = class TTTCommand extends Command {
 			.setAuthor(msg.guild ? msg.member.displayName : msg.author.username, msg.author.displayAvatarURL({format: 'png'}))
 			.setTitle("Showing Tic-Tac-Toe game")
 
-		let games = this.games;
+		var games = this.games;
 		var game;
 		const key = msg.author.id
 		const shouldMove = matchRe.test(action) // matches "1,3", "1, 3", "1|3" and "13"
