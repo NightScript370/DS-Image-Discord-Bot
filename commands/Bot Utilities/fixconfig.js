@@ -29,7 +29,7 @@ module.exports = class FixConfigCommand extends Command {
 				if (!value)
 					value = findType(prop).nullValue;
 
-				while ("value" in value) {
+				while (isObject(value) && "value" in value) {
 					value = value.value;
 				}
 
@@ -56,7 +56,7 @@ module.exports = class FixConfigCommand extends Command {
 								console.log("POST ARRAY FOR " + prop + ":", value[index])
 							}
 
-							if ("value" in value[index]) {
+							if (isObject(value) && "value" in value[index]) {
 								console.log("PRE TAKEOUTVALUE FOR " + prop + ":", value[index])
 								value[index] = value[index].value;
 								console.log("POST TAKEOUTVALUE FOR " + prop + ":", value[index])
