@@ -13,7 +13,7 @@ module.exports = class MuteCommand extends Command {
 				]
             },
 			examples: ["mute @InfamousGuy003"],
-			channelRestriction: 'guild',
+			channel: 'guild',
 			clientPermissions: ["MANAGE_ROLES"],
 			userPermissions: ["MANAGE_MESSAGES"],
 			args: [

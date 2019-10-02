@@ -9,7 +9,7 @@ module.exports = class NameCheckCommand extends Command {
 			description: {
 				content: 'Checks a user\'s name for weird characters.',
 			},
-			channelRestriction: 'guild'
+			channel: 'guild'
 		});
 	}
 

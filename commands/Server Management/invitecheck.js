@@ -9,7 +9,7 @@ module.exports = class InviteCheckCommand extends Command {
 			description: {
 				content: 'Check every user\'s play status for an invite link.',
 			},
-			channelRestriction: 'guild'
+			channel: 'guild'
 		});
 	}
 

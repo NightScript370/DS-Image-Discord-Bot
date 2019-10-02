@@ -9,7 +9,7 @@ module.exports = class BanCommand extends Command {
 				content: 'Bans a user via a mention or user ID. You can use it on users not even in the server.'
 			},
 			examples: ["ban @InfamousGuy003 spamming in #general-talk"],
-			channelRestriction: 'guild',
+			channel: 'guild',
 			clientPermissions: ["BAN_MEMBERS"],
 			userPermissions: ["BAN_MEMBERS"],
 			args: [

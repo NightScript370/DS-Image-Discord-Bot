@@ -9,7 +9,7 @@ module.exports = class KickCommand extends Command {
 				content: 'Kick a member via mention, saying their name or inputting the server member\'s ID. You may also specify a reason to the kick'
 			},
 			examples: ["kick @InfamousGuy003 spamming in #general-talk"],
-			channelRestriction: 'guild',
+			channel: 'guild',
 			clientPermissions: ["KICK_MEMBERS"],
 			userPermissions: ["KICK_MEMBERS"],
 			args: [

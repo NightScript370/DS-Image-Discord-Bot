@@ -8,7 +8,7 @@ module.exports = class WarnCommand extends Command {
 			description: {
 				content: 'List a member\'s warnings.'
 			},
-			channelRestriction: 'guild',
+			channel: 'guild',
 			userPermissions: ["KICK_MEMBERS"],
 			args: [
 				{

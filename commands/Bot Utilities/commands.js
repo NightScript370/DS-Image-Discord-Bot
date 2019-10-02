@@ -62,7 +62,7 @@ module.exports = class CommandsCommand extends Command {
 				if (this.isGood(command.userPermissions))
 					command.userPermissions.forEach(perm => commandPermissions.push('`' + perm + '`'))
 
-				switch (command.channelRestriction) {
+				switch (command.channel) {
 					case 'guild':
 						commandPermissions.push(__('Server Only'));
 						break;

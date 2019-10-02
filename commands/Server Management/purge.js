@@ -9,7 +9,7 @@ module.exports = class PurgeCommand extends Command {
 				content: "Cleans a channel of how many messages you'd like (as long as it isn't over 100). You can specify if you want just bot messages to be cleaned, only from a specific user or if the message matches a regex type"
 			},
 			examples: ["100 user:178261738364338177 matchRegex:"],
-			channelRestriction: 'guild',
+			channel: 'guild',
 			clientPermissions: ["MANAGE_MESSAGES"],
 			userPermissions: ["MANAGE_MESSAGES"],
 			args: [

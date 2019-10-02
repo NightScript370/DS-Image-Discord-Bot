@@ -19,7 +19,7 @@ module.exports = class PlayAudioCommand extends Command {
 				content: 'Plays audio. Can either be a Youtube video or one of the streams from listen.moe',
 				usage: '<video link or name>'
 			},
-			channelRestriction: 'guild',
+			channel: 'guild',
 			args: [{
 				id: 'link',
 				description: "You can specify either a specific Youtube video URL or the title of the video. You can also add playlists (put the playlist URL) or songs related to the song that is playing right now (type 'related')",
