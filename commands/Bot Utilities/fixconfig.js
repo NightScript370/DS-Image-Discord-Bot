@@ -56,9 +56,9 @@ module.exports = class FixConfigCommand extends Command {
 								console.log("POST ARRAY FOR " + prop + ":", valueinvalue)
 							}
 
-							if (valueinvalue.value) {
+							if ("value" in valueinvalue) {
 								console.log("PRE TAKEOUTVALUE FOR " + prop + ":", valueinvalue)
-								valueinvalue = valueinvalue.value
+								valueinvalue = valueinvalue.value;
 								console.log("POST TAKEOUTVALUE FOR " + prop + ":", valueinvalue)
 							}
 
