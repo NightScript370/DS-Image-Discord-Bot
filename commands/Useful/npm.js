@@ -29,6 +29,7 @@ module.exports = class NPMCommand extends Command {
 
 							return data;
 						} catch (e) {
+							console.error(e);
 							return "error";
 						}
 					}
