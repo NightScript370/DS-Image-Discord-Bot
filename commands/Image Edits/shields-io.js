@@ -60,7 +60,7 @@ module.exports = class ShieldsIoBadgeCommand extends Command {
 			attachment = { files: [{ attachment: body, name: 'badge.png' }] };
 		} catch {}
 
-		text = global.getString(message.author.lang, "Alright {0}, here's your badge!", message.guild ? message.member.displayName : message.author.username) + "\n" + link
+		let text = global.getString(message.author.lang, "Alright {0}, here's your badge!", message.guild ? message.member.displayName : message.author.username) + "\n" + link
 		return message.util.send(text, attachment);
 	}
 };
