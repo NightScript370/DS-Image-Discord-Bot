@@ -44,7 +44,8 @@ module.exports = class FixConfigCommand extends Command {
 					if (!(Array.isArray(value)))
 						value = [ value ];
 
-					for (var index in value) {
+					value.forEach(async (valueinvalue, index) => {
+						if (index >= value.length) return;
 						numrefresh = 0;
 
 						while (typeof value[index] !== 'string' && numrefresh < 100) {
@@ -65,7 +66,7 @@ module.exports = class FixConfigCommand extends Command {
 							console.log("POST MODS FOR " + prop + ":", value[index])
 							numrefresh++;
 						}
-					}
+					});
 				}
 
 				guild.config.set(prop, value, false);
