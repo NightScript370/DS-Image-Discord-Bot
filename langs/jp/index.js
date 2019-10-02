@@ -161,7 +161,7 @@ module.exports = {
     "Are you ___**100%**___ sure you want to reset the configuration? [Y/N]": "設定をリセットしてもよろしいですか？ [Y (はい) / N (いいえ)]",
     "action cancelled": "キャンセルされたアクション",
     "There's no `{0}` key in the configuration!": "設定に`{0}`キーがありません！",
-    "There has been an error with the configuration clearance. Please report this bug to the {0} Developers": "設定のクリア中にエラーが発生しました。このバグを{0}開発者に報告してください",
+    "There has been an error while clearing the configuration. Please report this bug to the {0} Developers": "設定のクリア中にエラーが発生しました。このバグを{0}開発者に報告してください",
     "{0} - by {1}": "{1}さんによる{0}",
     "An error occurred: {0}.\nAlert the bot owners to let them fix this error": "エラーが発生しました：{0}\nこのエラーを修正できるように、ボットの所有者に報告してください",
     "There's no type with ID `{0}`": "ID `{0}`のタイプはありません",

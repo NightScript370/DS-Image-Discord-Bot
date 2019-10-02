@@ -18,6 +18,12 @@ module.exports = class errorListener extends Listener {
 		Logger.error(message.content, { tag });
 		Logger.stacktrace(error);
 
+		if (command) {
+			const current = this.client.commandHandler.games.get(message.author.id);
+			if (current && current.name == command.id)
+				this.client.commandHandler.games.delete(message.author.id);
+		}
+
 		if (message.channel.sendable) {
 			if (error.toString().includes('UDP Watchdog Timeout'))
 				return message.util.reply(__("The game server is offline. Please try connecting at a later date"));

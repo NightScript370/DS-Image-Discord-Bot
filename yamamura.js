@@ -1,4 +1,5 @@
-require('dotenv').config();
+try { require('cache-require-paths'); } catch {}
+try {   require('dotenv').config();   } catch {}
 
 const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler, ClientUtil } = require('discord-akairo');
 const config = require("./config.js");
@@ -9,7 +10,9 @@ require("./struct/User.js");
 require("./struct/Guild.js");
 require("./struct/DMChannel.js");
 require("./struct/TextChannel.js");
+require("./struct/GuildMember.js");
 require("./langs/framework.js");
+require("./utils/extraFunctions.js");
 
 console.logs = {
 	log: [],
@@ -45,62 +48,25 @@ class YamamuraClient extends AkairoClient {
 		});
 
 		this.db = require('./utils/database.js');
-		this.setDefaultSettings = (guild, blank = false, scan = true) => {
-			let channels = guild.channels;
-
-			let logchannel = scan ? channels.find(channel => channel.name === "discord-logs") : null;
-			let welcomechannel = scan ? channels.find(channel => channel.name === "general") : null;
-			let starboardchannel = scan ? channels.find(channel => channel.name === "starboard") : null;
-			let mutedrole = scan ? guild.roles.find(role => role.name === "Muted") : null;
-
-			let defaultsettings = {
-				guildID: guild.id,
-				logchan: {value: logchannel ? logchannel.id : '', type: "channel"},
-				welcomechan: {value: welcomechannel ? welcomechannel.id : '', type: "channel"},
-				welcomemessage: {type: 'array', arrayType: 'string', value: !blank ? [{value: "Welcome {{user}} to {{server}}! Enjoy your stay", type: "string"}] : [] },
-				leavemessage: {type: 'array', arrayType: 'string', value: !blank ? [{value: "Goodbye {{user}}! You'll be missed", type: 'string'}] : []},
-				prefix: { value: config.prefix, type: "string" },
-				makerboard: { value: "", type: "string" },
-				starboardchannel: { value: starboardchannel ? starboardchannel.id : '', type: "channel" },
-				levelup: { type: 'bool', value: 'true' },
-				levelupmsgs: { type: 'array', arrayType: 'string', value: !blank ? [{value: "Congratulations {{user}}! You've leveled up to level {{level}}!", type: "string"}] : [] },
-				mutedrole: { type: 'role', value: mutedrole ? mutedrole.id : '' },
-			};
-
-			let currentsettings = this.db.serverconfig.findOne({guildID: guild.id});
-			if (currentsettings) {
-				currentsettings.logchan = defaultsettings.logchan;
-				currentsettings.welcomechan = defaultsettings.welcomechan;
-				currentsettings.welcomemessage = defaultsettings.welcomemessage;
-				currentsettings.leavemessage = defaultsettings.leavemessage;
-				currentsettings.prefix = defaultsettings.prefix;
-				currentsettings.makerboard = defaultsettings.makerboard;
-				currentsettings.starboardchannel = defaultsettings.starboardchannel;
-				currentsettings.levelup = defaultsettings.levelup;
-				currentsettings.levelupmsgs = defaultsettings.levelupmsgs;
-				currentsettings.mutedrole = defaultsettings.mutedrole;
-
-				return this.db.serverconfig.update(currentsettings);
-			} 
-			return this.db.serverconfig.insert(defaultsettings);
-		};
 
 		this.commandHandler = new CommandHandler(this, {
 			directory: './commands/',
-			prefix: async msg => {
-				if (msg.channel.type == "dm") return ['', config.prefix];
+			prefix: msg => {
+				let prefix;
+
 				if (msg.guild) {
 					try {
-						let serverconfig = this.db.serverconfig.findOne({ guildID: msg.guild.id }) || await this.setDefaultSettings(msg.guild);
-
-						if (serverconfig && serverconfig.prefix && serverconfig.prefix.value)
-							return serverconfig.prefix.value;
+						prefix = msg.guild.config.data.prefix;
+						if (prefix.value)
+							prefix = prefix.value;
 					} catch(e) {
 						console.error(e)
+						prefix = config.prefix;
 					}
-				}
+				} else
+					prefix = ['', config.prefix]
 
-				return config.prefix;
+				return prefix;
 			},
 			handleEdits: true,
 			commandUtil: true,
@@ -119,21 +85,21 @@ class YamamuraClient extends AkairoClient {
 				}
 			}
 		})
-		
+
 		this.commandHandler.resolver.addTypes(require('./utils/types.js'));
+		this.commandHandler.games = new Map();
+
 		this.inhibitorHandler = new InhibitorHandler(this, { directory: './inhibitors/' });
 		this.listenerHandler = new ListenerHandler(this, { directory: './events/' }).setEmitters({
 			process: process,
 			inhibitorHandler: this.inhibitorHandler
 		});
 
-		this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
-		this.inhibitorHandler.loadAll();
-
 		this.commandHandler.useListenerHandler(this.listenerHandler);
 		this.listenerHandler.load(process.cwd() +'/events/botHandler/ready.js');
 
-		this.commandHandler.loadAll();
+		this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
+		this.inhibitorHandler.loadAll();
 
 		this.moderation = require('./utils/moderation.js');
 

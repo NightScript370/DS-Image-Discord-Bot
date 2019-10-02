@@ -30,10 +30,10 @@ module.exports = class aboutCommand extends Command {
 				  + __("It can fulfill your server's moderation needs and create fun events for your community to enjoy") + "\n\n"
 
 				  + __("If you'd like to see all the available commands, please take a look at our website or type {0}commands", prefix))
-			.addField('Links', `[${__("Invite Bot")}](https://discordapp.com/oauth2/authorize?client_id=421158339129638933&scope=bot) | `
-							 + `[${__("Website")}](${this.client.website.URL}) | `
-							 + `[${__("Commands")}](${this.client.website.URL}/commands) | `
-							 + `[${__("Support Server")}](https://discord.gg/vbYZCRZ)`)
+			.addField(__('Links'), `[${__("Invite Bot")}](https://discordapp.com/oauth2/authorize?client_id=421158339129638933&scope=bot) | `
+								 + `[${__("Website")}](${this.client.website.URL}) | `
+								 + `[${__("Commands")}](${this.client.website.URL}/commands) | `
+								 + `[${__("Support Server")}](https://discord.gg/vbYZCRZ)`)
 			.setYamamuraCredits(false)
 
 		message.channel.send({embed: embed});

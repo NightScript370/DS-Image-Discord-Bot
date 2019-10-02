@@ -1,9 +1,9 @@
 const { Command } = require('discord-akairo');
-const { random } = require("including-range-array");
+const Hangman = require('hangman-game-engine');
 
-const Game = require('hangman-game-engine');
+const heads = require("./../../assets/JSON/hangman.json");
 
-module.exports = class PickCommand extends Command {
+module.exports = class HangmanCommand extends Command {
 	constructor() {
 		super('hangman', {
 			aliases: ['hangman', 'hman'],
@@ -14,101 +14,82 @@ module.exports = class PickCommand extends Command {
 			args: [
 				{
 					id: 'action',
-					type: "string",
-					prompt: "what are you gonna do next?",
-					default: "",
+					type: "lowercase",
+					default: null,
 				}
 			]
 		});
-		
-		this.games = {};
 	}
 
 	exec(msg, { action }) {
+		const current = this.client.commandHandler.games.get(msg.author.id);
+		if (current && current.name !== this.id) return msg.util.reply(__("Please wait until the current game of {0} is finished.", current.name));
+
 		let embed = this.client.util.embed()
-			.setAuthor(msg.guild ? msg.member.displayName : msg.author.username, msg.author.displayAvatarURL({format: 'png'}))
+			.setColor("GREEN")
 
-		Array.prototype.random = function() {
-			return this[Math.floor(Math.random() * this.length)];
-		};
+		let game;
+		if (!current) {
+			let listWords = require(`../../langs/${msg.author.lang}/hangman`);
+			let word = listWords.random()
+			game = new Hangman(word, {maxAttempt: heads.length - 1});
 
-		action = action.toLowerCase()
-		var game;
-		const key = msg.channel.id
-		let shouldMove = /[a-z]/gmi.test(action)
-		if (!this.games[key] || !action) shouldMove = false
-		if (!shouldMove) {
-			if (this.games[key]) {
-				let game = this.games[key]
-				const [fAtt, rAtt] = [game.failedGuesses, game.config.maxAttempt-game.failedGuesses]
-				embed
-					.setTitle("Showing Hangman game")
-					.setDescription(`\`\`\`${game.hiddenWord.join("")}\`\`\``)
-					.addInline("Failed Guesses", fAtt)
-					.addInline("Remaining Attempts", rAtt)
-					.addField("Guessed letters", game.guessedLetters.join(", ") || "None")
-					.addInline("Right guesses", game.guessedLetters.filter(gl => game.hiddenWord.map(l => l.toLowerCase()).includes(gl)).join(", ") || "None")
-					.addInline("Wrong guesses", game.guessedLetters.filter(gl => !game.hiddenWord.map(l => l.toLowerCase()).includes(gl)).join(", ") || "None");
-
-				return msg.util.send({embed: embed});
-			}
-			const words = require("./../../assets/JSON/hangman.json")
-			let word = words.random()
-			game = new Game(word, {maxAttempt: 6})
-			
-			// TODO: Set difficulty at game start
-			var letters = global.List.fromArray(word.split(""))
+			let letters = global.List.fromArray(word.split(""))
 			global.List.of(letters.first, letters.last).uniq().forEach(letter => game.guess(letter))
 
-			embed
-				.setTitle("Showing Hangman game")
-				.setDescription(`\`\`\`${game.hiddenWord.join("")}\`\`\``)
-			msg.util.send({embed: embed})
-			this.games[key] = game
-			return
+			embed.setDescription(heads[0])
+
+			msg.util.reply("New word: `" + game.hiddenWord.join("") + "`", embed)
+			this.client.commandHandler.games.set(msg.author.id, { name: this.id, data: game });
+			return game;
 		}
 
-		action = action[0]
-		game = this.games[key]
-		if (!game) return this.run(msg, {guess: "new"})
-		if (game.guessedLetters.includes(action)) {
-			embed
-				.setColor("#FF0000")
-				.setTitle("Hangman game error")
-				.setDescription("You already guessed that letter.")
-				.setFooter("Please pick another letter to try again with.")
+		game = this.client.commandHandler.games.get(msg.author.id).data;
+		let message = "";
 
-			return msg.util.send({embed: embed})
+		if (action && /[a-z]/gmi.test(action) && action !== "endgame") {
+			if (game.guessedLetters.includes(action))
+				message = "You have already guessed those characters. Please pick another character to try again with"
+			else {
+				if (action == game.hiddenWord)
+					game.status == "WON";
+				else
+					game.guess(action);
+
+				//TODO: Display message if it was a correct guess or a wrong one
+			}
 		}
 
-		game.guess(action)
+		if (game.status !== "IN_PROGRESS" || action == "endgame") {
+			let head;
 
-		if (game.status != "IN_PROGRESS")
-			return this.endgame(msg, game);
+			if (game.status == "WON") {
+				message = "Congratulations! You have won the game of Hangman";
+				head = heads[game.failedGuesses];
+			} else {
+				message = "Oh well, better luck next time";
+				head = heads[game.config.maxAttempt];
+			}
 
-		this.games[key] = game
+			message += "\n The word was " + game.word;
+			embed.setDescription(head);
+
+			this.client.commandHandler.games.delete(msg.author.id);
+			return msg.util.reply(message, {embed: embed})
+		}
+
 		const [fAtt, rAtt] = [game.failedGuesses, game.config.maxAttempt-game.failedGuesses]
+		const rightGuesses = game.guessedLetters.filter(gl => game.hiddenWord.map(l => l.toLowerCase()).includes(gl))
+
+		message += "\n`" + game.hiddenWord.join("") + "`";
 
 		embed
-			.setTitle("Showing Hangman game")
-			.setDescription(`\`\`\`${game.hiddenWord.join("")}\`\`\``)
-			.addInline("Failed Guesses", fAtt)
-			.addInline("Remaining Attempts", rAtt)
-			.addField("Guessed letters", game.guessedLetters.join(", ") || "None")
-			.addInline("Right guesses", game.guessedLetters.filter(gl => game.hiddenWord.map(l => l.toLowerCase()).includes(gl)).join(", ") || "None")
-			.addInline("Wrong guesses", game.guessedLetters.filter(gl => !game.hiddenWord.map(l => l.toLowerCase()).includes(gl)).join(", ") || "None")
+			.setDescription(heads[game.failedGuesses])
+			.addInline(`Right guesses (${rightGuesses.length})`, rightGuesses.join(", ") || "None")
+			.addInline(`Wrong guesses (${fAtt})`, game.guessedLetters.filter(gl => !game.hiddenWord.map(l => l.toLowerCase()).includes(gl)).join(", ") || "None")
+			.addField("Guessed Attempts", game.guessedLetters.join(", ") || "None")
+			.setFooter(`Remaining Attempts: ${rAtt}`)
 
-		msg.util.send({embed: embed})
-	}
-	
-	endgame(message, game) {
-		let embed = this.client.util.embed()
-			.setTitle("Hangman game results")
-			.setDescription((game.status == "WON" ? `You won!\n` : `You lost!\n`) + `\n The word was: **${game.word}**`);
-
-		message.util.send({embed: embed})
-
-		const key = message.channel.id
-		delete this.games[key]
+		msg.util.send(message, {embed: embed})
 	}
 }

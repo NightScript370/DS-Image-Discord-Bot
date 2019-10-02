@@ -11,18 +11,32 @@ module.exports = class messageInavlidListener extends Listener {
     }
 
 	async exec(message) {
-		if (this.invalidMessage(message)) return;
+		if (this.invalidMessage(message) == true) return console.log("This is caught by the invalid message catcher");
 
-		if (!message.guild) return;
-		if (this.antispam(message)) return;
+		if (!message.guild) return console.log("This is not a guild");
+		if (this.antispam(message) == true) return console.log("This is caught by the anti-spam");
 
 		this.handlePoints(message)
 	}
 
 	async invalidMessage(message) {
+		if (!Object.keys(message.util.parsed).length) {
+			console.log("There is no parsed method, returning false")
+			return false;
+		}
+
 		const attempt = message.util.parsed.alias;
-		if (!attempt) return false;
-		if (Array.from(message.util.handler.aliases.keys()).includes(attempt)) return true;
+		console.log("attempt", attempt);
+
+		if (!attempt) {
+			console.log("There was no attempt, return false");
+			return false;
+		};
+
+		if (Array.from(message.util.handler.aliases.keys()).includes(attempt)) {
+			console.log("This indeed was a command execution, return true")
+			return true;
+		};
 
 		if (!message.channel.sendable) return false;
 		if (message.util.parsed.prefix !== `<@${this.client.user.id}>` && message.guild) {
@@ -116,11 +130,7 @@ module.exports = class messageInavlidListener extends Listener {
 		if (levelUp) {
 			if (!message.channel.sendable) return;
 
-			Array.prototype.random = function() {
-				return this[Math.floor(Math.random() * this.length)];
-			};
-
-			let levelups = message.guild.levelupmsgs;
+			let levelups = message.guild.config.data.levelupmsgs;
 			if (!levelups) return console.log(`${server.name} (#${server.id}) does not have level up messages`);
 			let levelupmsg = levelups.random()
 				.replaceAll("{{server}}", message.guild.name)

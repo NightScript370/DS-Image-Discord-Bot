@@ -38,7 +38,7 @@ module.exports = class MuteCommand extends Command {
 	async exec(msg, { member, reason }) {
 		const __ = (k, ...v) => getString(msg.author.lang, k, ...v);
 
-		const mutedRole = this.client.db.serverconfig.get(this.client, msg, "mutedrole");
+		const mutedRole = msg.guild.config.render("mutedrole");
 		if (!mutedRole)
 			return msg.util.reply(__("You need to have the configuration key `mutedrole` set in order for this command to work."));
 

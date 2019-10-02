@@ -22,6 +22,7 @@ module.exports = class NintendoSwitchCommand extends Command {
 				},
 				{
 					id: 'rating',
+					type: 'gamerating',
 					match: 'option',
 					flag: 'rating:',
 					default: null
@@ -48,6 +49,7 @@ module.exports = class NintendoSwitchCommand extends Command {
 				},
 				{
 					id: 'pattern',
+					type: 'image-patterns',
 					match: 'option',
 					flag: 'pattern:',
 					default: null
@@ -57,86 +59,18 @@ module.exports = class NintendoSwitchCommand extends Command {
 	}
 
 	async exec(message, { images, rating, chubby, forcestretch, internet, funky, pattern }) {
-		let boxrating, BG, currentimage;
+		let currentimage;
 
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.');
 
-		switch (pattern ? pattern.toLowerCase() : null) {
-			case 'wifi':
-				BG = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'patterns', 'wifi.png'));
-				break;
-			case 'sponge':
-				BG = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'patterns', 'sponge.png'));
-				break;
-			case 'jungle':
-				BG = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'patterns', 'jungle.png'));
-				break;
-			case 'joker':
-				BG = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'patterns', 'joker.png'));
-				break;
-		}
-
-		let ratingtype = (rating ? rating.toUpperCase().split(":")[0] : null);
-		switch (rating ? rating.toUpperCase() : null) {
-			case 'ESRB:CHILDHOOD':
-			case 'ESRB:EC':
-				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'earlyChildhood.png'));
-				break;
-			case 'ESRB:E':
-			case 'ESRB:EVERYONE':
-				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'everyone.png'));
-				break;
-			case 'ESRB:EVERYONE10+':
-			case 'ESRB:E10':
-				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'e10.png'));
-				break;
-			case 'ESRB:MATURE':
-			case 'ESRB:MATURE17':
-			case 'ESRB:M':
-			case 'ESRB:M17':
-				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'mature.png'));
-				break;
-			case 'ESRB:T':
-			case 'ESRB:TEEN':
-			case 'ESRB:TEENS':
-			case 'ESRB:TEENAGERS':
-				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'teen.png'));
-				break;
-			case 'ESRB:A':
-			case 'ESRB:AO':
-			case 'ESRB:ADULTS':
-			case 'ESRB:ADULTS18':
-				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'adultsOnly.png'));
-				break;
-			case 'ESRB:RP':
-			case 'ESRB:RATING_PENDING':
-				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'esrb', 'ratingPending.png'));
-				break;
-			case 'PEGI:3':
-				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '3.png'));
-				break;
-			case 'PEGI:7':
-				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '7.png'));
-				break;
-			case 'PEGI:12':
-				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '12.png'));
-				break;
-			case 'PEGI:16':
-				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '16.png'));
-				break;
-			case 'PEGI:18':
-				boxrating = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'pegi', '18.png'));
-				break;
-		}
-
 		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'switch_case.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
-			
+
 		// Draw background
-		if (BG)
-			ctx.drawImage(BG, 0, 0, base.width, base.height);
+		if (pattern)
+			ctx.drawImage(pattern, 0, 0, base.width, base.height);
 
 		for (var image of images) {
 			currentimage = await loadImage(image);
@@ -159,8 +93,8 @@ module.exports = class NintendoSwitchCommand extends Command {
 			}
 		}
 
-		if (boxrating)
-				ctx.drawImage(boxrating, 22, 810, 62, 94);
+		if (rating)
+			ctx.drawImage(rating, 22, 810, 62, 94);
 
 		if (internet) {
 			let internetImg = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'internet_download.png'));

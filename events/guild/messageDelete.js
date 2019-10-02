@@ -11,6 +11,7 @@ module.exports = class MessageDeleteListener extends Listener {
 	}
 
 	async exec(message) {
+		if (!message.guild) return;
 		if (message.partial) return;
 		if (message.author.partial) await message.author.fetch();
 
@@ -23,10 +24,9 @@ module.exports = class MessageDeleteListener extends Listener {
 		if (message.author.id == this.client.user.id && message.content.endsWith("you may not star bot messages.")) return;
 		if (message.author.id == this.client.user.id && message.content.endsWith("you may not star your own message.")) return;
 
-		const logChannel = this.client.db.serverconfig.get(this.client, message, "logchan");
+		const logChannel = message.guild.config.render("logchan");
 		if (!logChannel) return;
-		if (!logChannel.sendable) return;
-		if (!logChannel.embedable) return;
+		if (!logChannel.sendable || !logChannel.embedable) return;
 
 		let title = `:scissors: Message from ${message.author.username} deleted`;
 		let messageDeleteEmbed = this.client.util.embed()
@@ -75,11 +75,23 @@ module.exports = class MessageDeleteListener extends Listener {
 		logChannel.send(title, {embed: messageDeleteEmbed});
 	}
 
+	async invalidMessage(message) {
+		if (!Object.keys(message.util.parsed).length)
+			return false;
+
+		const attempt = message.util.parsed.alias;
+		if (!attempt)
+			return false;
+
+		return true;
+	}
+
 	async removePoints(message) {
 		if (message.author.bot) return;
 
 		const inhibitor = require("../../point-inhibit");
 		if (inhibitor.inhibite(message)) return;
+		if (this.invalidMessage == true) return;
 
 		let channelmultiplier = this.client.db.multiply.findOne({guild: message.guild.id, channel: message.channel.id}) || this.client.db.multiply.insert({channel: message.channel.id, guild: message.guild.id, multiply: 1 });
 		let pointstoadd = random(3) * channelmultiplier.multiply;

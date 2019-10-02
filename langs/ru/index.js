@@ -66,7 +66,7 @@ module.exports = {
 	"Are you ___**100%**___ sure you want to reset the configuration? [Y/N]": "Вы ___**100%**___ уверини, что хотите сделать сброс конфигурации? [Y (да)/N (нет)]",
 	"action cancelled": "действие отменено",
 	"There's no `{0}` key in the configuration!": "Нету числа `{0}` в конфигурации!",
-	"There has been an error with the configuration clearance. Please report this bug to the {0} Developers": "Была ошибка с очисткой конфигурации. Пожалуйста, объясните это с авторами {0}",
+	"There has been an error while clearing the configuration. Please report this bug to the {0} Developers": "Была ошибка с очисткой конфигурации. Пожалуйста, объясните это с авторами {0}",
 	"{0} - by {1}": "{0} - на {1}",
 	"An error occurred: {0}.\nAlert the bot owners to let them fix this error": "Была ошибка: {0}.\nОбъясните об этом, чтобы оны её исправили ",
 	"There's no type with ID `{0}`": "Нету типа с ID `{0}`",

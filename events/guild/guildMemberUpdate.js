@@ -72,7 +72,7 @@ module.exports = class guildMemberUpdateListener extends Listener {
 			embed.addField(`Final Role Listing (${roles.length})`, roles.length ? this.trimArray(roles).join(', ') : 'None')
 		}
 
-		let logchannel = this.client.db.serverconfig.get(this.client, newMember, "logchan")
+		let logchannel = newMember.guild.config.render("logchan")
 		if (logchannel && logchannel.sendable && logchannel.embedable)
 			logchannel.send({embed});
 	}

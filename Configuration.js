@@ -1,24 +1,13 @@
-class ConfigurationValue {
-	constructor(v, type) {
-		this.value = v;
-		this.type = type;
-	}
-	
-	serialize(client, msg) {
-		return {type: this.type.id, value: this.type.serialize(client, msg, this.value)};
-	}
-}
-
 let settingProps = {
-	logchan: "channel:ex",
-	welcomechan: "channel:ex",
+	logchan: "channel",
+	welcomechan: "channel",
 	welcomemessage: "string:ex",
 	leavemessage: "string:ex",
-	prefix: "string:ex",
+	prefix: "string",
 	makerboard: "string",
 	starboardchannel: "channel:ex",
 	levelup: "bool",
-	levelupmsgs: "array:ex",
+	levelupmsgs: "string:ex",
 	mutedrole: "role:ex"
 }
 
@@ -48,7 +37,7 @@ let types = [
 			return parseInt(val);
 		}
 
-		static validate(client, msg, val) {
+		static validate(client, _, val) {
 			return !isNaN(val);
 		}
 	},
@@ -73,12 +62,12 @@ let types = [
 		static deserialize(client, _, val) {
 			return val == "false" ? false : true;
 		}
-		
+
 		static render(client, msg, val) {
 			return getString(msg.author.lang, val.toString() == "true" ? "Enabled" : "Disabled");
 		}
 
-		static validate(client, msg, val) {
+		static validate(client, _, val) {
 			return ["true", "false"].includes(val.toLowerCase());
 		}
 	},
@@ -96,20 +85,67 @@ let types = [
 			return "string";
 		}
 
-		static serialize(client, _, val) {
-			return "" + val;
+		static serialize(client, _, values) {
+			if (!values) return "";
+
+			if (Array.isArray(values)) {
+				let array = [];
+
+				for (var value of values) {
+					array.push("" + value);
+				}
+
+				return value;
+			}
+
+			return "" + values;
 		}
 
-		static deserialize(client, _, val) {
-			return "" + val;
-		}
-		
-		static render(client, _, val) {
-			return "" + val;
+		static deserialize(client, _, values) {
+			if (!values) return "";
+
+			if (Array.isArray(values)) {
+				let array = [];
+
+				for (var value of values) {
+					array.push("" + value);
+				}
+
+				return value;
+			}
+
+			return "" + values;
 		}
 
-		static validate() {
-			return true;
+		static render(client, _, values) {
+			if (!values) return "";
+
+			if (Array.isArray(values)) {
+				let array = [];
+
+				for (var value of values) {
+					array.push("" + value);
+				}
+
+				return value;
+			}
+
+			return "" + values;
+		}
+
+		static validate(client, _, values) {
+			if (!values) return false;
+
+			if (Array.isArray(values)) {
+				for (var value of values) {
+					if (typeof value !== "string")
+						return false;
+				}
+
+				return true;
+			}
+
+			return typeof values == "string";
 		}
 	},
 
@@ -126,7 +162,7 @@ let types = [
 			return "command";
 		}
 
-		static serialize(client, msg, val) {
+		static serialize(client, _, val) {
 			let cmd = client.commandHandler.aliases.get(val);
 			if (cmd)
 				return cmd.id;
@@ -134,13 +170,41 @@ let types = [
 			return this.nullValue;
 		}
 
-		static deserialize(client, msg, val) {
-			return val ? client.commandHandler.modules.get(val) : this.nullValue;
+		static deserialize(client, _, values) {
+			if (!values) return this.nullValue;
+
+			if (Array.isArray(values)) {
+				let array = [];
+
+				for (var value of values) {
+					array.push(client.commandHandler.modules.get(value));
+				}
+
+				return array;
+			}
+
+			return client.commandHandler.modules.get(values);
 		}
-		
-		static render(client, msg, val) {
-			let cmd = this.deserialize(client, msg, val);
-			return cmd ? cmd.id : this.nullValue;
+
+		static render(client, _, values) {
+			let command;
+			if (!values) return this.nullValue;
+
+			if (Array.isArray(values)) {
+				let array = [];
+
+				for (var value of values) {
+					command = this.deserialize(client, _, value);
+
+					if (!command) continue;
+					array.push(command.id);
+				}
+
+				return array;
+			}
+
+			command = this.deserialize(client, _, values);
+			return command ? command.id : this.nullValue;
 		}
 
 		static validate(client, _, val) {
@@ -180,7 +244,7 @@ let types = [
 		}
 		
 		static deserialize(client, msg, val) {
-			return val ? client.channels.get(val) : this.nullValue;
+			return val ? msg.guild.channels.get(val) : this.nullValue;
 		}
 
 		static render(client, msg, val) {
@@ -189,15 +253,18 @@ let types = [
 		}
 
 		static validate(client, msg, val) {
-			// console.log(client);
-			try {
-				let isID = /(?:<#)?(\d{17,19})>?/.test(val);
-				let isName = !!msg.guild.channels.find(c => c.name ? c.name.toLowerCase() : "" == val.toLowerCase() && c.type == "text");
-				return isName || isID;
-			} catch (e) {
-				console.error(e);
-				return false;
+			let channelIDregex = /(?:<#)?(\d{17,19})>?/;
+			if (channelIDregex.test(val)) {
+				let channelID = val.match(channelIDregex)[1];
+				if (msg.guild.channels.has(channelID))
+					return true;
 			}
+
+			let isName = msg.guild.channels.find(c => c.name ? c.name.toLowerCase() : "" == val.toLowerCase() && c.type == "text");
+			if (isName)
+				return true;
+
+			return false;
 		}
 	},
 
@@ -247,61 +314,20 @@ let types = [
 				return false;
 			}
 		}
-	},
-
-	// Array is a bit of a special one; in the (de)serialization methods,
-	// the val variable refers to an array of objects, not of values themselves,
-	// where the objects are something like {type: "string", value: "something just like this"}
-	class ArrayType {
-		constructor() {
-			this.id = "array"
-		}
-
-		static get nullValue() {
-			return [];
-		}
-
-		static get id() {
-			return "array";
-		}
-
-		static serialize(client, msg, val) {
-			return val.map(value => {
-				// console.log(value, findType(value.type), findType(value.type).serialize);
-				return { type: value.type, value: findType(value.type).serialize(client, msg, value.value) };
-			})
-		}
-
-		static deserialize(client, msg, val) {
-			//console.log(val)
-			return val instanceof Array ? val.map(value => {
-				// console.log(value, findType(value.type));
-				return findType(value.type).deserialize(client, msg, value.value)
-			}) : [val];
-		}
-		
-		static render(client, msg, val) {
-			return ArrayType.deserialize(client, msg, val).join("\n");
-		}
-
-		static validate(client, msg, val) {
-			return Array.isArray(val) && val.every(value => !!value.type && value.value != undefined);
-		}
-	},
+	}
 ];
 
-function findType(id) {
-	return types.filter(type => type.id == id)[0];
+function findType(key) {
+	return types.filter(type => type.id == settingProps[key].replace(":ex", ''))[0];
 }
 
 function getKey(client, msg, key) {
-	let data = client.db.serverconfig.findOne({guildID: msg.guild.id});
-	//console.log(data, key, data[key])
-	let obj = data[key];
-	return findType(obj.type).deserialize(client, msg, obj.value);
+	let data = require("./utils/database.js").serverconfig.findOne({guildID: msg.guild.id});
+
+	let value = data[key];
+	return findType(key).deserialize(client, msg, value);
 }
 
 module.exports = {
-//	ConfigurationKey,
-	types, findType, getKey
+	types, findType, getKey, settingProps
 };

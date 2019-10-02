@@ -11,11 +11,9 @@ module.exports = class messageReactionAddListener extends Listener {
 
 	async exec(reaction, user) {
 		const message = reaction.message;
-		const channel = await this.client.db.serverconfig.get(this.client, message, "starboardchannel");
-
-    	if (message.partial) await message.fetch();
-
+		if (message.partial) await message.fetch();
 		if (!message.guild) return;
+
 		if (reaction.count < 3) return;
 		if (reaction.emoji.name !== '⭐') return;
 		if (message.author.id === user.id) {
@@ -25,7 +23,7 @@ module.exports = class messageReactionAddListener extends Listener {
 			}
 
 			if (message.guild.me.permissions.has('SEND_MESSAGES')) {
-                let errormessage = await message.channel.send(`${user}, you may not star your own message.`);
+				let errormessage = await message.channel.send(`${user}, you may not star your own message.`);
 
 				return errormessage.delete({timeout: 5000});
 			} else {
@@ -38,17 +36,16 @@ module.exports = class messageReactionAddListener extends Listener {
 		const reacount = await (await reaction.users.fetch()).filter(r => r.id !== message.author.id && !r.bot).size;
 		if (reacount < 3) return;
 
-		const starChannel = channel; // message.guild.channels.find("name", "starboard");
+		const starChannel = message.guild.config.render("starboardchannel"); // message.guild.channels.find("name", "starboard");
 		if (starChannel && starChannel.sendable && starChannel.embedable) {
-			if (message.channel.id == channel.id) return;
+			if (message.channel.id == starChannel.id) return;
 			let PostMessage = true;
 
 			const fetchedMessages = starChannel.messages.fetch({ limit: 100 });
 
 			const rdanny = fetchedMessages.find(m => m.cleanContent.endsWith(message.id));
-			if(rdanny && message.guild.me.permissions.has('MANAGE_MESSAGES')) {
+			if (rdanny && message.guild.me.permissions.has('MANAGE_MESSAGES'))
 				rdanny.delete();
-			}
 
 			const stars = fetchedMessages.find(m => m.embeds[0] && m.embeds[0].footer && m.embeds[0].footer.text.startsWith('⭐') && m.embeds[0].footer.text.endsWith(message.id));
 			if (stars) {
@@ -82,16 +79,16 @@ module.exports = class messageReactionAddListener extends Listener {
 			}
 		}
 
-        let pointsUser = this.client.db.points.findOne({guild: message.guild.id, member: message.author.id}) || this.client.db.points.insert({guild: message.guild.id, member: message.author.id, points: 0, level: 0});
+		let pointsUser = this.client.db.points.findOne({guild: message.guild.id, member: message.author.id}) || this.client.db.points.insert({guild: message.guild.id, member: message.author.id, points: 0, level: 0});
 
-        if(reacount == 3) {
-            //If the reaction count is 3, the user gets 20 points
-            pointsUser.points = 20 + user.points;
-        } else if (reacount > 3) {
-            pointsUser.points = 5 + user.points;
-        }
+		if(reacount == 3) {
+			//If the reaction count is 3, the user gets 20 points
+			pointsUser.points = 20 + user.points;
+		} else if (reacount > 3) {
+			pointsUser.points = 5 + user.points;
+		}
 
-        this.client.db.points.update(pointsUser);
+		this.client.db.points.update(pointsUser);
 	}
 }
 

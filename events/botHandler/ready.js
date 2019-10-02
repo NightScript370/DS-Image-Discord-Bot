@@ -8,23 +8,27 @@ module.exports = class ReadyListener extends Listener {
 		super('ready', {
 			emitter: 'client',
 			event: 'ready',
-			category: 'botHandler'
+			category: 'botHandler',
+			type: 'once'
 		});
 	}
 
 	async exec() {
 		const wait = require('util').promisify(setTimeout);
-		await wait(8000);
+		await wait(6000);
 
-		this.client.db.serverconfig.get = require("../../Configuration").getKey; // Short-hand declare a variable to be an existing function
-
-		this.client.user.setStatus('online');
-		this.client.util.setDefaultStatus(this.client);
+		this.client.db.serverconfig.getKey = require("../../Configuration").getKey; // Short-hand declare a variable to be an existing function
 
 		this.client.listenerHandler.setEmitters({
 			commandHandler: this.client.commandHandler,
 			listenerHandler: this.client.listenerHandler
 		});
+
+		this.client.listenerHandler.load(process.cwd() +'/events/commandHandler/load.js');
+		this.client.commandHandler.loadAll();
+
+		this.client.user.setStatus('online');
+		this.client.util.setDefaultStatus(this.client);
 
 		try {
 			this.client.website = await require("../../website/index.js")(this.client);
@@ -33,7 +37,7 @@ module.exports = class ReadyListener extends Listener {
 			console.error('[WEBSITE] Failed to load: ' + e);
 		}
 
-		/* if (config.dbl) {
+		if (config.dbl) {
 			try {
 				const DBL = require("dblapi.js");
 				this.client.dbl = await new DBL(config.DBLtoken, { webhookPort: this.client.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.client.website.server, statsInterval: 7200000 }, this.client);
@@ -48,10 +52,11 @@ module.exports = class ReadyListener extends Listener {
 			} catch (e) {
 				console.error('[DiscordBots.org] Failed to load: ' + e)
 			}
-		} */
+		}
 
-		this.client.listenerHandler.remove('ready')
-		this.client.listenerHandler.loadAll();
+		await this.client.listenerHandler.remove('ready');
+		await this.client.listenerHandler.remove('commandHandlerLoad');
+		await this.client.listenerHandler.loadAll();
 
 		console.log(`My body, ${this.client.user.username} is ready to serve ${this.client.users.size} users in ${this.client.guilds.size} servers!`);
 

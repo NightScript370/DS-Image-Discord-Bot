@@ -18,7 +18,7 @@ module.exports = class UpdateCommand extends Command {
 		let responce = await message.util.send('Updating bot');
 		
 		try {
-			execSync('git fetch origin && git reset --hard origin/master');
+			execSync('git pull');
 			responce.edit('Bot updated successfully, please reload the changes');
 		} catch (e) {
 			console.error(e);

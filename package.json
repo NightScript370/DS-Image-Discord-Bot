@@ -9,6 +9,7 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "bufferutil": "^4.0.1",
+    "cache-require-paths": "^0.3.0",
     "canvas": "^2.6.0",
     "chalk": "^2.4.2",
     "compression": "^1.7.4",
@@ -26,6 +27,7 @@
     "hangman-game-engine": "^1.1.3",
     "helmet": "^3.20.1",
     "including-range-array": "^1.0.0",
+    "list": "^2.0.18",
     "list-array": "^2.5.2",
     "lokijs": "^1.5.6",
     "moment": "^2.24.0",

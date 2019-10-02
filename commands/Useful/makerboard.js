@@ -43,8 +43,8 @@ module.exports = class MakerBoardCommand extends Command {
 					flag: ['makerBoardURL:', 'url:', 'makerboard:', 'website:'],
 					default: msg => {
 						if (!msg.guild) return null;
-						let serverconfig = this.client.db.serverconfig.findOne({guildID: msg.guild.id}) || this.client.setDefaultSettings(msg.guild);
-						return serverconfig.makerboard.value;
+						
+						return msg.guild.conf.data.makerboard;
 					}
 				},
 				{

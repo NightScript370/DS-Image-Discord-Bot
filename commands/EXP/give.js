@@ -7,7 +7,7 @@ module.exports = class ServerPointsCommand extends Command {
 			category: 'Experience Points',
 			description: {
 				content: 'Give a server member a specified amount of points.',
-				usage: '<user. Leave blank for your points> guild:<optional field. This is available for viewing a specific guild\'s user point>',
+				usage: '<user> <amount> guild:[OPTIONAL: Make transaction on different server]',
 				examples: ['178261738364338177', '209041316867342336 guild:318882333312679936']
 			},
 			args: [

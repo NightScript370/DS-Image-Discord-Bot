@@ -43,7 +43,7 @@ module.exports = class ServerPointsCommand extends Command {
 		if (guild) {
 			if(!message.guild || (message.guild && message.guild.id !== guild.id)) {
 				let guildFind = this.client.guilds.get(guild.id)
-				if (!guildFind) return message.util.reply(__("Yamamura is not in that server. Therefore, I cannot get that server's points"));
+				if (!guildFind) return message.util.reply(__("{0} is not in that server. Therefore, I cannot get that server's points", this.client.user.username));
 
 				if (!guildFind.members.has(message.author.id)) return message.util.reply(__('you may not see the statistics of a server you are not in. Try again later'));
 
@@ -67,7 +67,7 @@ module.exports = class ServerPointsCommand extends Command {
 
 			let GuildPointsEmbed = this.client.util.embed()
 				.setThumbnail(guildFound.iconURL({format: 'png'}))
-				.setFooter("Points system handled by Yamamura", this.client.user.displayAvatarURL())
+				.setFooter(__("Points system handled by {0}", this.client.user.username), this.client.user.displayAvatarURL())
 				.setTimestamp(new Date());
 
 			if (guildMember)
@@ -94,7 +94,7 @@ module.exports = class ServerPointsCommand extends Command {
 		let guildsShare = false;
 		let UserEmbed = this.client.util.embed()
 			.setColor("#15f153")
-			.setTitle('Showing stats for {0}', user.username)
+			.setTitle(__('Showing stats for {0}', user.username))
 			.setTimestamp(new Date())
 			.setThumbnail(user.displayAvatarURL({format: 'png'}))
 			.setYamamuraCredits(true)
@@ -106,7 +106,7 @@ module.exports = class ServerPointsCommand extends Command {
 				this.client.db.points.insert({guild: guild.id, member: user.id, points: 0, level: 0});
 
 			guildsShare = true;
-			UserEmbed.addField(guild.name, `${user.points} (Level: ${user.level})`);
+			UserEmbed.addField(guild.name, __('{0} points (Level: {1})', user.points, user.level));
 		});
 
 		if (!guildsShare) return message.util.reply(__('we do not share any servers with this user. Please try again with a different user.'));

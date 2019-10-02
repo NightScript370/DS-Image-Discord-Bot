@@ -39,15 +39,15 @@ module.exports = class LeaderboardCommand extends Command {
 	}
 
 	async exec(msg, { guild, numberofresults }) {
+		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v);
 		let medal, username, guildFound;
-		console.log(numberofresults)
 
 		if(guild) {
 			if(!msg.guild || (msg.guild && msg.guild.id !== guild.id)) {
 				let guildFind = this.client.guilds.get(guild.id)
-				if (!guildFind) return msg.reply("Yamamura is not in that server. Therefore, I cannot get that server's points");
+				if (!guildFind) return msg.util.reply(__("{0} is not in that server. Therefore, I cannot get that server's points", this.client.user.username));
 
-				if (!guildFind.members.has(msg.author.id)) return msg.reply('you may not see the statistics of a server you are not in. Try again later');
+				if (!guildFind.members.has(msg.author.id)) return msg.util.reply(__('you may not see the statistics of a server you are not in. Try again later'));
 
 				guildFound = guildFind;
 			} else {
@@ -61,16 +61,15 @@ module.exports = class LeaderboardCommand extends Command {
 			let guildMember;
 
 			if(guildFound.me.hasPermission('EMBED_LINKS')) {
-				if(numberofresults < 9) {
-					// Now shake it and show it! (as a nice embed, too!)
-					let guildFieldEmbed = this.client.util.embed()
-						.setTitle(`Leaderboard for ${guildFound.name}`)
-						.setFooter(`Handled by Yamamura`, this.client.user.displayAvatarURL({format: 'png'}))
-						.setThumbnail(guildFound.iconURL({format: 'png'}))
-						.setTimestamp(new Date())
-						.setColor(0x00AE86);
+				let guildEmbed = this.client.util.embed()
+					.setTitle(__('Leaderboard for {0}', guildFound.name))
+					.setFooter(__("Points system handled by {0}", this.client.user.username), this.client.user.displayAvatarURL({format: 'png'}))
+					.setThumbnail(guildFound.iconURL({format: 'png'}))
+					.setTimestamp(new Date())
+					.setColor(0x00AE86);
 
-					for(const lbdata of top10) {
+				if (numberofresults < 9) {
+					for (const lbdata of top10) {
 						if (!this.client.users.has(lbdata.member)) continue;
 
 						try {
@@ -94,7 +93,7 @@ module.exports = class LeaderboardCommand extends Command {
 							if (guildMember.author.bot)
 								return;
 
-							guildFieldEmbed.addField(medal + guildMember.displayName, `${lbdata.points} points (level ${lbdata.level})`, true);
+							guildEmbed.addField(medal + guildMember.displayName, __('{0} points (Level: {1})', lbdata.points, lbdata.level), true);
 
 							if(i == numberofresults)
 								break;
@@ -102,9 +101,7 @@ module.exports = class LeaderboardCommand extends Command {
 							console.error(e)
 						}
 					}
-					guildFieldEmbed.setDescription(`Top ${i} posters`);
-
-					return await msg.util.send({embed: guildFieldEmbed});
+					guildEmbed.setDescription(__("Top {0} posters", i));
 				} else {
 					var uData = '';
 
@@ -144,7 +141,7 @@ module.exports = class LeaderboardCommand extends Command {
 									medal = i + 1;
 							}
 
-							uData += `**${medal}. <@${lbdata.member}>**: ${lbdata.points} points (level ${lbdata.level}) \n`;
+							uData += `**${medal}. <@${lbdata.member}>**: ${__('{0} points (Level: {1})', lbdata.points, lbdata.level)}\n`;
 							
 							i = i + 1;
 							
@@ -155,16 +152,10 @@ module.exports = class LeaderboardCommand extends Command {
 						}
 					}
 
-					let guildDescriptionEmbed = this.client.util.embed()
-						.setTitle(`Leaderboard for ${guildFound.name}`)
-						.setFooter(`Handled by Yamamura`, this.client.user.displayAvatarURL({format: 'png'}))
-						.setThumbnail(guildFound.iconURL({format: 'png'}))
-						.setDescription(uData)
-						.setTimestamp(new Date())
-						.setColor(0x00AE86);
-
-					return await msg.util.send({embed: guildDescriptionEmbed});
+					guildEmbed.setDescription(uData)
 				}
+
+				return await msg.util.send({embed: guildEmbed});
 			}
 
 			if(numberofresults > 18) return msg.reply("Too High!");
@@ -196,7 +187,7 @@ module.exports = class LeaderboardCommand extends Command {
 			.setColor(0x00AE86);
 
 		this.client.guilds.filter(guild => guild.members.has(msg.author.id)).forEach(guild => {
-			var leaderboard = this.client.db.points.find({ guild: guildFound.id }).sort((a, b) => b.points - a.points);
+			var leaderboard = this.client.db.points.find({ guild: guild.id }).sort((a, b) => b.points - a.points);
 			var topuser = leaderboard[0];
 
 			if (!guild.members.has(topuser.member)) return;
