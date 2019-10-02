@@ -33,28 +33,36 @@ module.exports = class FixConfigCommand extends Command {
 					value = value.value;
 				}
 
+				let numrefresh = 0;
+
 				if (!settingProps[prop].endsWith(':ex')) {
-					while (value instanceof Array) {
+					while (value instanceof Array && value.length && numrefresh < 100) {
 						value = value[0];
+						numrefresh++;
 					}
 				} else {
 					if (!(Array.isArray(value)))
 						value = [ value ];
 
-					let numrefresh;
-
 					for (var valueinvalue of value) {
 						numrefresh = 0;
 
-						while (typeof valueinvalue !== 'string' && numrefresh < 100) {
-							while (Array.isArray(valueinvalue)) {
+						while (typeof valueinvalue !== 'string') {
+							console.log("PRE MODS:", valueinvalue)
+
+							if (Array.isArray(valueinvalue) && valueinvalue.length) {
+								console.log("PRE ARRAY:", valueinvalue)
 								valueinvalue = valueinvalue[0];
+								console.log("POST ARRAY:", valueinvalue)
 							}
 
-							while (valueinvalue.value) {
+							if (valueinvalue.value) {
+								console.log("PRE TAKEOUTVALUE:", valueinvalue)
 								valueinvalue = valueinvalue.value
+								console.log("POST TAKEOUTVALUE:", valueinvalue)
 							}
 
+							console.log("POST MODS:", valueinvalue)
 							numrefresh++;
 						}
 					}
