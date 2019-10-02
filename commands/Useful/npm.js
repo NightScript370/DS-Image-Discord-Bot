@@ -23,7 +23,7 @@ module.exports = class NPMCommand extends Command {
 						if (!pkg) return null;
 
 						try {
-							let data = await request({ url: encodeURIComponent(pkg.toLowerCase().replace(/ /g, "-")), json: true })
+							let data = await request({ url: `https://registry.npmjs.com/${encodeURIComponent(pkg.toLowerCase().replace(/ /g, "-"))}`, json: true })
 							if (data.statusCode === 404)
 								return null;
 
