@@ -37,12 +37,12 @@ module.exports = class KickCommand extends Command {
 			return msg.reply("I cannot kick this user");
 
 		if (msg.member.roles.highest.position <= member.roles.highest.position)
-			return msg.reply("You can't kick someone who has a higher role position than you.");
+			return msg.reply("You can't kick someone who has an equal or higher role position than you.");
 
 		if (member.hasPermission("MANAGE_MESSAGES") && !msg.member.hasPermission("ADMINISTRATOR"))
 			return msg.reply("You need to have the `Administrator` permission in order to kick moderators");
 
-		if (member.hasPermission("ADMINISTRATOR") && msg.guild.ownerId !== msg.member.id)
+		if (member.hasPermission("ADMINISTRATOR") && msg.guild.owner.id !== msg.member.id)
 			return msg.reply("You need to be the server owner in order to kick Administrators")
 
         this.client.moderation.kick(this.client, member, reason, msg.member, msg)

@@ -31,12 +31,12 @@ module.exports = class WarnCommand extends Command {
 			let author = msg.member;
 
 			if (author.roles.highest.position <= member.roles.highest.position)
-				return msg.util.reply(__("You can't list the warnings of someone who has a higher role position than you."));
+				return msg.util.reply(__("You can't list the warnings of someone who has an equal or higher role position than you."));
 
 			if (member.hasPermission("MANAGE_MESSAGES") && !author.hasPermission("ADMINISTRATOR"))
 				return msg.util.reply(__("You need to have the `Administrator` permission in order to look at a moderators warnings"));
 
-			if (member.hasPermission("ADMINISTRATOR") && msg.guild.ownerId !== author.id)
+			if (member.hasPermission("ADMINISTRATOR") && msg.guild.owner.id !== author.id)
 				return msg.util.reply(__("You need to be the server owner in order to list an Administrators warning"));
 		}
 

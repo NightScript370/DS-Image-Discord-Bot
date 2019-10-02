@@ -35,7 +35,7 @@ module.exports = class WarnCommand extends Command {
 
 	exec(msg, { member, reason }) {
 		if (msg.member.roles.highest.position <= member.roles.highest.position)
-			return msg.util.reply("You can't warn someone who has a higher role position than you.");
+			return msg.util.reply("You can't warn someone who has an equal or higher role position than you.");
 
 		if (member.hasPermission("MANAGE_MESSAGES") && !msg.member.hasPermission("ADMINISTRATOR"))
 			return msg.util.reply("You need to have the `Administrator` permission in order to warn moderators");

@@ -61,12 +61,12 @@ module.exports = class BanCommand extends Command {
 				return msg.util.reply(__("I cannot ban this user."));
 
 			if (author.roles.highest.position <= member.roles.highest.position)
-				return msg.util.reply(__("You can't ban someone who has a higher role position than you."));
+				return msg.util.reply(__("You can't ban someone who has an equal or higher role position than you."));
 
 			if (member.hasPermission("MANAGE_MESSAGES") && !author.hasPermission("ADMINISTRATOR"))
 				return msg.util.reply(__("You need to have the `Administrator` permission in order to ban moderators."));
 
-			if (member.hasPermission("ADMINISTRATOR") && msg.guild.ownerId !== author.id)
+			if (member.hasPermission("ADMINISTRATOR") && msg.guild.owner.id !== author.id)
 				return msg.util.reply(__("You need to be the server owner in order to ban Administrators."));
 
 			if (member.id == author.id)
