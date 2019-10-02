@@ -74,7 +74,7 @@ module.exports = class NPMCommand extends Command {
 
 		if (body.author && maintainers.toUpperCase() !== body.author.name.toUpperCase())
 			embed.addField(global.getString(message.author.lang, "Maintainers"), maintainers);
-		return message.util.send(global.getString(message.author.lang, "NPM Package: {0}", body.name) + `\nhttps://www.npmjs.com/package/${pkg}`, { embed });
+		return message.util.send(global.getString(message.author.lang, "NPM Package: {0}", body.name) + `\nhttps://www.npmjs.com/package/${body._id}`, { embed });
 	}
 
 	_trimArray(arr) {
