@@ -3,6 +3,16 @@ const Hangman = require('hangman-game-engine');
 
 const heads = require("./../../assets/JSON/hangman.json");
 
+function toHiragana(string) {
+	let returnString = "";
+	for(let i=0;i<string.length;i++) {
+		let c = string.charCodeAt(i);
+		if(c >= 0x30A1 && c <= 0x30F6)	c -= 96;
+		returnString += String.fromCharCode(c);
+	}
+	return returnString;
+}
+
 module.exports = class HangmanCommand extends Command {
 	constructor() {
 		super('hangman', {
@@ -79,14 +89,14 @@ module.exports = class HangmanCommand extends Command {
 		}
 
 		const [fAtt, rAtt] = [game.failedGuesses, game.config.maxAttempt-game.failedGuesses]
-		const rightGuesses = game.guessedLetters.filter(gl => game.hiddenWord.map(l => l.toLowerCase()).includes(gl))
+		const rightGuesses = game.guessedLetters.filter(gl => game.hiddenWord.map(l => toHiragana(l.toLowerCase())).includes(gl))
 
 		message += "\n`" + game.hiddenWord.join("") + "`";
 
 		embed
 			.setDescription(heads[game.failedGuesses])
 			.addInline(`Right guesses (${rightGuesses.length})`, rightGuesses.join(", ") || "None")
-			.addInline(`Wrong guesses (${fAtt})`, game.guessedLetters.filter(gl => !game.hiddenWord.map(l => l.toLowerCase()).includes(gl)).join(", ") || "None")
+			.addInline(`Wrong guesses (${fAtt})`, game.guessedLetters.filter(gl => !game.hiddenWord.map(l => toHiragana(l.toLowerCase())).includes(gl)).join(", ") || "None")
 			.addField("Guessed Attempts", game.guessedLetters.join(", ") || "None")
 			.setFooter(`Remaining Attempts: ${rAtt}`)
 
