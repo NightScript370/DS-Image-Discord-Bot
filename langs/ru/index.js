@@ -148,7 +148,9 @@ module.exports = {
     "It can fulfill your server's moderation needs and create fun events for your community to enjoy": "Он может надать вам вашые требования модерации и создавать для вашего сообщества ивенты и игры" //Damn this was hard to translate along with the next line.
     "Yamamura is an all-in-one Discord bot dedicated to helping modding communities and more.": "Yamamura - это всё-в-одном Дискорд бот преданный помагать сообществам моддингу и болше."
     "Adds a vote to skip the currently playing music.": "Добавляет голос пропутить сейчас-играющюю музыку."
-    
+    "Give a server member a specified amount of points.": "Дать пользователю спецефичиское число очков."
+    "List all those with the highest amount of points": "Показать всех с самым большым количеством очков"
+    "Shows a user's experience points.": "Показывает количество очков пользователя."
     "": "",
     "": "",
     "": "",
