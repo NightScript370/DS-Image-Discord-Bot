@@ -77,7 +77,7 @@ module.exports = class FeudCommand extends Command {
 		if (display.includes(this.hiddenCharacter))
 			resultEmbed.setDescription(`Better luck next time! You scored ${score} points.`);
 
-		return msg.channel.send(resultEmbed);
+		return msg.util.send(resultEmbed);
 	}
 	
 	async fetchSuggestions(question) {
