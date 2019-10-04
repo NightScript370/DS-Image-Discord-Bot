@@ -87,7 +87,7 @@ module.exports = (client) => {
 
 	for (let router of routers) {
 		var routerFunction = require("./router/" + router);
-		website.express.use(routerFunction.id, routerFunction.exec)
+		website.express.use(routerFunction.id, routerFunction.router)
 	}
 	
 	website.express.get('*', (request, response) => response.redirect("/"));
