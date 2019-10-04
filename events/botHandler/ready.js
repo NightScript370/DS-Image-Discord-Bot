@@ -38,20 +38,26 @@ module.exports = class ReadyListener extends Listener {
 			console.error('[WEBSITE] Failed to load: ' + e);
 		}
 
-		if (config.dbl) {
+		this.client.botlist = {};
+
+		if (config.TopGG) {
 			try {
 				const TopGG = await require("dblapi.js");
-				this.client.dbl = await new TopGG(config.DBLtoken, { webhookPort: this.client.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.client.website.server, statsInterval: 7200000 }, this.client)
-					.on("error", (error) => console.error(`[DiscordBots.org] An error has occured: ${error}`))
+				this.client.botlist.TopGG = await new TopGG(config.TopGG.token, {
+						webhookPort: this.client.website.express.get('port'),
+						webhookAuth: config.TopGG.webhookpass,
+						webhookServer: this.client.website.server,
+						statsInterval: 7200000
+					}, this.client)
 
-				console.log("TOP.GG", this.client.dbl)
+				console.log("TOP.GG", this.client.botlist.TopGG)
 
-				if (this.client.dbl) {
-					if (isEventEmitter(this.client.dbl))
-						this.client.listenerHandler.setEmitters({dbl: this.client.dbl});
+				if (this.client.botlist.TopGG) {
+					if (isEventEmitter(this.client.botlist.TopGG))
+						this.client.listenerHandler.setEmitters({dbl: this.client.botlist.TopGG});
 
-					if (this.client.dbl.webhook && isEventEmitter(this.client.dbl.webhook))
-						this.client.listenerHandler.setEmitters({dblwebhook: this.client.dbl.webhook});
+					if (isEventEmitter(this.client.botlist.TopGG.webhook))
+						this.client.listenerHandler.setEmitters({dblwebhook: this.client.botlist.TopGG.webhook});
 				}
 			} catch (e) {
 				console.error('[DiscordBots.org] Failed to load: ' + e)
