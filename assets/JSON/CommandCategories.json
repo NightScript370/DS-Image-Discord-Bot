@@ -1,22 +1,22 @@
 {
 	"Audio": {
-		color: "PINK",
-		description: "Commands that enable you to play Audio via Yamamura"
+		"color": "PINK",
+		"description": "Commands that enable you to play Audio via Yamamura"
 	},
 	"Bot Utilities": {
-		color: "GREY",
-		description: "Check Yamamura statistics, see the available commands and some other developer stuff"
+		"color": "GREY",
+		"description": "Check Yamamura statistics, see the available commands and some other developer stuff"
 	},
 	"Game Server Statistics": {
-		color: "GREEN",
-		description: "Get statistics on servers for games such as Minecraft, Call Of Duty and much more"
+		"color": "GREEN",
+		"description": "Get statistics on servers for games such as Minecraft, Call Of Duty and much more"
 	},
 	"EXP": {
-		color: "YELLOW",
-		description: "Allows users to earn experience points on servers as they send messages."
+		"color": "YELLOW",
+		"description": "Allows users to earn experience points on servers as they send messages."
 	},
 	"Games": {
-		color: "ORANGE",
-		description: "Play games with Yamamura"
+		"color": "ORANGE",
+		"description": "Play games with Yamamura"
 	}
 }
