@@ -4,7 +4,7 @@ const passport = require("passport");
 const extra = require('../extraFunctions');
 
 router
-	.get("/", extra.isAuth, (request, response) => response.render("profile", extra.parameters(request))
+	.get("/", extra.isAuth, (request, response) => response.render("profile", extra.parameters(request)))
 	.get("/login", passport.authenticate("discord", { failureRedirect: "/" }), (request, response) => response.redirect("/profile"))
 	.get("/logout", async (request, response) => {
 		await request.logout();
