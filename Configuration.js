@@ -60,7 +60,7 @@ let types = [
 		}
 
 		static get nullValue() {
-			return null;
+			return false;
 		}
 
 		static get id() {
@@ -80,6 +80,7 @@ let types = [
 		}
 
 		static validate(client, _, val) {
+		    if (val.toLowerCase() == "null") val = "false";
 			return ["true", "false"].includes(val.toLowerCase());
 		}
 	},
