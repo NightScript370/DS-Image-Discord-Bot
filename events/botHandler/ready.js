@@ -40,11 +40,11 @@ module.exports = class ReadyListener extends Listener {
 
 		if (config.dbl) {
 			try {
-				const DBL = require("dblapi.js");
-				this.client.dbl = await new DBL(config.DBLtoken, { webhookPort: this.client.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.client.website.server, statsInterval: 7200000 }, this.client)
+				const TopGG = await require("dblapi.js");
+				this.client.dbl = await new TopGG(config.DBLtoken, { webhookPort: this.client.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.client.website.server, statsInterval: 7200000 }, this.client)
 					.on("error", (error) => console.error(`[DiscordBots.org] An error has occured: ${error}`))
 
-				console.log(this.client.dbl)
+				console.log("TOP.GG", this.client.dbl)
 
 				if (this.client.dbl) {
 					if (isEventEmitter(this.client.dbl))
