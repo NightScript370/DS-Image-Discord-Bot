@@ -1,4 +1,4 @@
-module.exports = require("../en/hangman");
+const L = require("list");
 
 module.exports = L.list(
 	"にんげん", // 人間 – human (ningen)
