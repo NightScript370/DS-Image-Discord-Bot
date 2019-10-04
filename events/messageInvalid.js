@@ -136,7 +136,7 @@ module.exports = class messageInavlidListener extends Listener {
 				.replaceAll("{{server}}", message.guild.name)
 				.replaceAll("{{user}}", message.author.username)
 				.replaceAll("{{ping}}", `<@${message.author.id}>`)
-				.replaceAll("{{level}}", level)
+				.replaceAll("{{level}}", curLevel)
 
 			if (levelupmsg) {
 				console.log(`I sent a level up message in ${message.guild.name} (${message.guild.id}) for ${message.author.username} (${message.author.id}): ${levelupmsg}`)
