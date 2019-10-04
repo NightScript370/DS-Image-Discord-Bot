@@ -163,7 +163,10 @@ module.exports = class CommandsCommand extends Command {
 				if (!makeFields)
 					embed.setDescription(commandList.join('\n'))
 
-				embed.setFooter(__("Total Commands: {0}", commands.length));
+				embed.setFooter(__("Total Commands in this category: {0}", commands.length));
+
+				if (category.color)
+					embed.setColor(category.color)
 
 				return msg.channel.send(__("Category listing: {0}", __(category.id)), embed);
 			}
