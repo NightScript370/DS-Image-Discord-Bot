@@ -11,32 +11,25 @@ module.exports = class messageInavlidListener extends Listener {
     }
 
 	async exec(message) {
-		if (this.invalidMessage(message) == true) return console.log("This is caught by the invalid message catcher");
+		if (this.invalidMessage(message) == true) return;
 
-		if (!message.guild) return console.log("This is not a guild");
-		if (this.antispam(message) == true) return console.log("This is caught by the anti-spam");
+		if (!message.guild) return;
+		if (this.antispam(message) == true) return;
 
 		this.handlePoints(message)
 	}
 
 	async invalidMessage(message) {
-		if (!Object.keys(message.util.parsed).length) {
-			console.log("There is no parsed method, returning false")
+		if (!Object.keys(message.util.parsed).length)
 			return false;
-		}
 
 		const attempt = message.util.parsed.alias;
-		console.log("attempt", attempt);
 
-		if (!attempt) {
-			console.log("There was no attempt, return false");
+		if (!attempt)
 			return false;
-		};
 
-		if (Array.from(message.util.handler.aliases.keys()).includes(attempt)) {
-			console.log("This indeed was a command execution, return true")
+		if (Array.from(message.util.handler.aliases.keys()).includes(attempt))
 			return true;
-		};
 
 		if (!message.channel.sendable) return false;
 		if (message.util.parsed.prefix !== `<@${this.client.user.id}>` && message.guild) {

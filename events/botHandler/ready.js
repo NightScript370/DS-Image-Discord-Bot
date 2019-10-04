@@ -32,7 +32,6 @@ module.exports = class ReadyListener extends Listener {
 
 		try {
 			this.client.website = await require("../../website/index.js")(this.client);
-			console.log("Website", this.client.website)
 			this.client.listenerHandler.setEmitters({httpServer: this.client.website.server});
 		} catch (e) {
 			console.error('[WEBSITE] Failed to load: ' + e);
@@ -49,8 +48,6 @@ module.exports = class ReadyListener extends Listener {
 						webhookServer: this.client.website.server,
 						statsInterval: 7200000
 					}, this.client)
-
-				console.log("TOP.GG", this.client.botlist.TopGG)
 
 				if (this.client.botlist.TopGG) {
 					if (isEventEmitter(this.client.botlist.TopGG))
