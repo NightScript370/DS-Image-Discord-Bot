@@ -1174,5 +1174,6 @@ module.exports = L.list(
 	"chissà",
 	"sino",
 	"ognuno",
-    "entro"
+    "entro",
+    "approssimativamente",
 );
