@@ -62,7 +62,7 @@ module.exports = class NintendoWiiUCommand extends Command {
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.');
 
-		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'wiiu', 'WiiU_Case.png'));
+		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'WiiU_Case.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 

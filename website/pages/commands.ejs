@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-	<% var subtitle = "Commands" %>
 	<% include ../parts/head %>
 	<!-- Start content -->
 
@@ -9,7 +8,6 @@
 		const path = require('path')
 
 		let categories = Array.from(client.commandHandler.categories.entries());
-		let catNames = categories.map(arr => arr[0]);
 		let cats = categories.map(arr => arr[1]).sort((c1, c2) => c1.id.localeCompare(c2.id));
 
 		let cmds = cats.map(cat => Array.from(cat.entries()).map(c => c[1])).flat();
@@ -17,10 +15,10 @@
 		let iconlist = fs.readdirSync(path.join(process.cwd(), 'website', 'public', 'icons'));
 
 		function iconExist(cmd) {
-				return iconlist.filter(item => item === `${cmd.id}.png`).length;
+			return iconlist.filter(item => item === `${cmd.id}.png`).length;
 		}
 	%>
-	
+
 	<br>
 	<h2 class="text-center">Commands</h2>
 	<p class="text-center">
@@ -32,20 +30,19 @@
 			<div class="col-md-3 col-sm-4">
 				<div id="tab-sidebar" class="nav nav-pills" role="tablist" aria-orientation="vertical">
 					<%
-						let defaultcategory = "Useful";
 						cats.forEach(category => {
 							let catCmds = cmds.filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));
 							if (catCmds.length > 0) {
 								%><%- `<a class="nav-link col-12 ${defaultcategory == category ? 'active' : ''}" id="${category}-tab" data-toggle="pill" href="#${category}" role="pill" aria-controls="${category}" aria-selected="${defaultcategory == category ? 'true' : 'false'}">
 												${category} [${catCmds.length}]
-											 </a>` %><%
+											</a>` %><%
 							}
 						});
 					%>
 
-						<a class="nav-link col-12" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="false">
-							All Commands [<%- cmds.length %>]
-						</a>
+					<a class="nav-link col-12" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="false">
+						All Commands [<%- cmds.length %>]
+					</a>
 				</div>
 				<br>
 				<br>
@@ -110,7 +107,7 @@
 														break;
 												}
 											}
- 
+
 											table += `<li class="list-group-item"><b>${arg.id}</b> ${arg.description ? `- ${arg.description}` : ''}</li>`;
 										}
 										table += '</ul>';

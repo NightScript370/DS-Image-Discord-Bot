@@ -1,11 +1,12 @@
 const config = require("../config.js");
 const List = require("list-array");
 const path = require("path");
+const fs = require('fs')
+const routers = fs.readdirSync(path.join(process.cwd(), 'website', 'router'));
 
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const routes = require('./routes.js');
 const http = require('http');
 const { Strategy } = require("passport-discord");
 
@@ -84,7 +85,12 @@ module.exports = (client) => {
 		console.error("[WEBSITE] Failed to load Morgan!");
 	}
 
-	website.express = routes(website.express, client);
+	for (let router of routers) {
+		var routerFunction = require("./router/" + router);
+		website.express.use(routerFunction.id, routerFunction.router)
+	}
+	
+	website.express.get('*', (request, response) => response.redirect("/"));
 
 	// ===================
 	// set up modules

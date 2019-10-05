@@ -1,7 +1,7 @@
 try { require('cache-require-paths'); } catch {}
 try {   require('dotenv').config();   } catch {}
 
-const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler, ClientUtil } = require('discord-akairo');
+const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } = require('discord-akairo');
 const config = require("./config.js");
 const List = require("list-array");
 const BackEmbed = require('./embed.js');
