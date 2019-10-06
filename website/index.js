@@ -62,7 +62,8 @@ module.exports = (client) => {
 					});
 			}
 		})
-		.set('port', process.env.PORT || 3000);
+		.set('port', process.env.PORT || 3000)
+		.set('clientId', client.user.id);
 
 	try {
 		const helmet = require('helmet');

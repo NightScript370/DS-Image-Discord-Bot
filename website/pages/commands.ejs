@@ -33,7 +33,7 @@
 						cats.forEach(category => {
 							let catCmds = cmds.filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));
 							if (catCmds.length > 0) {
-								%><%- `<a class="nav-link col-12 ${defaultcategory == category ? 'active' : ''}" id="${category}-tab" data-toggle="pill" href="#${category}" role="pill" aria-controls="${category}" aria-selected="${defaultcategory == category ? 'true' : 'false'}">
+								%><%- `<a class="nav-link col-12 ${defaultCategory == category ? 'active' : ''}" id="${category}-tab" data-toggle="pill" href="#${category}" role="pill" aria-controls="${category}" aria-selected="${defaultcategory == category ? 'true' : 'false'}">
 												${category} [${catCmds.length}]
 											</a>` %><%
 							}

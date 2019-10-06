@@ -58,8 +58,8 @@ router
 		object.widgets = [
 			{
 				website: 'discordbotlist.com',
-				imageurl: `https://discordbotlist.com/bots/${client.user.id}/widget`,
-				link: `https://discordbotlist.com/bots/${client.user.id}`,
+				imageurl: `https://discordbotlist.com/bots/${express.get('clientId')}/widget`,
+				link: `https://discordbotlist.com/bots/${express.get('clientId')}`,
 				size: {
 					width: 380,
 					height: 150
@@ -67,13 +67,13 @@ router
 			},
 			{
 				website: 'discordbots.org',
-				imageurl: `https://discordbots.org/api/widget/${client.user.id}.svg?usernamecolor=FFFFFF&topcolor=7289DA`,
-				link: `https://discordbots.org/bot/${client.user.id}`
+				imageurl: `https://discordbots.org/api/widget/${express.get('clientId')}.svg?usernamecolor=FFFFFF&topcolor=7289DA`,
+				link: `https://discordbots.org/bot/${express.get('clientId')}`
 			},
 			{
 				website: 'discord.boats',
-				imageurl: `https://discord.boats/API/V2/widget/${client.user.id}`,
-				link: `https://discord.boats/bot/${client.user.id}`
+				imageurl: `https://discord.boats/API/V2/widget/${express.get('clientId')}`,
+				link: `https://discord.boats/bot/${express.get('clientId')}`
 			}
 		];
 		response.render("support", object)
