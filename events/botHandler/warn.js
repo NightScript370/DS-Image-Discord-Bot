@@ -10,6 +10,6 @@ module.exports = class warnListener extends Listener {
 	}
 
 	exec(warning) {
-		console.log(warning);
+		console.log("[CLIENT][WARN]", warning);
 	}
 };
