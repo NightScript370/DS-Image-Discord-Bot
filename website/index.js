@@ -62,8 +62,7 @@ module.exports = (client) => {
 					});
 			}
 		})
-		.set('port', process.env.PORT || 3000)
-		.set('clientId', client.user.id);
+		.set('port', process.env.PORT || 3000);
 
 	try {
 		const helmet = require('helmet');
@@ -86,9 +85,10 @@ module.exports = (client) => {
 		console.error("[WEBSITE] Failed to load Morgan!");
 	}
 
+	let routerModule
 	for (let router of routers) {
-		var routerFunction = require("./router/" + router);
-		website.express.use(routerFunction.id, routerFunction.router)
+		routerModule = require("./router/" + router);
+		website.express.use(routerModule.id, routerModule.router(client))
 	}
 	
 	website.express.get('*', (request, response) => response.redirect("/"));

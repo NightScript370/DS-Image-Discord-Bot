@@ -3,7 +3,8 @@ const router = express.Router();
 const passport = require("passport");
 const extra = require('../extraFunctions');
 
-router
+exports.id = '/';
+exports.router = (client) => router
 	.get("/", extra.isAuth, (request, response) => response.render("profile", extra.parameters(request)))
 	.get("/login", passport.authenticate("discord", { failureRedirect: "/" }), (request, response) => response.redirect("/profile"))
 	.get("/logout", async (request, response) => {
@@ -26,6 +27,3 @@ router
 
 		response.render("queue", Object.assign(parameters(request), { id }));
 	})
-
-exports.router = router;
-exports.id = '/servers';

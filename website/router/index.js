@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { parameters } = require("../extraFunctions")
 
-router
+exports.id = '/';
+exports.router = (client) => router
 	.get("/", (request, response) => {
 		let object = parameters(request);
 
@@ -58,8 +59,8 @@ router
 		object.widgets = [
 			{
 				website: 'discordbotlist.com',
-				imageurl: `https://discordbotlist.com/bots/${express.get('clientId')}/widget`,
-				link: `https://discordbotlist.com/bots/${express.get('clientId')}`,
+				imageurl: `https://discordbotlist.com/bots/${client.user.id}/widget`,
+				link: `https://discordbotlist.com/bots/${client.user.id}`,
 				size: {
 					width: 380,
 					height: 150
@@ -67,17 +68,14 @@ router
 			},
 			{
 				website: 'discordbots.org',
-				imageurl: `https://discordbots.org/api/widget/${express.get('clientId')}.svg?usernamecolor=FFFFFF&topcolor=7289DA`,
-				link: `https://discordbots.org/bot/${express.get('clientId')}`
+				imageurl: `https://discordbots.org/api/widget/${client.user.id}.svg?usernamecolor=FFFFFF&topcolor=7289DA`,
+				link: `https://discordbots.org/bot/${client.user.id}`
 			},
 			{
 				website: 'discord.boats',
-				imageurl: `https://discord.boats/API/V2/widget/${express.get('clientId')}`,
-				link: `https://discord.boats/bot/${express.get('clientId')}`
+				imageurl: `https://discord.boats/API/V2/widget/${client.user.id}`,
+				link: `https://discord.boats/bot/${client.user.id}`
 			}
 		];
 		response.render("support", object)
 	})
-
-exports.router = router;
-exports.id = '/';
