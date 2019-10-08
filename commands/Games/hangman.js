@@ -22,6 +22,8 @@ module.exports = class HangmanCommand extends Command {
 	}
 
 	exec(msg, { action }) {
+		const __ = (k, ...v) => global.getString(msg.author.lang, k, ...v);
+		
 		const current = this.client.commandHandler.games.get(msg.author.id);
 		if (current && current.name !== this.id) return msg.util.reply(__("Please wait until the current game of {0} is finished.", current.name));
 
