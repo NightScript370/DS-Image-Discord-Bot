@@ -164,7 +164,7 @@ module.exports = class SortingHatCommand extends Command {
 					hufflepuff: 0,
 					ravenclaw: 0
 				}
-			}
+			},
 			"A little kid accuses you, in front of a whole crowd people, of stealing his toy which you did not do. You are twice his size, but he won't back off.": {
 				"How dare he insult me in front of all these people? I'll show him how things work in the real world!": {
 					gryffindor: 0,
