@@ -3,10 +3,10 @@ const router = express.Router();
 const passport = require("passport");
 const extra = require('../extraFunctions');
 
-exports.id = '/';
+exports.id = '/servers';
 exports.router = (client) => router
 	.get("/", extra.isAuth, (request, response) => response.render("profile", extra.parameters(request)))
-	.get("/login", passport.authenticate("discord", { failureRedirect: "/" }), (request, response) => response.redirect("/profile"))
+	.get("/login", passport.authenticate("discord", { failureRedirect: "/" }), (request, response) => response.redirect("/servers"))
 	.get("/logout", async (request, response) => {
 		await request.logout();
 		await response.redirect("/");
@@ -15,15 +15,15 @@ exports.router = (client) => router
 		let id = request.params.guildID;
 
 		if (!id || !client.guilds.has(id))
-			return response.redirect("/");
+			return response.redirect("/servers");
 
-		response.render("leaderboard", Object.assign(parameters(request), { id }));
+		response.render("leaderboard", Object.assign(extra.parameters(request), { id }));
 	})
 	.get("/:guildID/music", (request, response) => {
 		let id = request.params.guildID;
 
 		if (!id || !client.guilds.has(id))
-			return response.status(404).render("/");
+			return response.redirect("/servers");
 
-		response.render("queue", Object.assign(parameters(request), { id }));
+		response.render("queue", Object.assign(extra.parameters(request), { id }));
 	})

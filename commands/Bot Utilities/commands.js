@@ -58,7 +58,7 @@ module.exports = class CommandsCommand extends Command {
 				if (usage)
 					embed.addField(__("Usage"), `\`${usage}\``)
 
-				if (command.args) {
+				if (this.isGood(command.args)) {
 					for (var arg of command.args) {
 						if (!arg.description) {
 							switch (arg.id) {
