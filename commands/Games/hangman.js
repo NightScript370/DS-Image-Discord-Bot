@@ -49,7 +49,7 @@ module.exports = class HangmanCommand extends Command {
 
 		if (action && /[a-z]/gmi.test(action) && action !== "endgame") {
 			if (game.guessedLetters.includes(action))
-				message = "You have already guessed those characters. Please pick another character to try again with"
+				message = __("You have already guessed those characters. Please pick another character to try again with")
 			else {
 				if (action == game.hiddenWord)
 					game.status == "WON";
@@ -71,7 +71,7 @@ module.exports = class HangmanCommand extends Command {
 				head = heads[game.config.maxAttempt];
 			}
 
-			message += "\n The word was " + game.word;
+			message += "\n" + __("The word was {0}", game.word);
 			embed.setDescription(head);
 
 			this.client.commandHandler.games.delete(msg.author.id);
@@ -79,14 +79,14 @@ module.exports = class HangmanCommand extends Command {
 		}
 
 		const [fAtt, rAtt] = [game.failedGuesses, game.config.maxAttempt-game.failedGuesses]
-		const rightGuesses = game.guessedLetters.filter(gl => game.hiddenWord.map(l => l.toLowerCase().toHiragana()).includes(gl))
+		const rightGuesses = game.guessedLetters.filter(gl => game.hiddenWord.map(l => l.toLowerCase()).includes(gl))
 
 		message += "\n`" + game.hiddenWord.join("") + "`";
 
 		embed
 			.setDescription(heads[game.failedGuesses])
-			.addInline(`Right guesses (${rightGuesses.length})`, rightGuesses.join(", ") || "None")
-			.addInline(`Wrong guesses (${fAtt})`, game.guessedLetters.filter(gl => !game.hiddenWord.map(l => l.toLowerCase().toHiragana()).includes(gl)).join(", ") || "None")
+			.addInline(__("Right guesses ({0})", rightGuesses.length), rightGuesses.join(", ") || "None")
+			.addInline(__("Wrong guesses ({0})", fAtt), game.guessedLetters.filter(gl => !game.hiddenWord.map(l => l.toLowerCase()).includes(gl)).join(", ") || "None")
 			.addField("Guessed Attempts", game.guessedLetters.join(", ") || "None")
 			.setFooter(`Remaining Attempts: ${rAtt}`)
 

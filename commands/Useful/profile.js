@@ -49,9 +49,13 @@ module.exports = class DiscordProfileCommand extends Command {
 		if (member) {
 			let DBuser = this.client.db.points.findOne({guild: msg.guild.id, member: user.id}) || await this.client.db.points.insert({guild: msg.guild.id, member: user.id, points: 0, level: 0});
 
+			if (!member.user.bot) {
+				embed
+					.addInline("Points", DBuser.points == Infinity ? "Infinity" : DBuser.points)
+					.addInline("Level", DBuser.points == Infinity ? "Infinity": DBuser.level)
+			}
+
 			embed
-				.addInline("Points", DBuser.points == Infinity ? "Infinity" : DBuser.points)
-				.addInline("Level", DBuser.points == Infinity ? "Infinity": DBuser.level)
 				.setColor(member.displayHexColor)
 				.setDescription(member.presence.activity
 					? `${activities[member.presence.activity.type]} **${member.presence.activity.name}**`
