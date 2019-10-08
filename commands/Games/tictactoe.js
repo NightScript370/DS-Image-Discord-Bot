@@ -67,7 +67,7 @@ module.exports = class TTTCommand extends Command {
 			return msg.util.send({embed: embed});
 		}
 		game = games[key]
-	
+
 		if (game.status() != "in progress") {
 			// client.ttt.status.delete(msg.author.id)
 			return this.deleteGame(msg, key)

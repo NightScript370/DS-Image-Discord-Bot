@@ -30,11 +30,13 @@ module.exports = class FeudCommand extends Command {
 			return msg.util.reply(__('I could not find any results.'));
 
 		const display = new Array(suggestions.length).fill(this.hiddenCharacter);
+		const embed = this.client.util.embed()
+			.setColor(0x005AF0)
+			.setTitle(`${question}...`)
+
 		let tries = 3;
 		while (display.includes(this.hiddenCharacter) && tries) {
-			const embed = this.client.util.embed()
-				.setColor(0x005AF0)
-				.setTitle(`${question}...`)
+			embed
 				.setDescription(__('Type the choice you think is a suggestion _without_ the question.'))
 				.setFooter(`${tries} ${tries === 1 ? 'try' : 'tries'} remaining!`);
 
@@ -54,6 +56,7 @@ module.exports = class FeudCommand extends Command {
 		}
 
 		this.client.commandHandler.games.delete(msg.author.id);
+		embed.footer = "";
 
 		let score = 0;
 		for (let try_ of display) {
@@ -63,21 +66,18 @@ module.exports = class FeudCommand extends Command {
 			score += tryScore
 		}
 
-		let resultEmbed = this.client.util.embed()
-			.setColor(0x005AF0)
-			.setTitle(`${question}...`)
-			.setDescription(__("You win! Nice job, master of Google! You scored {0} points.", score));
+		if (display.includes(this.hiddenCharacter))
+			embed.setDescription(__("Better luck next time! You scored {0} points.", score));
+		else
+			embed.setDescription(__("You win! Nice job, master of Google! You scored {0} points.", score));
 
 		let i = 0;
 		suggestions.forEach(s => {
-			resultEmbed.addField(`❯ ${10000 - (i * 1000)}`, s, true);
+			embed.addField(`❯ ${10000 - (i * 1000)}`, s, true);
 			i++;
 		});
 
-		if (display.includes(this.hiddenCharacter))
-			resultEmbed.setDescription(`Better luck next time! You scored ${score} points.`);
-
-		return msg.util.send(resultEmbed);
+		return msg.util.send(embed);
 	}
 	
 	async fetchSuggestions(question) {

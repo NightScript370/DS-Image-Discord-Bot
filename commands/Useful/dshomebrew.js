@@ -46,13 +46,13 @@ module.exports = class HackingGuidesCommand extends Command {
 
 				embed
 					.setThumbnail('https://cdn.discordapp.com/attachments/283770736215195648/585297998875983872/unknown.png')
-					.addInline('Supported Formats', '• Nintendo DS titles (`.nds`, `.dsi` & `.ids`) via nds-bootstrap \n'
-												  + '• Sega Game Gear/Master System titles (`.gg` & `.sms`) via S8DS \n'
-												  + '• NES/Famicom titles (`.nes`) via nesDS \n'
-												  + '• Super NES/Famicom titles (`.sfc` & `.smc`) via SNEmulDS \n'
-												  + '• Sega Genesis titles (`.gen`) via jEnesisDS \n'
-												  + '• (Super) Gameboy (Color) Titles (`.gb` & `.gbc`) via GameYob \n'
-												  + '• Gameboy Advanced Titles (`.gba`) via GBARunner2\n'
+					.addInline('Supported Formats', '• Nintendo DS titles (`.nds`, `.dsi` & `.ids`)\n'
+												  + '• Sega Game Gear/Master System titles (`.gg` & `.sms`)\n'
+												  + '• NES/Famicom titles (`.nes`)\n'
+												  + '• Super NES/Famicom titles (`.sfc` & `.smc`)\n'
+												  + '• Sega Genesis titles (`.gen`)\n'
+												  + '• (Super) Gameboy (Color) Titles (`.gb` & `.gbc`)\n'
+												  + '• Gameboy Advanced Titles (`.gba`)\n'
 												  + '• DSTWO plugins (requires you to have a DSTWO)\n'
 												  + '• RocketVideoPlayer videos (`.rvid`)')
 					.addInline('Styles', '• Nintendo DSi\n'
@@ -118,6 +118,7 @@ module.exports = class HackingGuidesCommand extends Command {
 					.setColor("BF0300")
 					.addField('Social Links', '• [Github Repository](https://github.com/Universal-Team/pkmn-chest)\n'
 											+ '• [Discord Server](https://discord.gg/KDJCfGF)\n'
+											+ '• [GBAtemp Thread](https://discord.gg/KDJCfGF)\n'
 											+ '• [Website](https://universal-team.github.io/pkmn-chest)')
 					.setImage('https://universal-team.github.io/assets/images/pkmn-chest/box.png')
 					.setFooter('Made by Universal Team (Mainly by Pk11)');

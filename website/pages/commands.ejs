@@ -33,7 +33,7 @@
 						cats.forEach(category => {
 							let catCmds = cmds.filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));
 							if (catCmds.length > 0) {
-								%><%- `<a class="nav-link col-12 ${defaultcategory == category ? 'active' : ''}" id="${category}-tab" data-toggle="pill" href="#${category}" role="pill" aria-controls="${category}" aria-selected="${defaultcategory == category ? 'true' : 'false'}">
+								%><%- `<a class="nav-link col-12 ${defaultCategory == category ? 'active' : ''}" id="${category}-tab" data-toggle="pill" href="#${category}" role="pill" aria-controls="${category}" aria-selected="${defaultCategory == category ? 'true' : 'false'}">
 												${category} [${catCmds.length}]
 											</a>` %><%
 							}
@@ -118,7 +118,7 @@
 							});
 							s = s.join("");
 							if (s.length > 0) {
-								%><%- `<div class="tab-pane fade ${category == defaultcategory ? 'show active' : ''}" id="${category}" role="tabpanel" aria-labelledby="${category}-tab">
+								%><%- `<div class="tab-pane fade ${category == defaultCategory ? 'show active' : ''}" id="${category}" role="tabpanel" aria-labelledby="${category}-tab">
 												<h3> ${category} [${catCmds.length}] </h3>
 												<div id="accordion">${s}</div>
 											 </div>` %><%

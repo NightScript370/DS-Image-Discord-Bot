@@ -48,7 +48,7 @@ module.exports = class BanCommand extends Command {
 	}
 
 	async exec(msg, { user, reason, check, days }) {
-		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v)
+		const __ = (k, ...v) => global.getString(msg.author.lang, k, ...v)
 
 		let banList;
 		let member;

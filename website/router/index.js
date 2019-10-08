@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { parameters } = require("../extraFunctions")
 
-router
+exports.id = '/';
+exports.router = (client) => router
 	.get("/", (request, response) => {
 		let object = parameters(request);
 
@@ -78,6 +79,3 @@ router
 		];
 		response.render("support", object)
 	})
-
-exports.router = router;
-exports.id = '/';
