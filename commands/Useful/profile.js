@@ -31,6 +31,8 @@ module.exports = class DiscordProfileCommand extends Command {
 	}
 
 	async exec(msg, { user }) {
+		const __ = (k, ...v) => global.lang.getString(msg.author.lang, k, ...v);
+
 		if (msg.author.id !== user.id) {
 			let guildsTogether = this.client.guilds.filter(guild => guild.members.has(user.id) && guild.members.has(msg.author.id));
 			if (!guildsTogether.size)
@@ -42,24 +44,21 @@ module.exports = class DiscordProfileCommand extends Command {
 			member = await msg.guild.members.get(user.id);
 
 		let embed = this.client.util.embed()
-			.setTitle(`Information on ${member ? member.displayName : user.username}`)
+			.setTitle(__("Information on {0}", member ? member.displayName : user.username))
 			.setThumbnail(user.displayAvatarURL())
 			.setYamamuraCredits(true);
 
 		if (member) {
-			let DBuser = this.client.db.points.findOne({guild: msg.guild.id, member: user.id}) || await this.client.db.points.insert({guild: msg.guild.id, member: user.id, points: 0, level: 0});
+			if (member.presence.activity)
+				embed.setDescription(`${activities[member.presence.activity.type]} **${member.presence.activity.name}**`)
 
-			if (!member.user.bot) {
+			if (!user.bot) {
+				let DBuser = this.client.db.points.findOne({guild: msg.guild.id, member: user.id}) || await this.client.db.points.insert({guild: msg.guild.id, member: user.id, points: 0, level: 0});
+
 				embed
 					.addInline("Points", DBuser.points == Infinity ? "Infinity" : DBuser.points)
 					.addInline("Level", DBuser.points == Infinity ? "Infinity": DBuser.level)
 			}
-
-			embed
-				.setColor(member.displayHexColor)
-				.setDescription(member.presence.activity
-					? `${activities[member.presence.activity.type]} **${member.presence.activity.name}**`
-					: '')
 			
 			try {
 				const roles = (member.roles ? member.roles
@@ -67,14 +66,16 @@ module.exports = class DiscordProfileCommand extends Command {
 					.sort((a, b) => b.position - a.position)
 					.map(role => role.name) : []);
 
-				embed.addField(`Roles (${roles.length})`, roles.length ? this.trimArray(roles).join(', ') : 'None' + '\n\n'
-											 + member.roles.highest.id === member.guild.defaultRole.id ? '' : `**Highest Role:** ${member.roles.highest.name} \n`
-											 + this.isGood(member.roles.hoist) ? `**Hoist Role:** ${member.roles.hoist.name}` : '')
+				embed.addField(__("Roles ({0})", roles.length), roles.length ? this.trimArray(roles).join(', ') : 'None' + '\n\n'
+															  + member.roles.highest.id === member.guild.defaultRole.id ? '' : `**Highest Role:** ${member.roles.highest.name} \n`
+															  + this.isGood(member.roles.hoist) ? `**Hoist Role:** ${member.roles.hoist.name}` : '')
 			} catch (e) {
 				console.error(e);
 			}
 
-			embed.addInline('Server Join Date', moment.utc(member.joinedAt).format('MM/DD/YYYY h:mm A'));
+			embed
+				.setColor(member.displayHexColor)
+				.addInline('Server Join Date', moment.utc(member.joinedAt).format('MM/DD/YYYY h:mm A'));
 		}
 
 		embed

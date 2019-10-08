@@ -24,7 +24,7 @@ module.exports = class StatsCommand extends Command {
 	}
 
 	async exec(message) {
-		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v);
+		const __ = (k, ...v) => global.lang.getString(message.author.lang, k, ...v);
 		const pingMsg = await message.util.reply('Pinging...');
 
 		let msgrt = (pingMsg.editedTimestamp || pingMsg.createdTimestamp) - (message.editedTimestamp || message.createdTimestamp);
@@ -40,7 +40,7 @@ module.exports = class StatsCommand extends Command {
 		let totalMem = process.memoryUsage().heapTotal / 1024 / 1024;
 
 		let embed = this.client.util.embed()
-			.setAuthor(__("{0} Statistics", this.client.user.username), this.client.user.displayAvatarURL({ format: 'png' }), this.client.website.URL)
+			.setAuthor(__("{0} Statistics", this.client.user.username), this.client.user.displayAvatarURL({ format: 'png' }), this.client.website.URL || '')
 			.setThumbnail('https://cdn.discordapp.com/attachments/562823556157800458/597604585330442256/dbtif5j-60306864-d6b7-44b6-a9ff-65e8adcfb911.png')
 			.addInline("🌍 " + __("Publicity"), `• ${this.client.users.size.toLocaleString()} Users
 • ${this.client.channels.size.toLocaleString()} Channels

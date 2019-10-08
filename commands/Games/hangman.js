@@ -21,7 +21,20 @@ module.exports = class HangmanCommand extends Command {
 		});
 	}
 
+	createHead(points) {
+		return `\`\`\`
+					___________
+					|     |
+					|     ${points > 0 ? 'O' : ''}
+					|    ${points > 2 ? '—' : ' '}${points > 1 ? '|' : ''}${points > 3 ? '—' : ''}
+					|    ${points > 4 ? '/' : ''} ${points > 5 ? '\\' : ''}
+					===========
+					\`\`\``
+	}
+
 	exec(msg, { action }) {
+		const __ = (k, ...v) => global.lang.getString(msg.author.lang, k, ...v);
+
 		const current = this.client.commandHandler.games.get(msg.author.id);
 		if (current && current.name !== this.id) return msg.util.reply(__("Please wait until the current game of {0} is finished.", current.name));
 
@@ -32,12 +45,12 @@ module.exports = class HangmanCommand extends Command {
 		if (!current) {
 			let listWords = require(`../../langs/${msg.author.lang}/hangman`);
 			let word = listWords.random()
-			game = new Hangman(word, {maxAttempt: heads.length - 1});
+			game = new Hangman(word, {maxAttempt: 6});
 
 			let letters = global.List.fromArray(word.split(""))
 			global.List.of(letters.first, letters.last).uniq().forEach(letter => game.guess(letter))
 
-			embed.setDescription(heads[0])
+			embed.setDescription(this.createHead(0))
 
 			msg.util.reply("New word: `" + game.hiddenWord.join("") + "`", embed)
 			this.client.commandHandler.games.set(msg.author.id, { name: this.id, data: game });
@@ -65,10 +78,10 @@ module.exports = class HangmanCommand extends Command {
 
 			if (game.status == "WON") {
 				message = "Congratulations! You have won the game of Hangman";
-				head = heads[game.failedGuesses];
+				head = this.createHead(game.failedGuesses);
 			} else {
 				message = "Oh well, better luck next time";
-				head = heads[game.config.maxAttempt];
+				head = this.createHead(game.config.maxAttempt);
 			}
 
 			message += "\n" + __("The word was {0}", game.word);
@@ -84,7 +97,7 @@ module.exports = class HangmanCommand extends Command {
 		message += "\n`" + game.hiddenWord.join("") + "`";
 
 		embed
-			.setDescription(heads[game.failedGuesses])
+			.setDescription(this.createHead(game.failedGuesses))
 			.addInline(__("Right guesses ({0})", rightGuesses.length), rightGuesses.join(", ") || "None")
 			.addInline(__("Wrong guesses ({0})", fAtt), game.guessedLetters.filter(gl => !game.hiddenWord.map(l => l.toLowerCase()).includes(gl)).join(", ") || "None")
 			.addField("Guessed Attempts", game.guessedLetters.join(", ") || "None")
