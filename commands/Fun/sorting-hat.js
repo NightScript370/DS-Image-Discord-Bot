@@ -241,7 +241,7 @@ module.exports = class SortingHatCommand extends Command {
 					slytherin: 0,
 					hufflepuff: 0,
 					ravenclaw: 0
-				}
+				},
 				"Maybe I'll just take a peek inside for a little while. What could it hurt?": {
 					gryffindor: 0,
 					slytherin: 0,
