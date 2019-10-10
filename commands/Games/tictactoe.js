@@ -50,7 +50,7 @@ module.exports = class TTTCommand extends Command {
 			.setAuthor(msg.guild ? msg.member.displayName : msg.author.username, msg.author.displayAvatarURL({format: 'png'}))
 			.setTitle("Showing Tic-Tac-Toe game")
 
-		let games = this.games;
+		var games = this.games;
 		var game;
 		const key = msg.author.id
 		const shouldMove = matchRe.test(action) // matches "1,3", "1, 3", "1|3" and "13"
@@ -67,7 +67,7 @@ module.exports = class TTTCommand extends Command {
 			return msg.util.send({embed: embed});
 		}
 		game = games[key]
-	
+
 		if (game.status() != "in progress") {
 			// client.ttt.status.delete(msg.author.id)
 			return this.deleteGame(msg, key)
@@ -107,7 +107,7 @@ module.exports = class TTTCommand extends Command {
 		let embed = this.client.util.embed()
 			.setAuthor(msg.guild ? msg.member.displayName : msg.author.username, msg.author.displayAvatarURL({format: 'png'}))
 			.setTitle("Tic-Tac-Toe game results")
-			.setDescription(this.checkStatus(this.games[key]) + '**```' + game.ascii() + '```**')
+			.setDescription(this.checkStatus(this.games[key].status()) + ' **```' + this.games[key].ascii() + '```**')
 		msg.util.send(embed)
 
 		if (this.games[key])

@@ -9,7 +9,7 @@ module.exports = class WarnCommand extends Command {
 				content: 'Warns a member via mention, saying their name or inputting the server member\'s ID. You may also specify a reason to the warn.'
 			},
 			examples: ["warn @InfamousGuy003 spamming in #general-talk"],
-			channelRestriction: 'guild',
+			channel: 'guild',
 			userPermissions: ["KICK_MEMBERS"],
 			args: [
 				{
@@ -35,7 +35,7 @@ module.exports = class WarnCommand extends Command {
 
 	exec(msg, { member, reason }) {
 		if (msg.member.roles.highest.position <= member.roles.highest.position)
-			return msg.util.reply("You can't warn someone who has a higher role position than you.");
+			return msg.util.reply("You can't warn someone who has an equal or higher role position than you.");
 
 		if (member.hasPermission("MANAGE_MESSAGES") && !msg.member.hasPermission("ADMINISTRATOR"))
 			return msg.util.reply("You need to have the `Administrator` permission in order to warn moderators");

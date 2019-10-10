@@ -23,12 +23,13 @@ module.exports = class NPMCommand extends Command {
 						if (!pkg) return null;
 
 						try {
-							let data = await request({ url: encodeURIComponent(pkg.toLowerCase().replace(/ /g, "-")), json: true })
+							let data = await request({ url: `https://registry.npmjs.com/${encodeURIComponent(pkg.toLowerCase().replace(/ /g, "-"))}`, json: true })
 							if (data.statusCode === 404)
 								return null;
 
 							return data;
 						} catch (e) {
+							console.error(e);
 							return "error";
 						}
 					}
@@ -73,7 +74,7 @@ module.exports = class NPMCommand extends Command {
 
 		if (body.author && maintainers.toUpperCase() !== body.author.name.toUpperCase())
 			embed.addField(global.getString(message.author.lang, "Maintainers"), maintainers);
-		return message.util.send(global.getString(message.author.lang, "NPM Package: {0}", body.name) + `\nhttps://www.npmjs.com/package/${pkg}`, { embed });
+		return message.util.send(global.getString(message.author.lang, "NPM Package: {0}", body.name) + `\nhttps://www.npmjs.com/package/${body._id}`, { embed });
 	}
 
 	_trimArray(arr) {

@@ -10,6 +10,6 @@ module.exports = class UnhandledRejectionListener extends Listener {
 	}
 
 	exec(error) {
-		console.error(error);
+		console.error("[UNHANDLED REJECTION]", error);
 	}
 }

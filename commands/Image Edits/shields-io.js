@@ -51,8 +51,16 @@ module.exports = class ShieldsIoBadgeCommand extends Command {
 		});
 	}
 
-	async exec(message, { subject, status, color }) {
-		const { body } = await request.get(`https://img.shields.io/static/v1.svg?label=${subject}&message=${status}&color=${rightColor}&=`);
-		return message.util.send({ files: [{ attachment: body, name: 'badge.png' }] });
+	async exec(message, { subject, status, rightColor, leftColor }) {
+		let link = `https://img.shields.io/static/v1.svg?label=${subject}&message=${status}&color=${rightColor}&labelColor=${leftColor}`;
+		let attachment = {};
+
+		try {
+			let { body } = await request.get(link);
+			attachment = { files: [{ attachment: body, name: 'badge.png' }] };
+		} catch {}
+
+		let text = global.getString(message.author.lang, "Alright {0}, here's your badge!", message.guild ? message.member.displayName : message.author.username) + "\n" + link
+		return message.util.send(text, attachment);
 	}
 };

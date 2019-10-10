@@ -39,7 +39,7 @@ module.exports = class LeaderboardCommand extends Command {
 	}
 
 	async exec(msg, { guild, numberofresults }) {
-		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v);
+		const __ = (k, ...v) => global.getString(msg.author.lang, k, ...v);
 		let medal, username, guildFound;
 
 		if(guild) {
@@ -194,6 +194,6 @@ module.exports = class LeaderboardCommand extends Command {
 			DMembed.addField(guild.name, `${this.client.users.get(topuser.member).tag} (${topuser.points} points)`);
 		});
 
-		message.util.send(DMembed)
+		msg.util.send(DMembed)
 	}
 };

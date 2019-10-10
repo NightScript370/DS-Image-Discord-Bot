@@ -8,7 +8,7 @@ module.exports = class SkipAudioCommand extends Command {
 			description: {
 				content: 'Adds a vote to skip the currently playing music.'
 			},
-			channelRestriction: 'guild',
+			channel: 'guild',
 			args: [
 				{
 					id: 'modskip',

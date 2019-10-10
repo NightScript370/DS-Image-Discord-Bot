@@ -255,8 +255,10 @@ const akairo_types = {
 			case 'ESRB:EVERYONE':
 				boxrating = await loadImage(path.join(__dirname, '..', 'assets', 'images', 'esrb', 'everyone.png'));
 				break;
+			case 'ESRB:EVERYONE10':
 			case 'ESRB:EVERYONE10+':
 			case 'ESRB:E10':
+			case 'ESRB:E10+':
 				boxrating = await loadImage(path.join(__dirname, '..', 'assets', 'images', 'esrb', 'e10.png'));
 				break;
 			case 'ESRB:MATURE':

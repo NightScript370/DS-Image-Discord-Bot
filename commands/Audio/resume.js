@@ -8,7 +8,7 @@ module.exports = class ResumeCommand extends Command {
             description: {
                 content: 'Resume the currently paused audio.'
             },
-            channelRestriction: 'guild',
+            channel: 'guild',
         });
     }
 

@@ -2,6 +2,7 @@ const { Listener } = require('discord-akairo');
 const request = require('node-superfetch');
 
 const config = require("../../config.js");
+const catSetup = require("../../utils/commandCategories.js");
 
 module.exports = class ReadyListener extends Listener {
 	constructor() {
@@ -26,6 +27,7 @@ module.exports = class ReadyListener extends Listener {
 
 		this.client.listenerHandler.load(process.cwd() +'/events/commandHandler/load.js');
 		this.client.commandHandler.loadAll();
+		this.client.commandHandler.categories = catSetup(this.client.commandHandler.categories);
 
 		this.client.user.setStatus('online');
 		this.client.util.setDefaultStatus(this.client);
@@ -37,18 +39,22 @@ module.exports = class ReadyListener extends Listener {
 			console.error('[WEBSITE] Failed to load: ' + e);
 		}
 
-		if (config.dbl) {
+		this.client.botlist = {};
+
+		if (config.TopGG) {
 			try {
-				const DBL = require("dblapi.js");
-				this.client.dbl = await new DBL(config.DBLtoken, { webhookPort: this.client.website.express.get('port'), webhookAuth: config.DBLPass, webhookServer: this.client.website.server, statsInterval: 7200000 }, this.client);
+				const TopGG = await require("dblapi.js");
+				this.client.botlist.TopGG = await new TopGG(config.TopGG.token, {
+					webhookPort: this.client.website.express.get('port'),
+					webhookAuth: config.TopGG.webhookpass,
+					webhookServer: this.client.website.server,
+					statsInterval: 7200000
+				}, this.client)
 
-				if (this.client.dbl) {
-					if (isEventEmitter(this.client.dbl))
-						this.client.listenerHandler.setEmitters({dbl: this.client.dbl});
-
-					if (this.client.dbl.webhook && isEventEmitter(this.client.dbl.webhook))
-						this.client.listenerHandler.setEmitters({dblwebhook: this.client.dbl.webhook});
-				}
+				this.client.listenerHandler.setEmitters({
+					dbl: this.client.botlist.TopGG,
+					dblwebhook: this.client.botlist.TopGG.webhook
+				});
 			} catch (e) {
 				console.error('[DiscordBots.org] Failed to load: ' + e)
 			}

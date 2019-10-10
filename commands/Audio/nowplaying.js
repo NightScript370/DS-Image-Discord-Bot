@@ -9,7 +9,7 @@ module.exports = class NowPlayingCommand extends Command {
 			description: {
 				content: 'Shows information on the currently playing song.'
 			},
-			channelRestriction: 'guild'
+			channel: 'guild'
 		});
 	}
 

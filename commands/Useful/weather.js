@@ -27,7 +27,7 @@ module.exports = class weatherCommand extends Command {
 	async exec(message, { area }) {
 		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v)
 
-		let result = await asyncWeather({ search: area, degreeType: 'C' }); 
+		let result = await weather({ search: area, degreeType: 'C' }); 
 		if (isEmpty(result))
 			return message.channel.send(__("There were no results found for your location. Please try again later."));
 

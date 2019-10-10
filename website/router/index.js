@@ -1,14 +1,13 @@
-const passport = require("passport");
-const CheckAuth = require('./isAuth');
-let parameters = (req) => {
-	return {
-		profile: (req.isAuthenticated() ? "/profile" : "/login")
-	}
-}
+const express = require('express');
+const router = express.Router();
+const { parameters } = require("../extraFunctions")
 
-module.exports = (app, client) => app
+exports.id = '/';
+exports.router = (client) => router
 	.get("/", (request, response) => {
-		let object = parameters(request)
+		let object = parameters(request);
+
+		object.subtitle = "Home";
 		object.features = [
 			{
 				icon: "level-up",
@@ -44,31 +43,17 @@ module.exports = (app, client) => app
 				subtext: "willing to help"
 			}
 		]
+
 		response.render("index", object)
 	})
-	.get("/login", passport.authenticate("discord", { failureRedirect: "/" }), (request, response) => response.redirect("/profile"))
-	.get("/logout", async (request, response) => {
-		await request.logout();
-		await response.redirect("/");
+	.get("/commands", (request, response) => {
+		let object = parameters(request);
+
+		object.subtitle = "Commands";
+		object.defaultCategory = "Useful";
+
+		response.render("commands", object)
 	})
-	.get("/leaderboard", (request, response) => response.redirect("/profile"))
-	.get("/leaderboard/:guildID", (request, response) => {
-		let id = request.params.guildID;
-
-		if (!id || !client.guilds.has(id))
-			return response.redirect("/leaderboard");
-
-		response.render("leaderboard", Object.assign(parameters(request), { id }));
-	})
-	.get("/queue/:guildID", (request, response) => {
-		let id = request.params.guildID;
-
-		if (!id || !client.guilds.has(id))
-			return response.status(404).render("404");
-
-		response.render("queue", Object.assign(parameters(request), { id }));
-	})
-	.get("/commands", (request, response) => response.render("commands", parameters(request)))
 	.get("/support", (request, response) => {
 		let object = parameters(request)
 		object.widgets = [
@@ -94,7 +79,3 @@ module.exports = (app, client) => app
 		];
 		response.render("support", object)
 	})
-	.get("/profile", (request, response) => {
-		user: (request.isAuthenticated() ? request.user.id : null)
-	})
-	.get('*', (request, response) => response.redirect("/"));

@@ -6,7 +6,7 @@ module.exports = class QueueCommand extends Command {
 			aliases: ['queue', 'キュー'],
 			category: 'Audio',
 			description: { content: 'Shows the music queue for the current server.' },
-			channelRestriction: 'guild'
+			channel: 'guild'
 		});
 	}
 

@@ -13,7 +13,7 @@ module.exports = class MuteCommand extends Command {
 				]
             },
 			examples: ["mute @InfamousGuy003"],
-			channelRestriction: 'guild',
+			channel: 'guild',
 			clientPermissions: ["MANAGE_ROLES"],
 			userPermissions: ["MANAGE_MESSAGES"],
 			args: [
@@ -40,7 +40,7 @@ module.exports = class MuteCommand extends Command {
 
 		const mutedRole = msg.guild.config.render("mutedrole");
 		if (!mutedRole)
-			return msg.util.reply(__("You need to have the configuration key `mutedrole` set in order for this command to work."));
+			return msg.util.reply(__("This server needs to have the configuration key `mutedrole` defined in order for this command to work."));
 
 		let author = msg.member;
 
@@ -51,7 +51,7 @@ module.exports = class MuteCommand extends Command {
 			return msg.util.reply(__("You need to have the `Administrator` permission in order to mute moderators."));
 
 		if (author.roles.highest.position <= member.roles.highest.position)
-			return msg.util.reply(__("You can't mute someone who has a higher role position than you."));
+			return msg.util.reply(__("You can't mute someone who has an equal or higher role position than you."));
 
 		if (member.id == author.id)
 			return msg.util.reply(__("You can't mute yourself!"));

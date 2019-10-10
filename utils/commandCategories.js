@@ -1,22 +1,14 @@
 let json = require("../assets/JSON/CommandCategories")
 
 module.exports = (categories) => {
-	let category;
 	let JSONdata;
-	let JSONkeys;
 
-	let keyNames = Array.from(categories.keys());
+	let category = Array.from(Object.keys(categories))
 
-	for (var catName of keyNames) {
-		category = categories.get(catName);
+	for (let catName of category) {
 		JSONdata = json[catName];
-
-		if (JSONdata && typeof JSONdata == 'object') {
-			JSONkeys = JSONdata.keys();
-			for (var JSONkey of JSONkeys) {
-				category[JSONkey] = JSONdata[JSONkey];
-			}
-		}
+		if (JSONdata && typeof JSONdata == 'object')
+			Object.keys(JSONdata).forEach(key => categories.get(catName)[key] = JSONdata[key])
 	}
 
 	return categories;

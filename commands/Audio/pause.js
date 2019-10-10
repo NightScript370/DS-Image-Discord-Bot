@@ -8,7 +8,7 @@ module.exports = class PauseAudioCommand extends Command {
             description: {
                 content: 'Pause the currently playing audio.'
             },
-            channelRestriction: 'guild'
+            channel: 'guild'
         });
     }
 

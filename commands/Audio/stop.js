@@ -8,7 +8,7 @@ module.exports = class StopAudioCommand extends Command {
 			description: {
 				content: 'Stops the music.'
 			},
-			channelRestriction: 'guild'
+			channel: 'guild'
 		});
 	}
 

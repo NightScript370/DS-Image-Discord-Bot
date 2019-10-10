@@ -58,11 +58,32 @@ module.exports = class CommandsCommand extends Command {
 				if (usage)
 					embed.addField(__("Usage"), `\`${usage}\``)
 
-				let commandPermissions = [];
-				if (this.isGood(command.userPermissions))
-					command.userPermissions.forEach(perm => commandPermissions.push('`' + perm + '`'))
+				if (this.isGood(command.args)) {
+					for (var arg of command.args) {
+						if (!arg.description) {
+							switch (arg.id) {
+								case 'IP':
+									arg.description = "This is the server's IP address.";
+									break;
+								case 'images':
+									arg.description = 'These are the images for the command. This can be either attachments, user mentions, user IDs, user names, links or if the channel has an image posted beforehand within the past 50 messages: none. If you use multiple links and/or attachments, you can even layer the image.';
+									break;
+							}
+						}
+					}
 
-				switch (command.channelRestriction) {
+					embed.addField("Command Arguments", command.args.map(arg => `**${arg.id}** - ${arg.description}`).join("\n"))
+				}
+
+				let commandPermissions = [];
+				if (this.isGood(command.userPermissions)) {
+					if (typeof command.userPermissions == 'function')
+						commandPermissions.push("Special Case");
+					else
+						command.userPermissions.forEach(perm => commandPermissions.push('`' + perm + '`'))
+				}
+
+				switch (command.channel) {
 					case 'guild':
 						commandPermissions.push(__('Server Only'));
 						break;
@@ -142,7 +163,10 @@ module.exports = class CommandsCommand extends Command {
 				if (!makeFields)
 					embed.setDescription(commandList.join('\n'))
 
-				embed.setFooter(__("Total Commands: {0}", commands.length));
+				embed.setFooter(__("Total Commands in this category: {0}", commands.length));
+
+				if (category.color)
+					embed.setColor(category.color)
 
 				return msg.channel.send(__("Category listing: {0}", __(category.id)), embed);
 			}
