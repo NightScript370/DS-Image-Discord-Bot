@@ -1,8 +1,6 @@
 const { Command } = require('discord-akairo');
 const Hangman = require('hangman-game-engine');
 
-const heads = require("./../../assets/JSON/hangman.json");
-
 module.exports = class HangmanCommand extends Command {
 	constructor() {
 		super('hangman', {
@@ -22,14 +20,41 @@ module.exports = class HangmanCommand extends Command {
 	}
 
 	createHead(points) {
-		return `\`\`\`
-					___________
-					|     |
-					|     ${points > 0 ? 'O' : ''}
-					|    ${points > 2 ? '—' : ' '}${points > 1 ? '|' : ''}${points > 3 ? '—' : ''}
-					|    ${points > 4 ? '/' : ''} ${points > 5 ? '\\' : ''}
-					===========
-					\`\`\``
+		let head;
+		switch (points) {
+			case 1:
+				head = "😁";
+				break;
+			case 2:
+				head = "😄";
+				break;
+			case 3:
+				head = "😅";
+				break;
+			case 4:
+				head = "😲";
+				break;
+			case 5:
+				head = "😬";
+				break;
+			case 6:
+				head = "😰";
+				break;
+			default:
+				head = '';
+		}
+
+		let structure = [];
+		structure.push("```")
+		structure.push("___________")
+		structure.push("|     |")
+		structure.push(`|     ${head}`)
+		structure.push(`|    ${points > 2 ? '—' : ' '}${points > 1 ? '|' : ''}${points > 3 ? '—' : ''}`)
+		structure.push(`|    ${points > 4 ? '/' : ''} ${points > 5 ? '\\' : ''}`)
+		structure.push("===========")
+		structure.push("```")
+
+		return structure.join("\n")
 	}
 
 	exec(msg, { action }) {

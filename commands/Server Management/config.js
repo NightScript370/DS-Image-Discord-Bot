@@ -156,22 +156,18 @@ module.exports = class ConfigCommand extends Command {
 			let resp = await this.awaitReply(msg, __("Are you ___**100%**___ sure you want to reset the array? [Y/N]"), 30000);
 
 			if (resp && typeof resp == "string" && resp.toLowerCase() == "y") {
-				try {
-					msg.guild.config.set(key, []);
+				msg.guild.config.set(key, []);
 
-					return msg.util.reply(__("I have successfully cleared the array"));
-				} catch (e) {
-					console.error(e);
-					return msg.util.send(__("There has been an error while clearing the array. Please report this bug to the {0} Developers", this.client.user.username));
-				}
+				return msg.util.reply(__("I have successfully cleared the array"));
 			}
+
 			return msg.util.reply(__("action cancelled"));
 		} else if (action == "add") {
 			let resp = ""
 			let arr = [];
 			while (typeof resp == "string" && resp.toLowerCase() != "stop") {
 				if (resp) {
-					let actualValue = findType(nonextendedType).serialize(this.client, msg, resp);
+					let actualValue = findType(key).serialize(this.client, msg, resp);
 					arr.push(actualValue);
 				}
 				resp = await this.awaitReply(msg, __("Enter the value you want to add, or type `stop` (or wait 30 seconds) to stop"), 30000);
@@ -187,10 +183,9 @@ module.exports = class ConfigCommand extends Command {
 		}
 
 		if (recursionDepth < 5) {
-			let naction = await this.awaitReply(msg, __("Do something else? [`y`/`n`]"), 30000);
-			naction = naction.toLowerCase();
+			let otheract = await this.awaitReply(msg, __("Do something else? [`y`/`n`]"), 30000);
 
-			if (!!naction && naction == "y") {
+			if (otheract && typeof otheract == "string" && otheract.toLowerCase() == "y") {
 				return this.setArray(msg, data, key, value, ++recursionDepth);
 			} else {
 				return msg.util.reply(__("action cancelled"));
