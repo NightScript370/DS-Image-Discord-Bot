@@ -22,17 +22,13 @@ module.exports = class Number8ballCommand extends Command {
 	}
 
 	async exec(message, { question }) {
-		const client = await this.client;
-		let username = message.member ? message.member.displayName : message.author.username;
+		let embed;
 
-		question = question.replace(/<@!?([0-9]*)>/g, (something, id) => {
-			let user = client.users.get(id);
-			return user ? user.tag : global.getString(message.author.lang, "User not found");
-		});
+		if (message.guild)
+			embed = this.client.util.embed()
+				.addField('Original Question', question.length > 1000 ? question.substr(0, 100) + '...' : question)
+				.setFooter(global.getString(message.author.lang, 'I was summoned here by {0}', message.member.displayName), `${this.client.website.URL}/icons/8-ball.png`);
 
-		let response = `❓ **${username}'s Question:** ${question}\n🎱 **Answer:** ${answers[Math.floor(Math.random() * answers.length)]}`;
-		if (response > 2000)
-			return message.util.reply('The question is too long to send on discord. Please send a shorter question to ask the mighty 8-Ball');
-		message.util.send(response);
+		message.util.send(`🎱 **|** ${answers[Math.floor(Math.random() * answers.length)]}`,  (embed && message.channel.embedable ? {embed} : {}));
 	}
 };
