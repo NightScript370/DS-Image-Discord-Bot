@@ -1,3 +1,34 @@
+console.backlogs = {
+	debug: [],
+	errors: [],
+	others: []
+};
+
+// This is used to debug the errors.
+const util = require('util');
+const maxLog = 20;
+let logStdout = process.stdout;
+let logStderr = process.stderr;
+
+console.log = function () {
+	let logged = util.format.apply(null, arguments);
+
+	console.backlogs.others.push(logged);
+	process.stdout.write(logged + '\n');
+
+	if (console.backlogs.others.length > maxLog)
+		console.backlogs.others.shift();
+}
+console.error = function () {
+	let logged = util.format.apply(null, arguments);
+
+	console.backlogs.errors.push(logged);
+	process.stderr.write(logged + '\n');
+
+	if (console.backlogs.errors.length > maxLog)
+		console.backlogs.errors.shift();
+}
+
 try { require('cache-require-paths'); } catch {}
 
 const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } = require('discord-akairo');
@@ -12,28 +43,6 @@ require("./struct/TextChannel.js");
 require("./struct/GuildMember.js");
 require("./langs/framework.js");
 require("./utils/extraFunctions.js");
-
-console.logs = {
-	log: [],
-	err: [],
-};
-
-// This is used to debug the errors.
-// Defaults to 20 lines max
-const util = require('util');
-var logStdout = process.stdout;
-var logStderr = process.stderr;
-
-console.log = function () {
-	console.logs.log.push(util.format.apply(null, arguments));
-	logStdout.write(util.format.apply(null, arguments) + '\n');
-	if (console.logs.log.length > 20) console.logs.log.shift();
-}
-console.error = function () {
-	console.logs.err.push(util.format.apply(null, arguments));
-	logStderr.write(util.format.apply(null, arguments) + '\n');
-	if (console.logs.err.length > 20) console.logs.err.shift();
-}
 
 
 class YamamuraClient extends AkairoClient {

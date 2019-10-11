@@ -1,14 +1,84 @@
 let settingProps = {
-	logchan: "channel",
-	welcomechan: "channel",
-	welcomemessage: "string:ex",
-	leavemessage: "string:ex",
-	prefix: "string",
-	makerboard: "string",
-	starboardchannel: "channel",
-	levelup: "bool",
-	levelupmsgs: "string:ex",
-	mutedrole: "role"
+	logging: {
+		type: "object",
+		extendable: true,
+		keys: {
+			messageDelete: "channel",
+			messagePinned: "channel",
+			messageUpdate: "channel",
+			configUpdate: "channel",
+			memberUpdate: "channel",
+			memberLeave: "channel",
+			memberJoin: "channel",
+			levelUp: "channel",
+			commandUsage: "channel"
+		}
+		default: {
+			messageDelete: "discord-logs",
+			messagePinned: "discord-logs",
+			messageUpdate: "discord-logs",
+			configUpdate: "discord-logs",
+			memberUpdate: "discord-logs",
+			memberLeave: "discord-logs",
+			memberJoin: "discord-logs",
+			levelUp: "discord-logs",
+			commandUsage: "discord-logs"
+	},
+	welcome: {
+		type: "object",
+		extendable: true,
+		keys: {
+			channel: "channel",
+			text: "string"
+		}
+	},
+	prefix: {
+		type: "string",
+		extendable: true,
+		default: ["!"]
+	},
+	makerboard: {
+		type: "string",
+		extendable: false,
+		default: ""
+	},
+	starboard: {
+		type: "object",
+		extendable: true,
+		keys: {
+			channel: "channel",
+			minimum: "int",
+			reaction: "emote"
+		},
+		default: {
+			channel: "starboard",
+			minimum: "3",
+			reaction: "⭐"
+		},
+		uniqueKey: "channel"
+	},
+	levelupMultiplier: {
+		type: "object",
+		extendable: true,
+		keys: {
+			channel: "channel",
+			multiplier: "int"
+		}
+		default: {
+			multiplier: "1"
+		},
+		uniqueKey: "channel"
+	},
+	levelupmsgs: {
+		type: "string",
+		extendable: true,
+		default: ["!"]
+	},
+	mutedrole: {
+		type: "role",
+		extendable: true,
+		default: ["Muted"]
+	}
 }
 
 let types = [
@@ -72,6 +142,7 @@ let types = [
 		}
 
 		static deserialize(client, _, val) {
+			if (val.toLowerCase() == "null") val = "false";
 			return val == "false" ? false : true;
 		}
 
@@ -80,7 +151,7 @@ let types = [
 		}
 
 		static validate(client, _, val) {
-		    if (val.toLowerCase() == "null") val = "false";
+			if (val.toLowerCase() == "null") val = "false";
 			return ["true", "false"].includes(val.toLowerCase());
 		}
 	},
