@@ -22,16 +22,19 @@ module.exports = class UnicodeCommand extends Command {
 		if (!text)
 			return message.util.send(global.getString(message.author.lang, "I couldn't get text to display unicode information on."));
 
+		if (text.length > 50)
+			return message.util.send(global.getString(message.author.lang, "Please limit your unicode view to 50 characters."))
+
 		message.util.send(this.toUnicode(text));
 	}
 
 	toUnicode(string) {
-		let str = '';
+		let strings = [];
 		for (var char of string) {
 			var hex = char.charCodeAt(0).toString(16);
 			var uni = 'U+'+'0000'.substr(0, 4-hex.length)+hex;
-			str += `\n${char} => \`${uni.toUpperCase()}\``;
+			strings.push(`${char} => \`${uni.toUpperCase()}\``);
 		};
-		return str.trim();
+		return strings.join(" **|** ");
 	};
 }
