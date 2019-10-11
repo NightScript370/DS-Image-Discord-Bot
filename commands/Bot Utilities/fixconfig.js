@@ -35,7 +35,7 @@ module.exports = class FixConfigCommand extends Command {
 
 				let numrefresh = 0;
 
-				if (!settingProps[prop].endsWith(':ex')) {
+				if (!settingProps[prop].extendable) {
 					while (value instanceof Array && value.length && numrefresh < 100) {
 						value = value[0];
 						numrefresh++;

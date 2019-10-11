@@ -104,7 +104,7 @@ module.exports = class ConfigCommand extends Command {
 			case 'set':
 				if (!key) return msg.util.send(__("You didn't specify a key!"));
 				if (!settingProps[key]) return msg.util.send(__("The key `{0}` does not exist.", key));
-				if (settingProps[key].endsWith(":ex")) return await this.setArray(msg, data, key, value);
+				if (settingProps[key].extendable) return await this.setArray(msg, data, key, value);
 
 				if (!value) return msg.util.send(__("You didn't specify a value!"));
 				let t = findType(key);
@@ -185,11 +185,10 @@ module.exports = class ConfigCommand extends Command {
 		if (recursionDepth < 5) {
 			let otheract = await this.awaitReply(msg, __("Do something else? [`y`/`n`]"), 30000);
 
-			if (otheract && typeof otheract == "string" && otheract.toLowerCase() == "y") {
+			if (otheract && typeof otheract == "string" && otheract.toLowerCase() == "y") 
 				return this.setArray(msg, data, key, value, ++recursionDepth);
-			} else {
-				return msg.util.reply(__("action cancelled"));
-			}
+
+			return msg.util.reply(__("action cancelled"));
 		}
 	}
 
