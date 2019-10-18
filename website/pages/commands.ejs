@@ -31,7 +31,7 @@
 				<div id="tab-sidebar" class="nav nav-pills" role="tablist" aria-orientation="vertical">
 					<%
 						cats.forEach(category => {
-							let catCmds = cmds.filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));
+							let catCmds = cmds.filter(c => c instanceof Object).filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));
 							if (catCmds.length > 0) {
 								%><%- `<a class="nav-link col-12 ${defaultCategory == category ? 'active' : ''}" id="${category}-tab" data-toggle="pill" href="#${category}" role="pill" aria-controls="${category}" aria-selected="${defaultCategory == category ? 'true' : 'false'}">
 												${category} [${catCmds.length}]
@@ -51,7 +51,7 @@
 				<div class="tab-content" id="myTabContent">
 					<%
 						cats.forEach(category => {
-							let catCmds = cmds.filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));
+							let catCmds = cmds.filter(c => c instanceof Object).filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));
 
 								let cmDescription;
 								let table;
@@ -129,7 +129,7 @@
 					<div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab">
 						<%
 							cats.forEach(category => {
-								let catCmds = cmds.filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));
+								let catCmds = cmds.filter(c => c instanceof Object).filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));
 
 								let cmDescription;
 								let table;

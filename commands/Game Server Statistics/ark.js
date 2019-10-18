@@ -3,7 +3,7 @@ const Command = require('../../struct/Command');
 module.exports = class ARKCommand extends Command {
 	constructor() {
 		super('ark', {
-			category: 'Game Server Statistics',
+			category: 'Game Statistics',
 			aliases: ["ark", "arkse"],
 			clientPermissions: ['EMBED_LINKS'],
 			description: {

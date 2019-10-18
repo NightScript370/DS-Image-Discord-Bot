@@ -4,7 +4,7 @@ const { promisify } = require("util");
 module.exports = class MinecraftServerCommand extends Command {
 	constructor() {
 		super('minecraft', {
-			category: 'Game Server Statistics',
+			category: 'Game Statistics',
 			aliases: ["minecraft", "mc", "マインクラフト", "マイクラ"],
 			clientPermissions: ['EMBED_LINKS'],
 			description: {

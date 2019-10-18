@@ -3,13 +3,11 @@ let json = require("../assets/JSON/CommandCategories")
 module.exports = (categories) => {
 	let JSONdata;
 
-	let category = Array.from(Object.keys(categories))
-
-	for (let catName of category) {
+	Array.from(categories.keys()).forEach(catName => {
 		JSONdata = json[catName];
 		if (JSONdata && typeof JSONdata == 'object')
-			Object.keys(JSONdata).forEach(key => categories.get(catName)[key] = JSONdata[key])
-	}
+			Object.keys(JSONdata).forEach(key => categories.get(catName).set(key, JSONdata[key]))
+	})
 
 	return categories;
 }

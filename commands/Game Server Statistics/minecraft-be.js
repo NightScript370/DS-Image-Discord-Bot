@@ -3,7 +3,7 @@ const Command = require('../../struct/Command');
 module.exports = class MCBedrockCommand extends Command {
 	constructor() {
 		super('minecraft-be', {
-			category: 'Game Server Statistics',
+			category: 'Game Statistics',
 			aliases: ["minecraft-be", "mcbe"],
 			clientPermissions: ['EMBED_LINKS'],
 			description: 'Get stats of any Minecraft: Bedrock Edition game server.',

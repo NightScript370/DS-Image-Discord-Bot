@@ -1,22 +1,34 @@
-try { require('dotenv').config() } catch {}
+if (!process.env)
+	try { require('dotenv').config() } catch {}
 
 module.exports = {
 	token: process.env.TOKEN,
-	TopGG: {
-		token: process.env.DBLTOKEN,
-		webhookpass: process.env.DBLPASS
+	botLists: {
+		"top.gg": {
+			token: process.env.DBLTOKEN,
+			webhookpass: process.env.DBLPASS
+		},
+		"discord.boats": {
+			token: process.env.DBOATPASS,
+			webhookpass: ''
+		},
+		"discordbotlist.com": {
+			token: process.env.DBLORGTOKEN,
+			webhookpass: ''
+		}
 	},
-	url: `https://${process.env.DOMAIN}`,
+	url: "https://yamamura-bot.tk",
 	owners: [
 		"178261738364338177",
 		"305817665082097665",
 		"280399026749440000",
 		"175408504427905025"
 	],
-	prefix: process.env.PREFIX,
+	prefix: "!",
 	log: {
-		servers: process.env.LOGCHAN,
+		servers: "580990024380841986",
 		upvote: "604381257656172603",
 		errors: "592610001265229837"
-	}
+	},
+	supportServer: "https://discord.gg/vbYZCRZ"
 };

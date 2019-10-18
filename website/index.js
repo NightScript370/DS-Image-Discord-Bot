@@ -1,4 +1,4 @@
-const config = require("../config.js");
+const {website: websiteConfig} = require("../config.js");
 const List = require("list-array");
 const path = require("path");
 const fs = require('fs')
@@ -12,7 +12,7 @@ const { Strategy } = require("passport-discord");
 
 module.exports = (client) => {
 	let website = {};
-	website.URL = config.url;
+	website.URL = websiteConfig.url;
 
 	website.passport = require("passport");
 	website.passport.serializeUser((user, done) => {
@@ -24,7 +24,7 @@ module.exports = (client) => {
 
 	website.passport.use(new Strategy({
 		clientID: client.user.id,
-		clientSecret: process.env.CLIENT_SECRET,
+		clientSecret: websiteConfig.client_secret,
 		callbackURL: `${website.URL}/servers/login`,
 		scope: ["identify", "guilds"]
 	}, function(accessToken, refreshToken, profile, done) {

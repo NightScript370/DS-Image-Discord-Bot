@@ -3,7 +3,7 @@ const Command = require('../../struct/Command');
 module.exports = class TF2Command extends Command {
 	constructor() {
 		super('TF2', {
-			category: 'Game Server Statistics',
+			category: 'Game Statistics',
 			aliases: ["teamfortress2", "tf2"],
 			clientPermissions: ['EMBED_LINKS'],
 			description: 'Get stats of any Team Fortress 2 game server.',

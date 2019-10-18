@@ -3,7 +3,7 @@ const Command = require('../../struct/Command');
 module.exports = class CODMW3Command extends Command {
 	constructor() {
 		super('callOfDutyModernWarfare3', {
-			category: 'Game Server Statistics',
+			category: 'Game Statistics',
 			aliases: ["callOfDutyModernWarfare3", "codmw3"],
 			clientPermissions: ['EMBED_LINKS'],
 			description: {

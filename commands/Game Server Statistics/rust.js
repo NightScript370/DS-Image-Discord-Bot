@@ -3,7 +3,7 @@ const Command = require('../../struct/Command');
 module.exports = class RustCommand extends Command {
 	constructor() {
 		super('rust', {
-			category: 'Game Server Statistics',
+			category: 'Game Statistics',
 			aliases: ["rust"],
 			clientPermissions: ['EMBED_LINKS'],
 			description: 'Get stats of any Rust game server.',

@@ -3,7 +3,7 @@ const Command = require('../../struct/Command');
 module.exports = class BF1942Command extends Command {
 	constructor() {
 		super('BattleField1942', {
-			category: 'Game Server Statistics',
+			category: 'Game Statistics',
 			aliases: ["BattleField1942", "bf1942"],
 			clientPermissions: ['EMBED_LINKS'],
 			description: {

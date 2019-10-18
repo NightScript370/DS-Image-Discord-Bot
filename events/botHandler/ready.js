@@ -41,12 +41,12 @@ module.exports = class ReadyListener extends Listener {
 
 		this.client.botlist = {};
 
-		if (config.TopGG) {
+		if (config.botLists['top.gg']) {
 			try {
 				const TopGG = await require("dblapi.js");
-				this.client.botlist.TopGG = await new TopGG(config.TopGG.token, {
+				this.client.botlist.TopGG = await new TopGG(config.botLists['top.gg'].token, {
 					webhookPort: this.client.website.express.get('port'),
-					webhookAuth: config.TopGG.webhookpass,
+					webhookAuth: config.botLists['top.gg'].webhookpass,
 					webhookServer: this.client.website.server,
 					statsInterval: 7200000
 				}, this.client)
@@ -76,13 +76,13 @@ module.exports = class ReadyListener extends Listener {
 			
 		}
 
-		if (process.env.DBLORGTOKEN) {
+		if (config.botLists['discordbotlist.com']) {
 			try {
 				console.log('[discordbotlist.com] Updating stats');
 
 				await request
 					.post(`https://discordbotlist.com/api/bots/${this.client.user.id}/stats`)
-					.set("Authorization", `Bot ${process.env.DBLORGTOKEN}`)
+					.set("Authorization", `Bot ${config.botLists['discordbotlist.com'].token}`)
 					.send({
 						shard_id: 0,
 						guilds: this.client.guilds.size,
@@ -96,13 +96,13 @@ module.exports = class ReadyListener extends Listener {
 			}
 		}
 
-		if (process.env.DBOATPASS) {
+		if (config.botLists['discord.boats']) {
 			try {
 				console.log('[discord.boats] Updating stats');
 
 				await request
 					.post(`https://discord.boats/api/v2/bot/${this.client.user.id}`)
-					.set("Authorization", process.env.DBOATPASS)
+					.set("Authorization", config.botLists['discord.boats'].token)
 					.send({server_count: this.client.guilds.size});
 
 				console.log('[discord.boats] stats updated');

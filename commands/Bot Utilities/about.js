@@ -33,7 +33,7 @@ module.exports = class aboutCommand extends Command {
 			.addField(__('Links'), `[${__("Invite Bot")}](https://discordapp.com/oauth2/authorize?client_id=421158339129638933&scope=bot) | `
 								 + `[${__("Website")}](${this.client.website.URL}) | `
 								 + `[${__("Commands")}](${this.client.website.URL}/commands) | `
-								 + `[${__("Support Server")}](https://discord.gg/vbYZCRZ)`)
+								 + `[${__("Support Server")}](${this.client.supportServer})`)
 			.setYamamuraCredits(false)
 
 		message.channel.send({embed: embed});

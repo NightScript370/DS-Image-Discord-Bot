@@ -47,6 +47,7 @@ class YamamuraClient extends AkairoClient {
 		});
 
 		this.db = require('./utils/database.js');
+		this.supportServer = config.supportServer;
 
 		this.commandHandler = new CommandHandler(this, {
 			directory: './commands/',
