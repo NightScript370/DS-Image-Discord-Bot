@@ -61,6 +61,8 @@ global.lang.formatStringWithChoice = (script, k, ...repl) => {
 		k = k.replaceAll(new RegExp(`(?:(?<!\\\\){)\\s*${i}\\s*(?:(?<!\\\\)})`, "gmi"), (r.toString()).replace(/((?<!\\)[<>])/g, "\\$1"))
 		i++
 	})
+	
+	k = k.replaceAll(/(?<!\\)<:(.*):(\d*)(?<!\\)>/, "\\<:$1:$2\\>");
 
 	try {
 		if (script) {
@@ -86,6 +88,8 @@ global.lang.formatStringWithChoice = (script, k, ...repl) => {
 		console.error(err);
 		console.log(k)
 	}
+	
+	k = k.replaceAll(/\\<:(.*):(\d*)\\>/, "<:$1:$2>");
 
 	return k;
 }
