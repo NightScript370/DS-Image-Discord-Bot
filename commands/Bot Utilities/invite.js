@@ -15,7 +15,7 @@ module.exports = class InviteCommand extends Command {
 		let inviteLink = await this.client.generateInvite();
 		
 		let attachment = {};
-		if (this.client.supportServer && msg.channel.sendable ? {embed} : {}) {
+		if (this.client.supportServer && msg.channel.sendable) {
 			let attachment = {
 				embed: this.client.util.embed()
 					.setColor("RED")
