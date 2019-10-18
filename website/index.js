@@ -25,7 +25,7 @@ module.exports = (client) => {
 	website.passport.use(new Strategy({
 		clientID: client.user.id,
 		clientSecret: process.env.CLIENT_SECRET,
-		callbackURL: `${website.URL}/login`,
+		callbackURL: `${website.URL}/servers/login`,
 		scope: ["identify", "guilds"]
 	}, function(accessToken, refreshToken, profile, done) {
 		process.nextTick(function() {

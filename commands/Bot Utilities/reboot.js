@@ -1,6 +1,5 @@
 const { Command } = require('discord-akairo');
-const { promisify } = require("util");
-const write = promisify(require("fs").writeFile);
+const write = require("util").promisify(require("fs").writeFile);
 
 module.exports = class RebootCommand extends Command {
 	constructor() {
@@ -15,8 +14,9 @@ module.exports = class RebootCommand extends Command {
 	}
 
 	async exec(message) {
-	  let m = await message.channel.send("I'm rebooting...");
-	  await write('./reboot.json', `{"id": "${m.id}", "channel": "${m.channel.id}"}`).catch(console.error);
-	  process.exit();
+		let replyMessage = message.channel.send("I'm rebooting...");
+		await write('./reboot.json', `{"id": "${message.id}", "channel": "${message.channel.id}"}`)
+			.then(process.exit())
+			.catch(console.error);
 	}
 };

@@ -30,11 +30,7 @@ module.exports = class StatsCommand extends Command {
 		let msgrt = (pingMsg.editedTimestamp || pingMsg.createdTimestamp) - (message.editedTimestamp || message.createdTimestamp);
 		let hbping = '';
 		if (this.client.ws.ping)
-			hbping = `\n ` + __("The heartbeat ping is {0}", __("{0}ms", Math.round(this.client.ws.ping)));
-
-		let prefix = await this.handler.prefix(message);
-		let osv = await os.cpuUsage( function(value) { return value; } );
-		osv *= 1024; // GB to MB
+			hbping = "\n " + __("The heartbeat ping is {0}", __("{0}ms", Math.round(this.client.ws.ping)));
 
 		let usedMem = process.memoryUsage().heapUsed / 1024 / 1024;
 		let totalMem = process.memoryUsage().heapTotal / 1024 / 1024;
@@ -47,7 +43,7 @@ module.exports = class StatsCommand extends Command {
 • ${this.client.guilds.size.toLocaleString()} Servers`)
 			.addInline("🏓 " + __("Ping"), __("The message round-trip took {0}", __("{0}ms", msgrt)) + " " +  hbping)
 			.addInline("⚙️ " + __("Resource Usage"), `**• Allocated Memory**: ${Math.round(usedMem * 100) / 100} MB/${Math.round(totalMem * 100) / 100} MB
-**• CPU**: ${osv.toFixed(2)}%`)
+**• CPU**: ${(await os.cpu().used) * 1024.toFixed(2)}%`)
 			.addField("⏱️ " + __("Uptime"), global.lang.getDuration(message.author.lang, this.client.uptime))
 			.addField("🎂 " + __("Creation date"), global.lang.getDuration(message.author.lang, moment().diff(moment(this.client.user.createdAt))) + " " + __("ago"))
 			.setYamamuraCredits(false)

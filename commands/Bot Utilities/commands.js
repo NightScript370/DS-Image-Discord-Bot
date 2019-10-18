@@ -173,10 +173,13 @@ module.exports = class CommandsCommand extends Command {
 		} else {
 			// General command listing
 			// {id: <name>, aliases: [<name>, <name>...], description: <desc>, category.id: <category>}
-			let prefix = await this.handler.prefix(msg);
-			let text = __("{0}'s Command Listing", this.client.user.username) + "\n\n"
-					 + __("To view a list of all the commands, please go to our website's command page: {0}", `${this.client.website.URL}/commands`) + " \n"
-					 + __("To view a list of a command of a specific category, type `{0}commands (category name)`.", prefix)
+			let text = __("<:Yamamura:633898611125649418> | {0}'s Command Listing", this.client.user.username) + "\n\n"
+					 
+					 + __("Type a command or category name for information on that item") + "\n"
+					 + __("To run a command in {0}, use `{1}command` or `{2} command`. For example, `{1}invite` or `{2} invite`.", msg.guild ? msg.guild.name : "this DM box", this.handler.prefix(msg), `@${this.client.user.username}#${this.client.user.discriminator}`) + "\n\n"
+
+					 + (this.client.website ? __("A full list of commands can be viewed on our website: {0}", `${this.client.website.URL}/commands`) : '')
+						.trim()
 
 			cats.forEach(category => {
 				let catCmds = cmds.filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));
