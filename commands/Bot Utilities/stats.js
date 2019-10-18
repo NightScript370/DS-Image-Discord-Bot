@@ -43,7 +43,7 @@ module.exports = class StatsCommand extends Command {
 • ${this.client.guilds.size.toLocaleString()} Servers`)
 			.addInline("🏓 " + __("Ping"), __("The message round-trip took {0}", __("{0}ms", msgrt)) + " " +  hbping)
 			.addInline("⚙️ " + __("Resource Usage"), `**• Allocated Memory**: ${Math.round(usedMem * 100) / 100} MB/${Math.round(totalMem * 100) / 100} MB
-**• CPU**: ${(await os.cpu().used) * 1024.toFixed(2)}%`)
+**• CPU**: ${((await os.cpu().used) * 1024).toFixed(2)}%`)
 			.addField("⏱️ " + __("Uptime"), global.lang.getDuration(message.author.lang, this.client.uptime))
 			.addField("🎂 " + __("Creation date"), global.lang.getDuration(message.author.lang, moment().diff(moment(this.client.user.createdAt))) + " " + __("ago"))
 			.setYamamuraCredits(false)
