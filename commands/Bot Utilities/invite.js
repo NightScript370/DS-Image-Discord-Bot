@@ -18,7 +18,7 @@ module.exports = class InviteCommand extends Command {
 			.setColor("RED")
 			.setDescription(global.lang.getString("If you need help, you can [join our support server]({0})!", this.client.supportServer))
 
-		msg.channel.send("<:Yamamura:633898611125649418> | " + global.lang.getString("Here's a link to invite Yamamura to your server: {0}", inviteLink), (this.client.supportServer && msg.channel.sendable ? {embed} : {}))
+		msg.channel.send("<:Yamamura:633898611125649418> | " + global.lang.getString(msg.author.lang, "Here's a link to invite Yamamura to your server: {0}", inviteLink), (this.client.supportServer && msg.channel.sendable ? {embed} : {}))
 
 		return inviteLink;
 	}
