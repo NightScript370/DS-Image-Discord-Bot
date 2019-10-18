@@ -13,12 +13,17 @@ module.exports = class InviteCommand extends Command {
 
 	async exec(msg) {
 		let inviteLink = await this.client.generateInvite();
+		
+		let attachment = {};
+		if (this.client.supportServer && msg.channel.sendable ? {embed} : {}) {
+			let attachment = {
+				embed: this.client.util.embed()
+					.setColor("RED")
+					.setDescription(global.lang.getString(msg.author.lang, "If you need help, you can [join our support server]({0})!", this.client.supportServer))
+			}
+		}
 
-		let embed = this.client.util.embed()
-			.setColor("RED")
-			.setDescription(global.lang.getString(msg.author.lang, "If you need help, you can [join our support server]({0})!", this.client.supportServer))
-
-		msg.channel.send("<:Yamamura:633898611125649418> | " + global.lang.getString(msg.author.lang, "Here's a link to invite Yamamura to your server: {0}", inviteLink), (this.client.supportServer && msg.channel.sendable ? {embed} : {}))
+		msg.channel.send("<:Yamamura:633898611125649418> | " + global.lang.getString(msg.author.lang, "Here's a link to invite Yamamura to your server: {0}", inviteLink), attachment)
 
 		return inviteLink;
 	}
