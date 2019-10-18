@@ -62,7 +62,7 @@ global.lang.formatStringWithChoice = (script, k, ...repl) => {
 		i++
 	})
 	
-	k = k.replaceAll(/(?<!\\)<:(.*):(\d*)(?<!\\)>/, "\\<:$1:$2\\>");
+	k = k.replace(/(?<!\\)<:(.*):(\d*)(?<!\\)>/gmi, "\\<:$1:$2\\>");
 
 	try {
 		if (script) {
@@ -89,7 +89,7 @@ global.lang.formatStringWithChoice = (script, k, ...repl) => {
 		console.log(k)
 	}
 	
-	k = k.replaceAll(/\\<:(.*):(\d*)\\>/, "<:$1:$2>");
+	k = k.replace(/\\<:(.*):(\d*)\\>/gmi, "<:$1:$2>");
 
 	return k;
 }
