@@ -173,8 +173,8 @@ module.exports = class CommandsCommand extends Command {
 		} else {
 			// General command listing
 			// {id: <name>, aliases: [<name>, <name>...], description: <desc>, category.id: <category>}
-			let text = __("<:Yamamura:633898611125649418> | {0}'s Command Listing", this.client.user.username) + "\n\n"
-					 
+			let text = "<:Yamamura:633898611125649418> |" + __("{0}'s Command Listing", this.client.user.username) + "\n\n"
+
 					 + __("Type a command or category name for information on that item") + "\n"
 					 + __("To run a command in {0}, use `{1}command` or `{2} command`. For example, `{1}invite` or `{2} invite`.", msg.guild ? msg.guild.name : "this DM box", this.handler.prefix(msg), `@${this.client.user.username}#${this.client.user.discriminator}`) + "\n\n"
 
