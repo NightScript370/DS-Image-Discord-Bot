@@ -39,6 +39,6 @@ module.exports = class aboutCommand extends Command {
 	}
 };
 
-function createBultin(text, link, extra="", newline=true) {
+function createBultin(text, link, extra="", newLine=true) {
 	return `• [${text}](${link}) ${extra ? "(" + extra + ")" : ""} ${newLine ? "\n" : ""}` 
 }
