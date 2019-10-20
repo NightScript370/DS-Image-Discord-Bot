@@ -1,5 +1,4 @@
-if (!process.env)
-	try { require('dotenv').config() } catch {}
+try { require('dotenv').config() } catch {}
 
 module.exports = {
 	token: process.env.TOKEN,
@@ -17,7 +16,10 @@ module.exports = {
 			webhookpass: ''
 		}
 	},
-	url: "https://yamamura-bot.tk",
+	website: {
+		url: "https://yamamura-bot.tk"
+		client_secret: process.env.CLIENT_SECRET
+	},
 	owners: [
 		"178261738364338177",
 		"305817665082097665",
