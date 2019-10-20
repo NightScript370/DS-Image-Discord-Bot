@@ -44,7 +44,7 @@ module.exports = class RomanCommand extends Command {
 
 		let embed;
 		if (message.guild)
-			embed = this.client.util.embed().setFooter(global.getString(message.author.lang, 'This command was ran by {0}', message.member.displayName));
+			embed = this.client.util.embed().setFooter(global.lang.getString(message.author.lang, 'This command was ran by {0}', message.member.displayName));
 
 		return message.util.reply(result, (embed && message.channel.embedable ? {embed} : {}));
 	}

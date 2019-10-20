@@ -1,5 +1,20 @@
 const { length, list, nth, List } = require("list")
 
+String.prototype.replaceAll = function (search, replacement) {
+	var target = this;
+	let result = target;
+
+	if (search instanceof Array) {
+		for (var splitvar of search) {
+			result = result.split(splitvar).join(replacement)
+		}
+	} else {
+		result = result.split(search).join(replacement)
+	}
+
+	return result;
+};
+
 List.prototype.random = function () {
 	return nth(Math.floor(Math.random() * length(this)), this)
 }
@@ -226,4 +241,26 @@ String.prototype.toKatakana = function() {
 		returnString += String.fromCharCode(c);
 	}
 	return returnString;
+}
+
+Number.prototype.toOrdinal = function() {
+	if (!isFinite(this)) {
+        throw new TypeError(
+            'Not a finite number: ' + number + ' (' + typeof number + ')'
+        );
+    }
+    if (!isSafeNumber(num)) {
+        throw new RangeError(
+            'Input is not a safe number, it’s either too large or too small.'
+        );
+    }
+    var str = String(num);
+    var lastTwoDigits = Math.abs(num % 100);
+    var betweenElevenAndThirteen = lastTwoDigits >= 11 && lastTwoDigits <= 13;
+    var lastChar = str.charAt(str.length - 1);
+    return str + (betweenElevenAndThirteen ? 'th'
+            : lastChar === '1' ? 'st'
+            : lastChar === '2' ? 'nd'
+            : lastChar === '3' ? 'rd'
+            : 'th');
 }

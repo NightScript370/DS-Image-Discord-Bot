@@ -10,7 +10,7 @@ module.exports = class CommandBlockedListener extends Listener {
 	}
 
 	exec(message, command, reason) {
-		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v);
+		const __ = (k, ...v) => global.lang.getString(message.author.lang, k, ...v);
 
 		const text = {
 			owner: () => __("we're sorry, but the {0} command may only be used by the bot owners.", command.id),

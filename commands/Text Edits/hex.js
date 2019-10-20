@@ -22,11 +22,11 @@ module.exports = class HexCommand extends Command {
 
 	exec(message, { text }) {
 		if (!text)
-			return message.util.reply(global.getString(message.author.lang, "There were no text I can find to convert to hexadecimal."));
+			return message.util.reply(global.lang.getString(message.author.lang, "There were no text I can find to convert to hexadecimal."));
 
 		let embed;
 		if (message.guild)
-			embed = this.client.util.embed().setFooter(global.getString(message.author.lang, 'This command was ran by {0}', message.member.displayName));
+			embed = this.client.util.embed().setFooter(global.lang.getString(message.author.lang, 'This command was ran by {0}', message.member.displayName));
 
 		return message.util.send(Buffer.from(text).toString('hex'), (embed && message.channel.embedable ? {embed} : {}));
 	}

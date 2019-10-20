@@ -21,10 +21,10 @@ module.exports = class LanguageCommand extends Command {
 							let s = [];
 							for (let lang of langs) {
 								let i = langs.indexOf(lang) + 1;
-								s.push(`**${i}.** ${lang.flag} \`${lang.code}\` ${lang.name} *${global.getString(message.author.lang, "by {0}", lang.translators.join(", "))}*`);
+								s.push(`**${i}.** ${lang.flag} \`${lang.code}\` ${lang.name} *${global.lang.getString(message.author.lang, "by {0}", lang.translators.join(", "))}*`);
 							}
 
-							return global.getString(message.author.lang, `Which language would you like to set? \nHere is a list of the available languages:`) + `\n \n${s.join("\n")}`;
+							return global.lang.getString(message.author.lang, `Which language would you like to set? \nHere is a list of the available languages:`) + `\n \n${s.join("\n")}`;
 						},
 						retry: message => {
 							const langCodes = langs.map(l => l.code)
@@ -32,10 +32,10 @@ module.exports = class LanguageCommand extends Command {
 							let s = [];
 							for (let lang of langs) {
 								let i = langs.indexOf(lang) + 1;
-								s.push(`**${i}.** ${lang.flag} \`${lang.code}\` ${lang.name} *${global.getString(message.author.lang, "by {0}", lang.translators.join(", "))}*`);
+								s.push(`**${i}.** ${lang.flag} \`${lang.code}\` ${lang.name} *${global.lang.getString(message.author.lang, "by {0}", lang.translators.join(", "))}*`);
 							}
 
-							return global.getString(message.author.lang, `That is an invalid language. Here are the available languages:`) + `\n \n${s.join("\n")}`;
+							return global.lang.getString(message.author.lang, `That is an invalid language. Here are the available languages:`) + `\n \n${s.join("\n")}`;
 						}
 					},
 					default: null,
@@ -52,13 +52,13 @@ module.exports = class LanguageCommand extends Command {
 			let s = [];
 			for (let lang of langs) {
 				let i = langs.indexOf(lang) + 1;
-				s.push(`**${i}.** ${lang.flag} \`${lang.code}\` ${lang.name} *${global.getString(msg.author.lang, "by {0}", lang.translators.join(", "))}*`);
+				s.push(`**${i}.** ${lang.flag} \`${lang.code}\` ${lang.name} *${global.lang.getString(msg.author.lang, "by {0}", lang.translators.join(", "))}*`);
 			}
 			msg.channel.send(s.join("\n"));
 		} else {
 			let langData = langs.filter(l => l.code == langcode)[0];
 			msg.author.lang = langcode;
-			msg.channel.send(global.getString(langcode, "The language has been changed to {0} **{1}**.", langData.flag, langData.name));
+			msg.channel.send(global.lang.getString(langcode, "The language has been changed to {0} **{1}**.", langData.flag, langData.name));
 		}
 	}
 };

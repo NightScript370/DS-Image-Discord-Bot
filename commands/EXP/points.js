@@ -34,7 +34,7 @@ module.exports = class ServerPointsCommand extends Command {
 	}
 
 	async exec(message, { user, guild }) {
-		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v);
+		const __ = (k, ...v) => global.lang.getString(message.author.lang, k, ...v);
 		let guildFound;
 
 		if (user.bot)

@@ -43,15 +43,15 @@ module.exports = class ImgInfoCommand extends Command {
 
 			let ImageInfoEmbed = this.client.util.embed()
 				.setColor("BLUE")
-				.setFooter(global.getString(msg.author.lang, "Image information requested by {0}", msg.author.tag), msg.author.displayAvatarURL());
+				.setFooter(global.lang.getString(msg.author.lang, "Image information requested by {0}", msg.author.tag), msg.author.displayAvatarURL());
 
 			if (typeof images == "string" || (images instanceof Array && images.length == 1)) {
 				ImageInfoEmbed
 					.setImage(images instanceof Array ? images[0] : images)
 					.addInline("Format Extention", this.getExtention(images instanceof Array ? images[0] : images))
-					.addInline(global.getString(msg.author.lang, "Dimentions"),
-					  `**${global.getString(msg.author.lang, "Width")}**: ${global.getString(msg.author.lang, "{0} pixels", imagessize.width)} \n`
-					+ `**${global.getString(msg.author.lang, "Height")}**: ${global.getString(msg.author.lang, "{0} pixels", imagessize.height)}`);
+					.addInline(global.lang.getString(msg.author.lang, "Dimentions"),
+					  `**${global.lang.getString(msg.author.lang, "Width")}**: ${global.lang.getString(msg.author.lang, "{0} pixels", imagessize.width)} \n`
+					+ `**${global.lang.getString(msg.author.lang, "Height")}**: ${global.lang.getString(msg.author.lang, "{0} pixels", imagessize.height)}`);
 			} else {
 				let layerList = "";
 				for (var image of images) {
@@ -78,23 +78,23 @@ module.exports = class ImgInfoCommand extends Command {
 
 						fielddescription = '';
 						fielddescription += `**Format:** ${this.getExtention(images[index])} \n`;
-						fielddescription += `**${global.getString(msg.author.lang, "Width")}**: ${global.getString(msg.author.lang, "{0} pixels", currentimage.width)} \n`;
-						fielddescription += `**${global.getString(msg.author.lang, "Height")}**: ${global.getString(msg.author.lang, "{0} pixels", currentimage.height)} \n`;
+						fielddescription += `**${global.lang.getString(msg.author.lang, "Width")}**: ${global.lang.getString(msg.author.lang, "{0} pixels", currentimage.width)} \n`;
+						fielddescription += `**${global.lang.getString(msg.author.lang, "Height")}**: ${global.lang.getString(msg.author.lang, "{0} pixels", currentimage.height)} \n`;
 						fielddescription += `**Link to image:** ${images[index]}`;
 
 						ImageInfoEmbed.addField(`Layer #(${images[index]})`, fielddescription);
 					}
 				} else {
-					ImageInfoEmbed.addInline(global.getString(msg.author.lang, "Dimentions"),
-					  `**${global.getString(msg.author.lang, "Width")}**: ${global.getString(msg.author.lang, "{0} pixels", imagessize.width)} \n`
-					+ `**${global.getString(msg.author.lang, "Height")}**: ${global.getString(msg.author.lang, "{0} pixels", imagessize.height)}`);
+					ImageInfoEmbed.addInline(global.lang.getString(msg.author.lang, "Dimentions"),
+					  `**${global.lang.getString(msg.author.lang, "Width")}**: ${global.lang.getString(msg.author.lang, "{0} pixels", imagessize.width)} \n`
+					+ `**${global.lang.getString(msg.author.lang, "Height")}**: ${global.lang.getString(msg.author.lang, "{0} pixels", imagessize.height)}`);
 				}
 			}
 
 			return msg.util.send({ embed: ImageInfoEmbed });
 		} catch (err) {
 			console.error(err);
-			return msg.reply(global.getString(msg.author.lang, "Oh no, an error occurred: `{0}`. Please report your error to the Yamamura developers!", err.message));
+			return msg.reply(global.lang.getString(msg.author.lang, "Oh no, an error occurred: `{0}`. Please report your error to the Yamamura developers!", err.message));
 		}
 	}
 

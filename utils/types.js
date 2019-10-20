@@ -56,7 +56,7 @@ const imageType = async (message, argument, attachmentcheck, historycheck) => {
 					.replace('https://www.github.com', 'https://github.com');
 
 				testedArgs.push(githubRaw(splitArg));
-				break;
+				continue;
 			}
 
 			testedArgs.push(splitArg);
@@ -143,13 +143,13 @@ const isGood = (variable) => {
 const parseMentions = (message, variable) => {
 	variable = variable.replace(/<@!?(\d{17,19})>/g, (something, id) => {
 		let user = message.client.users.get(id);
-		return user ? user.tag : global.getString(message.author.lang, "User not found");
+		return user ? user.tag : global.lang.getString(message.author.lang, "User not found");
 	});
 
 	if (message.guild) {
 		variable = variable.replace(/<@&!?(\d{17,19})>/g, (something, id) => {
 			let role = message.guild.roles.get(id);
-			return role ? role.name : global.getString(message.author.lang, "Role not found");
+			return role ? role.name : global.lang.getString(message.author.lang, "Role not found");
 		});
 	}
 

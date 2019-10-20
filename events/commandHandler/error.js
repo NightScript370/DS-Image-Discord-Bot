@@ -11,7 +11,7 @@ module.exports = class errorListener extends Listener {
 	}
 
 	exec(error, message, command=null) {
-		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v);
+		const __ = (k, ...v) => global.lang.getString(message.author.lang, k, ...v);
 		Logger.error('An error occured in a command.');
 
 		const tag = message.guild ? message.guild.name : `${message.author.tag}/PM`;

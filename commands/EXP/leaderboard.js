@@ -39,7 +39,7 @@ module.exports = class LeaderboardCommand extends Command {
 	}
 
 	async exec(msg, { guild, numberofresults }) {
-		const __ = (k, ...v) => global.getString(msg.author.lang, k, ...v);
+		const __ = (k, ...v) => global.lang.getString(msg.author.lang, k, ...v);
 		let medal, username, guildFound;
 
 		if(guild) {

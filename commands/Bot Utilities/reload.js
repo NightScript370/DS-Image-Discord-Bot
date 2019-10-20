@@ -17,8 +17,8 @@ module.exports = class ReloadCommand extends Command {
 					description: "This is the module that you would like to reload. It has to be a module of the type that you specified.",
 					type: "string",
 					prompt: {
-						start: (msg) => global.getString(msg.author.lang, 'Which module would you like to reload?'),
-						retry: (msg) => global.getString(msg.author.lang, 'That is not something we can reload. Try again')
+						start: (msg) => global.lang.getString(msg.author.lang, 'Which module would you like to reload?'),
+						retry: (msg) => global.lang.getString(msg.author.lang, 'That is not something we can reload. Try again')
 					},
 					match: 'rest'
 				},

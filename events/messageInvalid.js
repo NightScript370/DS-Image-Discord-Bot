@@ -20,8 +20,6 @@ module.exports = class messageInavlidListener extends Listener {
 	}
 
 	async invalidMessage(message) {
-		const nowDate = Date.now();
-
 		if (!Object.keys(message.util.parsed).length)
 			return false;
 
@@ -43,7 +41,7 @@ module.exports = class messageInavlidListener extends Listener {
 				let messages = (await message.channel.messages.fetch({ limit: 50 }))
 					.filter(channelMessage => channelMessage.author.bot)
 					.filter(channelMessage => channelMessage.author.id !== this.client.user.id)
-					.filter(channelMessage => channelMessage.createdAt >= message.createdAt - 1700)
+					.filter(channelMessage => channelMessage.createdAt >= message.createdAt)
 
 				if (messages.size)
 					return true;
@@ -64,9 +62,9 @@ module.exports = class messageInavlidListener extends Listener {
 			});
 		}
 
-		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v);
+		const __ = (k, ...v) => global.lang.getString(message.author.lang, k, ...v);
 
-		let text = `Hey ${message.guild ? message.member.displayName : message.author.username}, ${attempt} is not a command.\n`;
+		let text = __("Hey {0}, {1} is not a command.", message.guild ? message.member.displayName : message.author.username, attempt) + "\n";
 		let suggestedCmds = [];
 		var iterated = [];
 
@@ -93,9 +91,18 @@ module.exports = class messageInavlidListener extends Listener {
 			}
 		}
 
+		if (suggestedCmds.length)
+			text = text
+				 + __("However, here are some commands that you might be looking for:")
+				 + "\n\n"
+				 + suggestedCmds.join("\n")
+				 + "\n\n"
+
+		text += __("If you'd like to see more commands, check out the commands command or the page on our website");
+
 		try {
-			let invalidCommandMessage = await message.channel.send(text + (suggestedCmds.length ? `However, here are some commands that you might be looking for \n \n${suggestedCmds.join("\n")}\n\n` : "") + "If you'd like to see more commands, check out the commands command or the page on our website");
-			invalidCommandMessage.delete({timeout: suggestedCmds.length ? 12000 : 5000})
+			let invalidCommandMessage = await message.channel.send(text);
+			invalidCommandMessage.delete({timeout: (suggestedCmds.length ? 12000 : 5000)})
 		} catch (e) {
 			console.error(e);
 		}

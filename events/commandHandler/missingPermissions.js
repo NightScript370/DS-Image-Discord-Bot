@@ -10,7 +10,7 @@ class MissingPermissionsListener extends Listener {
 	}
 
 	exec(message, command, type, missing) {
-		const __ = (k, ...v) => global.getString(message.author.lang, k, ...v);
+		const __ = (k, ...v) => global.lang.getString(message.author.lang, k, ...v);
 
 		const text = {
 			client: () => {

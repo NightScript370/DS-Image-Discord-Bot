@@ -24,7 +24,7 @@ module.exports = class WarnCommand extends Command {
 	}
 
 	async exec(msg, { user }) {
-		const __ = (k, ...v) => global.getString(msg.author.lang, k, ...v);
+		const __ = (k, ...v) => global.lang.getString(msg.author.lang, k, ...v);
 
 		if (msg.guild.members.has(user.id)) {
 			let member = msg.guild.members.get(user.id);

@@ -15,6 +15,6 @@ module.exports = class NameCheckCommand extends Command {
 
 	async exec(message) {
 		const members = message.guild.members.filter(member => member.displayName && !member.displayName.match(/^[A-Za-z0-9._'-@]/g));
-		return message.channel.send(members.map(member => `\`${member.id}\` ${member.displayName}`).join("\n") || global.getString(message.author.lang, "Nobody has a name with weird characters."));
+		return message.channel.send(members.map(member => `\`${member.id}\` ${member.displayName}`).join("\n") || global.lang.getString(message.author.lang, "Nobody has a name with weird characters."));
 	}
 };

@@ -34,7 +34,7 @@ module.exports = class SurprisedPikaPanelCommand extends Command {
 		let loadimage;
 
 		if (items.length < 1)
-			return message.util.send(global.getString(message.author.lang, "There are not enough arguments to this command. The minimum is {0}.", 1));
+			return message.util.send(global.lang.getString(message.author.lang, "There are not enough arguments to this command. The minimum is {0}.", 1));
 
 		let base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'surprisedpika.png'));
 		let y = [0, 148, 295, 442, 588];
@@ -78,7 +78,7 @@ module.exports = class SurprisedPikaPanelCommand extends Command {
 
 		let attachment = canvas.toBuffer()
 		if (Buffer.byteLength(attachment) > 8e+6) return message.util.reply('Resulting image was above 8 MB.');
-		message.util.send(global.getString(message.author.lang, "Alright {0}, here's your scared pikachu!", message.guild ? message.member.displayName : message.author.username), { files: [{attachment: attachment, name: 'brain.png'}] })
+		message.util.send(global.lang.getString(message.author.lang, "Alright {0}, here's your scared pikachu!", message.guild ? message.member.displayName : message.author.username), { files: [{attachment: attachment, name: 'brain.png'}] })
 	}
 
 	async drawBrainText(ctx, text, heightstart) {

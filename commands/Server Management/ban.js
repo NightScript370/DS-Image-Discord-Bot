@@ -18,8 +18,8 @@ module.exports = class BanCommand extends Command {
 					description: 'This parameter would be the user you would like to ban. It can be a mention, the name of someone in a server or the ID of someone not in the server',
 					type: "user-commando",
 					prompt: {
-						start: (msg) => global.getString(msg.author.lang, 'Who would you like to ban?'),
-						retry: (msg) => global.getString(msg.author.lang, "That's not something we can ban! Try again.")
+						start: (msg) => global.lang.getString(msg.author.lang, 'Who would you like to ban?'),
+						retry: (msg) => global.lang.getString(msg.author.lang, "That's not something we can ban! Try again.")
 					},
 				},
 				{
@@ -48,7 +48,7 @@ module.exports = class BanCommand extends Command {
 	}
 
 	async exec(msg, { user, reason, check, days }) {
-		const __ = (k, ...v) => global.getString(msg.author.lang, k, ...v)
+		const __ = (k, ...v) => global.lang.getString(msg.author.lang, k, ...v)
 
 		let banList;
 		let member;

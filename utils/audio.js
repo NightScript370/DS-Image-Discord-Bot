@@ -8,7 +8,7 @@ const isGood = (variable) => {
 module.exports = {
 	active: new Map(),
 	play: async (msg, client, data) => {
-		const __ = (k, ...v) => global.getString(data.language, k, ...v)
+		const __ = (k, ...v) => global.lang.getString(data.language, k, ...v)
 		let playing;
 
 		if (!data.connection) {

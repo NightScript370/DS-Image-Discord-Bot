@@ -18,7 +18,7 @@ module.exports = class aboutCommand extends Command {
 	}
 
 	async exec(authorMessage) {
-		const __ = (k, ...v) => global.getString(authorMessage.author.lang, k, ...v)
+		const __ = (k, ...v) => global.lang.getString(authorMessage.author.lang, k, ...v)
 
 		let inviteLink = await this.client.generateInvite();
 		let message = "<:Yamamura:633898611125649418> |" + __("Welcome to {0}", this.client.user.username) + "\n"

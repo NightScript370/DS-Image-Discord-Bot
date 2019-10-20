@@ -1,4 +1,7 @@
 const { Structures } = require("discord.js");
+const db = require('../utils/database');
+
+const { defaultLang } = require("../langs/framework")
 
 // This extends Discord's native User class with our own methods and properties
 module.exports = Structures.extend("User", User => class YamamuraUser extends User {
@@ -7,12 +10,19 @@ module.exports = Structures.extend("User", User => class YamamuraUser extends Us
 	}
 
 	get lang() {
-		return global.lang.getUser(this.client, this.id).lang || global.lang.default;
+		let user = this;
+
+		let data = db.userconfig.findOne({ userID: user.id }) || db.userconfig.insert({ lang: defaultLang, userID: user.id });
+		return data.lang || defaultLang;
 	}
 
 	set lang(langcode) {
-		let data = global.lang.getUser(this.client, this.id);
+		let user = this;
+
+		let data = db.userconfig.findOne({ userID: user.id }) || db.userconfig.insert({ lang: defaultLang, userID: user.id });
 		data.lang = langcode;
-		global.lang.update(this.client, data);
+		let newdata = db.userconfig.update(data);
+
+		return newdata.lang;
 	}
 })

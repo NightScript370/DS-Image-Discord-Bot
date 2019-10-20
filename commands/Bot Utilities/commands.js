@@ -24,7 +24,7 @@ module.exports = class CommandsCommand extends Command {
 	}
 
 	async exec(msg, { commandName }) {
-		const __ = (k, ...v) => global.getString(msg.author.lang, k, ...v);
+		const __ = (k, ...v) => global.lang.getString(msg.author.lang, k, ...v);
 		let embed = this.client.util.embed()
 
 		let description;

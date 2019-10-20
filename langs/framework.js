@@ -1,57 +1,4 @@
-global.lang = {};
-global.lang.default = "en";
-
-String.prototype.replaceAll = function (search, replacement) {
-	var target = this;
-	let result = target;
-
-	if (search instanceof Array) {
-		for (var splitvar of search) {
-			result = result.split(splitvar).join(replacement)
-		}
-	} else {
-		result = result.split(search).join(replacement)
-	}
-
-	return result;
-};
-
-global.lang.defaultData = (userID) => {
-	return {
-		lang: global.lang.default,
-		userID: userID
-	}
-}
-
-global.lang.getUser = (client, userID) => client.db.userconfig.findOne({userID: userID}) || client.db.userconfig.insert(global.lang.defaultData(userID));
-global.lang.update = (client, data) => client.db.userconfig.update(data);
-
-/* Get String function
- * Returns a string in the given language
- * Example: getString("en", "Ping: {0} ms", 400)
- */
-global.getString = (lang, key, ...repl) => {
-	if (lang !== 'en') {
-		let languageFile = require(`./${lang}/index.js`);
-		key = languageFile[key] ? languageFile[key] : key;
-	}
-
-	return global.lang.formatString(key, ...repl);
-}
-global.lang.getString = global.getString;
-
-global.getStringObject = (lang, key, ...repl) => {
-	let l;
-	if (lang !== 'en') l = require(`./${lang}/index.js`);
-	let k = lang == "en" ? key : l[key] || key;
-  
-	return global.lang.formatStringObject(k, ...repl);
-}
-global.lang.getStringObject = global.getStringObject;
-
-global.lang.formatStringObject = (k, obj) => k.replace(new RegExp("(?:(?<!\\\\){)\\s*(.*)\\s*(?:(?<!\\\\)})", "gmi"), (match, key) => obj[key])
-
-global.lang.formatStringWithChoice = (script, k, ...repl) => {
+const formatStringWithChoice = (script, k, ...repl) => {
 	// inline variables
 	// & variable {key}
 	// k = k.replace(/(?:(?<!\\){)\s*key\s*(?:(?<!\\)})/gmi, key)
@@ -94,10 +41,29 @@ global.lang.formatStringWithChoice = (script, k, ...repl) => {
 	return k;
 }
 
-global.lang.formatString = (k, ...v) => global.lang.formatStringWithChoice(true, k, ...v)
+const translate = (lang, key, ...repl) => {
+	let languageFile = require(`./${lang}/index.js`);
+	key = languageFile[key] || key;
 
-global.lang.getDuration = (lang, duration) => {
-	const __ = k => global.lang.getString(lang, k)
+	return formatStringWithChoice(true, key, ...repl);
+}
+
+translate.defaultLang = "en"
+
+translate.formatStringWithChoice = formatStringWithChoice;
+translate.formatString = (k, ...v) => formatStringWithChoice(true, k, ...v)
+translate.formatStringObject = (k, obj) => k.replace(new RegExp("(?:(?<!\\\\){)\\s*(.*)\\s*(?:(?<!\\\\)})", "gmi"), (match, key) => obj[key])
+
+translate.getStringObject = (lang, key, ...repl) => {
+	let l;
+	if (lang !== 'en') l = require(`./${lang}/index.js`);
+	let k = lang == "en" ? key : l[key] || key;
+
+	return translate.formatStringObject(k, ...repl);
+}
+
+translate.getDuration = (lang, duration) => {
+	const __ = k => translate.getString(lang, k)
 	var milliseconds = parseInt((duration % 1000) / 100),
 		seconds = Math.floor((duration / 1000) % 60),
 		minutes = Math.floor((duration / (1000 * 60)) % 60),
@@ -123,3 +89,5 @@ global.lang.getDuration = (lang, duration) => {
 	// console.log(days, hours, minutes, seconds, dayString, hourString, minString, secString)
 	return `${dayString}${hourString}${minString}${secString}`
 }
+
+module.exports = translate;

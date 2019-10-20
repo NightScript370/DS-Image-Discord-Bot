@@ -17,6 +17,6 @@ module.exports = class CooldownListener extends Listener {
 		console.log(`${message.author.username} (#${message.author.id}) was blocked from using ${command.id} in ${placeused} because of cooldown!`);
 
 		if (!message.channel.sendable) return; 
-		message.util.reply(global.getString(message.author.lang, "we're sorry, but you may not use the {0} command for another {1} seconds.", command.id, time / 1000));
+		message.util.reply(global.lang.getString(message.author.lang, "we're sorry, but you may not use the {0} command for another {1} seconds.", command.id, time / 1000));
 	}
 }

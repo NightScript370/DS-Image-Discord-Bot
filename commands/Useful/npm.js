@@ -45,11 +45,11 @@ module.exports = class NPMCommand extends Command {
 
 	async exec(message, { pkg }) {
 		if (pkg == "error")
-			return message.util.reply(global.getString(message.author.lang, "there has been an error while trying to get the NPM data. Please try again later"));
+			return message.util.reply(global.lang.getString(message.author.lang, "there has been an error while trying to get the NPM data. Please try again later"));
 
 		let body = pkg.body;
 		if (body.time === undefined)
-			return message.util.reply(global.getString(message.author.lang, "commander of this package decided to unpublish it."));
+			return message.util.reply(global.lang.getString(message.author.lang, "commander of this package decided to unpublish it."));
 
 		const version = body.versions[body["dist-tags"].latest];
 		const maintainers = this._trimArray(body.maintainers.map(user => user.name).join(", "));
@@ -57,24 +57,24 @@ module.exports = class NPMCommand extends Command {
 		let embed = this.client.util.embed()
 			.setColor(0xCB0000)
 			.setThumbnail("https://i.imgur.com/ErKf5Y0.png")
-			.addInline(global.getString(message.author.lang, "Latest Version"), body["dist-tags"].latest)
-			.addInline(global.getString(message.author.lang, "License"), body.license || global.getString(message.author.lang, "None"))
-			.addInline(global.getString(message.author.lang, "Author"), body.author ? body.author.name : "???")
-			.addInline(global.getString(message.author.lang, "Creation Date"), moment.utc(body.time.created).format("DD-MM-YYYY kk:mm:ss"))
+			.addInline(global.lang.getString(message.author.lang, "Latest Version"), body["dist-tags"].latest)
+			.addInline(global.lang.getString(message.author.lang, "License"), body.license || global.lang.getString(message.author.lang, "None"))
+			.addInline(global.lang.getString(message.author.lang, "Author"), body.author ? body.author.name : "???")
+			.addInline(global.lang.getString(message.author.lang, "Creation Date"), moment.utc(body.time.created).format("DD-MM-YYYY kk:mm:ss"))
 
 		if (moment.utc(body.time.modified).format("DD-MM-YYYY kk:mm:ss") !== moment.utc(body.time.created).format("DD-MM-YYYY kk:mm:ss"))
-			embed.addInline(global.getString(message.author.lang, "Modification Date"), moment.utc(body.time.modified).format("DD-MM-YYYY kk:mm:ss"))
+			embed.addInline(global.lang.getString(message.author.lang, "Modification Date"), moment.utc(body.time.modified).format("DD-MM-YYYY kk:mm:ss"))
 
 		embed
-			.addInline(global.getString(message.author.lang, "Main File"), version.main || "index.js")
-			.addField(global.getString(message.author.lang, "Dependencies"), dependencies && dependencies.length ? dependencies.join(", ") : global.getString(message.author.lang, "None"));
+			.addInline(global.lang.getString(message.author.lang, "Main File"), version.main || "index.js")
+			.addField(global.lang.getString(message.author.lang, "Dependencies"), dependencies && dependencies.length ? dependencies.join(", ") : global.lang.getString(message.author.lang, "None"));
 
 		if (!isEmpty(body.description))
 			embed.setDescription(body.description);
 
 		if (body.author && maintainers.toUpperCase() !== body.author.name.toUpperCase())
-			embed.addField(global.getString(message.author.lang, "Maintainers"), maintainers);
-		return message.util.send(global.getString(message.author.lang, "NPM Package: {0}", body.name) + `\nhttps://www.npmjs.com/package/${body._id}`, { embed });
+			embed.addField(global.lang.getString(message.author.lang, "Maintainers"), maintainers);
+		return message.util.send(global.lang.getString(message.author.lang, "NPM Package: {0}", body.name) + `\nhttps://www.npmjs.com/package/${body._id}`, { embed });
 	}
 
 	_trimArray(arr) {
