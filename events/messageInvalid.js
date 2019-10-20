@@ -20,6 +20,8 @@ module.exports = class messageInavlidListener extends Listener {
 	}
 
 	async invalidMessage(message) {
+		const nowDate = Date.now();
+
 		if (!Object.keys(message.util.parsed).length)
 			return false;
 
@@ -41,7 +43,7 @@ module.exports = class messageInavlidListener extends Listener {
 				let messages = (await message.channel.messages.fetch({ limit: 50 }))
 					.filter(channelMessage => channelMessage.author.bot)
 					.filter(channelMessage => channelMessage.author.id !== this.client.user.id)
-					.filter(channelMessage => channelMessage.createdAt >= Date.now() - 1700)
+					.filter(channelMessage => channelMessage.createdAt >= nowDate - 1700)
 
 				if (messages.size)
 					return true;
