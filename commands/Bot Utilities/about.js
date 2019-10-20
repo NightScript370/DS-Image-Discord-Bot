@@ -32,7 +32,7 @@ module.exports = class aboutCommand extends Command {
 				createBultin(__("Invite {0} to your server", this.client.user.username), inviteLink, __("Requires `MANAGE_SERVER` permissions"))
 			  + createBultin(__("Check out our website"), this.client.website.URL)
 			  + createBultin(__("Run some of these commands"), `${this.client.website.URL}/commands`)
-			  + createBultin(__("Join our Support Server"), this.client.supportServer)
+			  + createBultin(__("Join our Support Server"), this.client.supportServer))
 			.setYamamuraCredits(false)
 
 		authorMessage.util.send(message, (authorMessage.channel.embedable ? {embed: embed} : {}));
