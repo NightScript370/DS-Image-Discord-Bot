@@ -43,7 +43,7 @@ module.exports = class messageInavlidListener extends Listener {
 				let messages = (await message.channel.messages.fetch({ limit: 50 }))
 					.filter(channelMessage => channelMessage.author.bot)
 					.filter(channelMessage => channelMessage.author.id !== this.client.user.id)
-					.filter(channelMessage => channelMessage.createdAt >= nowDate - 1700)
+					.filter(channelMessage => channelMessage.createdAt >= message.createdAt - 1700)
 
 				if (messages.size)
 					return true;
