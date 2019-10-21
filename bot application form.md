@@ -2,7 +2,7 @@ Yamamura ID: 421158339129638933
 Owner IDs: 178261738364338177, 280399026749440000, 305817665082097665
 Discord server Link: vbYZCRZ
 Prefix: ! (customizable using the conf command)
-Website: https://yamamura-bot.tk
+Website: https://yamamura.xyz
 Invite URL: https://discordapp.com/api/oauth2/authorize?client_id=421158339129638933&scope=bot&permissions=0
 Description: Yamamura is an all-in-one bot focused on providing help for modding communities. If you have a modding server, this is the recommended bot to get. It also supports other features which you can find on our website. We hope to see you soon
 
@@ -23,7 +23,7 @@ To disable level up messages/welcome messages, type !conf set welcomemessage, th
 
 
 
-|                                                                                                                                                                                                                                                                        [![Logo](https://yamamura-bot.tk/logo.png "Yamamura")](https://yamamura-bot.tk)                                                                                                                                                                                                                                                                                     |
+|                                                                                                                                                                                                                                                                        [![Logo](https://yamamura.xyz/logo.png "Yamamura")](https://yamamura.xyz)                                                                                                                                                                                                                                                                                     |
 |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 |![Owner](https://discordbots.org/api/widget/owner/421158339129638933.svg "NightYoshi370 - Yamamura Owner") ![Status](https://discordbots.org/api/widget/status/421158339129638933.svg "Bot Status") ![Upvotes](https://discordbots.org/api/widget/upvotes/421158339129638933.svg "Bot Upvotes") ![Server Count](https://discordbots.org/api/widget/servers/421158339129638933.svg "The amount of servers the bot is in") ![Library](https://discordbots.org/api/widget/lib/421158339129638933.svg "The language the bot is coded in") [![Discord](https://img.shields.io/discord/484464227067887645.svg "Chat")](https://discord.gg/vbYZCRZ)|
 
@@ -48,7 +48,7 @@ That isn't even talking about the commands which you can perform on the bot. The
 - Get information on Game Servers
 - ...and much more!
 
-To check out the commands, either check out our website (which contains other information, found [here](https://yamamura-bot.tk/)) or use the commands command.
+To check out the commands, either check out our website (which contains other information, found [here](https://yamamura.xyz/)) or use the commands command.
 
 ## Server Experience Points
 

@@ -1,4 +1,4 @@
-|                                                                                                                                                                                                                                                                        [![Logo](https://yamamura-bot.tk/logo.png "Yamamura")](https://yamamura-bot.tk)                                                                                                                                                                                                                                                                                     |
+|                                                                                                                                                                                                                                                                        [![Logo](https://yamamura.xyz/logo.png "Yamamura")](https://yamamura.xyz)                                                                                                                                                                                                                                                                                     |
 |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 |![Owner](https://discordbots.org/api/widget/owner/421158339129638933.svg "NightYoshi370 - Yamamura Owner") ![Status](https://discordbots.org/api/widget/status/421158339129638933.svg "Bot Status") ![Upvotes](https://discordbots.org/api/widget/upvotes/421158339129638933.svg "Bot Upvotes") ![Server Count](https://discordbots.org/api/widget/servers/421158339129638933.svg "The amount of servers the bot is in") ![Library](https://discordbots.org/api/widget/lib/421158339129638933.svg "The language the bot is coded in") [![Discord](https://img.shields.io/discord/484464227067887645.svg "Chat")](https://discord.gg/vbYZCRZ)|
 
@@ -23,7 +23,7 @@ That isn't even talking about the commands which you can perform on the bot. The
 - Get information on Game Servers
 - ...and much more!
 
-Check out our website to find more information: https://yamamura-bot.tk/
+Check out our website to find more information: https://yamamura.xyz/
 
 ## Bug Reports, Support, Feedback and More
 
