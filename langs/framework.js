@@ -8,7 +8,7 @@ const formatStringWithChoice = (script, k, ...repl) => {
 		k = k.replaceAll(new RegExp(`(?:(?<!\\\\){)\\s*${i}\\s*(?:(?<!\\\\)})`, "gmi"), (r.toString()).replace(/((?<!\\)[<>])/g, "\\$1"))
 		i++
 	})
-	
+
 	k = k.replace(/(?<!\\)<:(.*):(\d*)(?<!\\)>/gmi, "\\<:$1:$2\\>");
 
 	try {
@@ -35,7 +35,7 @@ const formatStringWithChoice = (script, k, ...repl) => {
 		console.error(err);
 		console.log(k)
 	}
-	
+
 	k = k.replace(/\\<:(.*):(\d*)\\>/gmi, "<:$1:$2>");
 
 	return k;
@@ -64,10 +64,10 @@ translate.getStringObject = (lang, key, ...repl) => {
 
 translate.getDuration = (lang, duration) => {
 	const __ = k => translate.getString(lang, k)
-	let milliseconds = parseInt((duration % 1000) / 100),
-	let seconds = Math.floor((duration / 1000) % 60),
-	let minutes = Math.floor((duration / (1000 * 60)) % 60),
-	let hours = Math.floor((duration / (1000 * 60 * 60)) % 24),
+	let milliseconds = parseInt((duration % 1000) / 100)
+	let seconds = Math.floor((duration / 1000) % 60)
+	let minutes = Math.floor((duration / (1000 * 60)) % 60)
+	let hours = Math.floor((duration / (1000 * 60 * 60)) % 24)
 	let days = Math.floor(duration / (1000 * 60 * 60 * 24));
 
 	let dys = __("day" + days !== 1 ? "s" : "");
