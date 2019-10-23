@@ -19,11 +19,11 @@ module.exports = class BinaryCommand extends Command {
 
 	exec(message, { toBinary }) {
 		if (!toBinary)
-			return message.util.send(global.lang.getString(message.author.lang, "There were no text to convert to Binary"));
+			return message.util.send(global.translate(message.author.lang, "There were no text to convert to Binary"));
 
 		let embed;
 		if (message.guild)
-			embed = this.client.util.embed().setFooter(global.lang.getString(message.author.lang, 'This command was ran by {0}', message.member.displayName));
+			embed = this.client.util.embed().setFooter(global.translate(message.author.lang, 'This command was ran by {0}', message.member.displayName));
 
 		message.util.send(this.binary(toBinary), (embed && message.channel.embedable ? {embed} : {}));
 	}

@@ -78,7 +78,7 @@ module.exports = class CourseCommand extends Command {
 	}
 
 	async handleLevel(msg, ID) {
-		const __ = (k, ...v) => global.lang.getString(message.author.lang, k, ...v);
+		const __ = (k, ...v) => global.translate(message.author.lang, k, ...v);
 		let levelinfo = await bookmarkAPI(ID)
 
 		let clears = `**__${levelinfo.clears}/${levelinfo.attempts} (${levelinfo.clear_rate}%)__** \n`;
@@ -116,9 +116,9 @@ module.exports = class CourseCommand extends Command {
 
 	async handleSelector(levels, index, embed=null, language=null) {
 		if (embed) {
-			embed.addField(`**${parseInt(index)+1}.** ${levels[index].name}`, `${levels[index].id} | ${global.lang.getString(language, "by {0}", levels[index].creator_ntd_name)}`);
+			embed.addField(`**${parseInt(index)+1}.** ${levels[index].name}`, `${levels[index].id} | ${global.translate(language, "by {0}", levels[index].creator_ntd_name)}`);
 		} else {
-			return `**${parseInt(index)+1}.** ${levels[index].name} (${global.lang.getString(language, "by {0}", levels[index].creator_ntd_name)}) \n`;
+			return `**${parseInt(index)+1}.** ${levels[index].name} (${global.translate(language, "by {0}", levels[index].creator_ntd_name)}) \n`;
 		}
 
 		return embed

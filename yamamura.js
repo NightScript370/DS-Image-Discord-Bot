@@ -1,7 +1,7 @@
 try { require('cache-require-paths'); } catch {}
 
 require("./utils/extraFunctions.js");
-global.lang = require("./langs/framework.js")
+global.translate = require("./langs/framework.js")
 
 const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } = require('discord-akairo');
 const config = require("./config.js");
@@ -76,11 +76,11 @@ class YamamuraClient extends AkairoClient {
 			allowMention: true,
 			argumentDefaults: {
 				prompt: {
-					modifyStart: (message, text) => text && `${message.author} **::** ${global.lang.getString(message.author.lang, text)}\n` + global.lang.getString(message.author.lang, "Type `cancel` to cancel this command."),
-					modifyRetry: (message, text) => text && `${message.author} **::** ${global.lang.getString(message.author.lang, text)}\n` + global.lang.getString(message.author.lang, "Type `cancel` to cancel this command."),
-					timeout: message => `${message.author} **::** ` + global.lang.getString(message.author.lang, "Time ran out, command has been cancelled."),
-					ended: message => `${message.author} **::** ` + global.lang.getString(message.author.lang, "Too many retries, command has been cancelled."),
-					cancel: message => `${message.author} **::** ` + global.lang.getString(message.author.lang, "Command has been cancelled."),
+					modifyStart: (message, text) => text && `${message.author} **::** ${global.translate(message.author.lang, text)}\n` + global.translate(message.author.lang, "Type `cancel` to cancel this command."),
+					modifyRetry: (message, text) => text && `${message.author} **::** ${global.translate(message.author.lang, text)}\n` + global.translate(message.author.lang, "Type `cancel` to cancel this command."),
+					timeout: message => `${message.author} **::** ` + global.translate(message.author.lang, "Time ran out, command has been cancelled."),
+					ended: message => `${message.author} **::** ` + global.translate(message.author.lang, "Too many retries, command has been cancelled."),
+					cancel: message => `${message.author} **::** ` + global.translate(message.author.lang, "Command has been cancelled."),
 					retries: 4,
 					time: 30000
 				}

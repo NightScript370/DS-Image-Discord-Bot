@@ -31,7 +31,7 @@ module.exports = class DiscordProfileCommand extends Command {
 	}
 
 	async exec(msg, { user }) {
-		const __ = (k, ...v) => global.lang.getString(msg.author.lang, k, ...v);
+		const __ = (k, ...v) => global.translate(msg.author.lang, k, ...v);
 
 		if (msg.author.id !== user.id) {
 			let guildsTogether = this.client.guilds.filter(guild => guild.members.has(user.id) && guild.members.has(msg.author.id));

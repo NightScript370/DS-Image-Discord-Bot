@@ -20,10 +20,10 @@ module.exports = class UnicodeCommand extends Command {
 
 	async exec(message, { text }) {
 		if (!text)
-			return message.util.send(global.lang.getString(message.author.lang, "I couldn't get text to display unicode information on."));
+			return message.util.send(global.translate(message.author.lang, "I couldn't get text to display unicode information on."));
 
 		if (text.length > 50)
-			return message.util.send(global.lang.getString(message.author.lang, "Please limit your unicode view to 50 characters."))
+			return message.util.send(global.translate(message.author.lang, "Please limit your unicode view to 50 characters."))
 
 		message.util.send(this.toUnicode(text));
 	}

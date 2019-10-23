@@ -24,7 +24,7 @@ module.exports = class StatsCommand extends Command {
 	}
 
 	async exec(message) {
-		const __ = (k, ...v) => global.lang.getString(message.author.lang, k, ...v);
+		const __ = (k, ...v) => global.translate(message.author.lang, k, ...v);
 		const pingMsg = await message.util.reply('Pinging...');
 
 		let msgrt = (pingMsg.editedTimestamp || pingMsg.createdTimestamp) - (message.editedTimestamp || message.createdTimestamp);
@@ -44,8 +44,8 @@ module.exports = class StatsCommand extends Command {
 			.addInline("🏓 " + __("Ping"), __("The message round-trip took {0}", __("{0}ms", msgrt)) + " " +  hbping)
 			.addInline("⚙️ " + __("Resource Usage"), `**• Allocated Memory**: ${Math.round(usedMem * 100) / 100} MB/${Math.round(totalMem * 100) / 100} MB
 **• CPU**: ${((await os.cpu().used) * 1024).toFixed(2)}%`)
-			.addField("⏱️ " + __("Uptime"), global.lang.getDuration(message.author.lang, this.client.uptime))
-			.addField("🎂 " + __("Creation date"), global.lang.getDuration(message.author.lang, moment().diff(moment(this.client.user.createdAt))) + " " + __("ago"))
+			.addField("⏱️ " + __("Uptime"), global.translate.getDuration(message.author.lang, this.client.uptime))
+			.addField("🎂 " + __("Creation date"), global.translate.getDuration(message.author.lang, moment().diff(moment(this.client.user.createdAt))) + " " + __("ago"))
 			.setYamamuraCredits(false)
 
 		pingMsg.edit('', {embed: embed});

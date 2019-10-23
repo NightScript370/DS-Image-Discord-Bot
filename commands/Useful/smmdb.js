@@ -159,7 +159,7 @@ module.exports = class SMMDBCourseCommand extends Command {
 		let by;
 
 		try {
-			by = global.lang.getString(language, "by {0}", creator);
+			by = global.translate(language, "by {0}", creator);
 		} catch (e) {
 			by = "by " + creator;
 		}

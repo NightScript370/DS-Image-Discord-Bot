@@ -64,18 +64,17 @@ translate.getStringObject = (lang, key, ...repl) => {
 
 translate.getDuration = (lang, duration) => {
 	const __ = k => translate.getString(lang, k)
-	var milliseconds = parseInt((duration % 1000) / 100),
-		seconds = Math.floor((duration / 1000) % 60),
-		minutes = Math.floor((duration / (1000 * 60)) % 60),
-		hours = Math.floor((duration / (1000 * 60 * 60)) % 24),
-		days = Math.floor(duration / (1000 * 60 * 60 * 24));
+	let milliseconds = parseInt((duration % 1000) / 100),
+	let seconds = Math.floor((duration / 1000) % 60),
+	let minutes = Math.floor((duration / (1000 * 60)) % 60),
+	let hours = Math.floor((duration / (1000 * 60 * 60)) % 24),
+	let days = Math.floor(duration / (1000 * 60 * 60 * 24));
 
-	let dys, hrs, mins, secs;
-	dys = days == 1 ? __("day", 1) : __("days", days);
-	hrs = hours == 1 ? __("hour", 1) : __("hours", hours);
-	mins = minutes == 1 ? __("minute", 1) : __("minutes", minutes);
-	secs = seconds == 1 ? __("second", 1) : __("seconds", seconds);
-  
+	let dys = __("day" + days !== 1 ? "s" : "");
+	let hrs = __("hour" + days !== 1 ? "s" : "");
+	let mins = __("minute" + days !== 1 ? "s" : "");
+	let secs = __("second" + days !== 1 ? "s" : "");
+
 	let dayString = "", hourString = "", minString = "", secString = "";
 	if (days > 0) dayString = `${days} ${dys}, `
 	if (hours > 0 || days > 0) hourString = `${hours} ${hrs}, `
@@ -85,8 +84,7 @@ translate.getDuration = (lang, duration) => {
 	hours = (hours < 10) ? "0" + hours : hours;
 	minutes = (minutes < 10) ? "0" + minutes : minutes;
 	seconds = (seconds < 10) ? "0" + seconds : seconds;
-  
-	// console.log(days, hours, minutes, seconds, dayString, hourString, minString, secString)
+
 	return `${dayString}${hourString}${minString}${secString}`
 }
 

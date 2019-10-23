@@ -19,11 +19,11 @@ module.exports = class InviteCommand extends Command {
 			let attachment = {
 				embed: this.client.util.embed()
 					.setColor("RED")
-					.setDescription(global.lang.getString(msg.author.lang, "If you need help, you can [join our support server]({0})!", this.client.supportServer))
+					.setDescription(global.translate(msg.author.lang, "If you need help, you can [join our support server]({0})!", this.client.supportServer))
 			}
 		}
 
-		msg.channel.send("<:Yamamura:633898611125649418> | " + global.lang.getString(msg.author.lang, "Here's a link to invite Yamamura to your server: {0}", inviteLink), attachment)
+		msg.channel.send("<:Yamamura:633898611125649418> | " + global.translate(msg.author.lang, "Here's a link to invite Yamamura to your server: {0}", inviteLink), attachment)
 
 		return inviteLink;
 	}

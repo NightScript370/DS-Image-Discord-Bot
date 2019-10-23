@@ -27,7 +27,7 @@ module.exports = class Number8ballCommand extends Command {
 		if (message.guild)
 			embed = this.client.util.embed()
 				.addField('Original Question', question.length > 1000 ? question.substr(0, 100) + '...' : question)
-				.setFooter(global.lang.getString(message.author.lang, 'I was summoned here by {0}', message.member.displayName), `${this.client.website.URL}/icons/8-ball.png`);
+				.setFooter(global.translate(message.author.lang, 'I was summoned here by {0}', message.member.displayName), `${this.client.website.URL}/icons/8-ball.png`);
 
 		message.util.send(`🎱 **|** ${answers[Math.floor(Math.random() * answers.length)]}`,  (embed && message.channel.embedable ? {embed} : {}));
 	}

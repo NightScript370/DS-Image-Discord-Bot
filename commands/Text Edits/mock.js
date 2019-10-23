@@ -25,11 +25,11 @@ module.exports = class MockCommand extends Command {
 
 	async exec(message, { text, random }) {
 		if (!text)
-			return message.util.send(global.lang.getString(message.author.lang, "I couldn't get text to mock."));
+			return message.util.send(global.translate(message.author.lang, "I couldn't get text to mock."));
 
 		let embed;
 		if (message.guild)
-			embed = this.client.util.embed().setFooter(global.lang.getString(message.author.lang, 'This command was ran by {0}', message.member.displayName));
+			embed = this.client.util.embed().setFooter(global.translate(message.author.lang, 'This command was ran by {0}', message.member.displayName));
 
 		message.util.send(random ? this.randomMock(text) : this.perLetterMock(text), (embed && message.channel.embedable ? {embed} : {}));
 	}

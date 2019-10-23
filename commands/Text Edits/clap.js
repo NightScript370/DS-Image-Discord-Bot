@@ -20,11 +20,11 @@ module.exports = class ClapCommand extends Command {
 
 	exec(message, { toClap }) {
 		if (!toClap)
-			toClap = global.lang.getString(message.author.lang, "I :clap: need :clap: text :clap: to :clap: clap :clap: to!");
+			toClap = global.translate(message.author.lang, "I :clap: need :clap: text :clap: to :clap: clap :clap: to!");
 
 		let embed;
 		if (message.guild)
-			embed = this.client.util.embed().setFooter(global.lang.getString(message.author.lang, 'This command was ran by {0}', message.member.displayName));
+			embed = this.client.util.embed().setFooter(global.translate(message.author.lang, 'This command was ran by {0}', message.member.displayName));
 
 		if (!toClap.includes(" "))
 			return message.util.send(this.chunk(toClap, 1).join(" :clap: "), (embed && message.channel.embedable ? {embed} : {}))

@@ -20,8 +20,8 @@ module.exports = class ShieldsIoBadgeCommand extends Command {
 				{
 					id: 'subject',
 					prompt: {
-						start: (msg) => global.lang.getString(msg.author.lang, "What should be the subject of the badge?"),
-						retry: (msg) => global.lang.getString(msg.author.lang, "That's not a subject that you can apply. Try again!")
+						start: (msg) => global.translate(msg.author.lang, "What should be the subject of the badge?"),
+						retry: (msg) => global.translate(msg.author.lang, "That's not a subject that you can apply. Try again!")
 					},
 					type: 'string'
 				},
@@ -60,7 +60,7 @@ module.exports = class ShieldsIoBadgeCommand extends Command {
 			attachment = { files: [{ attachment: body, name: 'badge.png' }] };
 		} catch {}
 
-		let text = global.lang.getString(message.author.lang, "Alright {0}, here's your badge!", message.guild ? message.member.displayName : message.author.username) + "\n" + link
+		let text = global.translate(message.author.lang, "Alright {0}, here's your badge!", message.guild ? message.member.displayName : message.author.username) + "\n" + link
 		return message.util.send(text, attachment);
 	}
 };

@@ -143,7 +143,7 @@ module.exports = class SpecialYamamuraCommand extends Command {
 	}
 
 	async responceSelector(msg, responces, embed) {
-		let WaitMessage = global.lang.getString(msg.author.lang,
+		let WaitMessage = global.translate(msg.author.lang,
 																				"Within the next 30 seconds, you'll need to pick a number between 1-{0}. "
 																			+ "The command will be automatically canceled canceled in 30 seconds if no selection has been made."
 																			+ "Alternatively, type `cancel` to manually cancel the command, skipping the countdown",
@@ -167,7 +167,7 @@ module.exports = class SpecialYamamuraCommand extends Command {
 			case 6:
 			case 8:
 				embed
-					.setDescription(global.lang.getString(msg.author.lang, "Requested by {0}", msg.author.tag))
+					.setDescription(global.translate(msg.author.lang, "Requested by {0}", msg.author.tag))
 					.setFooter(WaitMessage)
 					.setTimestamp(new Date());
 
