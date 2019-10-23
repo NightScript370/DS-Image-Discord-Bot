@@ -34,6 +34,9 @@ module.exports = class StatsCommand extends Command {
 
 		let usedMem = process.memoryUsage().heapUsed / 1024 / 1024;
 		let totalMem = process.memoryUsage().heapTotal / 1024 / 1024;
+		
+		let CPU = await os.cpu();
+		let CPUsage = CPU.used * 1024;
 
 		let embed = this.client.util.embed()
 			.setAuthor(__("{0} Statistics", this.client.user.username), this.client.user.displayAvatarURL({ format: 'png' }), this.client.website.URL || '')
@@ -43,7 +46,7 @@ module.exports = class StatsCommand extends Command {
 • ${this.client.guilds.size.toLocaleString()} Servers`)
 			.addInline("🏓 " + __("Ping"), __("The message round-trip took {0}", __("{0}ms", msgrt)) + " " +  hbping)
 			.addInline("⚙️ " + __("Resource Usage"), `**• Allocated Memory**: ${Math.round(usedMem * 100) / 100} MB/${Math.round(totalMem * 100) / 100} MB
-**• CPU**: ${((await os.cpu().used) * 1024).toFixed(2)}%`)
+**• CPU**: ${CPUsage.toFixed(2)}%`)
 			.addField("⏱️ " + __("Uptime"), global.translate.getDuration(message.author.lang, this.client.uptime))
 			.addField("🎂 " + __("Creation date"), global.translate.getDuration(message.author.lang, moment().diff(moment(this.client.user.createdAt))) + " " + __("ago"))
 			.setYamamuraCredits(false)
