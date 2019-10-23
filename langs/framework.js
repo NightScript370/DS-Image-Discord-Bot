@@ -63,7 +63,7 @@ translate.getStringObject = (lang, key, ...repl) => {
 }
 
 translate.getDuration = (lang, duration) => {
-	const __ = k => translate.getString(lang, k)
+	const __ = k => translate(lang, k)
 	let milliseconds = parseInt((duration % 1000) / 100)
 	let seconds = Math.floor((duration / 1000) % 60)
 	let minutes = Math.floor((duration / (1000 * 60)) % 60)

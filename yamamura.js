@@ -108,7 +108,7 @@ class YamamuraClient extends AkairoClient {
 		this.util.pad = (n) => n < 10 ? "0"+n : ""+n;
 
 		this.util.setDefaultStatus = (client) => {
-			let userActivity = config.website.url + ' | Mention me for help information';
+			let userActivity = (config.website.url).replaceAll(['https://', 'http://'], '') + ' | Mention me for help information';
 			if (!client.user.presence.activity || (client.user.presence.activity && client.user.presence.activity.name !== userActivity))
 				return client.user.setActivity(userActivity);
 			else
