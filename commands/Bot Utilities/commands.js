@@ -124,7 +124,7 @@ module.exports = class CommandsCommand extends Command {
 			if (!this.isGood(category))
 				return msg.util.send(__("Invalid command/category name. Please try again"));
 
-			let commands = cmds && cmds.filter ? cmds.filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id)) : cmds;
+			let commands = cmds && cmds.filter ? cmds.filter(c => c instanceof Object).filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id)) : cmds;
 			let makeFields = commands.length < 20;
 
 			description = "";
