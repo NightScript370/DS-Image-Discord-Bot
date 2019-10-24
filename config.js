@@ -18,7 +18,8 @@ module.exports = {
 	},
 	website: {
 		url: "https://yamamura-bot.tk",
-		client_secret: process.env.CLIENT_SECRET
+		client_secret: process.env.CLIENT_SECRET,
+		mainPage: 'home'
 	},
 	owners: [
 		"178261738364338177",
