@@ -16,7 +16,7 @@ module.exports = class RebootCommand extends Command {
 	async exec(message) {
 		try {
 			let rebootMessage = await message.util.send("I'm rebooting...");
-			await write('./reboot.json', `{"id": "${message.id}", "channel": "${message.channel.id}"}`)
+			await write('./reboot.json', `{"id": "${rebootMessage.id}", "channel": "${message.channel.id}"}`)
 		} catch {}
 
 		process.exit()
