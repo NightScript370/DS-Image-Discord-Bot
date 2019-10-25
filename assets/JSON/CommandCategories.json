@@ -1,11 +1,11 @@
 {
 	"Audio": {
-		"aliases": ["Audio"]
+		"aliases": ["Audio"],
 		"color": "PINK",
 		"description": "Play audio from listen.moe, with commands related to the experience (pausing, stopping, nowplaying)"
 	},
 	"Bot Utilities": {
-		"aliases": ["Bot Util", "Bot Utilities", "Utility del bot", "ボットユーティリティ"]
+		"aliases": ["Bot Util", "Bot Utilities", "Utility del bot", "ボットユーティリティ"],
 		"color": "GREY",
 		"description": "Check Yamamura statistics, see the available commands and some other developer stuff"
 	},
