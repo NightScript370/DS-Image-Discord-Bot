@@ -73,7 +73,7 @@ module.exports = class weatherCommand extends Command {
 		}
 
 		let embed = this.client.util.embed()
-			.setThumbnail(current.imageUrl)
+			.setThumbnail(result.current.imageUrl)
 			.addInline(__('Timezone'), `UTC${result.location.timezone}`)
 			.addInline(__("Weather"), temperature)
 			.addInline(__('Winds'), result.current.winddisplay)
