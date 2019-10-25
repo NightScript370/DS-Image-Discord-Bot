@@ -1,17 +1,19 @@
 {
 	"Audio": {
+		"aliases": ["Audio"]
 		"color": "PINK",
-		"description": "Commands that enable you to play Audio via Yamamura"
+		"description": "Play audio from listen.moe, with commands related to the experience (pausing, stopping, nowplaying)"
 	},
 	"Bot Utilities": {
+		"aliases": ["Bot Util", "Bot Utilities", "Utility del bot", "ボットユーティリティ"]
 		"color": "GREY",
 		"description": "Check Yamamura statistics, see the available commands and some other developer stuff"
 	},
-	"Game Server Statistics": {
+	"Game Statistics": {
 		"color": "GREEN",
-		"description": "Get statistics on servers for games such as Minecraft, Call Of Duty and much more"
+		"description": "Get statistics for game servers such as Minecraft, Call Of Duty and much more"
 	},
-	"EXP": {
+	"Experience Points": {
 		"color": "YELLOW",
 		"description": "Allows users to earn experience points on servers as they send messages."
 	},

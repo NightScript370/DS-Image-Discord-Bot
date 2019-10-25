@@ -117,7 +117,7 @@ module.exports = class CommandsCommand extends Command {
 				return msg.channel.send(command.id + (description ? ': ' + (description.join ? description.map(d => __(d)).join(" - ") : __(description)) : ''), {embed});
 			}
 
-			let category = this.client.commandHandler.categories.get(titleCase(__(commandName)))
+			let category = this.client.commandHandler.categories.get(titleCase(global.translate.backwards(commandName)))
 			if (!this.isGood(category))
 				category = this.client.commandHandler.categories.get(titleCase(commandName))
 
