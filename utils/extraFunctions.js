@@ -243,24 +243,28 @@ String.prototype.toKatakana = function() {
 	return returnString;
 }
 
-Number.prototype.toOrdinal = function() {
-	if (!isFinite(this)) {
-        throw new TypeError(
-            'Not a finite number: ' + number + ' (' + typeof number + ')'
-        );
-    }
-    if (!isSafeNumber(num)) {
-        throw new RangeError(
-            'Input is not a safe number, it’s either too large or too small.'
-        );
-    }
-    var str = String(num);
-    var lastTwoDigits = Math.abs(num % 100);
-    var betweenElevenAndThirteen = lastTwoDigits >= 11 && lastTwoDigits <= 13;
-    var lastChar = str.charAt(str.length - 1);
-    return str + (betweenElevenAndThirteen ? 'th'
-            : lastChar === '1' ? 'st'
-            : lastChar === '2' ? 'nd'
-            : lastChar === '3' ? 'rd'
-            : 'th');
+if (!Array.prototype.flat) {
+	Array.prototype.flat = function() {
+		var depth = arguments[0];
+		depth = depth === undefined ? 1 : Math.floor(depth);
+		if (depth < 1)
+			return Array.prototype.slice.call(this);
+
+		return (function flat(arr, depth) {
+			var len = arr.length >>> 0;
+			var flattened = [];
+			var i = 0;
+			while (i < len) {
+				if (i in arr) {
+					var el = arr[i];
+					if (Array.isArray(el) && depth > 0)
+						flattened = flattened.concat(flat(el, depth - 1));
+					else
+						flattened.push(el);
+				}
+				i++;
+			}
+			return flattened;
+		})(this, depth);
+	};
 }
