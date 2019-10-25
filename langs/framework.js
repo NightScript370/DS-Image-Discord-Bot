@@ -52,9 +52,8 @@ translate.backwards = (lang, translated, ...repl) => {
 	let languageFile = require(`./${lang}/index.js`);
 
 	let newKeyList = {};
-	for (var key in Object.keys(languageFile)) {
+	for (var key of Object.keys(languageFile))
 		newKeyList[languageFile[key]] = key;
-	}
 
 	let noTrans = newKeyList[translated] || translated;
 	return formatStringWithChoice(true, noTrans, ...repl);
