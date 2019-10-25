@@ -51,6 +51,16 @@ module.exports = {
 	"Which language would you like to set? \nHere is a list of the available languages:": "Che lingua vorresti impostare? \nEcco una lista di lingue disponibili:",
 	"That is an invalid language. Here are the available languages:": "Quella non è una lingua valida. Ecco le lingue disponibili:",
 
+	// MARK: About command
+	"{0} is an all-in-one Discord bot dedicated to helping modding communities and more.": "{0} è un bot tutto-in-uno dedicato all'aiuto delle community di modding e non solo.",
+	"It can fulfill your server's moderation needs and create fun events for your community to enjoy": "Può soddisfare il bisogno di moderazione del tuo server e create eventi divertenti che la tua community può godersi",
+	"If you'd like to see all the available commands, please take a look at our website or use the `{0}commands` command": "Se vuoi vedere una lista dei comandi disponibili, controlla il nostro sito web o usa il comando `{0}commands`",
+	"Invite {0} to your server": "Invita {0} nel tuo server",
+	"Requires `MANAGE_SERVER` permissions": "Richiede che tu abbia il permesso di gestire il server",
+	"Check out our website": "Controlla il nostro sito web",
+	"Run some of these commands": "Esegui alcuni di questi comandi",
+	"Join our Support Server": "Entra nel nostro server di supporto",
+
 	"I couldn't find the requested information.": "Non ho potuto trovare le informazioni richieste.",
 	"Author": "Autore",
 	"Progress": "Progresso",
