@@ -165,8 +165,8 @@ module.exports = class CommandsCommand extends Command {
 
 				embed.setFooter(__("Total Commands in this category: {0}", commands.length));
 
-				if (category.color)
-					embed.setColor(category.color)
+				if (category.has('color'))
+					embed.setColor(category.get('color'))
 
 				return msg.channel.send(__("Category listing: {0}", __(category.id)), embed);
 			}
@@ -176,14 +176,13 @@ module.exports = class CommandsCommand extends Command {
 			let text = "<:Yamamura:633898611125649418> | " + __("{0}'s Command Listing", this.client.user.username) + "\n\n"
 
 					 + __("Type a command or category name for information on that item") + "\n"
-					 + __("To run a command in {0}, use `{1}command` or `{2} command`. For example, `{1}invite` or `{2} invite`.", msg.guild ? msg.guild.name : "this DM box", this.handler.prefix(msg), `@${this.client.user.username}#${this.client.user.discriminator}`) + "\n\n"
+					 + __("To run a command in {0}, use `{1}command` or `{2} command`. For example, `{1}invite` or `{2} invite`.", msg.guild ? msg.guild.name : "this DM box", this.handler.prefix(msg), `@${this.client.user.username}#${this.client.user.discriminator}`)
 
-					 + (this.client.website ? __("A full list of commands can be viewed on our website: {0}", `${this.client.website.URL}/commands`) : '')
-						.trim()
+					 + (this.client.website ? ("\n\n" + __("A full list of commands can be viewed on our website: {0}", `${this.client.website.URL}/commands`)) : '')
 
 			cats.forEach(category => {
 				let catCmds = cmds.filter(c => c instanceof Object).filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));
-				if (catCmds.length > 0) embed.addInline(`${__(category.id)} [${catCmds.length}]`, category.description ? __(category.description) : __('No description available.'));
+				if (catCmds.length > 0) embed.addInline(`${__(category.id)} [${catCmds.length}]`, category.has('description') ? __(category.get('description')) : __('No description available.'));
 			});
 
 			embed.setFooter(__("Total Commands: {0}", cmds.length));
@@ -192,33 +191,6 @@ module.exports = class CommandsCommand extends Command {
 		}
 	}
 };
-
-// Polyfill
-if (!Array.prototype.flat) {
-	Array.prototype.flat = function() {
-		var depth = arguments[0];
-		depth = depth === undefined ? 1 : Math.floor(depth);
-		if (depth < 1)
-			return Array.prototype.slice.call(this);
-
-		return (function flat(arr, depth) {
-			var len = arr.length >>> 0;
-			var flattened = [];
-			var i = 0;
-			while (i < len) {
-				if (i in arr) {
-					var el = arr[i];
-					if (Array.isArray(el) && depth > 0)
-						flattened = flattened.concat(flat(el, depth - 1));
-					else
-						flattened.push(el);
-				}
-				i++;
-			}
-			return flattened;
-		})(this, depth);
-	};
-}
 
 function isEmpty(value) { //Function to check if value is really empty or not
 	return (value == null || value.length === 0);

@@ -5,7 +5,6 @@ module.exports = class aboutCommand extends Command {
 		super('about', {
 			aliases: ["info", 'about', 'help', 'ヘルプ'],
 			category: 'Bot Utilities',
-			clientPermissions: ['EMBED_LINKS'],
 			description: {
 				content: "Displays overall information about the bot, such as invite link and more."
 			},

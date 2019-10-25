@@ -5,8 +5,16 @@ const path = require('path');
 // **** IMAGE ****
 // ***************
 const fileTypeRe = /\.(jpe?g|png|gif|bmp)$/i;
+const discordRenderFileTypeRe = /\.(jpe?g|png|gif)$/i;
 
-const validateAttachment = (attachment) => (attachment && fileTypeRe.test(attachment.name) ? attachment.url : false)
+const validateAttachment = (attachment) => {
+	if (!attachment) return false;
+	if (!fileTypeRe.test(attachment.name)) return false;
+	if (discordRenderFileTypeRe.test(attachment.name)
+	 && (!attachment.height || !attachment.width)) return false;
+
+	return attachment.url;
+}
 
 const githubRaw = (url) => {
 	let [https, n, domain, owner, project, blob, branch, ...position] = url.split("/");
