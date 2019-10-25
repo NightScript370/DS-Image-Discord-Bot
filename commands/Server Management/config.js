@@ -56,7 +56,7 @@ module.exports = class ConfigCommand extends Command {
 	}
 
 	async exec(msg, { action, key, value }) {
-		const __ = (k, ...v) => global.lang.getString(msg.author.lang, k, ...v);
+		const __ = (k, ...v) => global.translate(msg.author.lang, k, ...v);
 		let data = msg.guild.config.data;
 
 		switch (action) {
@@ -144,7 +144,7 @@ module.exports = class ConfigCommand extends Command {
 	}
 
 	async setArray(msg, data, key, value, recursionDepth = 0) {
-		const __ = (k, ...v) => global.lang.getString(msg.author.lang, k, ...v);
+		const __ = (k, ...v) => global.translate(msg.author.lang, k, ...v);
 		let t = findType(key);
 
 		let action = await this.awaitReply(msg, __("What do you want to do with the values? [`add` a value/`clear` the values]"), 30000);

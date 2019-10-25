@@ -62,7 +62,7 @@ module.exports = class messageInavlidListener extends Listener {
 			});
 		}
 
-		const __ = (k, ...v) => global.lang.getString(message.author.lang, k, ...v);
+		const __ = (k, ...v) => global.translate(message.author.lang, k, ...v);
 
 		let text = __("Hey {0}, {1} is not a command.", message.guild ? message.member.displayName : message.author.username, attempt) + "\n";
 		let suggestedCmds = [];

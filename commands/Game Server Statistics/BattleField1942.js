@@ -15,8 +15,8 @@ module.exports = class BF1942Command extends Command {
 				{
 					id: 'IP',
 					prompt: {
-						start: (msg) => global.lang.getString(msg.author.lang, 'Which server would you like to get `{0}` statistics from?', 'Battlefield: 1942'),
-						retry: (msg) => global.lang.getString(msg.author.lang, "That's not a server we can get stats from! Try again.")
+						start: (msg) => global.translate(msg.author.lang, 'Which server would you like to get `{0}` statistics from?', 'Battlefield: 1942'),
+						retry: (msg) => global.translate(msg.author.lang, "That's not a server we can get stats from! Try again.")
 					},
 					type: 'externalIP',
 					match: 'rest'

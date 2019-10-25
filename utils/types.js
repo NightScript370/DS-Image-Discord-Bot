@@ -6,17 +6,10 @@ const path = require('path');
 // ***************
 const fileTypeRe = /\.(jpe?g|png|gif|bmp)$/i;
 
-const validateAttachment = (attachment) => {
-	if (!attachment) return false;
-	if (!attachment.height || !attachment.width) return false;
-	if (attachment.size > 8e+6) return false;
-	if (!fileTypeRe.test(attachment.name)) return false;
-
-	return attachment.url;
-}
+const validateAttachment = (attachment) => (attachment && fileTypeRe.test(attachment.name) ? attachment.url : false)
 
 const githubRaw = (url) => {
-	var [https, n, domain, owner, project, blob, branch, ...position] = url.split("/");
+	let [https, n, domain, owner, project, blob, branch, ...position] = url.split("/");
 	return `https://raw.githubusercontent.com/${owner}/${project}/${branch}/${position.join("/")}`;
 }
 
@@ -143,13 +136,13 @@ const isGood = (variable) => {
 const parseMentions = (message, variable) => {
 	variable = variable.replace(/<@!?(\d{17,19})>/g, (something, id) => {
 		let user = message.client.users.get(id);
-		return user ? user.tag : global.lang.getString(message.author.lang, "User not found");
+		return user ? user.tag : global.translate(message.author.lang, "User not found");
 	});
 
 	if (message.guild) {
 		variable = variable.replace(/<@&!?(\d{17,19})>/g, (something, id) => {
 			let role = message.guild.roles.get(id);
-			return role ? role.name : global.lang.getString(message.author.lang, "Role not found");
+			return role ? role.name : global.translate(message.author.lang, "Role not found");
 		});
 	}
 

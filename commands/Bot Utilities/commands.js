@@ -24,7 +24,7 @@ module.exports = class CommandsCommand extends Command {
 	}
 
 	async exec(msg, { commandName }) {
-		const __ = (k, ...v) => global.lang.getString(msg.author.lang, k, ...v);
+		const __ = (k, ...v) => global.translate(msg.author.lang, k, ...v);
 		let embed = this.client.util.embed()
 
 		let description;
@@ -124,7 +124,7 @@ module.exports = class CommandsCommand extends Command {
 			if (!this.isGood(category))
 				return msg.util.send(__("Invalid command/category name. Please try again"));
 
-			let commands = cmds && cmds.filter ? cmds.filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id)) : cmds;
+			let commands = cmds && cmds.filter ? cmds.filter(c => c instanceof Object).filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id)) : cmds;
 			let makeFields = commands.length < 20;
 
 			description = "";
@@ -173,7 +173,7 @@ module.exports = class CommandsCommand extends Command {
 		} else {
 			// General command listing
 			// {id: <name>, aliases: [<name>, <name>...], description: <desc>, category.id: <category>}
-			let text = "<:Yamamura:633898611125649418> |" + __("{0}'s Command Listing", this.client.user.username) + "\n\n"
+			let text = "<:Yamamura:633898611125649418> | " + __("{0}'s Command Listing", this.client.user.username) + "\n\n"
 
 					 + __("Type a command or category name for information on that item") + "\n"
 					 + __("To run a command in {0}, use `{1}command` or `{2} command`. For example, `{1}invite` or `{2} invite`.", msg.guild ? msg.guild.name : "this DM box", this.handler.prefix(msg), `@${this.client.user.username}#${this.client.user.discriminator}`) + "\n\n"

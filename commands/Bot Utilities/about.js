@@ -18,10 +18,10 @@ module.exports = class aboutCommand extends Command {
 	}
 
 	async exec(authorMessage) {
-		const __ = (k, ...v) => global.lang.getString(authorMessage.author.lang, k, ...v)
+		const __ = (k, ...v) => global.translate(authorMessage.author.lang, k, ...v)
 
 		let inviteLink = await this.client.generateInvite();
-		let message = "<:Yamamura:633898611125649418> |" + __("Welcome to {0}", this.client.user.username) + "\n"
+		let message = "<:Yamamura:633898611125649418> | " + __("Welcome to {0}", this.client.user.username) + "\n"
 			+ __("{0} is an all-in-one Discord bot dedicated to helping modding communities and more.", this.client.user.username) + "\n"
 			+ __("It can fulfill your server's moderation needs and create fun events for your community to enjoy") + "\n\n"
 

@@ -33,9 +33,8 @@ exports.router = (client) => router
 				subtext: "with new ones added daily"
 			},
 			{
-				icon: "music",
-				text: "Listen to audio from Youtube",
-				subtext: "with support for playlists"
+				image: "https://camo.githubusercontent.com/68f8c313af4f08a3a2db45c22154253bec6ee758/687474703a2f2f692e696d6775722e636f6d2f5348544c474f762e706e67",
+				text: "Made for the Homebrew Community"
 			},
 			{
 				icon: "users",

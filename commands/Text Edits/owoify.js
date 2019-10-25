@@ -20,7 +20,7 @@ module.exports = class OwoCommand extends Command {
 	exec(message, { toOwo }) {
 		let embed;
 		if (message.guild)
-			embed = this.client.util.embed().setFooter(global.lang.getString(message.author.lang, 'This command was ran by {0}', message.member.displayName));
+			embed = this.client.util.embed().setFooter(global.translate(message.author.lang, 'This command was ran by {0}', message.member.displayName));
 
 		message.channel.send(this.OwOify(toOwo), (embed && message.channel.embedable ? {embed} : {}));
 	}
