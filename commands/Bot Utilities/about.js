@@ -25,7 +25,7 @@ module.exports = class aboutCommand extends Command {
 			+ __("{0} is an all-in-one Discord bot dedicated to helping modding communities and more.", this.client.user.username) + "\n"
 			+ __("It can fulfill your server's moderation needs and create fun events for your community to enjoy") + "\n\n"
 
-			+ __("If you'd like to see all the available commands, please take a look at our website or use the `{0}commands` command", msg.guild.config.data.prefix)
+			+ __("If you'd like to see all the available commands, please take a look at our website or use the `{0}commands` command", authorMessage.guild.config.data.prefix)
 
 		let embed = this.client.util.embed()
 			.addField(__('Links'),
