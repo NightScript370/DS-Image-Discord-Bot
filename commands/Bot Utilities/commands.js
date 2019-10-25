@@ -1,4 +1,5 @@
 const Command = require('../../struct/Command');
+const { Command: akairoCommand } = require('discord-akairo');
 
 const fs = require('fs')
 const path = require('path')
@@ -124,7 +125,7 @@ module.exports = class CommandsCommand extends Command {
 			if (!this.isGood(category))
 				return msg.util.send(__("Invalid command/category name. Please try again"));
 
-			let commands = cmds && cmds.filter ? cmds.filter(c => c instanceof Object).filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id)) : cmds;
+			let commands = cmds && cmds.filter ? cmds.filter(c => c instanceof akairoCommand).filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id)) : cmds;
 			let makeFields = commands.length < 20;
 
 			description = "";
@@ -181,7 +182,7 @@ module.exports = class CommandsCommand extends Command {
 					 + (this.client.website ? ("\n\n" + __("A full list of commands can be viewed on our website: {0}", `${this.client.website.URL}/commands`)) : '')
 
 			cats.forEach(category => {
-				let catCmds = cmds.filter(c => c instanceof Object).filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));
+				let catCmds = cmds.filter(c => c instanceof akairoCommand).filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));
 				if (catCmds.length > 0) embed.addInline(`${__(category.id)} [${catCmds.length}]`, category.has('description') ? __(category.get('description')) : __('No description available.'));
 			});
 
