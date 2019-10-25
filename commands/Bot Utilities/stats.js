@@ -94,7 +94,5 @@ module.exports = class StatsCommand extends Command {
 
 			pingMsg.edit(newMessage)
 		}
-
-		pingMsg.edit('', {embed: embed});
 	}
 };
