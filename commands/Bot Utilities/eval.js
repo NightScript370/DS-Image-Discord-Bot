@@ -1,5 +1,8 @@
-const { inspect } = require('util')
+const util = require('util')
 const Command = require('../../struct/Command');
+
+const discord = require('discord.js');
+const escapeRegex = (str) => str.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&');
 
 module.exports = class EvalCommand extends Command {
 	constructor() {
@@ -38,40 +41,71 @@ module.exports = class EvalCommand extends Command {
 				}
 			]
 		});
+
+		this.lastResult = null;
+		Object.defineProperty(this, '_sensitivePattern', { value: null, configurable: true });
 	}
 
 	async exec(msg, { script, hideresponce, deleteog }) {
 		const client = this.client;
 		const channel = msg.channel;
 		const message = msg;
+		const guild = msg.guild;
 
+		const lastResult = this.lastResult;
+
+		let hrDiff;
 		try {
-			let result = await eval(script);
-			if (typeof result !== 'string') {
-				result = inspect(result, {
-					depth: 0,
-				});
-			}
-
-			result.replaceAll(this.client.token, '"<insert client token here>."')
-
-			if (this.client.dbl && this.client.dbl.token)
-				result.replaceAll(this.client.dbl.token, '"<insert DiscordBots.org token here>"');
-
-			if (result.length > 1990) {
-				console.log(result);
-				msg.reply('Too long to be printed (content got console logged)');
-			} else if(!hideresponce) {
-				msg.channel.send(result, {code: 'js'});
-			}
-
-			if (deleteog)
-				msg.delete();
+			const hrStart = process.hrtime();
+			this.lastResult = await eval(script);
+			hrDiff = process.hrtime(hrStart);
 		} catch(err) {
-			console.error(err);
-
-			const error = err.toString().replace(this.client.token, '"If someone tried to make you output the token, you were likely being scammed."');
-			return msg.channel.send(error, {code: 'js'});
+			return msg.reply(`Error while evaluating: \`${err}\``);
 		}
+
+		// Prepare for callback time and respond
+		this.hrStart = process.hrtime();
+		if (!hideresponce) {
+			const result = this.makeResultMessages(this.lastResult, hrDiff, args.script);
+
+			if(Array.isArray(result)) {
+				return result.map(item => msg.reply(item));
+			} else {
+				return msg.reply(result);
+			}
+		}
+
+		if (deleteog)
+			msg.delete();
+	}
+
+	makeResultMessages(result, hrDiff, input = null) {
+		const inspected = util.inspect(result, { depth: 0 })
+			.replace(/!!NL!!/g, '\n')
+			.replace(this.sensitivePattern, '--snip--');
+		const split = inspected.split('\n');
+		const last = inspected.length - 1;
+		const prependPart = inspected[0] !== '{' && inspected[0] !== '[' && inspected[0] !== "'" ? split[0] : inspected[0];
+		const appendPart = inspected[last] !== '}' && inspected[last] !== ']' && inspected[last] !== "'" ?
+			split[split.length - 1] :
+			inspected[last];
+		const prepend = `\`\`\`javascript\n${prependPart}\n`;
+		const append = `\n${appendPart}\n\`\`\``;
+
+		let replyMessage = (input ? "Executed in" : "Callback executed after") + (hrDiff[0] > 0 ? `${hrDiff[0]}s ` : '') + (`${hrDiff[1] / 1000000}ms`);
+		replyMessage = "*" + replyMessage + ".*/n";
+		replyMessage += "```javascript\n" + inspected + "```"
+
+		return discord.splitMessage(replyMessage, { maxLength: 1900, prepend, append });
+	}
+
+	get sensitivePattern() {
+		if(!this._sensitivePattern) {
+			const client = this.client;
+			let pattern = '';
+			if(client.token) pattern += escapeRegex(client.token);
+			Object.defineProperty(this, '_sensitivePattern', { value: new RegExp(pattern, 'gi'), configurable: false });
+		}
+		return this._sensitivePattern;
 	}
 };
