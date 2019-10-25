@@ -26,13 +26,15 @@ module.exports = class StatsCommand extends Command {
 					__("{0} Users", this.client.users.size.toLocaleString()),
 					__("{0} Channels", this.client.channels.size.toLocaleString()),
 					__("{0} Servers", this.client.guilds.size.toLocaleString())
-				]
+				],
+				inline: true
 			},
 			{
 				title: "🏓 " + __("Ping"),
 				values: [
 					__("The message round-trip took {0}", __("{0}ms", (pingMsg.editedTimestamp || pingMsg.createdTimestamp) - (message.editedTimestamp || message.createdTimestamp)))
-				]
+				],
+				inline: true
 			},
 			null,
 			{
@@ -76,7 +78,7 @@ module.exports = class StatsCommand extends Command {
 				if (Array.isArray(value))
 					value = value.map(v => `• ${v}`).join("\n")
 
-				embed.addField(row.title, value);
+				embed.addField(row.title, value, (row.inline ? true : false));
 			})
 
 			pingMsg.edit('', {embed: embed})
