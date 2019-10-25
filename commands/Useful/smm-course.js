@@ -48,11 +48,11 @@ module.exports = class CourseCommand extends Command {
 		if (level.match(ID))
 			return this.handleLevel(msg, this.filterID(level.toUpperCase()));
 
-		let url = `http://smm-db.glitch.me/levels/${level}`
+		let url = `http://smm-db.glitch.me/levels/`
 		if (makerOfMario)
-			url = `https://api.makersofmario.com/level/?method=search&limit=5&text=${level}`
+			url = `https://api.makersofmario.com/level/?method=search&limit=5&text=`
 
-		let { body, statusCode, responce } = await req({ url: url, json: true });
+		let { body, statusCode, responce } = await req({ url: (url + encodeURIComponent(level)), json: true });
 		if (statusCode !== 200) return msg.util.reply('Could not connect to the API');
 		if (makerOfMario && body.success !== true) return msg.util.send(body.error.message);
 
