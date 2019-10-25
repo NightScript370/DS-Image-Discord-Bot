@@ -92,11 +92,11 @@ module.exports = class EvalCommand extends Command {
 		const prepend = `\`\`\`javascript\n${prependPart}\n`;
 		const append = `\n${appendPart}\n\`\`\``;
 
-		let replyMessage = (input ? "Executed in" : "Callback executed after") + (hrDiff[0] > 0 ? `${hrDiff[0]}s ` : '') + (`${hrDiff[1] / 1000000}ms`);
-		replyMessage = "*" + replyMessage + ".*/n";
+		let replyMessage = (input ? "Executed in" : "Callback executed after") + " " + (hrDiff[0] > 0 ? `${hrDiff[0]}s ` : '') + (`${hrDiff[1] / 1000000}ms`);
+		replyMessage = "*" + replyMessage + ".*";
 		replyMessage += "```javascript\n" + inspected + "```"
 
-		return discord.splitMessage(replyMessage, { maxLength: 1900, prepend, append });
+		return discord.splitMessage(replyMessage, { maxLength: 1950, prepend, append });
 	}
 
 	get sensitivePattern() {

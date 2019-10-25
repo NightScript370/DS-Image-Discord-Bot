@@ -148,11 +148,12 @@ module.exports = class ConfigCommand extends Command {
 		let t = findType(key);
 
 		let action = await this.awaitReply(msg, __("What do you want to do with the values? [`add` a value/`clear` the values]"), 30000);
-		action = action.toLowerCase();
 
-		if (!action) {
+		if (!action)
 			return msg.util.reply(__("action cancelled"));
-		} else if (action == "clear") {
+
+		action = action.toLowerCase();
+		if (action == "clear") {
 			let resp = await this.awaitReply(msg, __("Are you ___**100%**___ sure you want to reset the array? [Y/N]"), 30000);
 
 			if (resp && typeof resp == "string" && resp.toLowerCase() == "y") {
@@ -182,7 +183,7 @@ module.exports = class ConfigCommand extends Command {
 			msg.util.send(__("The action must be one of [{0}]!", "add, clear"));
 		}
 
-		if (recursionDepth < 5) {
+		/* if (recursionDepth < 5) {
 			let otheract = await this.awaitReply(msg, __("Do something else? [`y`/`n`]"), 30000);
 
 			if (otheract && typeof otheract == "string" && otheract.toLowerCase() == "y") {
@@ -190,7 +191,7 @@ module.exports = class ConfigCommand extends Command {
 			} else {
 				return msg.util.reply(__("action cancelled"));
 			}
-		}
+		} */
 	}
 
 	async awaitReply(msg, question, limit = 60000) {
