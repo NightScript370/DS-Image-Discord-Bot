@@ -29,7 +29,7 @@ module.exports = class StatsCommand extends Command {
 				]
 			},
 			{
-				title: "🏓 " + __("Ping"):
+				title: "🏓 " + __("Ping"),
 				values: [
 					__("The message round-trip took {0}", __("{0}ms", (pingMsg.editedTimestamp || pingMsg.createdTimestamp) - (message.editedTimestamp || message.createdTimestamp)))
 				]
