@@ -31,7 +31,7 @@ module.exports = class AmiiboCommand extends Command {
 	}
 
 	async exec(msg, { name }) {
-		let { body, statusCode } = req({ url: 'http://www.amiiboapi.com/api/amiibo/?name='+encodeURIComponent(name), json: true });
+		let { body, statusCode } = await req({ url: 'http://www.amiiboapi.com/api/amiibo/?name='+encodeURIComponent(name), json: true });
 
 		if (statusCode == 404)
 			return msg.util.reply("The amiibo was not found. Please check your spelling and try again");
