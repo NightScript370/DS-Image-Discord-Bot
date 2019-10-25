@@ -51,11 +51,17 @@ module.exports = class StatsCommand extends Command {
 			let CPU = await os.cpu();
 			let CPUsage = CPU.used * 1024;
 
-			fields[2] = {"⚙️ " + __("Resource Usage"): [
-				__(`**Allocated Memory**: ${Math.round(usedMem * 100) / 100} MB/${Math.round(totalMem * 100) / 100} MB`),
-				__(`**CPU**: ${CPUsage.toFixed(2)}%`)
-			]}
-			fields.push({ "🎂 " + __("Creation date"): global.translate.getDuration(message.author.lang, moment().diff(moment(this.client.user.createdAt))) + " " + __("ago") })
+			fields[2] = {
+				title: "⚙️ " + __("Resource Usage"),
+				values: [
+					__(`**Allocated Memory**: ${Math.round(usedMem * 100) / 100} MB/${Math.round(totalMem * 100) / 100} MB`),
+					__(`**CPU**: ${CPUsage.toFixed(2)}%`)
+				]
+			}
+			fields.push({
+				title: "🎂 " + __("Creation date"),
+				values: global.translate.getDuration(message.author.lang, moment().diff(moment(this.client.user.createdAt))) + " " + __("ago")
+			})
 
 			let embed = this.client.util.embed()
 				.setAuthor(__("{0} Statistics", this.client.user.username), this.client.user.displayAvatarURL({ format: 'png' }), this.client.website.URL || '')
