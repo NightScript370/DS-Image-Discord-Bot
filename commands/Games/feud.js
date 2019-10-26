@@ -18,6 +18,7 @@ module.exports = class FeudCommand extends Command {
 
 	async exec(msg) {
 		const __ = (k, ...v) => global.translate(msg.author.lang, k, ...v);
+		let i = 0;
 
 		const current = this.client.commandHandler.games.get(msg.author.id);
 		if (current) return msg.util.reply(__("Please wait until the current game of {0} is finished.", current.name));
@@ -40,8 +41,9 @@ module.exports = class FeudCommand extends Command {
 				.setDescription(__('Type the choice you think is a suggestion _without_ the question.'))
 				.setFooter(`${tries} ${tries === 1 ? 'try' : 'tries'} remaining!`);
 
-			for (let i = 0; i < suggestions.length; i++)
-				embed.addField(`❯ ${10000 - (i * 1000)}`, display[i], true);
+			embed.fields = [];
+			for (i = 0; i < suggestions.length; i++)
+				embed.addInline(`❯ ${10000 - (i * 1000)}`, display[i]);
 
 			await msg.util.send(embed);
 
@@ -71,11 +73,9 @@ module.exports = class FeudCommand extends Command {
 		else
 			embed.setDescription(__("You win! Nice job, master of Google! You scored {0} points.", score));
 
-		let i = 0;
-		suggestions.forEach(s => {
-			embed.addField(`❯ ${10000 - (i * 1000)}`, s, true);
-			i++;
-		});
+		embed.fields = [];
+		for (i = 0; i < suggestions.length; i++)
+			embed.addInline(`❯ ${10000 - (i * 1000)}`, suggestions[i]);
 
 		return msg.util.send(embed);
 	}

@@ -13,7 +13,7 @@ module.exports = class SortingHatCommand extends Command {
 	}
 
 	async exec(msg, { move }) {
-		if (!client.isOwner(msg.author.id))
+		if (!this.client.isOwner(msg.author.id))
 			return msg.channel.send("Sorry, but this is a Work In Progress command. This will not work")
 
 		let emojiList = ['1⃣','2⃣','3⃣','4⃣','5⃣','6⃣','7⃣','8⃣','9⃣','🔟'];
