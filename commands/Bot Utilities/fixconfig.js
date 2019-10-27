@@ -1,5 +1,5 @@
 const Command = require('../../struct/Command');
-const { findType, settingProps } = require("../../Configuration.js");
+const { findType, settingProps } = require("../../settings/index.js");
 
 const isObject = (val) => typeof val === 'object' && !(val instanceof Array) && val !== null;
 

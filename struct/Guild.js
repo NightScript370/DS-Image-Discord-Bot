@@ -1,5 +1,5 @@
 const { Structures } = require("discord.js");
-const { findType } = require('./../Configuration.js');
+const { findType } = require('./../settings/index.js');
 const db = require('../utils/database.js');
 const config = require("../config.js");
 
