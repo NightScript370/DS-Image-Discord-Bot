@@ -28,12 +28,13 @@ module.exports = (client) => {
 	}
 
 	routerModule = require("./router/" + websiteConfig.mainPage.replace(".js", '') + '.js')(client)
-	website.express.get('/', Array.isArray(routerModule) ? ...routerModule : routerModule);
+	website.get('/', Array.isArray(routerModule) ? ...routerModule : routerModule);
 
-	website.express.get('*', (request, response) => response.redirect("/"));
+	website.get('*', (request, response) => response.redirect("/"));
 
-	website.server = http.createServer(website.express);
-	website.server.listen(website.express.get('port'));
+	website.listen(process.env.PORT || 3000, '0.0.0.0')
+		.then(address => website.log.info(`[WEBSITE] Server listening on ${address}`))
+		.catch(e => website.log.error(`[WEBSITE][ERROR] ${e}`))
 
 	return website
 }

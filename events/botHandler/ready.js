@@ -34,7 +34,6 @@ module.exports = class ReadyListener extends Listener {
 
 		try {
 			this.client.website = await require("../../website/index.js")(this.client);
-			this.client.listenerHandler.setEmitters({httpServer: this.client.website.server});
 		} catch (e) {
 			console.error('[WEBSITE] Failed to load: ' + e);
 		}
@@ -45,9 +44,9 @@ module.exports = class ReadyListener extends Listener {
 			try {
 				const TopGG = await require("dblapi.js");
 				this.client.botlist.TopGG = await new TopGG(config.botLists['top.gg'].token, {
-					webhookPort: this.client.website.express.get('port'),
+					webhookPort: this.client.website.port,
 					webhookAuth: config.botLists['top.gg'].webhookpass,
-					webhookServer: this.client.website.server,
+					webhookServer: this.client.website,
 					statsInterval: 7200000
 				}, this.client)
 
