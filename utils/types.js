@@ -208,7 +208,7 @@ const akairo_types = {
 
 		return userFound;
 	},
-	'javierInteger': async (message, num) => {
+	'javierInteger': (message, num) => {
 		if (!num) return null;
 
 		//Check if is number and not NaN
