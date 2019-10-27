@@ -88,9 +88,7 @@ module.exports = class NDSBCompatCommand extends Command {
 					msg.author.send({embed: embed});
 				else if (!text && !embed)
 					msg.author.send("An error has occured: `Empty message trying to send for the nds-bootstrap-compatibility command`. Please report this to the Yamamura developers")
-			} catch (e) {
-				// Do nothing here, since the Author most likely disabled the DMS
-			}
+			} catch { } // Do nothing here, since the Author most likely disabled the DMS
 		}
 	}
 
