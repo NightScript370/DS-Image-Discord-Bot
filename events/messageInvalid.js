@@ -33,7 +33,8 @@ module.exports = class messageInavlidListener extends Listener {
 
 		if (!message.channel.sendable) return false;
 		if (message.util.parsed.prefix !== `<@${this.client.user.id}>` && message.guild) {
-			let guildBots = message.guild.members.filter(member => member.user.bot).delete(this.client.user.id)
+			let guildBots = message.guild.members.filter(member => member.user.bot);
+			guildBots.delete(this.client.user.id);
 			if (guildBots.size) {
 				const wait = require('util').promisify(setTimeout);
 				await wait(1700);
