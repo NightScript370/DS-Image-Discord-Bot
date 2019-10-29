@@ -26,7 +26,7 @@ module.exports = class LeaderboardCommand extends Command {
 				},
 				{
 					id: 'numberofresults',
-					type: (msg, number) => {
+					type: (message, number) => {
 						if (!number)
 							return null;
 
@@ -39,7 +39,7 @@ module.exports = class LeaderboardCommand extends Command {
 
 						return returnvalue;
 					},
-					default: 10,
+					default: null,
 					match: 'rest'
 				}
 			],
@@ -60,6 +60,20 @@ module.exports = class LeaderboardCommand extends Command {
 				guildFound = guildFind;
 			} else {
 				guildFound = msg.guild
+			}
+
+			if (!numberofresults) {
+				numberofresults = 10;
+				// TODO, make algorithm where it would dynamically set a number depending on the server member count.
+				// If a guild has 2 members, 1 should be the default
+				// If a guild has 10 members, 3 should be the default
+				// If a guild has 20 members, 5 should be the default
+				// If a guild has 25 members, 6 should be the default
+				// If a guild has 50 members, 10 should be the default
+				// If a guild has 100 members, 20 should be the default
+				// If a guild has 250 members or anything above it, 25 should be the default (that's the max it should go up to.)
+
+				// A simple if (users > 1000) things could be done but it won't be dynamic. What if a guild has 72 members or so?
 			}
 
 			let filtered = this.client.db.points.find({ guild: guildFound.id });
