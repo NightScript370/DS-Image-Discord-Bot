@@ -64,9 +64,6 @@ module.exports = class LeaderboardCommand extends Command {
 			if (!numberofresults)
 				numberofresults = Math.floor(Math.min(Math.sqrt(3*people), 25));
 
-			if (numberofresults > 25)
-				numberofresults = 25;
-
 			let filtered = this.client.db.points.find({ guild: guildFound.id });
 			let top10 = filtered.sort((a, b) => b.points - a.points);
 			top10.length = Math.min(numberofresults || top10.length, top10.length);
