@@ -1,4 +1,5 @@
 const { Command } = require('discord-akairo');
+const { javierInteger } = require('../../utils/types');
 
 module.exports = class LeaderboardCommand extends Command {
 	constructor() {
@@ -7,7 +8,7 @@ module.exports = class LeaderboardCommand extends Command {
 			category: 'Experience Points',
 			description: {
 				content: 'List all those with the highest amount of points',
-				usage: 'num:<optional field> guild:<optional field. This is available for viewing a specific guild\'s user point>',
+				usage: '[number of results: min is 3, max is 25. Any invalid result will give 10] guild:<optional field. This is available for viewing a specific guild\'s user point>',
 				examples: ['5', '5 guild:318882333312679936']
 			},
 			args: [
@@ -25,11 +26,18 @@ module.exports = class LeaderboardCommand extends Command {
 				},
 				{
 					id: 'numberofresults',
-					type: (msg, phrase) => {
-						if (!phrase || isNaN(phrase)) return null;
-						const num = parseInt(phrase);
-						if (num < 3 || num > 25) return null;
-						return num;
+					type: (msg, number) => {
+						if (!number)
+							return null;
+
+						const returnvalue = javierInteger(message, number);
+						if (isNaN(returnvalue)) return null;
+						if (returnvalue == null) return null;
+
+						if (returnvalue < 3) return null;
+						if (returnvalue > 25) return null;
+
+						return returnvalue;
 					},
 					default: 10,
 					match: 'rest'

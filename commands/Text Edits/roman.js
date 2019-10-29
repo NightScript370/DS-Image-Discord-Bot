@@ -9,12 +9,15 @@ module.exports = class RomanCommand extends Command {
 			category: 'Text Fun',
 			description: {
 				content: 'Converts a number to roman numerals.',
-				usage: '<number you want to convert>'
+				usage: '<number you want to convert. Must be more than 0 and less than 5000>'
 			},
 			args: [
 				{
 					id: 'number',
 					type: (message, number) => {
+						if (!number)
+							return null;
+
 						const returnvalue = javierInteger(message, number);
 						if (isNaN(returnvalue)) return null;
 						if (returnvalue == null) return null;
