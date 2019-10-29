@@ -34,7 +34,7 @@ module.exports = class LeaderboardCommand extends Command {
 						if (isNaN(returnvalue)) return null;
 						if (returnvalue == null) return null;
 
-						if (returnvalue < 3) return null;
+						if (returnvalue < 1) return null;
 						if (returnvalue > 25) return null;
 
 						return returnvalue;
@@ -62,19 +62,11 @@ module.exports = class LeaderboardCommand extends Command {
 				guildFound = msg.guild
 			}
 
-			if (!numberofresults) {
-				numberofresults = 10;
-				// TODO, make algorithm where it would dynamically set a number depending on the server member count.
-				// If a guild has 2 members, 1 should be the default
-				// If a guild has 10 members, 3 should be the default
-				// If a guild has 20 members, 5 should be the default
-				// If a guild has 25 members, 6 should be the default
-				// If a guild has 50 members, 10 should be the default
-				// If a guild has 100 members, 20 should be the default
-				// If a guild has 250 members or anything above it, 25 should be the default (that's the max it should go up to.)
+			if (!numberofresults)
+				numberofresults = Math.sqrt(3*guildFound.memberCount);
 
-				// A simple if (users > 1000) things could be done but it won't be dynamic. What if a guild has 72 members or so?
-			}
+			if (numberofresults > 25)
+				numberofresults = 25;
 
 			let filtered = this.client.db.points.find({ guild: guildFound.id });
 			let top10 = filtered.sort((a, b) => b.points - a.points);
