@@ -58,12 +58,11 @@ module.exports = class LeaderboardCommand extends Command {
 				if (!guildFind.members.has(msg.author.id)) return msg.util.reply(__('you may not see the statistics of a server you are not in. Try again later'));
 
 				guildFound = guildFind;
-			} else {
+			} else
 				guildFound = msg.guild
-			}
 
 			if (!numberofresults)
-				numberofresults = Math.sqrt(3*guildFound.memberCount);
+				numberofresults = Math.floor(Math.min(Math.sqrt(3*people), 25));
 
 			if (numberofresults > 25)
 				numberofresults = 25;
