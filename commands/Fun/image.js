@@ -71,7 +71,8 @@ module.exports = class ImageCommand extends Command {
 				break;
 		}
 
-		if (nsfwspecies && msg.guild && !msg.channel.nsfw) return await msg.reply('You need to use this command argument in DMs or an NSFW channel');
+		if (nsfwspecies && msg.guild && !msg.channel.nsfw)
+			return await msg.util.reply('You need to use this command argument in DMs or an NSFW channel');
 
 		if (API) {
 			if(this.ratelimited) return msg.channel.send('API is being ratelimited, please try again later.');
@@ -123,5 +124,6 @@ module.exports = class ImageCommand extends Command {
 		const username = msg.member ? msg.member.displayName : msg.author.username;
 
 		await msg.channel.send(`Alright ${username}, here's your image of a ${species}`, {files: [{attachment: image, name: `${species}.png`}] });
+		return image;
 	}
 };

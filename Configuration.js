@@ -1,3 +1,5 @@
+const translate = require("./langs/framework.js")
+
 let settingProps = {
 	logchan: "channel",
 	welcomechan: "channel",
@@ -76,7 +78,7 @@ let types = [
 		}
 
 		static render(client, msg, val) {
-			return getString(msg.author.lang, val.toString() == "true" ? "Enabled" : "Disabled");
+			return translate(msg.author.lang, val.toString() == "true" ? "Enabled" : "Disabled");
 		}
 
 		static validate(client, _, val) {

@@ -50,7 +50,7 @@ module.exports = class DiscordProfileCommand extends Command {
 
 		if (member) {
 			if (member.presence.activity)
-				embed.setDescription((activities[member.presence.activity.type] || '') + " **" + (member.presence.activity.name == "Custom Status" ? member.presence.activity.state : memember.presence.activity.name) + "**")
+				embed.setDescription((activities[member.presence.activity.type] || '') + " **" + (member.presence.activity.name == "Custom Status" ? member.presence.activity.state : member.presence.activity.name) + "**")
 
 			if (!user.bot) {
 				let DBuser = this.client.db.points.findOne({guild: msg.guild.id, member: user.id}) || await this.client.db.points.insert({guild: msg.guild.id, member: user.id, points: 0, level: 0});
