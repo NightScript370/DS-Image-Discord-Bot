@@ -1,6 +1,6 @@
 const { parameters } = require("../extraFunctions")
 
-module.exports = (client) => {
+module.exports = (client, website) => {
 	const homepageRouter = (request, response) => {
 		let object = parameters(client, request);
 

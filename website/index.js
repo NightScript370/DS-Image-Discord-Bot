@@ -1,8 +1,9 @@
 const { website: websiteConfig } = require("../config.js");
-const List = require("list-array");
+const OAuth = require('disco-oauth');
+
 const path = require("path");
 const fs = require('fs')
-const routers = fs.readdirSync(path.join(process.cwd(), 'website', 'router'));
+const routers = fs.readdirSync(path.join(process.cwd(), 'website', 'router')).filter(entry => entry.includes('.'));
 
 module.exports = (client) => {
 	let website = require('fastify')({ logger: true, ignoreTrailingSlash: true })
@@ -21,11 +22,16 @@ module.exports = (client) => {
 		.then(console.log("[WEBSITE] Helmet loaded"))
 		.catch(console.error("[WEBSITE] FAILED TO LOAD HELMET"))
 
+	website.oauth2 = new OAuth(client.user.id, websiteConfig.client_secret)
+	website.oauth2
+		.setScopes('identify', 'guilds')
+		.setRedirect(`${website.URL}/servers/login`)
+
 	const handleRoute = (id, routerModule) => (routerModule.callback && id !== "/") ? website.get(routerModule.id, routerModule.callback) : website.get(id, routerModule)
 
 	let routerModule
 	for (let router of routers) {
-		routerModule = require("./router/" + router)(client);
+		routerModule = require("./router/" + router)(client, website);
 		handleRoute(router.replace('.js', ''), routerModule)
 	}
 

@@ -1,6 +1,6 @@
-const extra = require("../extraFunctions")
+const extra = require("../../extraFunctions")
 
-module.exports = (client) => {
+module.exports = (client, website) => {
 	let routers = {
 		'/': [extra.isAuth, (request, response) => response.render("profile", extra.parameters(client, request))],
 		'/login': [passport.authenticate("discord", { failureRedirect: "/" }), (request, response) => response.redirect("/servers")],
@@ -28,8 +28,3 @@ module.exports = (client) => {
 
 	return routers
 }
-
-.router = (client) => router
-	.get("/", )
-	.get("/login", )
-	.get("/logout", 

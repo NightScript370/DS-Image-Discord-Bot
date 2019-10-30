@@ -1,6 +1,6 @@
 const { parameters } = require("../extraFunctions")
 
-module.exports = (client) => {
+module.exports = (client, website) => {
 	const commandsRouter = (request, response) => {
 		let object = parameters(client, request);
 
@@ -8,7 +8,7 @@ module.exports = (client) => {
 		object.defaultCategory = "Useful";
 
 		response.view("commands", object)
-	})
+	}
 
 	return commandsRouter;
 }
