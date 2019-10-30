@@ -21,7 +21,7 @@ module.exports = (client) => {
 		.then(console.log("[WEBSITE] Helmet loaded"))
 		.catch(console.error("[WEBSITE] FAILED TO LOAD HELMET"))
 
-	const handleRoute = (id, routerModule) => website.get(id, (Array.isArray(routerModule) ? routerModule[0] : routerModule), (Array.isArray(routerModule) ? routerModule[1] : null))
+	const handleRoute = (id, routerModule) => (routerModule.callback && id !== "/") ? website.get(routerModule.id, routerModule.callback) : website.get(id, routerModule)
 
 	let routerModule
 	for (let router of routers) {
