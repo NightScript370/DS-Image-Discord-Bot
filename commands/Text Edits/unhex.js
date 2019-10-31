@@ -6,7 +6,7 @@ module.exports = class UnhexCommand extends Command {
 			category: 'Text Fun',
 			aliases: ["unhex"],
 			description: {
-				content: 'Converts text to hexadecimal.',
+				content: 'Converts text from hexadecimal to normal text.',
 				usage: '<text to translate back from Hexadecimal Values>',
 				examples: ['hello world']
 			},
