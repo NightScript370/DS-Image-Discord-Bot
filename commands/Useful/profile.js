@@ -59,7 +59,7 @@ module.exports = class DiscordProfileCommand extends Command {
 					.addInline("Points", DBuser.points == Infinity ? "Infinity" : DBuser.points)
 					.addInline("Level", DBuser.points == Infinity ? "Infinity": DBuser.level)
 			}
-			
+
 			try {
 				const roles = (member.roles ? member.roles
 					.filter(role => role.id !== msg.guild.roles.everyone.id)
