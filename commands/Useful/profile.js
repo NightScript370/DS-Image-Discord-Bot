@@ -15,7 +15,7 @@ module.exports = class DiscordProfileCommand extends Command {
 			category: 'Useful',
 			clientPermissions: ['ATTACH_FILES'],
 			description: {
-				content: 'Returns your user ID.',
+				content: "Returns a user's profile.",
 				usage: '',
 				example: ''
 			},
