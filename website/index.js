@@ -27,7 +27,21 @@ module.exports = (client) => {
 		.setScopes('identify', 'guilds')
 		.setRedirect(`${website.URL}/servers/login`)
 
-	const handleRoute = (id, routerModule) => (routerModule.callback && id !== "/") ? website.get(routerModule.id, routerModule.callback) : website.get(id, routerModule)
+	const handleRoute = (id, routerModule) => {
+		if (routerModule.callback && id !== "/") {
+			id = routerModule.id
+			routerModule = routerModule.callback
+		}
+
+		if (Array.isArray(routerModule)) {
+			if (routerModule[0] !== true)
+				return;
+
+			routerModule = routerModule[1]
+		}
+
+		website.get(id, routerModule)
+	}
 
 	let routerModule
 	for (let router of routers) {
