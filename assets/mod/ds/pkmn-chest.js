@@ -1,4 +1,4 @@
-import { RichEmbed } from 'discord.js'
+import { MessageEmbed } from 'discord.js'
 
 let socialLinks = [
 	"[Github Repository](https://github.com/Universal-Team/pkmn-chest)",
@@ -9,7 +9,7 @@ let socialLinks = [
 
 export const alias = ['pkmn-chest', 'pkmn chest'];
 export const message = "**pkmn-chest** is a Pokémon Bank style app that lets you store and edit Pokémon from the 4th and 5th generation games on your DS(i)."
-export const embed = new RichEmbed()
+export const embed = new MessageEmbed()
 	.setThumbnail('https://github.com/Universal-Team/pkmn-chest/raw/master/resources/icon.png')
 	.setColor("BF0300")
 	.addField('Social Links', socialLinks.map(feature => `• ${feature}`).join("\n"))

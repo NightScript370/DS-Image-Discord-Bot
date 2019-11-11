@@ -1,4 +1,4 @@
-import { RichEmbed } from 'discord.js'
+import { MessageEmbed } from 'discord.js'
 
 let supportedFormats = [
     "Nintendo DS titles",
@@ -26,7 +26,7 @@ let socialLinks = [
 
 export const alias = ['twilightmenu++', 'twilight menu', 'twlmenu', 'twilight', 'twlmenu++', 'twilight menu++', 'twlm++', 'twlm', 'twilightmenu', 'twilightm++', 'twilightm', 'srloader', 'dsmenu++', 'dsmenu', 'dsixion'];
 export const message = "**TWiLight Menu++** is an open-source DSi Menu upgrade/replacement allowing you to navigate your SD card and launch a variety of different applications."
-export const embed = new RichEmbed()
+export const embed = new MessageEmbed()
 	.setThumbnail('https://cdn.discordapp.com/attachments/283770736215195648/585668151191011338/Rocket_Video_Player_logo_2.png')
     .addField('Supported Formats', supportedFormats.map(format => `• ${format}`).join("\n"))
     .addField('Styles', styles.map(style => `• ${style}`).join("\n"))

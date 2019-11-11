@@ -1,4 +1,4 @@
-import { RichEmbed } from 'discord.js'
+import { MessageEmbed } from 'discord.js'
 
 let features = [
 	"Use recreated services such as Wiimifi and RiiConnect24 to replace the discontinued Nintendo Wi-fi Connection & WiiConnect24",
@@ -11,7 +11,7 @@ let features = [
 
 export const message = "Nintendo Wii Modding guide: https://wii.guide/\n"
 	+ "This guide will install The Homebrew Launcher on your Nintendo Wii, your primary interface to run homebrew."
-export const embed = new RichEmbed()
+export const embed = new MessageEmbed()
 	.setColor(16711731)
 	.setThumbnail('https://www.nintendoservicecentre.co.uk/images/products/2100866A.png')
 	.addField('Advantages to modding a Nintendo Wii', features.map(feature => `- ${feature}`).join("\n"))

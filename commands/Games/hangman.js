@@ -1,4 +1,4 @@
-import { Command } from 'discord-akairo';
+import Command from 'discord-akairo';
 import Hangman from 'hangman-game-engine';
 
 export default class HangmanCommand extends Command {

@@ -1,4 +1,4 @@
-import { RichEmbed } from 'discord.js'
+import { MessageEmbed } from 'discord.js'
 
 let features = [
 	"Redirect your NAND to the SD card",
@@ -14,7 +14,7 @@ let features = [
 
 export const message = "Nintendo 3DS Modding guide: https://3ds.cfw.guide\n"
 	+ "This guide will install LumaCFW alongside boot9strap, the latest CFW"
-export const embed = new RichEmbed()
+export const embed = new MessageEmbed()
 	.setColor(49151)
 	.setThumbnail('https://cdn.bulbagarden.net/upload/0/0f/Nintendo_3DS_Aqua_Blue.png')
 	.addField('Advantages to modding a 3DS', features.map(feature => `- ${feature}`).join("\n"))

@@ -1,4 +1,4 @@
-import { Command } from 'discord-akairo';
+import Command from 'discord-akairo';
 
 export default class KickCommand extends Command {
 	constructor() {

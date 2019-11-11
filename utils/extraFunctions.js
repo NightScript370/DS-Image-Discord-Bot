@@ -1,4 +1,4 @@
-import { length, list, nth, List } from "list";
+import { length, nth, List } from "list";
 
 String.prototype.replaceAll = function (search, replacement) {
 	var target = this;

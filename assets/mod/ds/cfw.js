@@ -1,4 +1,4 @@
-import { RichEmbed } from 'discord.js'
+import { MessageEmbed } from 'discord.js'
 
 let features = [
 	"Redirect your NAND to the SD card",
@@ -11,7 +11,7 @@ let features = [
 
 export const message = "Nintendo DSi Modding guide: https://ds-homebrew.github.io/flashcard\n"
 	+ "This guide will take you from a regular Nintendo DSi to a modified console by using the Memory Pit exploit."
-export const embed = new RichEmbed()
+export const embed = new MessageEmbed()
 	.setColor(16776918)
 	.setThumbnail('https://upload.wikimedia.org/wikipedia/commons/8/8b/Nintendo_dsi.png')
 	.addField('Advantages to modding a Nintendo DSi', features.map(feature => `- ${feature}`).join("\n"))

@@ -1,4 +1,4 @@
-import { Command } from 'discord-akairo';
+import Command from 'discord-akairo';
 const request = require('util').promisify(require('request'));
 
 export default class NDSBCompatCommand extends Command {

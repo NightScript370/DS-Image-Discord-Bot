@@ -1,4 +1,4 @@
-import { Command } from 'discord-akairo';
+import Command from 'discord-akairo';
 import { findType, settingProps } from '../../settings/index.js';
 
 export default class ConfigCommand extends Command {

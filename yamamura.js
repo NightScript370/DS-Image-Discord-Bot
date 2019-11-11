@@ -30,20 +30,21 @@ console.error = function () {
 
 try { require('cache-require-paths'); } catch {}
 
-import "./utils/extraFunctions.js";
+require("./utils/extraFunctions.js");
 global.translate = require("./langs/framework.js")
 
 import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } from 'discord-akairo';
 import { owners, supportServer, prefix as _prefix, website, log as _log, token } from "./config.js";
-import List from "list-array";
-import BackEmbed from './embed.js';
+import * as List from "list-array";
+import * as BackEmbed from './embed.js';
+import * as types from './utils/types.js';
+import * as AudioModule from './utils/audio.js';
 
-import "./struct/User.js";
-import "./struct/Guild.js";
-import "./struct/DMChannel.js";
-import "./struct/TextChannel.js";
-import "./struct/GuildMember.js";
-
+require("./struct/User.js").default;
+require("./struct/Guild.js");
+require("./struct/DMChannel.js");
+require("./struct/TextChannel.js").default;
+require("./struct/GuildMember.js");
 
 class YamamuraClient extends AkairoClient {
 	constructor() {
@@ -95,11 +96,12 @@ class YamamuraClient extends AkairoClient {
 			}
 		})
 
-		this.commandHandler.resolver.addTypes(require('./utils/types.js'));
+		this.commandHandler.resolver.addTypes(types);
 		this.commandHandler.games = new Map();
 
 		this.inhibitorHandler = new InhibitorHandler(this, { directory: './inhibitors/' });
-		this.listenerHandler = new ListenerHandler(this, { directory: './events/' }).setEmitters({
+		this.listenerHandler = new ListenerHandler(this, { directory: './events/' });
+		this.listenerHandler.setEmitters({
 			process: process,
 			inhibitorHandler: this.inhibitorHandler
 		});
@@ -123,7 +125,7 @@ class YamamuraClient extends AkairoClient {
 				return client.user.presence;
 		};
 
-		this.audio = require('./utils/audio.js');
+		this.audio = AudioModule;
 
 		this.log = _log;
 	};
@@ -131,10 +133,6 @@ class YamamuraClient extends AkairoClient {
 
 const client = new YamamuraClient();
 client.login(token);
-
-function isEmpty(value) { //Function to check if value is really empty or not
-	return (value == null || value.length === 0);
-}
 
 global.List = List;
 export default client;

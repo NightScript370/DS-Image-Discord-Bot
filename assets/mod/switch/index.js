@@ -1,4 +1,4 @@
-import { RichEmbed } from 'discord.js'
+import { MessageEmbed } from 'discord.js'
 
 let features = [
 	"Customize your HOME Menu with user-created themes and splash screens",
@@ -9,7 +9,7 @@ let features = [
 
 export const message = "Nintendo Switch Modding guide: https://nh-server.github.io/switch-guide/\n"
 	+ "This guide will install Atmosphere, the latest and safest CFW."
-export const embed = new RichEmbed()
+export const embed = new MessageEmbed()
 	.setColor(1179392)
 	.setThumbnail('https://cdn.discordapp.com/attachments/472516090711375872/584859910882328674/switch.png')
 	.addField('Advantages to modding a Nintendo Switch', features.map(feature => `- ${feature}`).join("\n"))

@@ -1,4 +1,4 @@
-import { Command } from 'discord-akairo';
+import Command from 'discord-akairo';
 import { TicTacToe } from 'tictactoejs';
 
 export default class TTTCommand extends Command {

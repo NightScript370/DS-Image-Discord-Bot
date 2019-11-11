@@ -1,4 +1,4 @@
-import { RichEmbed } from 'discord.js'
+import { MessageEmbed } from 'discord.js'
 
 let socialLinks = [
     "[GBAtemp Thread](https://gbatemp.net/threads/release-rocket-video-player-play-videos-with-the-ultimate-in-picture-quality.539163/)",
@@ -8,7 +8,7 @@ let socialLinks = [
 
 export const alias = ['rocketvideoplayer', 'rvidplayer', 'rvp'];
 export const message = "**Rocket Video Player** is an open-source video player powered by Rocket Video Technology. It can be used on a Nintendo DSi, a Nintendo 3DS or a Nintendo DS Flashcart by playing a .rvid video file from your SD card."
-export const embed = new RichEmbed()
+export const embed = new MessageEmbed()
 	.setThumbnail('https://cdn.discordapp.com/attachments/283770736215195648/585668151191011338/Rocket_Video_Player_logo_2.png')
 	.addField('Social Links', socialLinks.map(feature => `• ${feature}`).join("\n"))
 	.setColor('#A701E9')

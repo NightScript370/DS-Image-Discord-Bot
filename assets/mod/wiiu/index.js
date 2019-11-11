@@ -1,4 +1,4 @@
-import { RichEmbed } from 'discord.js'
+import { MessageEmbed } from 'discord.js'
 
 let features = [
 	"Run unsigned software (such as homebrew)",
@@ -9,7 +9,7 @@ let features = [
 
 export const message = "Nintendo Wii U Modding guide: https://wiiu.hacks.guide/\n"
 	+ "This guide will install The Homebrew Launcher on your Nintendo Wii U, your primary interface to run homebrew."
-export const embed = new RichEmbed()
+export const embed = new MessageEmbed()
 	.setColor(1050)
 	.setThumbnail('https://cdn.discordapp.com/attachments/472516090711375872/584854074617233424/unknown_1.png')
 	.addField('Advantages to modding a Nintendo Wii U', features.map(feature => `- ${feature}`).join("\n"))

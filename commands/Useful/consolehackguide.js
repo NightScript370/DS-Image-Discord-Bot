@@ -1,4 +1,4 @@
-import { Command } from 'discord-akairo';
+import Command from 'discord-akairo';
 import { readdirSync } from 'fs';
 
 export default class moddingGuidesCommand extends Command {

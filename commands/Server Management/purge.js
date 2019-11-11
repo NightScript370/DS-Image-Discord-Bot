@@ -1,4 +1,4 @@
-import { Command } from 'discord-akairo';
+import Command from 'discord-akairo';
 import { javierInteger } from '../../utils/types';
 
 export default class PurgeCommand extends Command {

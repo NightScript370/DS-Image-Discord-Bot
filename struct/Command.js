@@ -1,8 +1,8 @@
-const { Command } = require('discord-akairo');
-const List = require('list-array');
-const source = require('gamedig');
+import Command from 'discord-akairo';
+import List from 'list-array';
+import { query } from 'gamedig';
 
-module.exports = class SpecialYamamuraCommand extends Command {
+export default class SpecialYamamuraCommand extends Command {
 	constructor(...args) {
 		super(...args);
 	}
@@ -14,7 +14,7 @@ module.exports = class SpecialYamamuraCommand extends Command {
 		let host = IP[0];
 		let port = IP[1] ? parseInt(IP[1]) : 14567;
 
-		let data = await source.query({
+		let data = await query({
 			type: type,
 			host: host,
 			port: port

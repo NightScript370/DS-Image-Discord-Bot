@@ -1,4 +1,4 @@
-import { Command } from 'discord-akairo';
+import Command from 'discord-akairo';
 
 export default class toBCommand extends Command {
 	constructor() {

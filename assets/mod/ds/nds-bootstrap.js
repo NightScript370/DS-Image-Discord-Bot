@@ -1,4 +1,4 @@
-import { RichEmbed } from 'discord.js'
+import { MessageEmbed } from 'discord.js'
 
 let socialLinks = [
     "[GBATemp Thread](https://gbatemp.net/threads/nds-bootstrap-loader-run-commercial-nds-backups-from-an-sd-card.454323/)",
@@ -8,7 +8,7 @@ let socialLinks = [
 
 export const alias = ['nds-bootstrap', 'ndsbootstrap', 'ndsbp'];
 export const message = "**nds-bootstrap** is an open-source application that allows Nintendo DS/DSi ROMs and homebrew to be natively utilised rather than using an emulator. nds-bootstrap works on Nintendo DSi/3DS SD cards through CFW and on Nintendo DS through flashcarts."
-export const embed = new RichEmbed()
+export const embed = new MessageEmbed()
 	.setThumbnail('https://cdn.discordapp.com/attachments/472516090711375872/585529778627674122/df6f574fd4b252a788278f28c64c7ec2af011d4d_s2_n2.png')
 	.addField('Social Links', socialLinks.map(feature => `• ${feature}`).join("\n"))
 	.setColor('#999A9D')
