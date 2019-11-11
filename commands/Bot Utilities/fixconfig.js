@@ -1,9 +1,9 @@
-const Command = require('../../struct/Command');
-const { findType, settingProps } = require("../../Configuration.js");
+import Command from '../../struct/Command';
+import { findType, settingProps } from "../../settings/index.js";
 
 const isObject = (val) => typeof val === 'object' && !(val instanceof Array) && val !== null;
 
-module.exports = class FixConfigCommand extends Command {
+export default class FixConfigCommand extends Command {
 	constructor() {
 		super('fixconfig', {
 			aliases: ['fixconfig', 'fixconf'],
@@ -16,7 +16,9 @@ module.exports = class FixConfigCommand extends Command {
 	}
 
 	async exec(msg) {
-		this.client.guilds.forEach(guild => {
+		let guild;
+
+		for (guild of this.client.guilds) {
 			let data = guild.config.data;
 
 			console.log(`${guild.name}'s server prechange`, data)
@@ -35,7 +37,7 @@ module.exports = class FixConfigCommand extends Command {
 
 				let numrefresh = 0;
 
-				if (!settingProps[prop].endsWith(':ex')) {
+				if (!settingProps[prop].extendable) {
 					while (value instanceof Array && value.length && numrefresh < 100) {
 						value = value[0];
 						numrefresh++;
@@ -77,44 +79,10 @@ module.exports = class FixConfigCommand extends Command {
 
 			this.client.db.serverconfig.update(data);
 			console.log(`${guild.name}'s server postchange`, data)
-		});
+		}
 
 		console.log("Done");
 		if (msg.channel.sendable)
 			msg.util.send("Done.")
 	}
-};
-
-function unconvert(object) {
-    let counter = 0;
-    
-    while (typeof object.value !== "string" && counter !== 10) {
-        while (object.value instanceof Array)
-            object.value = object.value[0] || '';
-
-        while (isObject(object.value.value))
-            object.value = object.value.value;
-
-        counter++;
-    }
-
-    return object;
-}
-
-function convert(array, propType) {
-    if (typeof array == 'string') {
-        if (!array.trim().length)
-            return [];
-        return [{ type: propType, value: array }];
-    };
-
-    if (!(array instanceof Array))
-        return array;
-
-	let cfg = [];
-	for (var i = 0; i < array.length; i++) {
-		cfg.push({ type: propType, value: array[i] });
-	};
-
-	return cfg;
 };

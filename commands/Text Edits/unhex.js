@@ -1,6 +1,6 @@
-const { Command } = require('discord-akairo');
+import { Command } from 'discord-akairo';
 
-module.exports = class UnhexCommand extends Command {
+export default class UnhexCommand extends Command {
 	constructor() {
 		super('unhex', {
 			category: 'Text Fun',

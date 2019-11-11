@@ -1,8 +1,7 @@
-const { inspect } = require('util')
-const Command = require('../../struct/Command');
-const { execSync } = require('child_process');
+import Command from '../../struct/Command';
+import { execSync } from 'child_process';
 
-module.exports = class UpdateCommand extends Command {
+export default class UpdateCommand extends Command {
 	constructor() {
 		super('update', {
 			aliases: ['update'],

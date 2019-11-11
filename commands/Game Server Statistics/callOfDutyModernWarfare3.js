@@ -1,6 +1,6 @@
-const Command = require('../../struct/Command');
+import Command from '../../struct/Command';
 
-module.exports = class CODMW3Command extends Command {
+export default class CODMW3Command extends Command {
 	constructor() {
 		super('callOfDutyModernWarfare3', {
 			category: 'Game Statistics',

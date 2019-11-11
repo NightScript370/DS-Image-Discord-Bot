@@ -1,6 +1,6 @@
-const { Listener } = require('discord-akairo');
+import { Listener } from 'discord-akairo';
 
-module.exports = class listenerLoadListener extends Listener {
+export default class listenerLoadListener extends Listener {
 	constructor() {
 		super('listenerHandlerLoad', {
 			emitter: 'listenerHandler',

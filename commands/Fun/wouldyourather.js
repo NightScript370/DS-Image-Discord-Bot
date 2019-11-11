@@ -1,7 +1,7 @@
-const { Command } = require('discord-akairo');
-const questions = require('../../assets/JSON/wouldyourather');
+import { Command } from 'discord-akairo';
+import questions from '../../assets/JSON/wouldyourather';
 
-module.exports = class WouldYouRatherCommand extends Command {
+export default class WouldYouRatherCommand extends Command {
 	constructor() {
 		super('would-you-rather', {
 			aliases: ['would-you-rather', 'wy-rather', 'wyr'],
@@ -14,6 +14,6 @@ module.exports = class WouldYouRatherCommand extends Command {
 
 	exec(message) {
 		if (message.channel.sendable)
-			return message.util.reply(questions[Math.floor(Math.random() * questions.length)]);
+			return message.util.reply(questions.random());
 	}
 };

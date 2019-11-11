@@ -1,8 +1,8 @@
-const Command = require('../../struct/Image-Command');
-const { createCanvas, loadImage } = require('canvas');
-const path = require('path');
+import Command from '../../struct/Image-Command';
+import { createCanvas, loadImage } from 'canvas';
+import { join } from 'path';
 
-module.exports = class IfunnyCommand extends Command {
+export default class IfunnyCommand extends Command {
 	constructor() {
 		super('ifunny', {
 			aliases: ['ifunny'],
@@ -33,7 +33,7 @@ module.exports = class IfunnyCommand extends Command {
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.')
 
-		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'ifunny.png'));
+		const base = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'ifunny.png'));
 
 		const imagessize = await this.largestSize(images);
 		const canvas = await createCanvas(imagessize.width, imagessize.height);

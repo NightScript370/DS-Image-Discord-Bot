@@ -1,10 +1,7 @@
-const { Command } = require('discord-akairo');
-const request = require("request");
+import { Command } from 'discord-akairo';
+const request = require('util').promisify(require('request'));
 
-const { promisify } = require("util");
-const req = promisify(request);
-
-module.exports = class NDSBCompatCommand extends Command {
+export default class NDSBCompatCommand extends Command {
 	constructor() {
 		super('nds-bootstrap-compatibility', {
 			aliases: ['nds-bootstrap-compatibility', 'nds-bootstrap-compatible', "ndsbcompat"],

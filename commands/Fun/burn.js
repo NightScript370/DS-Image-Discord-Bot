@@ -1,8 +1,8 @@
-const Command = require('../../struct/Image-Command');
-const { createCanvas, loadImage } = require('canvas');
-const path = require('path');
+import Command from '../../struct/Image-Command';
+import { createCanvas, loadImage } from 'canvas';
+import { join } from 'path';
 
-module.exports = class BurnCommand extends Command {
+export default class BurnCommand extends Command {
 	constructor() {
 		super('burn', {
 			aliases: ["fire", "hell", "burn"],
@@ -40,7 +40,7 @@ module.exports = class BurnCommand extends Command {
 			this.drawImageWithTint(ctx, currentimage, '#fc671e', widthpad, heightpad, currentimage.width, currentimage.height);
 		}
 
-		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'fire.png'));
+		const base = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'fire.png'));
 		ctx.drawImage(base, 0, 0, imagessize.width, imagessize.height);
 
 		const attachment = canvas.toBuffer();

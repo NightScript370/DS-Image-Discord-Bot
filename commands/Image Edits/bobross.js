@@ -1,8 +1,8 @@
-const Command = require('../../struct/Image-Command');
-const { createCanvas, loadImage } = require('canvas');
-const path = require('path');
+import Command from '../../struct/Image-Command';
+import { createCanvas, loadImage } from 'canvas';
+import { join } from 'path';
 
-module.exports = class BobRossCommand extends Command {
+export default class BobRossCommand extends Command {
 	constructor() {
 		super('bob-ross', {
 			aliases: ["bobross", 'bob-ross', 'ross'],
@@ -21,11 +21,11 @@ module.exports = class BobRossCommand extends Command {
 		});
 	}
 
-	async exec(message, { images }) {
+	exec(message, { images }) {
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.')
 
-		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'bob-ross.png'));
+		const base = loadImage(join(__dirname, '..', '..', 'assets', 'images', 'bob-ross.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 
@@ -33,7 +33,7 @@ module.exports = class BobRossCommand extends Command {
 
 		let currentcanvas;
 		for (var image of images) {
-			currentcanvas = await loadImage(image);
+			currentcanvas = loadImage(image);
 			ctx.drawImage(currentcanvas, 30, 22, 430, 400);
 		}
 

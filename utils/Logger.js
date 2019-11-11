@@ -1,8 +1,8 @@
-const chalk = require('chalk');
-const moment = require('moment');
-const util = require('util');
+import chalk, { cyan, bold } from 'chalk';
+import moment from 'moment';
+import { inspect } from 'util';
 
-class Logger {
+export default class Logger {
 	static log(content, { color = 'grey', tag = 'Log' } = {}) {
 		this.write(content, { color, tag });
 	}
@@ -24,8 +24,8 @@ class Logger {
 	}
 
 	static write(content, { color = 'grey', tag = 'Log', error = false } = {}) {
-		const timestamp = chalk.cyan(`[${moment().format('YYYY-MM-DD HH:mm:ss')}]:`);
-		const levelTag = chalk.bold(`[${tag}]:`);
+		const timestamp = cyan(`[${moment().format('YYYY-MM-DD HH:mm:ss')}]:`);
+		const levelTag = bold(`[${tag}]:`);
 		const text = chalk[color](this.clean(content));
 		const stream = error ? process.stderr : process.stdout;
 		stream.write(`${timestamp} ${levelTag} ${text}\n`);
@@ -33,9 +33,7 @@ class Logger {
 
 	static clean(item) {
 		if (typeof item === 'string') return item;
-		const cleaned = util.inspect(item, { depth: Infinity });
+		const cleaned = inspect(item, { depth: Infinity });
 		return cleaned;
 	}
 }
-
-module.exports = Logger;

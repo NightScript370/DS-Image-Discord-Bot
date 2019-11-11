@@ -1,9 +1,9 @@
-const Command = require('../../struct/Command');
+import Command from '../../struct/Command';
 
-const smmdb_api = require('../../utils/smmdb');
+import smmdb_api from '../../utils/smmdb';
 const SMMDB = new smmdb_api()
 
-module.exports = class SMMDBCourseCommand extends Command {
+export default class SMMDBCourseCommand extends Command {
 	constructor() {
 		super('smmdb', {
 			aliases: ['smmdb'],

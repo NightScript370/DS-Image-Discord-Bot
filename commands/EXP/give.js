@@ -1,6 +1,6 @@
-const { Command } = require('discord-akairo');
+import { Command } from 'discord-akairo';
 
-module.exports = class ServerPointsCommand extends Command {
+export default class ServerPointsCommand extends Command {
 	constructor() {
 		super('give', {
 			aliases: ['give', "gift", 'donate'],

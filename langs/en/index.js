@@ -1,2 +1,3 @@
 // Keep empty
-module.exports = {}
+const json = {};
+export default json;

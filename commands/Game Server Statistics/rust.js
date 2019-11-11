@@ -1,6 +1,6 @@
-const Command = require('../../struct/Command');
+import Command from '../../struct/Command';
 
-module.exports = class RustCommand extends Command {
+export default class RustCommand extends Command {
 	constructor() {
 		super('rust', {
 			category: 'Game Statistics',

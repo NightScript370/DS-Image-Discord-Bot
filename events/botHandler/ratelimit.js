@@ -1,6 +1,6 @@
-const { Listener } = require('discord-akairo');
+import { Listener } from 'discord-akairo';
 
-module.exports = class rateLimitListener extends Listener {
+export default class rateLimitListener extends Listener {
     constructor() {
         super('rateLimit', {
             emitter: 'client',

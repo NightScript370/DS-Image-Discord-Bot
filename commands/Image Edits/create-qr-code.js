@@ -1,7 +1,7 @@
-const { Command } = require('discord-akairo');
-const request = require('node-superfetch');
+import { Command } from 'discord-akairo';
+import { get } from 'node-superfetch';
 
-module.exports = class CreateQRCodeCommand extends Command {
+export default class CreateQRCodeCommand extends Command {
 	constructor() {
 		super('create-qr-code', {
 			aliases: ["qr-code", 'create-qr', 'create-qr-code', "qrcode", "createqr", "createqrcode"],
@@ -33,8 +33,7 @@ module.exports = class CreateQRCodeCommand extends Command {
 	}
 
 	async exec(msg, { text }) {
-		const { body } = await request
-			.get('https://api.qrserver.com/v1/create-qr-code/')
+		const { body } = await get('https://api.qrserver.com/v1/create-qr-code/')
 			.query({ data: text });
 		return msg.util.send({ files: [{ attachment: body, name: 'qr-code.png' }] });
 	}

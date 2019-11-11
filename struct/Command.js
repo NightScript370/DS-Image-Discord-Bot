@@ -3,8 +3,8 @@ const List = require('list-array');
 const source = require('gamedig');
 
 module.exports = class SpecialYamamuraCommand extends Command {
-	constructor(id, options = {}) {
-		super(id, options);
+	constructor(...args) {
+		super(...args);
 	}
 
 	async gameDigServer(type, IP, ping) {
@@ -216,7 +216,6 @@ module.exports = class SpecialYamamuraCommand extends Command {
 	}
 
 	isGood(variable) {
-		if (variable && variable !== null && (variable.size || variable.length)) return true;
-		return false;
+		return (variable && variable !== null && (variable.size || variable.length))
 	}
 }

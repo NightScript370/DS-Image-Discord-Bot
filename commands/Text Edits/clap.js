@@ -1,6 +1,6 @@
-const { Command } = require('discord-akairo');
+import { Command } from 'discord-akairo';
 
-module.exports = class ClapCommand extends Command {
+export default class ClapCommand extends Command {
 	constructor() {
 		super('clap', {
 			category: 'Text Fun',

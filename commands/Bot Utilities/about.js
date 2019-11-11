@@ -1,6 +1,6 @@
-const { Command } = require('discord-akairo');
+import { Command } from 'discord-akairo';
 
-module.exports = class aboutCommand extends Command {
+export default class aboutCommand extends Command {
 	constructor() {
 		super('about', {
 			aliases: ["info", 'about', 'help', 'ヘルプ'],
@@ -28,10 +28,10 @@ module.exports = class aboutCommand extends Command {
 
 		let embed = this.client.util.embed()
 			.addField(__('Links'),
-				createBultin(__("Invite {0} to your server", this.client.user.username), inviteLink, __("Requires `MANAGE_SERVER` permissions"))
-			  + createBultin(__("Check out our website"), this.client.website.URL)
-			  + createBultin(__("Run some of these commands"), `${this.client.website.URL}/commands`)
-			  + createBultin(__("Join our Support Server"), this.client.supportServer))
+				createBultin(__("Invite Link"), inviteLink, __("Inviting requires you to have the `MANAGE_SERVER` permission. The bot itself doesn't require it"))
+			  + createBultin(__("Visit our website"), this.client.website.URL)
+			  + createBultin(__("Follow our Twitter"), "https://twitter.com/BotYamamura")
+			  + createBultin(__("Join our Development Server"), this.client.supportServer))
 			.setYamamuraCredits(false)
 
 		authorMessage.util.send(message, (authorMessage.channel.embedable ? {embed: embed} : {}));

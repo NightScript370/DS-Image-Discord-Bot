@@ -1,6 +1,6 @@
-const Command = require('../../struct/Command');
+import Command from '../../struct/Command';
 
-module.exports = class TF2Command extends Command {
+export default class TF2Command extends Command {
 	constructor() {
 		super('TF2', {
 			category: 'Game Statistics',

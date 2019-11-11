@@ -1,5 +1,5 @@
-const { Command } = require('discord-akairo');
-const { range, random } = require("including-range-array");
+import { Command } from 'discord-akairo';
+import { random } from "including-range-array";
 
 const availableMoves = [
 	'🤚', '✋', '🙌', '📰', '🗞', 'p', 'paper', '🙋', '🖐', // Paper
@@ -11,7 +11,7 @@ const rocks = ['rock', 'r', '🤜'];
 const scissors = ['🖖', '✌', '✂', 'scissors', 's'];
 const paper = ['🤚', '✋', '🙌', '📰', '🗞', 'p', 'paper', '🙋', '🖐'];
 
-module.exports = class RockPaperScissorsCommand extends Command {
+export default class RockPaperScissorsCommand extends Command {
 	constructor() {
 		super('rps', {
 			aliases: ['rps'],

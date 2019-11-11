@@ -1,12 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const { parameters } = require("../extraFunctions")
+import { Router } from 'express';
+const router = Router();
+import { parameters } from "../extraFunctions";
 
-exports.id = '/';
-exports.router = (client) => router
+export const id = '/';
+const _router = (client) => router
 	.get("/", (request, response) => {
 		let object = parameters(request);
-
 		object.subtitle = "Home";
 		object.features = [
 			{
@@ -41,20 +40,17 @@ exports.router = (client) => router
 				text: "A helpful and interactive community",
 				subtext: "willing to help"
 			}
-		]
-
-		response.render("index", object)
+		];
+		response.render("index", object);
 	})
 	.get("/commands", (request, response) => {
 		let object = parameters(request);
-
 		object.subtitle = "Commands";
 		object.defaultCategory = "Useful";
-
-		response.render("commands", object)
+		response.render("commands", object);
 	})
 	.get("/support", (request, response) => {
-		let object = parameters(request)
+		let object = parameters(request);
 		object.widgets = [
 			{
 				website: 'discordbotlist.com',
@@ -76,5 +72,6 @@ exports.router = (client) => router
 				link: `https://discord.boats/bot/${client.user.id}`
 			}
 		];
-		response.render("support", object)
-	})
+		response.render("support", object);
+	});
+export { _router as router };

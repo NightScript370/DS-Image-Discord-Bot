@@ -1,8 +1,8 @@
-const Command = require('../../struct/Image-Command');
-const { createCanvas, loadImage } = require('canvas');
-const path = require('path');
+import Command from '../../struct/Image-Command';
+import { createCanvas, loadImage } from 'canvas';
+import { join } from 'path';
 
-module.exports = class Nintendo3DSCommand extends Command {
+export default class Nintendo3DSCommand extends Command {
 	constructor() {
 		super('3ds', {
 			aliases: ['3ds'],
@@ -67,7 +67,7 @@ module.exports = class Nintendo3DSCommand extends Command {
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.');
 
-		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', '3ds.png'));
+		const base = await loadImage(join(__dirname, '..', '..', 'assets', 'images', '3ds.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 	  
@@ -88,12 +88,12 @@ module.exports = class Nintendo3DSCommand extends Command {
 		await ctx.drawImage(base, 0, 0, base.width, base.height);
 
 		if (nintendologo) {
-			let nintendologoImage = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'nintendologo.png'));
+			let nintendologoImage = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'nintendologo.png'));
 			ctx.drawImage(nintendologoImage, 366, 429, 71, 18)
 		}
 
 		if (nintendonetwork) {
-			let nintendonetworkImage = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'NintendoNetwork.png'));
+			let nintendonetworkImage = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'NintendoNetwork.png'));
 			ctx.drawImage(nintendonetworkImage, 460, 25, 32, 43)
 		}
 
@@ -105,7 +105,3 @@ module.exports = class Nintendo3DSCommand extends Command {
 		return message.util.send(global.translate(message.author.lang, "{0}, enjoy your now strained eyes!", message.guild ? message.member.displayName : message.author.username), { files: [{ attachment: attachment, name: 'Nintendo-DS.png' }] });
 	}
 };
-
-function isEmpty(value) { //Function to check if value is really empty or not
-	return (value == null || value.length === 0);
-}

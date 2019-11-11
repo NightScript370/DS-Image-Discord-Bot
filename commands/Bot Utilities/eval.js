@@ -1,10 +1,10 @@
-const util = require('util')
-const Command = require('../../struct/Command');
+import { inspect } from 'util';
+import Command from '../../struct/Command';
 
-const discord = require('discord.js');
+import { splitMessage } from 'discord.js';
 const escapeRegex = (str) => str.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&');
 
-module.exports = class EvalCommand extends Command {
+export default class EvalCommand extends Command {
 	constructor() {
 		super('eval', {
 			aliases: ['eval'],
@@ -80,7 +80,7 @@ module.exports = class EvalCommand extends Command {
 	}
 
 	makeResultMessages(result, hrDiff, input = null) {
-		const inspected = util.inspect(result, { depth: 0 })
+		const inspected = inspect(result, { depth: 0 })
 			.replace(/!!NL!!/g, '\n')
 			.replace(this.sensitivePattern, '--snip--');
 		const split = inspected.split('\n');
@@ -96,7 +96,7 @@ module.exports = class EvalCommand extends Command {
 		replyMessage = "*" + replyMessage + ".*";
 		replyMessage += "```javascript\n" + inspected + "```"
 
-		return discord.splitMessage(replyMessage, { maxLength: 1950, prepend, append });
+		return splitMessage(replyMessage, { maxLength: 1950, prepend, append });
 	}
 
 	get sensitivePattern() {

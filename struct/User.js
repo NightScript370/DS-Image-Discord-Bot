@@ -4,7 +4,7 @@ const db = require('../utils/database');
 const { defaultLang } = require("../langs/framework")
 
 // This extends Discord's native User class with our own methods and properties
-module.exports = Structures.extend("User", User => class YamamuraUser extends User {
+module.exports = Structures.extend("User", User => class extends User {
 	constructor(...args) {
 		super(...args)
 	}

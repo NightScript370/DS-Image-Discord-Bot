@@ -1,8 +1,8 @@
-const Command = require('../../struct/Image-Command');
-const { createCanvas, loadImage } = require('canvas');
-const path = require('path');
+import Command from '../../struct/Image-Command';
+import { createCanvas, loadImage } from 'canvas';
+import { join } from 'path';
 
-module.exports = class ReverseCommand extends Command {
+export default class ReverseCommand extends Command {
 	constructor() {
 		super('reverse', {
 			aliases: ["reverse", 'backup'],
@@ -38,7 +38,7 @@ module.exports = class ReverseCommand extends Command {
 			layeredCtx = layeredCanvas.getContext('2d');
 		}
 
-		const baseImage = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'reverse.png'));
+		const baseImage = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'reverse.png'));
 		const baseCanvas = createCanvas(baseImage.width, baseImage.height);
 		const baseCtx = baseCanvas.getContext('2d');
 

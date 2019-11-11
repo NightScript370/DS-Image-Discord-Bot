@@ -1,6 +1,6 @@
-const { Command } = require('discord-akairo');
+import { Command } from 'discord-akairo';
 
-module.exports = class InviteCheckCommand extends Command {
+export default class InviteCheckCommand extends Command {
 	constructor() {
 		super('invitecheck', {
 			aliases: ['invitecheck'],

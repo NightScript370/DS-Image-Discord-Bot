@@ -1,8 +1,8 @@
-const { Listener } = require('discord-akairo');
-const { random } = require("including-range-array");
-const levenshtein = require("fast-levenshtein");
+import { Listener } from 'discord-akairo';
+import { random } from "including-range-array";
+import { get as getDistance } from "fast-levenshtein";
 
-module.exports = class messageInavlidListener extends Listener {
+export default class messageInavlidListener extends Listener {
     constructor() {
         super('messageInvalid', {
             emitter: 'commandHandler',
@@ -51,9 +51,8 @@ module.exports = class messageInavlidListener extends Listener {
 
 		let distances = [];
 		let distancebetween;
-		let potential;
 		for (const alias of message.util.handler.aliases.keys()) {
-			distancebetween = levenshtein.get(alias, attempt);
+			distancebetween = getDistance(alias, attempt);
 			if (distancebetween > 2) continue;
 
 			distances.push({
@@ -67,7 +66,7 @@ module.exports = class messageInavlidListener extends Listener {
 
 		let text = __("Hey {0}, {1} is not a command.", message.guild ? message.member.displayName : message.author.username, attempt) + "\n";
 		let suggestedCmds = [];
-		var iterated = [];
+		let iterated = [];
 
 		if (distances.length) {
 			distances.sort((a, b) => a.dist - b.dist);
@@ -112,7 +111,7 @@ module.exports = class messageInavlidListener extends Listener {
 	}
 
 	async handlePoints(message) {
-		const inhibitor = require("../point-inhibit");
+		const inhibitor = require("../point-inhibit").default;
 		if (inhibitor.inhibite(message)) return;
 
 		let channelmultiplier = this.client.db.multiply.findOne({guild: message.guild.id, channel: message.channel.id}) || this.client.db.multiply.insert({channel: message.channel.id, guild: message.guild.id, multiply: 1 });

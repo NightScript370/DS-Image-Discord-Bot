@@ -1,7 +1,7 @@
-const { Command } = require("discord-akairo");
-const request = require('node-superfetch');
+import { Command } from "discord-akairo";
+import { get } from 'node-superfetch';
 
-module.exports = class ShieldsIoBadgeCommand extends Command {
+export default class ShieldsIoBadgeCommand extends Command {
 	constructor() {
 		super('shields-io-badge', {
 			aliases: ['shields-io', 'shields-io-badge'],
@@ -56,7 +56,7 @@ module.exports = class ShieldsIoBadgeCommand extends Command {
 		let attachment = {};
 
 		try {
-			let { body } = await request.get(link);
+			let { body } = await get(link);
 			attachment = { files: [{ attachment: body, name: 'badge.png' }] };
 		} catch {}
 

@@ -1,5 +1,5 @@
-const Command = require('../../struct/Image-Command');
-const moment = require('moment');
+import Command from '../../struct/Image-Command';
+import { utc } from 'moment';
 
 const activities = {
 	PLAYING: 'Playing',
@@ -8,7 +8,7 @@ const activities = {
 	LISTENING: 'Listening to'
 };
 
-module.exports = class DiscordProfileCommand extends Command {
+export default class DiscordProfileCommand extends Command {
 	constructor() {
 		super('profile', {
 			aliases: ['user', 'member', 'profile', 'user-profile', 'member-profile', 'userinfo', 'memberinfo', 'profileinfo'],
@@ -75,11 +75,11 @@ module.exports = class DiscordProfileCommand extends Command {
 
 			embed
 				.setColor(member.displayHexColor)
-				.addInline('Server Join Date', moment.utc(member.joinedAt).format('MM/DD/YYYY h:mm A'));
+				.addInline('Server Join Date', utc(member.joinedAt).format('MM/DD/YYYY h:mm A'));
 		}
 
 		embed
-			.addInline('Discord Join Date', moment.utc(user.createdAt).format('MM/DD/YYYY h:mm A'))
+			.addInline('Discord Join Date', utc(user.createdAt).format('MM/DD/YYYY h:mm A'))
 			.addField('Advanced Discord Identity', `${user.tag} (#${user.id})`);
 
 		msg.channel.send(embed);

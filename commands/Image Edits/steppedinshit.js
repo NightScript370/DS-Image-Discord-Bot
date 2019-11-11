@@ -1,8 +1,8 @@
-const Command = require('../../struct/Image-Command');
-const { createCanvas, loadImage } = require('canvas');
-const path = require('path');
+import Command from '../../struct/Image-Command';
+import { createCanvas, loadImage } from 'canvas';
+import { join } from 'path';
 
-module.exports = class SteppedInShitCommand extends Command {
+export default class SteppedInShitCommand extends Command {
 	constructor() {
 		super('steppedinshit', {
 			aliases: ["steppedinshit", 'stepinshit'],
@@ -38,7 +38,7 @@ module.exports = class SteppedInShitCommand extends Command {
 	}
 
 	async stepInShit(images, overlay) {
-		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'stepinshit.png'));
+		const base = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'stepinshit.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 

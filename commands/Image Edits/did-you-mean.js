@@ -1,7 +1,7 @@
-const { Command } = require('discord-akairo');
-const request = require('node-superfetch');
+import { Command } from 'discord-akairo';
+import { get } from 'node-superfetch';
 
-module.exports = class DidYouMeanCommand extends Command {
+export default class DidYouMeanCommand extends Command {
 	constructor() {
 		super('didyoumean', {
 			category: 'Image Edits',
@@ -37,8 +37,7 @@ module.exports = class DidYouMeanCommand extends Command {
 	}
 
 	async exec(message, { top, bottom }) {
-		const { body } = await request
-			.get('https://api.alexflipnote.xyz/didyoumean')
+		const { body } = await get('https://api.alexflipnote.xyz/didyoumean')
 			.query({ top, bottom });
 		return message.util.send({ files: [{ attachment: body, name: 'didyoumean.png' }] });
 	}

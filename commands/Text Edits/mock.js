@@ -1,6 +1,6 @@
-const { Command } = require('discord-akairo');
+import { Command } from 'discord-akairo';
 
-module.exports = class MockCommand extends Command {
+export default class MockCommand extends Command {
 	constructor() {
 		super('mock', {
 			aliases: ['mock'],

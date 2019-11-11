@@ -1,6 +1,6 @@
-const { Listener } = require('discord-akairo');
+import { Listener } from 'discord-akairo';
 
-class MissingPermissionsListener extends Listener {
+export default class MissingPermissionsListener extends Listener {
 	constructor() {
 		super('missingPermissions', {
 			event: 'missingPermissions',
@@ -46,5 +46,3 @@ class MissingPermissionsListener extends Listener {
 			: missingPerms[0];
 	}
 }
-
-module.exports = MissingPermissionsListener;

@@ -1,16 +1,16 @@
-const {website: websiteConfig} = require("../config.js");
-const List = require("list-array");
-const path = require("path");
-const fs = require('fs')
-const routers = fs.readdirSync(path.join(process.cwd(), 'website', 'router'));
+import { website as websiteConfig } from "../config.js";
+import List from "list-array";
+import { join } from "path";
+import { readdirSync } from 'fs';
+const routers = readdirSync(join(process.cwd(), 'website', 'router'));
 
-const express = require('express');
-const session = require('express-session');
-const bodyParser = require('body-parser');
-const http = require('http');
-const { Strategy } = require("passport-discord");
+import express, { static } from 'express';
+import session from 'express-session';
+import { json, urlencoded } from 'body-parser';
+import { createServer } from 'http';
+import { Strategy } from "passport-discord";
 
-module.exports = (client) => {
+export default (client) => {
 	let website = {};
 	website.URL = websiteConfig.url;
 
@@ -34,12 +34,12 @@ module.exports = (client) => {
 	}));
 
 	website.express = express()
-		.use(bodyParser.json())
-		.use(bodyParser.urlencoded({extended : true}))
+		.use(json())
+		.use(urlencoded({extended : true}))
 		.engine("ejs", require("ejs").renderFile)
-		.use(express.static(path.join(__dirname, "/public")))
+		.use(static(join(__dirname, "/public")))
 		.set("view engine", "ejs")
-		.set("views", path.join(__dirname, "pages"))
+		.set("views", join(__dirname, "pages"))
 		.set('trust proxy', 1)
 		.use(session({
 			secret: 'Yamamura Dashboard',
@@ -114,7 +114,7 @@ module.exports = (client) => {
 	website.express.locals.List = List;
 	website.express.locals.require = require;
 
-	website.server = http.createServer(website.express);
+	website.server = createServer(website.express);
 	website.server.listen(website.express.get('port'));
 
 	return website

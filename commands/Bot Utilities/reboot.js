@@ -1,7 +1,7 @@
-const { Command } = require('discord-akairo');
+import { Command } from 'discord-akairo';
 const write = require("util").promisify(require("fs").writeFile);
 
-module.exports = class RebootCommand extends Command {
+export default class RebootCommand extends Command {
 	constructor() {
 		super('reboot', {
 			category: 'Bot Utilities',

@@ -1,20 +1,20 @@
-const Command = require('./Command');
-const { createCanvas, loadImage } = require('canvas');
-const path = require('path');
+import Command from './Command';
+import { createCanvas, loadImage } from 'canvas';
+import path from 'path';
 
-module.exports = class ImageCommand extends Command {
-	constructor(id, options = {}) {
-		super(id, options);
+export default class ImageCommand extends Command {
+	constructor(...args) {
+		super(args);
 	}
 
-	async largestSize(images) {
+	largestSize(images) {
 		let currentimage;
 
 		let height = 0;
 		let width = 0;
 
 		for (var image of images) {
-			currentimage = await loadImage(image);
+			currentimage = loadImage(image);
 
 			if (height < currentimage.height)
 				height = currentimage.height;

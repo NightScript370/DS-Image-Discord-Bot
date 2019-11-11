@@ -1,8 +1,8 @@
-const { Command } = require('discord-akairo');
-const { createCanvas, loadImage } = require('canvas');
-const path = require('path');
+import { Command } from 'discord-akairo';
+import { createCanvas, loadImage } from 'canvas';
+import { join } from 'path';
 
-module.exports = class BrainsCommand extends Command {
+export default class BrainsCommand extends Command {
 	constructor() {
 		super('brains', {
 			category: 'Image Edits',
@@ -10,6 +10,7 @@ module.exports = class BrainsCommand extends Command {
 			description: {
 				content: `Makes an "Expanding Brain" meme but with your text. You might find a cool bonus if you're a Super Smash Bros. fan`,
 			},
+			clientPermissions: ['ATTACH_FILES'],
 			args: [
 				{
 					id: 'items',
@@ -36,8 +37,8 @@ module.exports = class BrainsCommand extends Command {
 		if (items.length < 2) return message.channel.send(global.translate(message.author.lang, "There are not enough arguments to this command. The minimum is {0}.", 2));
 		if (items.length > 11) items.length = 11;
 
-		let base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'brain-template.png'));
-		let tabuu = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'tabuu.png'));
+		let base = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'brain-template.png'));
+		let tabuu = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'tabuu.png'));
 		let y = [0, 195, 376, 565, 753, 918, 1097, 1287, 1497, 1693, 1877];
 
 		let canvas;
@@ -79,8 +80,12 @@ module.exports = class BrainsCommand extends Command {
 		}
 
 		let attachment = canvas.toBuffer()
-		if (Buffer.byteLength(attachment) > 8e+6) return message.util.reply('Resulting image was above 8 MB.');
-		message.util.send(`${message.author}, let your brain expand!`, { files: [{attachment: attachment, name: 'brain.png'}] })
+		if (Buffer.byteLength(attachment) > 8e+6) 
+			message.util.reply('Resulting image was above 8 MB.');
+		else
+			message.util.send(global.translate(message.author.lang, "Let your brain expand, {0}.", message.guild ? message.member.displayName : message.author.username), { files: [{attachment: attachment, name: 'brain.png'}] })
+
+		return attachment;
 	}
 
 	async drawBrainText(ctx, text, heightstart) {

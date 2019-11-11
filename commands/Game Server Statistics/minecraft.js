@@ -1,7 +1,7 @@
-const Command = require('../../struct/Command');
-const { promisify } = require("util");
+import Command from '../../struct/Command';
+import { promisify } from "util";
 
-module.exports = class MinecraftServerCommand extends Command {
+export default class MinecraftServerCommand extends Command {
 	constructor() {
 		super('minecraft', {
 			category: 'Game Statistics',
@@ -52,9 +52,7 @@ module.exports = class MinecraftServerCommand extends Command {
 
 		switch (API) {
 			case 'minestat':
-				const minestat = require('../../utils/minestat');
-				const promiseMinestat = promisify(minestat)
-
+				const minestat = promisify(require('../../utils/minestat'))
 				let result = await minestat(host, port);
 
 				if(result.online) {
@@ -82,10 +80,9 @@ module.exports = class MinecraftServerCommand extends Command {
 				message.util.send(text, {embed});
 				break;
 			case 'mcsrvstat.us':
-				const request = require("request");
-				const promiseRequest = promisify(request);
+				const request = promisify(require("request"));
 
-				let { body, statusCode } = await promiseRequest({ url: 'https://api.mcsrvstat.us/2/'+encodeURIComponent(host), json: true });
+				let { body, statusCode } = await request({ url: 'https://api.mcsrvstat.us/2/'+encodeURIComponent(host), json: true });
 				if (statusCode !== 200) {
 					console.error(`[ERROR][Minecraft Command][api.mcsrvstat.us] statusCode: ${statusCode}`)
 					return msg.reply('An error has occured replating to the API selected. Please try again with a different API, or contact the Yamamura developers');
@@ -99,9 +96,9 @@ module.exports = class MinecraftServerCommand extends Command {
 
 				if (body.players) {
 					let players = `${body.players.online}/${body.players.max}`;
-					if (this.isGood(body.players.list)) {
+					if (this.isGood(body.players.list))
 						players += '```http\n'+body.players.list.join('\n')+'```';
-					}
+
 					MineEmbed.addField("Players", players);
 				}
 

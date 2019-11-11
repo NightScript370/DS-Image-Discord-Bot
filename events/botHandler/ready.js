@@ -2,7 +2,7 @@ const { Listener } = require('discord-akairo');
 const request = require('node-superfetch');
 
 const config = require("../../config.js");
-const catSetup = require("../../utils/commandCategories.js");
+const catSetup = require("../../utils/commandCategories.js").default;
 
 module.exports = class ReadyListener extends Listener {
 	constructor() {
@@ -18,8 +18,6 @@ module.exports = class ReadyListener extends Listener {
 		const wait = require('util').promisify(setTimeout);
 		await wait(6000);
 
-		this.client.db.serverconfig.getKey = require("../../Configuration").getKey; // Short-hand declare a variable to be an existing function
-
 		this.client.listenerHandler.setEmitters({
 			commandHandler: this.client.commandHandler,
 			listenerHandler: this.client.listenerHandler
@@ -33,7 +31,7 @@ module.exports = class ReadyListener extends Listener {
 		this.client.util.setDefaultStatus(this.client);
 
 		try {
-			this.client.website = await require("../../website/index.js")(this.client);
+			this.client.website = require("../../website/index.js").default(this.client);
 			this.client.listenerHandler.setEmitters({httpServer: this.client.website.server});
 		} catch (e) {
 			console.error('[WEBSITE] Failed to load: ' + e);
@@ -112,9 +110,3 @@ module.exports = class ReadyListener extends Listener {
 		}
 	}
 };
-
-function isEventEmitter(value) {
-	return value
-	&& typeof value.on === 'function'
-	&& typeof value.emit === 'function';
-}

@@ -1,7 +1,7 @@
-const Command = require('../../struct/Command');
-const List = require('list-array');
+import Command from '../../struct/Command';
+import { fromArray } from 'list-array';
 
-module.exports = class LevelIdeaCommand extends Command {
+export default class LevelIdeaCommand extends Command {
 	constructor() {
 		super('level-idea', {
 			aliases: ['levelidea', 'level-idea'],
@@ -233,7 +233,7 @@ module.exports = class LevelIdeaCommand extends Command {
 			let a = ["a", "e", "i", "o", "u"].includes(adjective.substr(0, 1)) ? "an" : "a";
 			
 			// Nice way to get a random 3 or 4 elements
-			let f = List.fromArray(features).shuffle();
+			let f = fromArray(features).shuffle();
 			f.length = Math.random() > 0.5 ? 4 : 3;
 			
 			return `${player} must ${verb} ${a} ${adjective} ${place}, featuring ${global.List.fromArray(features).random()}, supported by ${f.joinAnd()}`

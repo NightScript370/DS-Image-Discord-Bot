@@ -1,6 +1,6 @@
-const { Listener } = require('discord-akairo');
+import { Listener } from 'discord-akairo';
 
-module.exports = class CooldownListener extends Listener {
+export default class CooldownListener extends Listener {
 	constructor() {
 		super('cooldown', {
 			emitter: 'commandHandler',

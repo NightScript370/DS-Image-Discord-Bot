@@ -17,21 +17,18 @@ module.exports = class messageReactionAddListener extends Listener {
 		if (reaction.count < 3) return;
 		if (reaction.emoji.name !== '⭐') return;
 		if (message.author.id === user.id) {
-			if (message.guild.me.permissions.has('MANAGE_MESSAGES')) {
+			if (message.guild.me.permissions.has('MANAGE_MESSAGES'))
 				reaction.remove(user)
-				.catch(function(error) { console.log(error) });
-			}
 
 			if (message.guild.me.permissions.has('SEND_MESSAGES')) {
 				let errormessage = await message.channel.send(`${user}, you may not star your own message.`);
-
-				return errormessage.delete({timeout: 5000});
-			} else {
-				return;
+				await errormessage.delete({timeout: 5000});
 			}
+
+			return;
 		}
 
-		const image = message.attachments.size > 0 ? isImage(message.attachments.array()[0].url) : '';
+		const image = message.attachments.size > 0 ? isImage(message.attachments.first().url) : '';
 
 		const reacount = await (await reaction.users.fetch()).filter(r => r.id !== message.author.id && !r.bot).size;
 		if (reacount < 3) return;

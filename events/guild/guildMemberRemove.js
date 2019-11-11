@@ -1,6 +1,6 @@
-const { Listener } = require('discord-akairo');
+import { Listener } from 'discord-akairo';
 
-module.exports = class guildMemberRemoveListener extends Listener {
+export default class guildMemberRemoveListener extends Listener {
     constructor() {
         super('guildMemberRemove', {
             emitter: 'client',
@@ -33,5 +33,5 @@ module.exports = class guildMemberRemoveListener extends Listener {
 }
 
 function isEmpty(value) { //Function to check if value is really empty or not
-	return (value == null || value.length === 0);
+	return (variable && variable !== null && (variable.size || variable.length))
 }

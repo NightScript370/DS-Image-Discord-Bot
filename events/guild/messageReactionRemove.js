@@ -1,6 +1,6 @@
-const { Listener } = require('discord-akairo');
+import { Listener } from 'discord-akairo';
 
-module.exports = class messageReactionRemoveListener extends Listener {
+export default class messageReactionRemoveListener extends Listener {
 	constructor() {
 		super('messageReactionRemove', {
 			emitter: 'client',
@@ -23,7 +23,7 @@ module.exports = class messageReactionRemoveListener extends Listener {
 		const reacount = await (await reaction.users.fetch()).filter(r => r.id !== message.author.id && !r.bot).size;
 
 		if (starChannel && starChannel.sendable && starChannel.embedable) {
-			const image = message.attachments.size > 0 ? extension(message.attachments.array()[0].url) : '';
+			const image = message.attachments.size > 0 ? extension(message.attachments.first().url) : '';
 
 			const fetchedMessages = starChannel.messages.fetch({ limit: 100 });
 			const stars = fetchedMessages.find(m => m.embeds[0] && m.embeds[0].footer && m.embeds[0].footer.text.startsWith('⭐') && m.embeds[0].footer.text.endsWith(message.id));

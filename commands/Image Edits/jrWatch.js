@@ -1,8 +1,8 @@
-const Command = require('../../struct/Image-Command');
-const { createCanvas, loadImage } = require('canvas');
-const path = require('path');
+import Command from '../../struct/Image-Command';
+import { createCanvas, loadImage } from 'canvas';
+import { join } from 'path';
 
-module.exports = class BowserMemeCommand extends Command {
+export default class BowserMemeCommand extends Command {
 	constructor() {
 		super('jrWatch', {
 			aliases: ['jrWatch', 'bowserHide'],
@@ -30,7 +30,7 @@ module.exports = class BowserMemeCommand extends Command {
 		if (!this.isGood(watches))
 			return message.util.reply('No images were found. Please try again.')
 
-		const bowserhide = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'bowsermeme.png'));
+		const bowserhide = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'bowsermeme.png'));
 		const canvas = createCanvas(bowserhide.width, bowserhide.height);
 		const ctx = canvas.getContext('2d');
 

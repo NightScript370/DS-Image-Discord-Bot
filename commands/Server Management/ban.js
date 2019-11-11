@@ -6,7 +6,7 @@ module.exports = class BanCommand extends Command {
 			aliases: ["ban-hammer", "b-h", 'ban'],
 			category: 'Server Management',
 			description: {
-				content: 'Bans a user via a mention or user ID. You can use it on users not even in the server.'
+				content: "Bans a user from your server, regardless if they've been there or not"
 			},
 			examples: ["ban @InfamousGuy003 spamming in #general-talk"],
 			channel: 'guild',

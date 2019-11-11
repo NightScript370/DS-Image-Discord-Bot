@@ -1,8 +1,8 @@
-const Command = require('../../struct/Image-Command');
-const { createCanvas, loadImage } = require('canvas');
-const path = require('path');
+import Command from '../../struct/Image-Command';
+import { createCanvas, loadImage } from 'canvas';
+import { join } from 'path';
 
-module.exports = class FortniteItemCommand extends Command {
+export default class FortniteItemCommand extends Command {
 	constructor() {
 		super('fortniteitem', {
 			aliases: ['fortniteitem'],
@@ -25,7 +25,7 @@ module.exports = class FortniteItemCommand extends Command {
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.')
 
-		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'fortniteitem.png'));
+		const base = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'fortniteitem.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 

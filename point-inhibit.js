@@ -178,7 +178,7 @@ function spamchannel(channelName) {
 	return false;
 }
 
-module.exports = {
+export default {
 	inhibite,
 	blockprefix,
 	spamchannel

@@ -1,10 +1,10 @@
-const Command = require('../../struct/Command');
-const { Command: akairoCommand } = require('discord-akairo');
+import Command from '../../struct/Command';
+import { Command as akairoCommand } from 'discord-akairo';
 
-const fs = require('fs')
-const path = require('path')
+import { readdirSync } from 'fs';
+import { join } from 'path';
 
-module.exports = class CommandsCommand extends Command {
+export default class CommandsCommand extends Command {
 	constructor() {
 		super('commands', {
 			aliases: ['commands', "cmds", 'コマンド'],
@@ -106,8 +106,8 @@ module.exports = class CommandsCommand extends Command {
 				if (examples)
 					embed.addField(__("Examples"), (typeof examples == 'string' ? `\`${examples}\`` : examples.map(example => "`" + example + "`").join("\n")))
 
-				let exmplist = fs.readdirSync(path.join(process.cwd(), 'website', 'public', 'examples'));
-				let iconlist = fs.readdirSync(path.join(process.cwd(), 'website', 'public', 'icons'));
+				let exmplist = readdirSync(join(process.cwd(), 'website', 'public', 'examples'));
+				let iconlist = readdirSync(join(process.cwd(), 'website', 'public', 'icons'));
 
 				if (exmplist.filter(item => item === `${command.id}.png`).length)
 					embed.setImage(`${this.client.website.URL}/examples/${command.id}.png`);

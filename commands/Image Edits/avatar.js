@@ -1,15 +1,14 @@
-const { Command } = require('discord-akairo');
-const { createCanvas, loadImage } = require('canvas');
+import { Command } from 'discord-akairo';
+import { createCanvas, loadImage } from 'canvas';
 
-module.exports = class AmiiboCommand extends Command {
+export default class AmiiboCommand extends Command {
 	constructor() {
 		super('avatar', {
 			aliases: ['ava', 'av', 'avat', 'profilepic', 'profilepicture', 'avatars', 'profilepictures', 'avata', 'avatar', 'pfp', 'avy'],
 			category: 'Useful',
 			clientPermissions: ['ATTACH_FILES'],
 			description: {
-				content: 'Replies with a user\'s avatar. You may also ping someone to get their avatar or just input a user ID. You may also set the size of the image. \n'
-				+ 'Keep in mind that changing the avatar size to anything other than a power of 2 from 16-2048 will lose the avatar\'s animation if it is a GIF.',
+				content: 'Replies with a user\'s avatar. Defaults to yours if there is no ping, name, or user ID You may also set the size of the image. \n',
 				usage: '<user mention or user ID>',
 				example: '178261738364338177'
 			},
@@ -22,6 +21,7 @@ module.exports = class AmiiboCommand extends Command {
 				},
 				{
 					id: 'size',
+					description: 'Keep in mind that changing the avatar size to anything other than a power of 2 from 16-2048 will lose the avatar\'s animation if it is a GIF.',
 					type: 'integer',
 					match: 'option',
 					flag: 'size:',
@@ -29,6 +29,7 @@ module.exports = class AmiiboCommand extends Command {
 				},
 				{
 					id: 'width',
+					description: "Changing this will lose the avatar's animation if it's A GIF",
 					type: 'integer',
 					match: 'option',
 					flag: 'x:',
@@ -36,6 +37,7 @@ module.exports = class AmiiboCommand extends Command {
 				},
 				{
 					id: 'height',
+					description: "Changing this will lose the avatar's animation if it's A GIF",
 					type: 'integer',
 					match: 'option',
 					flag: 'y:',

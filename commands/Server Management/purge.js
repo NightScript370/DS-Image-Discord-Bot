@@ -1,12 +1,13 @@
-const { Command } = require('discord-akairo');
+import { Command } from 'discord-akairo';
+import { javierInteger } from '../../utils/types';
 
-module.exports = class PurgeCommand extends Command {
+export default class PurgeCommand extends Command {
 	constructor() {
 		super('purge', {
 			aliases: ["purge", "prune", 'clean', 'cleanup', 'clean-up'],
 			category: 'Server Management',
 			description: {
-				content: "Cleans a channel of how many messages you'd like (as long as it isn't over 100). You can specify if you want just bot messages to be cleaned, only from a specific user or if the message matches a regex type"
+				content: "Cleans a channel of however many messages you'd like with other filters."
 			},
 			examples: ["100 user:178261738364338177 matchRegex:"],
 			channel: 'guild',
@@ -15,27 +16,36 @@ module.exports = class PurgeCommand extends Command {
 			args: [
 				{
 					id: 'amount',
-					type: (msg, phrase) => {
-						if (!phrase || isNaN(phrase)) return null;
-						const num = parseInt(phrase);
-						if (num > 100) return null;
-						return num;
+					description: "This is the amount of messages that you'd like to clean up. The maximum is 100 and the minimum is 1",
+					type: (message, number) => {
+						if (!number)
+							return null;
+
+						const returnvalue = javierInteger(message, number);
+						if (isNaN(returnvalue)) return null;
+						if (returnvalue == null) return null;
+
+						if (returnvalue < 1) return null;
+						if (returnvalue > 100) return null;
+
+						return returnvalue;
 					},
 					prompt: {
-						start: "How many messages would you like to delete from this channel",
-						retry: "That's not a valid ammount."
+						start: "How many messages would you like to delete from this channel?",
+						retry: "That's not a valid ammount. Please try again!"
 					}
 				},
 				{
 					id: "who",
+					description: 'by adding `who:` to the command execution message (not the amount prompt, if there is one), you can specify if you want a specific user (put its user ID) or by bot/human status (put "bot"/"human" respectively)',
 					default: null,
 					type: (msg, phrase) => {
 						if (!phrase) return null;
-						if (phrase == "bot") return phrase;
+						if (phrase == "bot" || phrase == "human") return phrase;
 						return this.client.commandHandler.resolver.types.get("user-commando")(msg, phrase)
 					},
 					match: 'option',
-					flag: 'user:'
+					flag: 'who:'
 				},
 				{
 					id: "regex",

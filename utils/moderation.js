@@ -1,9 +1,9 @@
-const ban = require('./moderation/ban')
-const kick = require('./moderation/kick')
-const mute = require('./moderation/mute')
-const warn = require('./moderation/warn')
+import ban from './moderation/ban'
+import kick from './moderation/kick'
+import mute from './moderation/mute'
+import warn from './moderation/warn'
 
-module.exports = {
+export default {
   mute,
   ban,
   kick,

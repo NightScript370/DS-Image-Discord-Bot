@@ -1,11 +1,11 @@
-let fs = require('fs');
+import { createWriteStream } from 'fs';
 let request = require('request').defaults({ encoding: null });
-let querystring = require('querystring');
+import { stringify } from 'querystring';
 
-const { promisify } = require("util");
+import { promisify } from "util";
 const promiseRequest = promisify(request);
 
-module.exports = class SMMDB {
+export default class SMMDB {
     constructor(api_key) {
 		this.url = 'https://smmdb.ddns.net/api/';
         this.apiKey = api_key;
@@ -40,7 +40,7 @@ module.exports = class SMMDB {
 
 		let APIURL = this.url;
 		APIURL += version == "smm64" ? 'getcourses64?' : 'getcourses?';
-		APIURL += querystring.stringify(args);
+		APIURL += stringify(args);
 
 		return this.getBody({ url: APIURL, json: true }, callback);
 	}
@@ -71,7 +71,7 @@ module.exports = class SMMDB {
 		APIURL += format;
 		let req = request({ method: 'GET', uri: APIURL });
 
-		var out = fs.createWriteStream(target + '/smm' + type + '-course-' + courseId + '.' + format);
+		var out = createWriteStream(target + '/smm' + type + '-course-' + courseId + '.' + format);
 		req.pipe(out);
 
 		req.on('error', (error) => {

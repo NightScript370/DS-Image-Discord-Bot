@@ -1,6 +1,6 @@
-const Command = require('../../struct/Command');
+import Command from '../../struct/Command';
 
-module.exports = class ARKCommand extends Command {
+export default class ARKCommand extends Command {
 	constructor() {
 		super('ark', {
 			category: 'Game Statistics',

@@ -1,11 +1,11 @@
-const Command = require('../../struct/Command');
-const bookmarkAPI = require('super-maker-api');
+import Command from '../../struct/Command';
+import bookmarkAPI from 'super-maker-api';
 
-const request = require("request");
-const { promisify } = require("util");
+import request from "request";
+import { promisify } from "util";
 const req = promisify(request);
 
-module.exports = class CourseCommand extends Command {
+export default class CourseCommand extends Command {
 	constructor() {
 		super('smm-course', {
 			aliases: ['smm-course'],

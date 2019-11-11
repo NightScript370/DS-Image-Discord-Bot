@@ -1,8 +1,8 @@
-const Command = require('../../struct/Image-Command');
-const { createCanvas, loadImage } = require('canvas');
-const path = require('path');
+import Command from '../../struct/Image-Command';
+import { createCanvas, loadImage } from 'canvas';
+import { join } from 'path';
 
-module.exports = class WiiCommand extends Command {
+export default class WiiCommand extends Command {
 	constructor() {
 		super('wii', {
 			aliases: ['wii'],
@@ -66,7 +66,7 @@ module.exports = class WiiCommand extends Command {
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.');
 
-		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'wii', 'wii_case.png'));
+		const base = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'wii', 'wii_case.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 
@@ -86,7 +86,7 @@ module.exports = class WiiCommand extends Command {
 		}
 
 		if (nintendoselects) {
-			let nintendoselectborder = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'wii', 'Nintendo_Selects_BG.png'));
+			let nintendoselectborder = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'wii', 'Nintendo_Selects_BG.png'));
 			ctx.drawImage(nintendoselectborder, 0, 0, base.width, base.height)
 		}
 
@@ -94,7 +94,7 @@ module.exports = class WiiCommand extends Command {
 			ctx.drawImage(rating, 36, 1900, 171, 251);
 
 		if (nintendologo) {
-			let nintendologoImage = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'nintendologo.png'));
+			let nintendologoImage = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'nintendologo.png'));
 			ctx.drawImage(nintendologoImage, 1286, 2087, 223, 53)
 		}
 

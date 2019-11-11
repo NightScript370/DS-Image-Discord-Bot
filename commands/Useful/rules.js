@@ -1,6 +1,6 @@
-const { Command } = require('discord-akairo');
+import { Command } from 'discord-akairo';
 
-module.exports = class rulesCommand extends Command {
+export default class rulesCommand extends Command {
 	constructor() {
 		super("rules", {
 			category: 'Useful',

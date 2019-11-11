@@ -1,6 +1,6 @@
-const Command = require('../../struct/Command');
+import Command from '../../struct/Command';
 
-module.exports = class COD4Command extends Command {
+export default class COD4Command extends Command {
 	constructor() {
 		super('callOfDuty4', {
 			category: 'Game Statistics',

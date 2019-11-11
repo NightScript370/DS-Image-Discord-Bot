@@ -1,6 +1,6 @@
-const { Listener } = require('discord-akairo');
+import { Listener } from 'discord-akairo';
 
-module.exports = class CommandLoadListener extends Listener {
+export default class CommandLoadListener extends Listener {
 	constructor() {
 		super('commandHandlerLoad', {
 			emitter: 'commandHandler',

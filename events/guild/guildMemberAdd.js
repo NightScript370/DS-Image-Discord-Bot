@@ -1,10 +1,6 @@
-const { Listener } = require('discord-akairo');
+import { Listener } from 'discord-akairo';
 
-Array.prototype.random = function() {
-	return this[Math.floor(Math.random() * this.length)];
-};
-
-module.exports = class guildMemberAddListener extends Listener {
+export default class guildMemberAddListener extends Listener {
 	constructor() {
 		super('guildMemberAdd', {
 			emitter: 'client',

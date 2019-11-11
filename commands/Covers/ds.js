@@ -1,8 +1,8 @@
-const Command = require('../../struct/Image-Command');
-const { createCanvas, loadImage } = require('canvas');
-const path = require('path');
+import Command from '../../struct/Image-Command';
+import { createCanvas, loadImage } from 'canvas';
+import { join } from 'path';
 
-module.exports = class NintendoDSCommand extends Command {
+export default class NintendoDSCommand extends Command {
 	constructor() {
 		super('ds', {
 			aliases: ['ds'],
@@ -62,7 +62,7 @@ module.exports = class NintendoDSCommand extends Command {
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.');
 
-		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'ds', 'DS_Case.png'));
+		const base = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'ds', 'DS_Case.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 
@@ -79,14 +79,14 @@ module.exports = class NintendoDSCommand extends Command {
 			// await ctx.drawImage(rating, 0, 0, base.width, base.height);
 
 		if (funky) {
-			let funkyImg = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'funkymode.png'));
+			let funkyImg = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'funkymode.png'));
 			await ctx.drawImage(funkyImg, 455, 18, 321, 193);
 		}
 
 		await ctx.drawImage(base, 0, 0, base.width, base.height);
 
 		if (internet) {
-			let internetImg = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'ds', 'wfc.png'));
+			let internetImg = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'ds', 'wfc.png'));
 			await ctx.drawImage(internetImg, 0, 0, base.width, base.height);
 		}
 
@@ -97,6 +97,3 @@ module.exports = class NintendoDSCommand extends Command {
 	}
 };
 
-function isEmpty(value) { //Function to check if value is really empty or not
-	return (value == null || value.length === 0);
-}

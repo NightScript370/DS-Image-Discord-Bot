@@ -1,7 +1,7 @@
-const { Command } = require('discord-akairo');
-const { findType, settingProps } = require('../../Configuration');
+import { Command } from 'discord-akairo';
+import { findType, settingProps } from '../../settings/index.js';
 
-module.exports = class ConfigCommand extends Command {
+export default class ConfigCommand extends Command {
 	constructor() {
 		super("config", {
 			category: 'Server Management',
@@ -104,7 +104,7 @@ module.exports = class ConfigCommand extends Command {
 			case 'set':
 				if (!key) return msg.util.send(__("You didn't specify a key!"));
 				if (!settingProps[key]) return msg.util.send(__("The key `{0}` does not exist.", key));
-				if (settingProps[key].endsWith(":ex")) return await this.setArray(msg, data, key, value);
+				if (settingProps[key].extendable) return await this.setArray(msg, data, key, value);
 
 				if (!value) return msg.util.send(__("You didn't specify a value!"));
 				let t = findType(key);

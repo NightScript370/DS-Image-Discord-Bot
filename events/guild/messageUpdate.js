@@ -1,7 +1,7 @@
-const { Listener } = require('discord-akairo');
-const { random } = require("including-range-array");
+import { Listener } from 'discord-akairo';
+import { random } from "including-range-array";
 
-module.exports = class messageUpdateListener extends Listener {
+export default class messageUpdateListener extends Listener {
 	constructor() {
 		super('messageUpdate', {
 			emitter: 'client',
@@ -33,7 +33,7 @@ module.exports = class messageUpdateListener extends Listener {
 	async removePoints(message) {
 		if (message.author.bot) return;
 
-		const inhibitor = require("../../point-inhibit");
+		const inhibitor = require("../../point-inhibit").default;
 		if (inhibitor.inhibite(message)) return;
 		if (this.invalidMessage == true) return;
 

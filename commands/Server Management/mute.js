@@ -1,16 +1,12 @@
-const { Command } = require('discord-akairo');
+import { Command } from 'discord-akairo';
 
-module.exports = class MuteCommand extends Command {
+export default class MuteCommand extends Command {
 	constructor() {
 		super('mute', {
 			aliases: ["mute", "unmute"],
 			category: 'Server Management',
 			description: {
-                content: [
-					"Mutes a user via a mention or user ID. You can optionally include a reason.",
-					"The user must be in the server, and the configuration key `mutedrole` must not be null.",
-					"This command toggles the mute status of the user (ie. if you run the command two times on the same user, you add then remove the Muted role)."
-				]
+                content: "Toggles the mute status of a server member. Make sure you setup the `mutedrole` key."
             },
 			examples: ["mute @InfamousGuy003"],
 			channel: 'guild',

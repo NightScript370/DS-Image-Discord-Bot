@@ -1,4 +1,4 @@
-module.exports = (client, member, moderator, reason=null, msg=null) => {
+export default (client, member, moderator, reason=null, msg=null) => {
 	let text;
 
 	if (!member) return "no member";

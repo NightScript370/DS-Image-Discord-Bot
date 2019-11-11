@@ -1,8 +1,8 @@
-const Command = require('../../struct/Image-Command');
-const { createCanvas, loadImage } = require('canvas');
-const path = require('path');
+import Command from '../../struct/Image-Command';
+import { createCanvas, loadImage } from 'canvas';
+import { join } from 'path';
 
-module.exports = class PlayStationCommand extends Command {
+export default class PlayStationCommand extends Command {
 	constructor() {
 		super('playstation', {
 			aliases: ['ps', 'playstation', 'プレイステーション'],
@@ -61,7 +61,7 @@ module.exports = class PlayStationCommand extends Command {
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.');
 
-		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'playstation', gloss ? 'gloss.png' : 'nogloss.png'));
+		const base = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'playstation', gloss ? 'gloss.png' : 'nogloss.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 
@@ -75,7 +75,7 @@ module.exports = class PlayStationCommand extends Command {
 		}
 
 		if (funky) {
-			let funkyImg = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'funky.png'));
+			let funkyImg = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'funky.png'));
 			await ctx.drawImage(funkyImg, 147, 7, 125, 88);
 		}
 

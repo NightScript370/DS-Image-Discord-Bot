@@ -1,22 +1,21 @@
-const os = require('os');
-const childProcess = require('child_process');
+import { uptime, freemem, totalmem, loadavg, cpus as _cpus } from 'os';
+import { exec } from 'child_process';
 
-exports.platform = process.platform;
+export const platform = process.platform;
 
-exports.uptime = {
-	system: os.uptime(),
+export const uptime = {
+	system: uptime(),
 	process: process.uptime()
 }
 
-// Memory
-exports.memory = {
-	free: os.freemem() / (1024 * 1024),
-	total: os.totalmem() / (1024 * 1024),
+export const memory = {
+	free: freemem() / (1024 * 1024),
+	total: totalmem() / (1024 * 1024),
 }
 
 // Only Linux
-exports.freeCommand = () => new Promise((resolve, reject) => {
-	childProcess.exec('free -m', (error, stdout) => {
+export function freeCommand() { return new Promise((resolve, reject) => {
+	exec('free -m', (error, stdout) => {
 		if (error) {
 			reject(error);
 			return;
@@ -37,11 +36,11 @@ exports.freeCommand = () => new Promise((resolve, reject) => {
 
 		resolve(usedMem - 2);
 	});
-});
+}); 	}
 
 // HDD usage
-exports.harddrive = () => new Promise((resolve, reject) => {
-	childProcess.exec('df -k', (error, stdout) => {
+export function harddrive() { return new Promise((resolve, reject) => {
+	exec('df -k', (error, stdout) => {
 		if (error) {
 			reject(error);
 			return;
@@ -59,10 +58,10 @@ exports.harddrive = () => new Promise((resolve, reject) => {
 
 		resolve({ total, free, used });
 	});
-});
+}); 	}
 
 // Return running processes
-exports.getProcesses = nProcess => new Promise((resolve, reject) => {
+export function getProcesses(nProcess) { return new Promise((resolve, reject) => {
 	const nP = nProcess || 0;
 
 	let command = `ps -eo pcpu,pmem,time,args | sort -k 1 -r | head -n${10}`;
@@ -70,7 +69,7 @@ exports.getProcesses = nProcess => new Promise((resolve, reject) => {
 		command = `ps -eo pcpu,pmem,time,args | sort -k 1 -r | head -n${nP + 1}`;
 	}
 
-	childProcess.exec(command, (error, stdout) => {
+	exec(command, (error, stdout) => {
 		if (error) {
 			reject(error);
 			return;
@@ -92,21 +91,21 @@ exports.getProcesses = nProcess => new Promise((resolve, reject) => {
 
 		resolve(result);
 	});
-});
+}); 	}
 
 // Returns all the load average usage for 1, 5 or 15 minutes.
-exports.allLoadavg = () => {
-	const loads = os.loadavg();
+export function allLoadavg() {
+	const loads = loadavg();
 
 	return `${loads[0].toFixed(4)},${loads[1].toFixed(4)},${loads[2].toFixed(4)}`;
-};
+}
 
 // Returns the load average usage for 1, 5 or 15 minutes.
-exports.loadavg = (time) => {
+export function loadavg(time) {
 	if (time === undefined || (time !== 5 && time !== 15))
 		time = 1;
 
-	const loads = os.loadavg();
+	const loads = loadavg();
 
 	let v = 0;
 	switch (time) {
@@ -121,10 +120,10 @@ exports.loadavg = (time) => {
 	}
 
 	return v;
-};
+}
 
 function getCPUInfo() {
-	const cpus = os.cpus();
+	const cpus = _cpus();
 
 	let user = 0;
 	let nice = 0;
@@ -148,7 +147,7 @@ function getCPUInfo() {
 	};
 }
 
-exports.cpu = () => new Promise((resolve) => {
+export function cpu() { return new Promise((resolve) => {
 	const stats1 = getCPUInfo();
 	const startIdle = stats1.idle;
 	const startTotal = stats1.total;
@@ -165,7 +164,7 @@ exports.cpu = () => new Promise((resolve) => {
 		resolve({
 			free: perc,
 			used: 1 - perc,
-			count: os.cpus().length
+			count: _cpus().length
 		});
 	}, 1000);
-});
+}); 	}

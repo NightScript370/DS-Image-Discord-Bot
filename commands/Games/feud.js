@@ -1,8 +1,8 @@
-const { Command } = require('discord-akairo');
-const request = require('node-superfetch');
-const questions = require('../../assets/JSON/feud');
+import { Command } from 'discord-akairo';
+import { get } from 'node-superfetch';
+import questions from '../../assets/JSON/feud';
 
-module.exports = class FeudCommand extends Command {
+export default class FeudCommand extends Command {
 	constructor() {
 		super('feud', {
 			aliases: ['feud', "google-feud", "googlefeud"],
@@ -24,7 +24,7 @@ module.exports = class FeudCommand extends Command {
 		if (current) return msg.util.reply(__("Please wait until the current game of {0} is finished.", current.name));
 		this.client.commandHandler.games.set(msg.author.id, { name: this.id });
 
-		let question = questions[Math.floor(Math.random() * questions.length)];
+		let question = questions.random();
 
 		const suggestions = await this.fetchSuggestions(question);
 		if (!suggestions)
@@ -81,8 +81,7 @@ module.exports = class FeudCommand extends Command {
 	}
 	
 	async fetchSuggestions(question) {
-		const { text } = await request
-			.get('https://suggestqueries.google.com/complete/search')
+		const { text } = await get('https://suggestqueries.google.com/complete/search')
 			.query({ client: 'firefox', q: question });
 
 		const suggestions = JSON.parse(text)[1].filter(suggestion => suggestion.toLowerCase() !== question.toLowerCase());

@@ -1,8 +1,8 @@
-const { inspect } = require('util')
-const Command = require('../../struct/Command');
+import { inspect } from 'util';
+import Command from '../../struct/Command';
 const exec = require("util").promisify(require("child_process").exec);
 
-module.exports = class ExecCommand extends Command {
+export default class ExecCommand extends Command {
 	constructor() {
 		super('exec', {
 			aliases: ['exec'],

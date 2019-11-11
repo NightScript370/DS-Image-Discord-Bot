@@ -1,1 +1,1 @@
-module.exports = require("../en/hangman")
+export { default } from "../en/hangman";

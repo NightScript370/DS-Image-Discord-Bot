@@ -1,8 +1,8 @@
-const { Command } = require('discord-akairo');
-const { createCanvas, loadImage } = require('canvas');
-const path = require('path');
+import { Command } from 'discord-akairo';
+import { createCanvas, loadImage } from 'canvas';
+import { join } from 'path';
 
-module.exports = class AstronautCommand extends Command {
+export default class AstronautCommand extends Command {
 	constructor() {
 		super('astronautpanel', {
 			category: 'Image Edits',
@@ -10,6 +10,7 @@ module.exports = class AstronautCommand extends Command {
 			description: {
 				content: 'Makes an "Motion Blurred" meme panel but with your text.',
 			},
+			clientPermissions: ['ATTACH_FILES'],
 			args: [
 				{
 					id: 'items',
@@ -35,7 +36,7 @@ module.exports = class AstronautCommand extends Command {
 
 		if (items.length < 1) return message.util.send(global.translate(message.author.lang, "There are not enough arguments to this command. The minimum is {0}.", 1));
 
-		let base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'astronautpanel.png'));
+		let base = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'astronautpanel.png'));
 		let y = [0, 194, 392];
 
 		let canvas;
@@ -75,8 +76,12 @@ module.exports = class AstronautCommand extends Command {
 		}
 
 		let attachment = canvas.toBuffer()
-		if (Buffer.byteLength(attachment) > 8e+6) return message.util.reply('Resulting image was above 8 MB.');
-		message.util.send(`${message.author}, here's your custom motion blurred astronaut meme panel!`, { files: [{attachment: attachment, name: 'brain.png'}] })
+		if (Buffer.byteLength(attachment) > 8e+6)
+			message.util.reply('Resulting image was above 8 MB.');
+		else
+			message.util.send(`${message.author}, here's your custom motion blurred astronaut meme panel!`, { files: [{attachment: attachment, name: 'brain.png'}] })
+
+		return attachment;
 	}
 
 	async drawBrainText(ctx, text, heightstart) {

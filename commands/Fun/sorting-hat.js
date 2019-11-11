@@ -1,7 +1,7 @@
-const { Command } = require('discord-akairo');
-const questions = require("./../../assets/JSON/sort-hat.json");
+import { Command } from 'discord-akairo';
+import questions from "./../../assets/JSON/sort-hat.json";
 
-module.exports = class SortingHatCommand extends Command {
+export default class SortingHatCommand extends Command {
 	constructor() {
 		super('sorting-hat', {
 			aliases: ['sorting-hat', 'sort-hat', "sorthat"],

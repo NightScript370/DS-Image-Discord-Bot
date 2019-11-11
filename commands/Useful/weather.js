@@ -1,7 +1,7 @@
-const Command = require('../../struct/Command');
+import Command from '../../struct/Command';
 const weather = require("util").promisify(require('weather-js').find);
 
-module.exports = class weatherCommand extends Command {
+export default class weatherCommand extends Command {
 	constructor() {
 		super("weather", {
 			category: 'Useful',
@@ -44,10 +44,6 @@ module.exports = class weatherCommand extends Command {
 		if (!Array.isArray(area))
 			return this.areaFound(message, area, type);
 
-		// alright, we need to make an embed design for the selector
-		// selector for what?
-		// Basically, there are some times where there are two towns with teh same name. This allows you to search the correct town
-		// oh alright
 		let embed = this.client.util.embed()
 			.setThumbnail('https://lh4.ggpht.com/UZpyIN2yJ5Z3Mm8FMbsjEk0mBATgzXppNiBG-1SIf9yP8lAMRMYHhI3dBEc3gj-ja94Y=w300') // What's the best weather | let's try this one
 			.setColor('YELLOW') //Hmm, what color best represents weather? Yellow? | yeah oh yeah I forgot about that

@@ -1,7 +1,7 @@
-const { Command } = require('discord-akairo');
-const request = require('node-superfetch');
+import { Command } from 'discord-akairo';
+import { get } from 'node-superfetch';
 
-module.exports = class GenderGuessCommand extends Command {
+export default class GenderGuessCommand extends Command {
 	constructor() {
 		super('gender-guess', {
 			aliases: ["gender-guess", 'guess-gender', 'gender'],
@@ -35,8 +35,7 @@ module.exports = class GenderGuessCommand extends Command {
 	}
 
 	async exec(message, { name }) {
-		const { body } = await request
-			.get(`https://api.genderize.io/`)
+		const { body } = await get(`https://api.genderize.io/`)
 			.query({ name });
 
 		if (!body.gender)

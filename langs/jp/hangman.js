@@ -1,6 +1,6 @@
-const L = require("list");
+import { list } from "list";
 
-module.exports = L.list(
+export default list(
 	"にんげん", // 人間 – human (ningen)
 	"じんるい", // 人類 – humanity (jinrui)
 	"ひと", // 人 – person (hito)
@@ -370,7 +370,7 @@ module.exports = L.list(
 	"ひらがな", // 平仮名 – hiragana syllabary characters (hiragana)
 	"カタカナ", // 片仮名 – katakana syllabary characters (katakana)
 	"すうじ", // 数字 – numbers (sūji)
-	"アルファベット – alphabet (arufabetto)
+	"アルファベット", // – alphabet (arufabetto)
 	"ローマ字", // – Roman characters, Latin script (rōmaji)
 	"がいこくご", // 外国語 – foreign language (gaikokugo)
 	"にほんご", // 日本語 （こくご", // 国語） – Japanese [language] (nihongo)

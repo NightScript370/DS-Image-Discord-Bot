@@ -1,4 +1,4 @@
-const loki = require('lokijs')
+import loki from 'lokijs';
 
 const db = new loki('database.db', {
   autoload: true,
@@ -9,12 +9,11 @@ const db = new loki('database.db', {
 
 const collections = ['points', 'infractions', 'serverconfig', 'userconfig', 'multiply', 'rules'];
 function loadCollections () {
-  collections.forEach(x => {
-    let coll = db.addCollection(x)
+	collections.forEach(x => {
+		let coll = db.addCollection(x)
 
-    db[x] = coll
-  })
+		db[x] = coll
+	})
 }
 
-
-module.exports = db
+export default db

@@ -1,6 +1,6 @@
-const Command = require('../../struct/Command');
+import Command from '../../struct/Command';
 
-module.exports = class MCBedrockCommand extends Command {
+export default class MCBedrockCommand extends Command {
 	constructor() {
 		super('minecraft-be', {
 			category: 'Game Statistics',

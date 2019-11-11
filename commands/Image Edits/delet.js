@@ -1,8 +1,8 @@
-const Command = require('../../struct/Image-Command');
-const { createCanvas, loadImage } = require('canvas');
-const path = require('path');
+import Command from '../../struct/Image-Command';
+import { createCanvas, loadImage } from 'canvas';
+import { join } from 'path';
 
-module.exports = class DeleteCommand extends Command {
+export default class DeleteCommand extends Command {
 	constructor() {
 		super('delet', {
 			aliases: ["delet"],
@@ -25,7 +25,7 @@ module.exports = class DeleteCommand extends Command {
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.')
 
-		let deleteimage = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'delete.png'));
+		let deleteimage = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'delete.png'));
 
 		const canvas = createCanvas(deleteimage.width, deleteimage.height);
 		const ctx = canvas.getContext('2d');

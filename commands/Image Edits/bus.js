@@ -1,8 +1,8 @@
-const Command = require('../../struct/Image-Command');
-const { createCanvas, loadImage } = require('canvas');
-const path = require('path');
+import Command from '../../struct/Image-Command';
+import { createCanvas, loadImage } from 'canvas';
+import { join } from 'path';
 
-module.exports = class BusCommand extends Command {
+export default class BusCommand extends Command {
 	constructor() {
 		super('bus', {
 			aliases: ["bus"],
@@ -30,9 +30,6 @@ module.exports = class BusCommand extends Command {
 
 	async exec(message, { images, thrower }) {
 		let currentimage, widthpadthrow, heightpadthrow, widthpadthrown, heightpadthrown;
-
-		console.log(images)
-		console.log(thrower)
 
 		if (!this.isGood(images))
 			return message.util.reply('Nothing valid was found to throw. Please try again.')
@@ -68,10 +65,7 @@ module.exports = class BusCommand extends Command {
 			ctxthrown.drawImage(currentimage, widthpadthrown, heightpadthrown, currentimage.width, currentimage.height);
 		}
 
-
-		
-
-		const deleteimage = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'bus.png'));
+		const deleteimage = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'bus.png'));
 		const maincanvas = await createCanvas(deleteimage.width, deleteimage.height);
 		const mainctx = maincanvas.getContext('2d');
 

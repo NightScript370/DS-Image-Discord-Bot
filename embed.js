@@ -1,7 +1,7 @@
-const { MessageEmbed } = require('discord.js')
-const client = require('./yamamura.js')
+import { MessageEmbed } from 'discord.js';
+import { user } from './yamamura.js';
 
-module.exports = class YamamuraEmbed extends MessageEmbed {
+export default class YamamuraEmbed extends MessageEmbed {
 	constructor(...args) {
 		super(args)
 	}
@@ -72,9 +72,9 @@ module.exports = class YamamuraEmbed extends MessageEmbed {
 	setYamamuraCredits(icon = true) {
     try {
 		  if (icon == true) {
-			  return super.setFooter(client.user.username + " - by NightYoshi370 & Samplasion", client.user.displayAvatarURL({format: 'png'}));
+			  return super.setFooter(user.username + " - by NightYoshi370 & Samplasion", user.displayAvatarURL({format: 'png'}));
 		  } else {
-			  return super.setFooter(client.user.username + " - by NightYoshi370 & Samplasion");
+			  return super.setFooter(user.username + " - by NightYoshi370 & Samplasion");
 		  }
     } catch(e) {
       return super.setFooter("Yamamura - by NightYoshi370 & Samplasion")

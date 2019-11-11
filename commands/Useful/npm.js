@@ -1,10 +1,10 @@
-const { Command } = require("discord-akairo");
+import { Command } from "discord-akairo";
 const request = require("util").promisify(require("request"));
 
-const moment = require("moment");
-require("moment-duration-format");
+import { utc } from "moment";
+import "moment-duration-format";
 
-module.exports = class NPMCommand extends Command {
+export default class NPMCommand extends Command {
 	constructor() {
 		super("npm", {
 			aliases: ["npm", "npm-package"],
@@ -60,10 +60,10 @@ module.exports = class NPMCommand extends Command {
 			.addInline(global.translate(message.author.lang, "Latest Version"), body["dist-tags"].latest)
 			.addInline(global.translate(message.author.lang, "License"), body.license || global.translate(message.author.lang, "None"))
 			.addInline(global.translate(message.author.lang, "Author"), body.author ? body.author.name : "???")
-			.addInline(global.translate(message.author.lang, "Creation Date"), moment.utc(body.time.created).format("DD-MM-YYYY kk:mm:ss"))
+			.addInline(global.translate(message.author.lang, "Creation Date"), utc(body.time.created).format("DD-MM-YYYY kk:mm:ss"))
 
-		if (moment.utc(body.time.modified).format("DD-MM-YYYY kk:mm:ss") !== moment.utc(body.time.created).format("DD-MM-YYYY kk:mm:ss"))
-			embed.addInline(global.translate(message.author.lang, "Modification Date"), moment.utc(body.time.modified).format("DD-MM-YYYY kk:mm:ss"))
+		if (utc(body.time.modified).format("DD-MM-YYYY kk:mm:ss") !== utc(body.time.created).format("DD-MM-YYYY kk:mm:ss"))
+			embed.addInline(global.translate(message.author.lang, "Modification Date"), utc(body.time.modified).format("DD-MM-YYYY kk:mm:ss"))
 
 		embed
 			.addInline(global.translate(message.author.lang, "Main File"), version.main || "index.js")

@@ -1,7 +1,7 @@
-const { Command } = require('discord-akairo');
-const langs = require("./../../langs/index.js");
+import { Command } from 'discord-akairo';
+import langs, { map, indexOf, filter } from "../../langs/index.js";
 
-module.exports = class LanguageCommand extends Command {
+export default class LanguageCommand extends Command {
 	constructor() {
 		super("language", {
 			category: 'Bot Utilities',
@@ -16,22 +16,22 @@ module.exports = class LanguageCommand extends Command {
 					id: 'lang',
 					prompt: {
 						start: message => {
-							const langCodes = langs.map(l => l.code)
+							const langCodes = map(l => l.code)
 
 							let s = [];
 							for (let lang of langs) {
-								let i = langs.indexOf(lang) + 1;
+								let i = indexOf(lang) + 1;
 								s.push(`**${i}.** ${lang.flag} \`${lang.code}\` ${lang.name} *${global.translate(message.author.lang, "by {0}", lang.translators.join(", "))}*`);
 							}
 
 							return global.translate(message.author.lang, `Which language would you like to set? \nHere is a list of the available languages:`) + `\n \n${s.join("\n")}`;
 						},
 						retry: message => {
-							const langCodes = langs.map(l => l.code)
+							const langCodes = map(l => l.code)
 
 							let s = [];
 							for (let lang of langs) {
-								let i = langs.indexOf(lang) + 1;
+								let i = indexOf(lang) + 1;
 								s.push(`**${i}.** ${lang.flag} \`${lang.code}\` ${lang.name} *${global.translate(message.author.lang, "by {0}", lang.translators.join(", "))}*`);
 							}
 
@@ -39,7 +39,7 @@ module.exports = class LanguageCommand extends Command {
 						}
 					},
 					default: null,
-					type: langs.map(l => l.code)
+					type: map(l => l.code)
 				}
 			]
 		});
@@ -47,16 +47,16 @@ module.exports = class LanguageCommand extends Command {
 
 	async exec(msg, { lang: langcode }) {
 		langcode = langcode.toLowerCase();
-		const langCodes = langs.map(l => l.code);
+		const langCodes = map(l => l.code);
 		if (!langcode || !langCodes.includes(langcode)) {
 			let s = [];
 			for (let lang of langs) {
-				let i = langs.indexOf(lang) + 1;
+				let i = indexOf(lang) + 1;
 				s.push(`**${i}.** ${lang.flag} \`${lang.code}\` ${lang.name} *${global.translate(msg.author.lang, "by {0}", lang.translators.join(", "))}*`);
 			}
 			msg.channel.send(s.join("\n"));
 		} else {
-			let langData = langs.filter(l => l.code == langcode)[0];
+			let langData = filter(l => l.code == langcode)[0];
 			msg.author.lang = langcode;
 			msg.channel.send(global.translate(langcode, "The language has been changed to {0} **{1}**.", langData.flag, langData.name));
 		}

@@ -1,6 +1,6 @@
-const { Listener } = require('discord-akairo');
+import { Listener } from 'discord-akairo';
 
-module.exports = class CommandBlockedListener extends Listener {
+export default class CommandBlockedListener extends Listener {
 	constructor() {
 		super('commandBlocked', {
 			emitter: 'commandHandler',

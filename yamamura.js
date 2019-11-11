@@ -1,46 +1,54 @@
-try { require('cache-require-paths'); } catch {}
-
-require("./utils/extraFunctions.js");
-global.translate = require("./langs/framework.js")
-
-const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } = require('discord-akairo');
-const config = require("./config.js");
-const List = require("list-array");
-const BackEmbed = require('./embed.js');
-
-require("./struct/User.js");
-require("./struct/Guild.js");
-require("./struct/DMChannel.js");
-require("./struct/TextChannel.js");
-require("./struct/GuildMember.js");
-
-console.logs = {
-	log: [],
-	err: [],
+console.backlogs = {
+	debug: [],
+	errors: [],
+	others: []
 };
 
 // This is used to debug the errors.
-// Defaults to 20 lines max
 const util = require('util');
-var logStdout = process.stdout;
-var logStderr = process.stderr;
+const maxLog = 20;
 
 console.log = function () {
-	console.logs.log.push(util.format.apply(null, arguments));
-	logStdout.write(util.format.apply(null, arguments) + '\n');
-	if (console.logs.log.length > 20) console.logs.log.shift();
+	let logged = util.format.apply(null, arguments);
+
+	console.backlogs.others.push(logged);
+	process.stdout.write(logged + '\n');
+
+	if (console.backlogs.others.length > maxLog)
+		console.backlogs.others.shift();
 }
 console.error = function () {
-	console.logs.err.push(util.format.apply(null, arguments));
-	logStderr.write(util.format.apply(null, arguments) + '\n');
-	if (console.logs.err.length > 20) console.logs.err.shift();
+	let logged = util.format.apply(null, arguments);
+
+	console.backlogs.errors.push(logged);
+	process.stderr.write(logged + '\n');
+
+	if (console.backlogs.errors.length > maxLog)
+		console.backlogs.errors.shift();
 }
+
+
+try { require('cache-require-paths'); } catch {}
+
+import "./utils/extraFunctions.js";
+global.translate = require("./langs/framework.js")
+
+import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } from 'discord-akairo';
+import { owners, supportServer, prefix as _prefix, website, log as _log, token } from "./config.js";
+import List from "list-array";
+import BackEmbed from './embed.js';
+
+import "./struct/User.js";
+import "./struct/Guild.js";
+import "./struct/DMChannel.js";
+import "./struct/TextChannel.js";
+import "./struct/GuildMember.js";
 
 
 class YamamuraClient extends AkairoClient {
 	constructor() {
 		super({
-			ownerID: config.owners,
+			ownerID: owners,
 		}, {
 			disableEveryone: true,
 			disabledEvents: ['TYPING_START'],
@@ -48,7 +56,7 @@ class YamamuraClient extends AkairoClient {
 		});
 
 		this.db = require('./utils/database.js');
-		this.supportServer = config.supportServer;
+		this.supportServer = supportServer;
 
 		this.commandHandler = new CommandHandler(this, {
 			directory: './commands/',
@@ -62,10 +70,10 @@ class YamamuraClient extends AkairoClient {
 							prefix = prefix.value;
 					} catch(e) {
 						console.error(e)
-						prefix = config.prefix;
+						prefix = _prefix;
 					}
 				} else
-					prefix = ['', config.prefix]
+					prefix = ['', _prefix]
 
 				return prefix;
 			},
@@ -108,7 +116,7 @@ class YamamuraClient extends AkairoClient {
 		this.util.pad = (n) => n < 10 ? "0"+n : ""+n;
 
 		this.util.setDefaultStatus = (client) => {
-			let userActivity = (config.website.url).replaceAll(['https://', 'http://'], '') + ' | Mention me for help information';
+			let userActivity = (website.url).replaceAll(['https://', 'http://'], '') + ' | Mention me for help information';
 			if (!client.user.presence.activity || (client.user.presence.activity && client.user.presence.activity.name !== userActivity))
 				return client.user.setActivity(userActivity);
 			else
@@ -117,16 +125,16 @@ class YamamuraClient extends AkairoClient {
 
 		this.audio = require('./utils/audio.js');
 
-		this.log = config.log;
+		this.log = _log;
 	};
 }
 
 const client = new YamamuraClient();
-client.login(config.token);
+client.login(token);
 
 function isEmpty(value) { //Function to check if value is really empty or not
 	return (value == null || value.length === 0);
 }
 
 global.List = List;
-module.exports = client;
+export default client;

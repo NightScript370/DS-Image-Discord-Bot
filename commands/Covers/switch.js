@@ -1,8 +1,8 @@
-const Command = require('../../struct/Image-Command');
-const { createCanvas, loadImage } = require('canvas');
-const path = require('path');
+import Command from '../../struct/Image-Command';
+import { createCanvas, loadImage } from 'canvas';
+import { join } from 'path';
 
-module.exports = class NintendoSwitchCommand extends Command {
+export default class NintendoSwitchCommand extends Command {
 	constructor() {
 		super('switch', {
 			aliases: ['switch'],
@@ -64,7 +64,7 @@ module.exports = class NintendoSwitchCommand extends Command {
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.');
 
-		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'switch_case.png'));
+		const base = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'switch', 'switch_case.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 
@@ -97,12 +97,12 @@ module.exports = class NintendoSwitchCommand extends Command {
 			ctx.drawImage(rating, 22, 810, 62, 94);
 
 		if (internet) {
-			let internetImg = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'internet_download.png'));
+			let internetImg = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'switch', 'internet_download.png'));
 			ctx.drawImage(internetImg, 0, 0, base.width, base.height)
 		}
 
 		if (funky) {
-			let funkyImg = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'switch', 'funky_mode.png'));
+			let funkyImg = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'switch', 'funky_mode.png'));
 			ctx.drawImage(funkyImg, 0, 0, base.width, base.height)
 		}
 

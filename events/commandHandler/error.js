@@ -1,7 +1,7 @@
-const { Listener } = require('discord-akairo');
-const Logger = require('../../utils/Logger');
+import { Listener } from 'discord-akairo';
+import { error as _error, stacktrace } from '../../utils/Logger';
 
-module.exports = class errorListener extends Listener {
+export default class errorListener extends Listener {
 	constructor() {
 		super('error', {
 			emitter: 'commandHandler',
@@ -12,11 +12,11 @@ module.exports = class errorListener extends Listener {
 
 	exec(error, message, command=null) {
 		const __ = (k, ...v) => global.translate(message.author.lang, k, ...v);
-		Logger.error('An error occured in a command.');
+		_error('An error occured in a command.');
 
 		const tag = message.guild ? message.guild.name : `${message.author.tag}/PM`;
-		Logger.error(message.content, { tag });
-		Logger.stacktrace(error);
+		_error(message.content, { tag });
+		stacktrace(error);
 
 		if (command) {
 			const current = this.client.commandHandler.games.get(message.author.id);

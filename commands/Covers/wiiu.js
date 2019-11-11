@@ -1,8 +1,8 @@
-const Command = require('../../struct/Image-Command');
-const { createCanvas, loadImage } = require('canvas');
-const path = require('path');
+import Command from '../../struct/Image-Command';
+import { createCanvas, loadImage } from 'canvas';
+import { join } from 'path';
 
-module.exports = class NintendoWiiUCommand extends Command {
+export default class NintendoWiiUCommand extends Command {
 	constructor() {
 		super('wiiu', {
 			aliases: ['wiiu', 'wii-u'],
@@ -62,7 +62,7 @@ module.exports = class NintendoWiiUCommand extends Command {
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.');
 
-		const base = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'WiiU_Case.png'));
+		const base = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'WiiU_Case.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 
@@ -83,7 +83,7 @@ module.exports = class NintendoWiiUCommand extends Command {
 		}
 
 		if (nintendonetwork) {
-			let nintendonetworkImage = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'NintendoNetwork.png'));
+			let nintendonetworkImage = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'NintendoNetwork.png'));
 			ctx.drawImage(nintendonetworkImage, 1368, 156, 139, 175)
 		}
 
@@ -97,7 +97,3 @@ module.exports = class NintendoWiiUCommand extends Command {
 		return message.util.send(global.translate(message.author.lang, "{0}, Wii would like to play, with U!", message.guild ? message.member.displayName : message.author.username), { files: [{ attachment: attachment, name: 'Nintendo-WiiU.png' }] });
 	}
 };
-
-function isEmpty(value) { //Function to check if value is really empty or not
-	return (value == null || value.length === 0);
-}
