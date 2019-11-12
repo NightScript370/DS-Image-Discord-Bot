@@ -1,8 +1,5 @@
 import Command from 'discord-akairo';
-import request from "request";
-
-import { promisify } from "util";
-const req = promisify(request);
+const request = require('util').promisify(require('request'));
 
 export default class AmiiboCommand extends Command {
 	constructor() {

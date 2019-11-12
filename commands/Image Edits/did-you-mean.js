@@ -1,5 +1,5 @@
 import Command from 'discord-akairo';
-import { get } from 'node-superfetch';
+import get from 'node-superfetch';
 
 export default class DidYouMeanCommand extends Command {
 	constructor() {

@@ -1,4 +1,4 @@
-import { Listener } from 'discord-akairo';
+import Listener from 'discord-akairo';
 import { error as _error, stacktrace } from '../../utils/Logger';
 
 export default class errorListener extends Listener {

@@ -1,5 +1,5 @@
 import Command from 'discord-akairo';
-import questions from "./../../assets/JSON/sort-hat.json";
+import questions from "./../../assets/JSON/sort-hat";
 
 export default class SortingHatCommand extends Command {
 	constructor() {
@@ -12,7 +12,7 @@ export default class SortingHatCommand extends Command {
 		});
 	}
 
-	async exec(msg, { move }) {
+	async exec(msg) {
 		if (!this.client.isOwner(msg.author.id))
 			return msg.channel.send("Sorry, but this is a Work In Progress command. This will not work")
 

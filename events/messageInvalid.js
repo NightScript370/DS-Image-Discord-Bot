@@ -1,6 +1,7 @@
-import { Listener } from 'discord-akairo';
+import Listener from 'discord-akairo';
 import { random } from "including-range-array";
 import { get as getDistance } from "fast-levenshtein";
+import { inhibit as pointInhibit } from "../point-inhibit"
 
 export default class messageInavlidListener extends Listener {
     constructor() {
@@ -111,8 +112,7 @@ export default class messageInavlidListener extends Listener {
 	}
 
 	async handlePoints(message) {
-		const inhibitor = require("../point-inhibit").default;
-		if (inhibitor.inhibite(message)) return;
+		if (pointInhibit(message)) return;
 
 		let channelmultiplier = this.client.db.multiply.findOne({guild: message.guild.id, channel: message.channel.id}) || this.client.db.multiply.insert({channel: message.channel.id, guild: message.guild.id, multiply: 1 });
 		let pointstoadd = random(3) * channelmultiplier.multiply;

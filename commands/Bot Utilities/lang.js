@@ -1,5 +1,5 @@
 import Command from 'discord-akairo';
-import langs, { map, indexOf, filter } from "../../langs/index.js";
+import langs, { map, indexOf, filter } from "../../langs/index";
 
 export default class LanguageCommand extends Command {
 	constructor() {
@@ -16,8 +16,6 @@ export default class LanguageCommand extends Command {
 					id: 'lang',
 					prompt: {
 						start: message => {
-							const langCodes = map(l => l.code)
-
 							let s = [];
 							for (let lang of langs) {
 								let i = indexOf(lang) + 1;
@@ -27,8 +25,6 @@ export default class LanguageCommand extends Command {
 							return global.translate(message.author.lang, `Which language would you like to set? \nHere is a list of the available languages:`) + `\n \n${s.join("\n")}`;
 						},
 						retry: message => {
-							const langCodes = map(l => l.code)
-
 							let s = [];
 							for (let lang of langs) {
 								let i = indexOf(lang) + 1;

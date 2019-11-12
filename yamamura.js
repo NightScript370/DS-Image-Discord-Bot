@@ -28,23 +28,24 @@ console.error = function () {
 }
 
 
-try { require('cache-require-paths'); } catch {}
+try { import 'cache-require-paths' } catch {}
+import "./utils/extraFunctions.js";
 
-require("./utils/extraFunctions.js");
-global.translate = require("./langs/framework.js")
+import * as translateModule from './langs/framework';
+global.translate = translateModule;
 
 import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } from 'discord-akairo';
-import { owners, supportServer, prefix as _prefix, website, log as _log, token } from "./config.js";
+import { owners, supportServer, prefix as _prefix, website, log as _log, token } from "./config";
 import * as List from "list-array";
-import * as BackEmbed from './embed.js';
-import * as types from './utils/types.js';
-import * as AudioModule from './utils/audio.js';
+import * as BackEmbed from './embed';
+import * as types from './utils/types';
+import * as AudioModule from './utils/audio';
 
-require("./struct/User.js").default;
-require("./struct/Guild.js");
-require("./struct/DMChannel.js");
-require("./struct/TextChannel.js").default;
-require("./struct/GuildMember.js");
+import "./struct/User";
+import "./struct/Guild";
+import "./struct/DMChannel";
+import "./struct/TextChannel";
+import "./struct/GuildMember";
 
 class YamamuraClient extends AkairoClient {
 	constructor() {

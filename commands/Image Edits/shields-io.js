@@ -1,5 +1,5 @@
-import { Command } from "discord-akairo";
-import { get } from 'node-superfetch';
+import Command from "discord-akairo";
+import get from 'node-superfetch';
 
 export default class ShieldsIoBadgeCommand extends Command {
 	constructor() {

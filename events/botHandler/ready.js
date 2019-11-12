@@ -1,10 +1,10 @@
-const { Listener } = require('discord-akairo');
-const request = require('node-superfetch');
+import Listener from 'discord-akairo';
+import post from 'node-superfetch';
 
-const config = require("../../config.js");
-const catSetup = require("../../utils/commandCategories.js").default;
+import botLists from "../../config";
+import * as catSetup from "../../utils/commandCategories";
 
-module.exports = class ReadyListener extends Listener {
+export default class ReadyListener extends Listener {
 	constructor() {
 		super('ready', {
 			emitter: 'client',
@@ -39,12 +39,12 @@ module.exports = class ReadyListener extends Listener {
 
 		this.client.botlist = {};
 
-		if (config.botLists['top.gg']) {
+		if (botLists['top.gg']) {
 			try {
 				const TopGG = await require("dblapi.js");
-				this.client.botlist.TopGG = await new TopGG(config.botLists['top.gg'].token, {
+				this.client.botlist.TopGG = await new TopGG(botLists['top.gg'].token, {
 					webhookPort: this.client.website.express.get('port'),
-					webhookAuth: config.botLists['top.gg'].webhookpass,
+					webhookAuth: botLists['top.gg'].webhookpass,
 					webhookServer: this.client.website.server,
 					statsInterval: 7200000
 				}, this.client)
@@ -74,13 +74,12 @@ module.exports = class ReadyListener extends Listener {
 			
 		}
 
-		if (config.botLists['discordbotlist.com']) {
+		if (botLists['discordbotlist.com']) {
 			try {
 				console.log('[discordbotlist.com] Updating stats');
 
-				await request
-					.post(`https://discordbotlist.com/api/bots/${this.client.user.id}/stats`)
-					.set("Authorization", `Bot ${config.botLists['discordbotlist.com'].token}`)
+				await post(`https://discordbotlist.com/api/bots/${this.client.user.id}/stats`)
+					.set("Authorization", `Bot ${botLists['discordbotlist.com'].token}`)
 					.send({
 						shard_id: 0,
 						guilds: this.client.guilds.size,
@@ -94,13 +93,12 @@ module.exports = class ReadyListener extends Listener {
 			}
 		}
 
-		if (config.botLists['discord.boats']) {
+		if (botLists['discord.boats']) {
 			try {
 				console.log('[discord.boats] Updating stats');
 
-				await request
-					.post(`https://discord.boats/api/v2/bot/${this.client.user.id}`)
-					.set("Authorization", config.botLists['discord.boats'].token)
+				await post(`https://discord.boats/api/v2/bot/${this.client.user.id}`)
+					.set("Authorization", botLists['discord.boats'].token)
 					.send({server_count: this.client.guilds.size});
 
 				console.log('[discord.boats] stats updated');

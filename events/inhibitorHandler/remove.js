@@ -1,4 +1,4 @@
-import { Listener } from 'discord-akairo';
+import Listener from 'discord-akairo';
 
 export default class InhibitorRemoveListener extends Listener {
 	constructor() {

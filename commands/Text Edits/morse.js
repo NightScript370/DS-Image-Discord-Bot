@@ -1,5 +1,5 @@
 import Command from 'discord-akairo';
-import data from "../../assets/morse.js";
+import data from "../../assets/morse";
 
 export default class MorseCommand extends Command {
 	constructor() {

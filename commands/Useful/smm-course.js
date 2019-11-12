@@ -1,9 +1,7 @@
 import Command from '../../struct/Command';
 import bookmarkAPI from 'super-maker-api';
 
-import request from "request";
-import { promisify } from "util";
-const req = promisify(request);
+const request = require('util').promisify(require('request'))
 
 export default class CourseCommand extends Command {
 	constructor() {
@@ -52,7 +50,7 @@ export default class CourseCommand extends Command {
 		if (makerOfMario)
 			url = `https://api.makersofmario.com/level/?method=search&limit=5&text=`
 
-		let { body, statusCode, responce } = await req({ url: (url + encodeURIComponent(level)), json: true });
+		let { body, statusCode } = await request({ url: (url + encodeURIComponent(level)), json: true });
 		if (statusCode !== 200) return msg.util.reply('Could not connect to the API');
 		if (makerOfMario && body.success !== true) return msg.util.send(body.error.message);
 

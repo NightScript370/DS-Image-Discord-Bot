@@ -1,5 +1,5 @@
-import { website as websiteConfig } from "../config.js";
-import List from "list-array";
+import { website as websiteConfig } from "../config";
+import * as List from "list-array";
 import { join } from "path";
 import { readdirSync } from 'fs';
 const routers = readdirSync(join(process.cwd(), 'website', 'router'));
