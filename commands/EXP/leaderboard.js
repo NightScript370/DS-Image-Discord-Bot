@@ -1,5 +1,7 @@
+'use strict';
+
 import Command from 'discord-akairo';
-import { javierInteger } from '../../utils/types';
+import javierInteger from '../../utils/types';
 
 export default class LeaderboardCommand extends Command {
 	constructor() {
@@ -8,12 +10,13 @@ export default class LeaderboardCommand extends Command {
 			category: 'Experience Points',
 			description: {
 				content: 'List all those with the highest amount of points',
-				usage: '[number of results: min is 3, max is 25. Any invalid result will give 10] guild:<optional field. This is available for viewing a specific guild\'s user point>',
+				usage: '[numberofresults] guild:<ID>',
 				examples: ['5', '5 guild:318882333312679936']
 			},
 			args: [
 				{
 					id: 'guild',
+					description: "Optional field that allows you to view another servers EXP leaderboard provided you're in that server",
 					type: 'guild',
 					default: msg => {
 						if (msg.guild)
@@ -26,6 +29,7 @@ export default class LeaderboardCommand extends Command {
 				},
 				{
 					id: 'numberofresults',
+					description: "Sets the number of results that you optain. The minimum is 1 and maximum is 25 (unless you have embeds disabled, in which it'll be 18). Having an invalid value/no value at all will set the number depending on how many users are in the server",
 					type: (message, number) => {
 						if (!number)
 							return null;
@@ -48,10 +52,12 @@ export default class LeaderboardCommand extends Command {
 
 	async exec(msg, { guild, numberofresults }) {
 		const __ = (k, ...v) => global.translate(msg.author.lang, k, ...v);
-		let medal, username, guildFound;
+		let medal;
 
-		if(guild) {
-			if(!msg.guild || (msg.guild && msg.guild.id !== guild.id)) {
+		if (guild) {
+			let guildFound;
+
+			if (!msg.guild || (msg.guild && msg.guild.id !== guild.id)) {
 				let guildFind = this.client.guilds.get(guild.id)
 				if (!guildFind) return msg.util.reply(__("{0} is not in that server. Therefore, I cannot get that server's points", this.client.user.username));
 
@@ -59,135 +65,127 @@ export default class LeaderboardCommand extends Command {
 
 				guildFound = guildFind;
 			} else
-				guildFound = msg.guild
+				guildFound = msg.guild;
 
-			if (!numberofresults)
-				numberofresults = Math.floor(Math.min(Math.sqrt(3*guildFound.memberCount), 25));
+			let top10 = this.client.db.points.find({ guild: guildFound.id }).sort((a, b) => b.points - a.points); // I'm not sure if this is the right way to sort
+			top10.length = Math.min(numberofresults || Math.floor(Math.min(Math.sqrt(3 * top10.length), 25)), top10.length);
 
-			let filtered = this.client.db.points.find({ guild: guildFound.id });
-			let top10 = filtered.sort((a, b) => b.points - a.points);
-			top10.length = Math.min(numberofresults || top10.length, top10.length);
 			let i = 0;
-			let guildMember;
+			let message = __('Leaderboard for {0}', guildFound.name)
+			let leaderboardRow;
+			let userFoundInLB;
 
-			if(guildFound.me.hasPermission('EMBED_LINKS')) {
+			if (msg.channel.embedable) {
 				let guildEmbed = this.client.util.embed()
-					.setTitle(__('Leaderboard for {0}', guildFound.name))
 					.setFooter(__("Points system handled by {0}", this.client.user.username), this.client.user.displayAvatarURL({format: 'png'}))
 					.setThumbnail(guildFound.iconURL({format: 'png'}))
 					.setTimestamp(new Date())
-					.setColor(0x00AE86);
+					.setColor(0x00AE86) // Hmm, how should I handle color? Maybe make it so that the higher the average, the golder it gets. The lower the average, the bronzer it gets
 
-				if (numberofresults < 9) {
-					for (const lbdata of top10) {
-						if (!this.client.users.has(lbdata.member)) continue;
+				if (top10.length < 12) {
+					let guildMember;
 
-						try {
-							i = i + 1
-							
-							switch (i) {
-								case 1:
-									medal = "🥇 ";
-									break;
-								case 2:
-									medal = "🥈 ";
-									break;
-								case 3:
-									medal = "🥉 ";
-									break;
-								default:
-									medal = "";
-							}
+					for (leaderboardRow of top10) {
+						userFoundInLB = this.client.users.get(leaderboardRow.member);
+						if (!userFoundInLB || (userFoundInLB && userFoundInLB.bot))
+							continue;
 
-							guildMember = guildFound.members.find(member => member.id == lbdata.member);
-							if (guildMember.author.bot)
-								return;
-
-							guildEmbed.addField(medal + guildMember.displayName, __('{0} points (Level: {1})', lbdata.points, lbdata.level), true);
-
-							if(i == numberofresults)
+						i++;
+						switch (i) {
+							case 1:
+								medal = "🥇 ";
 								break;
-						} catch (e) {
-							console.error(e)
+							case 2:
+								medal = "🥈 ";
+								break;
+							case 3:
+								medal = "🥉 ";
+								break;
+							default:
+								medal = `${i}. `;
 						}
+
+						guildMember = guildFound.members.get(leaderboardRow.member);
+						guildEmbed.addInline(medal + guildMember.displayName, __('{0} points (Level: {1})', leaderboardRow.points, leaderboardRow.level));
 					}
+
 					guildEmbed.setDescription(__("Top {0} posters", i));
 				} else {
-					var uData = '';
+					let uData = '';
 
-					for(const lbdata of top10) {
-						if(!msg.guild.members.has(lbdata.member)) continue;
-						try {
-							
-							switch (i + 1) {
-								case 1:
-									medal = "🥇";
-									break;
-								case 2:
-									medal = "🥈";
-									break;
-								case 3:
-									medal = "🥉";
-									break;
-								case 4:
-									medal = ":four:";
-									break;
-								case 5:
-									medal = ":five:";
-									break;
-								case 6:
-									medal = ":six:";
-									break;
-								case 7:
-									medal = ":seven:";
-									break;
-								case 8:
-									medal = ":eight:";
-									break;
-								case 9:
-									medal = ":nine:";
-									break;
-								default:
-									medal = i + 1;
-							}
+					for (leaderboardRow of top10) {
+						userFoundInLB = this.client.users.get(leaderboardRow.member);
+						if (!userFoundInLB || (userFoundInLB && userFoundInLB.bot))
+							continue;
 
-							uData += `**${medal}. <@${lbdata.member}>**: ${__('{0} points (Level: {1})', lbdata.points, lbdata.level)}\n`;
-							
-							i = i + 1;
-							
-							if(i == numberofresults)
+						i++;
+						switch (i) {
+							case 1:
+								medal = "🥇";
 								break;
-						} catch(e) {
-							console.error(e)
+							case 2:
+								medal = "🥈";
+								break;
+							case 3:
+								medal = "🥉";
+								break;
+							case 4:
+								medal = ":four:";
+								break;
+							case 5:
+								medal = ":five:";
+								break;
+							case 6:
+								medal = ":six:";
+								break;
+							case 7:
+								medal = ":seven:";
+								break;
+							case 8:
+								medal = ":eight:";
+								break;
+							case 9:
+								medal = ":nine:";
+								break;
+							default:
+								medal = `${i}.`;
 						}
+
+						uData += `**${medal} <@${leaderboardRow.member}>**: ${__('{0} points (Level: {1})', leaderboardRow.points, leaderboardRow.level)}\n`;
 					}
 
 					guildEmbed.setDescription(uData)
 				}
 
-				return await msg.util.send({embed: guildEmbed});
+				return msg.util.send(message, {embed: guildEmbed});
 			}
-
-			if(numberofresults > 18) return msg.reply("Too High!");
 
 			let uDataembedless = '';
-			for(const lbdata of top10) {
-				if(!guildFound.members.has(lbdata.member)) continue;
-				try {
-					uDataembedless += `**${i + 1}. ${guildFound.members.find(member => member.id == lbdata.member).displayName || this.client.users.get(lbdata.member).username}**: ${lbdata.points} points (level ${lbdata.level}) \n`;
-					i = i + 1;
+			for (leaderboardRow of top10) {
+				userFoundInLB = this.client.users.get(leaderboardRow.member);
+				if (!userFoundInLB || (userFoundInLB && userFoundInLB.bot))
+					continue;
 
-					if(i == numberofresults)
+				i++;
+				switch (i) {
+					case 1:
+						medal = "🥇";
 						break;
-				} catch(e) {
-					console.error(e)
+					case 2:
+						medal = "🥈";
+						break;
+					case 3:
+						medal = "🥉";
+						break;
+					default:
+						medal = `${i}.`;
 				}
+
+				uDataembedless += `**${medal} ${guildFound.members.find(member => member.id == leaderboardRow.member).displayName || this.client.users.get(leaderboardRow.member).username}**: ${leaderboardRow.points} points (level ${leaderboardRow.level}) \n`;
 			}
 
-			let title = guildFound.name + ` Leaderboard - Top ${i}`;
-
-			let post = title + '\n\n' + uDataembedless;
-			return msg.channel.send(post);
+			message += ` - ${__("Top {0}", i)} \n\n ` + uDataembedless;
+			return msg.channel.send(message);
 		}
 
 		let DMembed = this.client.util.embed()
