@@ -54,7 +54,7 @@ export default class ServerPointsCommand extends Command {
 
 			let guildMember = guildFound.members.get(user.id)
 			if (!guildMember)
-				guildMember = guildFound.members.fetch(user.id);
+				guildMember = await guildFound.members.fetch(user.id);
 
 			let DBuser = await this.client.db.points.findOne({guild: guildFound.id, member: user.id});
 
@@ -72,7 +72,7 @@ export default class ServerPointsCommand extends Command {
 
 			if (guildMember)
 				GuildPointsEmbed.setColor(guildMember.displayHexColor)
-	
+
 			if (DBuser.points === Infinity) {
 				GuildPointsEmbed
 					.addInline(__("Points"), __("Infinity"))

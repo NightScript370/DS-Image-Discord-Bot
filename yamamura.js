@@ -28,8 +28,8 @@ console.error = function () {
 }
 
 
-try { import 'cache-require-paths' } catch {}
-import "./utils/extraFunctions.js";
+try { import('cache-require-paths') } catch {}
+import("./utils/extraFunctions.js");
 
 import * as translateModule from './langs/framework';
 global.translate = translateModule;
@@ -41,11 +41,11 @@ import * as BackEmbed from './embed';
 import * as types from './utils/types';
 import * as AudioModule from './utils/audio';
 
-import "./struct/User";
-import "./struct/Guild";
-import "./struct/DMChannel";
-import "./struct/TextChannel";
-import "./struct/GuildMember";
+import("./struct/User");
+import("./struct/Guild");
+import("./struct/DMChannel");
+import("./struct/TextChannel");
+import("./struct/GuildMember");
 
 class YamamuraClient extends AkairoClient {
 	constructor() {
