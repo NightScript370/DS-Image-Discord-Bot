@@ -130,7 +130,7 @@ export default class messageInavlidListener extends Listener {
 		this.client.db.points.update(user);
 
 		if (levelUp) {
-			if (!message.channel.sendable) return;
+			if (!message.channel.sendable || !message.guild.config.render('levelup')) return;
 
 			let levelups = message.guild.config.data.levelupmsgs;
 			if (!levelups) return console.log(`${server.name} (#${server.id}) does not have level up messages`);

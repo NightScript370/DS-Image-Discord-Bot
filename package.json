@@ -2,9 +2,9 @@
   "name": "yamamura-discord-bot",
   "version": "0.0.1",
   "description": "A simple Discord Bot made for hacking communities.",
-  "main": "yamamura.js",
+  "main": "src/yamamura.js",
   "scripts": {
-    "start": "node yamamura.js"
+    "start": "node src/yamamura.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
