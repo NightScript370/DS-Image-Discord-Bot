@@ -1,10 +1,10 @@
-import { uptime, freemem, totalmem, loadavg, cpus as _cpus } from 'os';
+import { uptime as systemUptime, freemem, totalmem, loadavg, cpus as _cpus } from 'os';
 import { exec } from 'child_process';
 
 export const platform = process.platform;
 
 export const uptime = {
-	system: uptime(),
+	system: systemUptime(),
 	process: process.uptime()
 }
 
@@ -14,7 +14,7 @@ export const memory = {
 }
 
 // Only Linux
-export function freeCommand() { return new Promise((resolve, reject) => {
+export const freeCommand = () => new Promise((resolve, reject) => {
 	exec('free -m', (error, stdout) => {
 		if (error) {
 			reject(error);
@@ -36,7 +36,7 @@ export function freeCommand() { return new Promise((resolve, reject) => {
 
 		resolve(usedMem - 2);
 	});
-}); 	}
+});
 
 // HDD usage
 export function harddrive() { return new Promise((resolve, reject) => {
