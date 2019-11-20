@@ -4,7 +4,7 @@ import { join } from "path";
 import { readdirSync } from 'fs';
 const routers = readdirSync(join(process.cwd(), 'website', 'router'));
 
-import express, { static } from 'express';
+import * as express from 'express';
 import session from 'express-session';
 import { json, urlencoded } from 'body-parser';
 import { createServer } from 'http';
@@ -37,7 +37,7 @@ export default (client) => {
 		.use(json())
 		.use(urlencoded({extended : true}))
 		.engine("ejs", require("ejs").renderFile)
-		.use(static(join(__dirname, "/public")))
+		.use(express.static(join(__dirname, "/public")))
 		.set("view engine", "ejs")
 		.set("views", join(__dirname, "pages"))
 		.set('trust proxy', 1)
