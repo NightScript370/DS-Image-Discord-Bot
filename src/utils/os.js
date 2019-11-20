@@ -1,4 +1,4 @@
-import { uptime as systemUptime, freemem, totalmem, loadavg, cpus as _cpus } from 'os';
+import { uptime as systemUptime, freemem, totalmem, loadavg as osLoadAvg, cpus as _cpus } from 'os';
 import { exec } from 'child_process';
 
 export const platform = process.platform;
@@ -95,7 +95,7 @@ export function getProcesses(nProcess) { return new Promise((resolve, reject) =>
 
 // Returns all the load average usage for 1, 5 or 15 minutes.
 export function allLoadavg() {
-	const loads = loadavg();
+	const loads = osLoadAvg();
 
 	return `${loads[0].toFixed(4)},${loads[1].toFixed(4)},${loads[2].toFixed(4)}`;
 }
@@ -105,7 +105,7 @@ export function loadavg(time) {
 	if (time === undefined || (time !== 5 && time !== 15))
 		time = 1;
 
-	const loads = loadavg();
+	const loads = osLoadAvg();
 
 	let v = 0;
 	switch (time) {
