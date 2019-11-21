@@ -34,7 +34,7 @@ import("./utils/extraFunctions.js");
 import * as translateModule from './langs/framework';
 global.translate = translateModule;
 
-import * as BotClient from './struct/Client';
+import YamamuraClient from './struct/Client';
 import { token } from "./config";
 import * as List from "list-array";
 
@@ -44,6 +44,7 @@ import("./struct/DMChannel");
 import("./struct/TextChannel");
 import("./struct/GuildMember");
 
+const BotClient = YamamuraClient()
 const client = new BotClient();
 client.login(token);
 

@@ -3,8 +3,9 @@ import { owners, supportServer, prefix as _prefix, website, log as _log } from "
 import * as BackEmbed from '../embed';
 import * as types from '../utils/types';
 import * as AudioModule from '../utils/audio';
+import * as DatabaseModule from '../utils/database';
 
-export default class YamamuraClient extends AkairoClient {
+const exportFunction = () => class YamamuraClient extends AkairoClient {
 	constructor() {
 		super({
 			ownerID: owners,
@@ -14,7 +15,7 @@ export default class YamamuraClient extends AkairoClient {
 			partials: ['MESSAGE', 'CHANNEL']
 		});
 
-		this.db = require('./utils/database.js');
+		this.db = DatabaseModule;
 		this.supportServer = supportServer;
 
 		this.commandHandler = new CommandHandler(this, {
@@ -58,7 +59,7 @@ export default class YamamuraClient extends AkairoClient {
 		this.commandHandler.games = new Map();
 
 		this.inhibitorHandler = new InhibitorHandler(this, { directory: '../inhibitors/' });
-		this.listenerHandler = new ListenerHandler(this, { directory: '.,/events/' });
+		this.listenerHandler = new ListenerHandler(this, { directory: '../events/' });
 		this.listenerHandler.setEmitters({
 			process: process,
 			inhibitorHandler: this.inhibitorHandler
@@ -75,12 +76,11 @@ export default class YamamuraClient extends AkairoClient {
 		this.util.embed = () => {return new BackEmbed();}
 		this.util.pad = (n) => n < 10 ? "0"+n : ""+n;
 
-		this.util.setDefaultStatus = (client) => {
-			let userActivity = (website.url).replaceAll(['https://', 'http://'], '') + ' | Mention me for help information';
-			if (!client.user.presence.activity || (client.user.presence.activity && client.user.presence.activity.name !== userActivity))
-				return client.user.setActivity(userActivity);
+		this.util.setDefaultStatus = (userActivity = (website.url).replaceAll(['https://', 'http://'], '') + ' | Mention me for help information') => {
+			if (!this.user.presence.activity || (this.user.presence.activity && this.user.presence.activity.name !== userActivity))
+				return this.user.setActivity(userActivity);
 			else
-				return client.user.presence;
+				return this.user.presence;
 		};
 
 		this.audio = AudioModule;
@@ -88,3 +88,5 @@ export default class YamamuraClient extends AkairoClient {
 		this.log = _log;
 	};
 }
+
+export default exportFunction
