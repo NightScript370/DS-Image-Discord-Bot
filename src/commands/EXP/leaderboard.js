@@ -1,6 +1,6 @@
 'use strict';
 
-import Command from 'discord-akairo';
+import { Command } from 'discord-akairo';
 import javierInteger from '../../utils/types';
 
 export default class LeaderboardCommand extends Command {

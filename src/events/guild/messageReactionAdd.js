@@ -1,4 +1,4 @@
-import Listener from 'discord-akairo';
+import { Listener } from 'discord-akairo';
 
 export default class messageReactionAddListener extends Listener {
 	constructor() {

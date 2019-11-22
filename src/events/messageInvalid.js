@@ -1,4 +1,4 @@
-import Listener from 'discord-akairo';
+import { Listener } from 'discord-akairo';
 import { random } from "including-range-array";
 import { get as getDistance } from "fast-levenshtein";
 import { inhibit as pointInhibit } from "../point-inhibit"

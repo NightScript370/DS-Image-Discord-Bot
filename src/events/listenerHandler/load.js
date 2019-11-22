@@ -1,4 +1,4 @@
-import Listener from 'discord-akairo';
+import { Listener } from 'discord-akairo';
 
 export default class listenerLoadListener extends Listener {
 	constructor() {

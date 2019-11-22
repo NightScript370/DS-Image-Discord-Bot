@@ -1,4 +1,4 @@
-import Listener from 'discord-akairo';
+import { Listener } from 'discord-akairo';
 import post from 'node-superfetch';
 
 import botLists from "../../config";

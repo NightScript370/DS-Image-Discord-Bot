@@ -1,4 +1,4 @@
-import Command from 'discord-akairo';
+import { Command } from 'discord-akairo';
 import { createCanvas, loadImage } from 'canvas';
 import { join } from 'path';
 
@@ -7,6 +7,7 @@ export default class SurprisedPikaPanelCommand extends Command {
 		super('surprisedpikapanel', {
 			category: 'Image Edits',
 			aliases: ["surprisedpikapanel"],
+			clientPermissions: ['ATTACH_FILES'],
 			description: {
 				content: 'Makes an "Surprised Pikachu" meme panel but with your text.',
 			},

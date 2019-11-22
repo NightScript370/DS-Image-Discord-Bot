@@ -1,4 +1,4 @@
-import Command from 'discord-akairo';
+import { Command } from 'discord-akairo';
 import get from 'node-superfetch';
 
 export default class ChuckNorrisCommand extends Command {

@@ -1,4 +1,4 @@
-import Command from 'discord-akairo';
+import { Command } from 'discord-akairo';
 import { cpu } from '../../utils/os';
 
 import moment from "moment";
