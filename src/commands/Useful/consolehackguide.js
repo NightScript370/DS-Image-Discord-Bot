@@ -1,4 +1,5 @@
 import Command from 'discord-akairo';
+import * as consoleList from '../../mod/index'
 import readdirSync from 'fs';
 
 export default class moddingGuidesCommand extends Command {
@@ -15,7 +16,7 @@ export default class moddingGuidesCommand extends Command {
 				{
 					id: 'console',
 					description: "This parameter is to specify which console you would like to find a hacking guide for. Examples include the 3ds, dsi, flashcard, wii, wiiu or the switch",
-					type: require("../../assets/JSON/mod/index.js"),
+					type: consoleList,
 					prompt: {
 						start: "What would you like to get a hacking of?",
 						retry: "There is not a thing we can get a guide for. Try again."
@@ -36,7 +37,7 @@ export default class moddingGuidesCommand extends Command {
 	async exec(msg, { console, field2 }) {
 
 		let choosen;
-		let path = require('path').join(__dirname, '../assets/JSON/mod/', console, '/');
+		let path = require('path').join(__dirname, '..', '..', 'mod', console);
 
 		if (!field2 || field2 !== "index")
 			for (let file of readdirSync(path)) {
