@@ -1,5 +1,5 @@
 import Command from '../../struct/Command';
-import { findType, settingProps } from "../../settings/index.js";
+import { findType, settingProps } from "../../settings/index";
 
 const isObject = (val) => typeof val === 'object' && !(val instanceof Array) && val !== null;
 

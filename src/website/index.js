@@ -2,7 +2,7 @@ import { website as websiteConfig } from "../config";
 import * as List from "list-array";
 import { join } from "path";
 import { readdirSync } from 'fs';
-const routers = readdirSync(join(process.cwd(), 'website', 'router'));
+const routers = readdirSync(join(__dirname, 'router'));
 
 import * as express from 'express';
 import session from 'express-session';

@@ -1,3 +1,5 @@
+global.pathDirectory = __dirname;
+
 console.backlogs = {
 	debug: [],
 	errors: [],

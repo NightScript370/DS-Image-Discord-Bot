@@ -4,6 +4,7 @@ import * as BackEmbed from '../embed';
 import * as types from '../utils/types';
 import * as AudioModule from '../utils/audio';
 import * as DatabaseModule from '../utils/database';
+import * as ModerationModule from '../utils/moderation'
 
 const exportFunction = () => class YamamuraClient extends AkairoClient {
 	constructor() {
@@ -19,7 +20,7 @@ const exportFunction = () => class YamamuraClient extends AkairoClient {
 		this.supportServer = supportServer;
 
 		this.commandHandler = new CommandHandler(this, {
-			directory: './commands/',
+			directory: global.pathDirectory + '/commands/',
 			prefix: msg => {
 				let prefix;
 
@@ -58,22 +59,22 @@ const exportFunction = () => class YamamuraClient extends AkairoClient {
 		this.commandHandler.resolver.addTypes(types);
 		this.commandHandler.games = new Map();
 
-		this.inhibitorHandler = new InhibitorHandler(this, { directory: '../inhibitors/' });
-		this.listenerHandler = new ListenerHandler(this, { directory: '../events/' });
+		this.inhibitorHandler = new InhibitorHandler(this, { directory: global.pathDirectory + '/inhibitors/' });
+		this.listenerHandler = new ListenerHandler(this, { directory: global.pathDirectory + '/events/' });
 		this.listenerHandler.setEmitters({
 			process: process,
 			inhibitorHandler: this.inhibitorHandler
 		});
 
 		this.commandHandler.useListenerHandler(this.listenerHandler);
-		this.listenerHandler.load(process.cwd() +'/events/botHandler/ready.js');
+		this.listenerHandler.load(global.pathDirectory +'/events/botHandler/ready.js');
 
 		this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
 		this.inhibitorHandler.loadAll();
 
-		this.moderation = require('../utils/moderation.js');
+		this.moderation = require(ModerationModule);
 
-		this.util.embed = () => {return new BackEmbed();}
+		this.util.embed = (embedObject={}) => new BackEmbed(embedObject);
 		this.util.pad = (n) => n < 10 ? "0"+n : ""+n;
 
 		this.util.setDefaultStatus = (userActivity = (website.url).replaceAll(['https://', 'http://'], '') + ' | Mention me for help information') => {

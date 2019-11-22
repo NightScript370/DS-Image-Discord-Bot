@@ -106,8 +106,8 @@ export default class CommandsCommand extends Command {
 				if (examples)
 					embed.addField(__("Examples"), (typeof examples == 'string' ? `\`${examples}\`` : examples.map(example => "`" + example + "`").join("\n")))
 
-				let exmplist = readdirSync(join(process.cwd(), 'website', 'public', 'examples'));
-				let iconlist = readdirSync(join(process.cwd(), 'website', 'public', 'icons'));
+				let exmplist = readdirSync(join(global.pathDirectory, 'website', 'public', 'examples'));
+				let iconlist = readdirSync(join(global.pathDirectory, 'website', 'public', 'icons'));
 
 				if (exmplist.filter(item => item === `${command.id}.png`).length)
 					embed.setImage(`${this.client.website.URL}/examples/${command.id}.png`);
