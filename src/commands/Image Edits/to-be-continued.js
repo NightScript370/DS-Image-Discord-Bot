@@ -46,7 +46,7 @@ export default class ToBeContinuedCommand extends Command {
 			this.drawImageWithTint(ctx, currentimage, '#704214', widthpad, heightpad, currentimage.width, currentimage.height);
 		}
 
-		const base = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'to-be-continued.png'));
+		const base = await loadImage(join(__dirname, '..', '..', '..', 'assets', 'images', 'to-be-continued.png'));
 		const ratio = base.width / base.height;
 		const width = canvas.width / 2;
 		const height = Math.round(width / ratio);

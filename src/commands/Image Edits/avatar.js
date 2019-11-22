@@ -8,7 +8,7 @@ export default class AmiiboCommand extends Command {
 			category: 'Useful',
 			clientPermissions: ['ATTACH_FILES'],
 			description: {
-				content: 'Replies with a user\'s avatar. Defaults to yours if there is no ping, name, or user ID You may also set the size of the image. \n',
+				content: "Sends the author the user's avatar. It's in GIF form so you can star it.",
 				usage: '<user mention or user ID>',
 				example: '178261738364338177'
 			},
@@ -74,7 +74,7 @@ export default class AmiiboCommand extends Command {
 		ctx.drawImage(data, 0, 0, width, height);
 
 		const attachment = canvas.toBuffer();
-		if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
+		if (Buffer.byteLength(attachment) > 8e+6) return msg.util.reply('Resulting image was above 8 MB.');
 		return this.uploadAvatar(msg, user, canvas)
 	}
 	

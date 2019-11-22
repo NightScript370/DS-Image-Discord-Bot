@@ -38,7 +38,7 @@ export default class SteppedInShitCommand extends Command {
 	}
 
 	async stepInShit(images, overlay) {
-		const base = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'stepinshit.png'));
+		const base = await loadImage(join(__dirname, '..', '..', '..', 'assets', 'images', 'stepinshit.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 

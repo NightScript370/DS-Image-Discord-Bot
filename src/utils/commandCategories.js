@@ -1,4 +1,4 @@
-import json from "../assets/JSON/CommandCategories";
+import json from "../../assets/JSON/CommandCategories";
 
 export default (categories) => {
 	let JSONdata;

@@ -1,5 +1,5 @@
 import Command from 'discord-akairo';
-import numerals from '../../assets/JSON/roman';
+import numerals from '../../../assets/JSON/roman';
 import { javierInteger } from '../../utils/types';
 
 export default class RomanCommand extends Command {

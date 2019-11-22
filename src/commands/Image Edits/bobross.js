@@ -25,7 +25,7 @@ export default class BobRossCommand extends Command {
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.')
 
-		const base = loadImage(join(__dirname, '..', '..', 'assets', 'images', 'bob-ross.png'));
+		const base = loadImage(join(__dirname, '..', '..', '..', 'assets', 'images', 'bob-ross.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 

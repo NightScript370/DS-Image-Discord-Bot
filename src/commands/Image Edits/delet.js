@@ -19,23 +19,23 @@ export default class DeleteCommand extends Command {
 		});
 	}
 
-	async exec(message, { images }) {
+	exec(message, { images }) {
 		let currentimage, widthpad, heightpad;
 
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.')
 
-		let deleteimage = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'delete.png'));
+		let deleteimage = loadImage(join(__dirname, '..', '..', '..', 'assets', 'images', 'delete.png'));
 
 		const canvas = createCanvas(deleteimage.width, deleteimage.height);
 		const ctx = canvas.getContext('2d');
 
-		const imagessize = await this.largestSize(images);
-		const tempcanvas = await createCanvas(imagessize.width, imagessize.height);
+		const imagessize = this.largestSize(images);
+		const tempcanvas = createCanvas(imagessize.width, imagessize.height);
 		const tempctx = tempcanvas.getContext('2d');
 
 		for (var image of images) {
-			currentimage = await loadImage(image);
+			currentimage = loadImage(image);
 
 			widthpad = (imagessize.width - currentimage.width) / 2;
 			heightpad = (imagessize.height - currentimage.height) / 2;

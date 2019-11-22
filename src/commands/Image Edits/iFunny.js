@@ -33,7 +33,7 @@ export default class IfunnyCommand extends Command {
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.')
 
-		const base = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'ifunny.png'));
+		const base = await loadImage(join(__dirname, '..', '..', '..', 'assets', 'images', 'ifunny.png'));
 
 		const imagessize = await this.largestSize(images);
 		const canvas = await createCanvas(imagessize.width, imagessize.height);

@@ -22,16 +22,16 @@ export default class CircleCommand extends Command {
 		});
 	}
 
-	async exec(message, { images }) {
+	exec(message, { images }) {
 		let currentimage, widthpad, heightpad;
 
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.')
 
-		const imagessize = await this.largestSize(images);
-		const canvas = await createCanvas(imagessize.width, imagessize.height);
+		const imagessize = this.largestSize(images);
+		const canvas = createCanvas(imagessize.width, imagessize.height);
 		const ctx = canvas.getContext('2d');
-		const canvas2 = await createCanvas(imagessize.width, imagessize.height);
+		const canvas2 = createCanvas(imagessize.width, imagessize.height);
 		const ctx2 = canvas.getContext('2d');
 
 		ctx.beginPath();
@@ -40,7 +40,7 @@ export default class CircleCommand extends Command {
 		ctx.clip();
 
 		for (var image of images) {
-			currentimage = await loadImage(image);
+			currentimage = loadImage(image);
 
 			widthpad = (imagessize.width - currentimage.width) / 2;
 			heightpad = (imagessize.height - currentimage.height) / 2;
