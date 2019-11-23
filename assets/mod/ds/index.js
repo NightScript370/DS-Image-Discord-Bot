@@ -12,4 +12,4 @@ export const message = "Nintendo DS Flashcard guide: https://ds-homebrew.github.
 export const embed = new MessageEmbed()
 	.setColor(16767232)
 	.addField('Advantages to using a Flashcard', features.map(feature => `- ${feature}`).join("\n"))
-	.setFooter('Guide by NightYoshi370', 'https://cdn.discordapp.com/avatars/178261738364338177/cf26b18ccdf91e6fdfb0720d8402ba36.png?size=2048');
+	.setFooter('Guide by NightScript', 'https://cdn.discordapp.com/avatars/178261738364338177/cf26b18ccdf91e6fdfb0720d8402ba36.png?size=2048');
