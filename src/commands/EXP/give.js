@@ -101,7 +101,15 @@ export default class ServerPointsCommand extends Command {
 			if (amount > DBAuthor.points) return message.util.reply("You do not have enough points to donate to the user! Please try again once you collect more points");
 
 			DBAuthor.points = DBAuthor.points - amount;
-			DBAuthor.level = Math.floor(DBAuthor.points / 350);
+
+			var level = 0;
+			var limit = 0;
+			while (DBAuthor.points > limit) {
+				limit = 180 * (level+1) + (10*level);
+				level++;
+			}
+
+			DBAuthor.level = level;
 
 			action = 'add';
 		}
@@ -118,7 +126,14 @@ export default class ServerPointsCommand extends Command {
 				break;
 		}
 
-		DBuser.level = Math.floor(DBuser.points / 350);
+		var level1 = 0;
+		var limit1 = 0;
+		while (DBUser.points > limit1) {
+			limit1 = 180 * (level1+1) + (10*level1);
+			level1++;
+		}
+
+		DBUser.level = level1;
 
 		let BotThanks = `thank you so much for donating ${amount} points to ${user.tag}. They are now at level ${DBuser.level}.`;
 		if (!authorGuildMember.permissions.has('MANAGE_MESSAGES') && !override)
