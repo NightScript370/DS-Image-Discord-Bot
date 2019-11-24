@@ -1,5 +1,6 @@
 import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } from 'discord-akairo';
 import { owners, supportServer, prefix as _prefix, website, log as _log } from "../config";
+import { join } from 'path';
 import * as BackEmbed from '../embed';
 import * as types from '../utils/types';
 import * as AudioModule from '../utils/audio';
@@ -20,7 +21,7 @@ export default class YamamuraClient extends AkairoClient {
 		this.supportServer = supportServer;
 
 		this.commandHandler = new CommandHandler(this, {
-			directory: '../commands/',
+			directory: join(__dirname, '..', 'commands'),
 			prefix: msg => {
 				let prefix;
 
@@ -59,8 +60,8 @@ export default class YamamuraClient extends AkairoClient {
 		this.commandHandler.resolver.addTypes(types);
 		this.commandHandler.games = new Map();
 
-		this.inhibitorHandler = new InhibitorHandler(this, { directory: '../inhibitors/' });
-		this.listenerHandler = new ListenerHandler(this, { directory: '../events/' });
+		this.inhibitorHandler = new InhibitorHandler(this, { directory: join(__dirname, '..', 'inhibitors') });
+		this.listenerHandler = new ListenerHandler(this, { directory: join(__dirname, '..', 'events') });
 		this.listenerHandler.setEmitters({
 			process: process,
 			inhibitorHandler: this.inhibitorHandler
