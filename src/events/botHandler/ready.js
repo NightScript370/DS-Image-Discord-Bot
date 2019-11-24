@@ -4,7 +4,10 @@ import post from 'node-superfetch';
 import botLists from "../../config";
 import * as catSetup from "../../utils/commandCategories";
 
-export default class ReadyListener extends Listener {
+import * as ListenerLoadModule from "../commandHandler/load"
+import * as WebsiteModule from "../../website/index"
+
+export class ReadyListener extends Listener {
 	constructor() {
 		super('ready', {
 			emitter: 'client',
@@ -23,7 +26,7 @@ export default class ReadyListener extends Listener {
 			listenerHandler: this.client.listenerHandler
 		});
 
-		this.client.listenerHandler.load(process.cwd() +'/events/commandHandler/load.js');
+		this.client.listenerHandler.load(ListenerLoadModule);
 		this.client.commandHandler.loadAll();
 		this.client.commandHandler.categories = catSetup(this.client.commandHandler.categories);
 
@@ -31,7 +34,7 @@ export default class ReadyListener extends Listener {
 		this.client.util.setDefaultStatus(this.client);
 
 		try {
-			this.client.website = require("../../website/index.js").default(this.client);
+			this.client.website = WebsiteModule(this.client);
 			this.client.listenerHandler.setEmitters({httpServer: this.client.website.server});
 		} catch (e) {
 			console.error('[WEBSITE] Failed to load: ' + e);
@@ -41,8 +44,8 @@ export default class ReadyListener extends Listener {
 
 		if (botLists['top.gg']) {
 			try {
-				const TopGG = await require("dblapi.js");
-				this.client.botlist.TopGG = await new TopGG(botLists['top.gg'].token, {
+				const TopGG = require("dblapi.js");
+				this.client.botlist.TopGG = new TopGG(botLists['top.gg'].token, {
 					webhookPort: this.client.website.express.get('port'),
 					webhookAuth: botLists['top.gg'].webhookpass,
 					webhookServer: this.client.website.server,
