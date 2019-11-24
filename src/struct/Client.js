@@ -4,7 +4,7 @@ import * as BackEmbed from '../embed';
 import * as types from '../utils/types';
 import * as AudioModule from '../utils/audio';
 import * as DatabaseModule from '../utils/database';
-import * as ModerationModule from '../utils/moderation'
+import * as ModerationModule from '../utils/moderation/index'
 
 export default class YamamuraClient extends AkairoClient {
 	constructor() {
