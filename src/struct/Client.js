@@ -72,7 +72,7 @@ export default class YamamuraClient extends AkairoClient {
 		this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
 		this.inhibitorHandler.loadAll();
 
-		this.moderation = require(ModerationModule);
+		this.moderation = ModerationModule;
 
 		this.util.embed = (embedObject={}) => new BackEmbed(embedObject);
 		this.util.pad = (n) => n < 10 ? "0"+n : ""+n;
