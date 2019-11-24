@@ -69,15 +69,20 @@ class BotClient extends AkairoClient {
 
 				if (msg.guild) {
 					try {
-						prefix = DatabaseModule.serverconfig.findOne({ guildID: msg.guild.id }).prefix;
-						if (prefix.value)
-							prefix = prefix.value;
+						try {
+							prefix = msg.guild.config.data.prefix;
+						} catch (e) {
+							prefix = DatabaseModule.serverconfig.findOne({ guildID: msg.guild.id }).prefix;
+						}
 					} catch(e) {
 						console.error(e)
 						prefix = _prefix;
 					}
 				} else
 					prefix = ['', _prefix]
+
+				if (prefix.value)
+					prefix = prefix.value;
 
 				return prefix;
 			},
