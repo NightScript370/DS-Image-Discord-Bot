@@ -30,8 +30,8 @@ console.error = function () {
 }
 
 
-try { import('cache-require-paths') } catch {}
-import("./utils/extraFunctions.js");
+try { import 'cache-require-paths' } catch {}
+import "./utils/extraFunctions.js";
 
 import * as translateModule from './langs/framework';
 global.translate = translateModule;
@@ -46,11 +46,11 @@ import * as DatabaseModule from './utils/database';
 import * as ModerationModule from './utils/moderation/index';
 import * as List from "list-array";
 
-import("./struct/User");
-import("./struct/Guild");
-import("./struct/DMChannel");
-import("./struct/TextChannel");
-import("./struct/GuildMember");
+import "./struct/User";
+import "./struct/Guild";
+import "./struct/DMChannel";
+import "./struct/TextChannel";
+import "./struct/GuildMember";
 
 class BotClient extends AkairoClient {
 	constructor() {
