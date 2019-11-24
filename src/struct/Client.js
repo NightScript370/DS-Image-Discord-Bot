@@ -27,7 +27,7 @@ export default class YamamuraClient extends AkairoClient {
 
 				if (msg.guild) {
 					try {
-						prefix = msg.guild.config.data.prefix;
+						prefix = DatabaseModule.serverconfig.serverconfig.findOne({ guildID: msg.guild.id }).prefix;
 						if (prefix.value)
 							prefix = prefix.value;
 					} catch(e) {
