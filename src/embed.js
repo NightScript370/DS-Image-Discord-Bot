@@ -72,12 +72,12 @@ export default class YamamuraEmbed extends MessageEmbed {
 	setYamamuraCredits(icon = true) {
     try {
 		  if (icon == true) {
-			  return super.setFooter(user.username + " - by NightYoshi370 & Samplasion", user.displayAvatarURL({format: 'png'}));
+			  return super.setFooter(user.username + " - by NightScript & Samplasion", user.displayAvatarURL({format: 'png'}));
 		  } else {
-			  return super.setFooter(user.username + " - by NightYoshi370 & Samplasion");
+			  return super.setFooter(user.username + " - by NightScript & Samplasion");
 		  }
     } catch(e) {
-      return super.setFooter("Yamamura - by NightYoshi370 & Samplasion")
+      return super.setFooter("Yamamura - by NightScript & Samplasion")
     }
 	}
 

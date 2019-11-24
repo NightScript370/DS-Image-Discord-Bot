@@ -123,13 +123,22 @@ export default class messageInavlidListener extends Listener {
 
 		user.points = pointstoadd + user.points;
 
-		let curLevel = Math.floor(user.points / 350);
-		let levelUp = user.level < curLevel;
-
-		user.level = curLevel;
-		this.client.db.points.update(user);
+		//? let curLevel = Math.floor(user.points / 350);
+		/*
+		 * level = 0 => limit = 180 * 1 +  0 =  180 +  0 =  180;
+		 * level = 1 => limit = 180 * 2 + 10 =  360 + 10 =  370;
+		 * level = 2 => limit = 180 * 3 + 20 =  540 + 20 =  560;
+		 * level = 3 => limit = 180 * 4 + 30 =  720 + 30 =  750;
+		 * level = 4 => limit = 180 * 5 + 40 =  900 + 40 =  940;
+		 * level = 5 => limit = 180 * 6 + 50 = 1080 + 50 = 1130;
+		*/
+		var limit = 180 * (user.level+1) + (10*user.level);
+		//// ((limit-10*user.level)/180)-1;
+		let levelUp = user.xp >= limit;
 
 		if (levelUp) {
+			user.level = user.level + 1;
+
 			if (!message.channel.sendable || !message.guild.config.render('levelup')) return;
 
 			let levelups = message.guild.config.data.levelupmsgs;
@@ -146,6 +155,8 @@ export default class messageInavlidListener extends Listener {
 				await sentLevelUpMessage.delete({timeout: 5000});
 			}
 		}
+
+		this.client.db.points.update(user);
 	}
 
 	antispam(message) {

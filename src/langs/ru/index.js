@@ -144,7 +144,7 @@ export default {
 	"Resume the currently paused audio": "Продолжыть музыку, которую вы остановили",
 
 	"Stops the music": "Остановляет музыку",
-	"Yamamura - by NightYoshi370 & Samplasion": "Yamamura - от NightYoshi370 и Samplasion",
+	"Yamamura - by NightScript & Samplasion": "Yamamura - от NightScript и Samplasion",
 	"It can fulfill your server's moderation needs and create fun events for your community to enjoy": "Он может надать вам вашые требования модерации и создавать для вашего сообщества ивенты и игры", //Damn this was hard to translate along with the next line.
 	"Yamamura is an all-in-one Discord bot dedicated to helping modding communities and more.": "Yamamura - это всё-в-одном Дискорд бот преданный помагать сообществам моддингу и болше.",
 	"Adds a vote to skip the currently playing music.": "Добавляет голос пропутить сейчас-играющюю музыку.",

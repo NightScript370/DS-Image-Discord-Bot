@@ -9,7 +9,7 @@ export default class NintendoDSCommand extends Command {
 			category: 'Covers',
 			description: {
 				content: "Put an image on the cover for the handheld with two screens that somehow beat Sony",
-				examples: ["ds @NightYoshi370"]
+				examples: ["ds @NightScript"]
 			},
 			cooldown: 10000,
 			ratelimit: 1,
