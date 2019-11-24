@@ -6,7 +6,7 @@ import * as AudioModule from '../utils/audio';
 import * as DatabaseModule from '../utils/database';
 import * as ModerationModule from '../utils/moderation'
 
-const exportFunction = () => class YamamuraClient extends AkairoClient {
+export default class YamamuraClient extends AkairoClient {
 	constructor() {
 		super({
 			ownerID: owners,
@@ -89,5 +89,3 @@ const exportFunction = () => class YamamuraClient extends AkairoClient {
 		this.log = _log;
 	};
 }
-
-export default exportFunction
