@@ -1,11 +1,12 @@
-import ban from './moderation/ban'
-import kick from './moderation/kick'
-import mute from './moderation/mute'
-import warn from './moderation/warn'
+import ban from './ban'
+import kick from './kick'
+import mute from './mute'
+import warn from './warn'
 
-export default {
-  mute,
-  ban,
-  kick,
-  warn
-}
+let moderationModules = {}
+moderationModules.ban = ban
+moderationModules.kick = kick
+moderationModules.mute = mute
+moderationModules.warn = warn
+
+export default moderationModules
