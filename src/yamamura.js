@@ -115,7 +115,7 @@ class BotClient extends AkairoClient {
 		});
 
 		this.commandHandler.useListenerHandler(this.listenerHandler);
-		this.listenerHandler.load('./events/botHandler/ready');
+		this.listenerHandler.load(join(__dirname, 'events', 'botHandler', 'ready'));
 
 		this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
 		this.inhibitorHandler.loadAll();
