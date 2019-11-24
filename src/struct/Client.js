@@ -20,7 +20,7 @@ export default class YamamuraClient extends AkairoClient {
 		this.supportServer = supportServer;
 
 		this.commandHandler = new CommandHandler(this, {
-			directory: global.pathDirectory + '/commands/',
+			directory: '../commands/',
 			prefix: msg => {
 				let prefix;
 
@@ -59,15 +59,15 @@ export default class YamamuraClient extends AkairoClient {
 		this.commandHandler.resolver.addTypes(types);
 		this.commandHandler.games = new Map();
 
-		this.inhibitorHandler = new InhibitorHandler(this, { directory: global.pathDirectory + '/inhibitors/' });
-		this.listenerHandler = new ListenerHandler(this, { directory: global.pathDirectory + '/events/' });
+		this.inhibitorHandler = new InhibitorHandler(this, { directory: '../inhibitors/' });
+		this.listenerHandler = new ListenerHandler(this, { directory: '../events/' });
 		this.listenerHandler.setEmitters({
 			process: process,
 			inhibitorHandler: this.inhibitorHandler
 		});
 
 		this.commandHandler.useListenerHandler(this.listenerHandler);
-		this.listenerHandler.load(global.pathDirectory +'/events/botHandler/ready.js');
+		this.listenerHandler.load('../events/botHandler/ready.js');
 
 		this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
 		this.inhibitorHandler.loadAll();

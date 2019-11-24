@@ -14,7 +14,7 @@
 
 		let cmds = cats.map(cat => Array.from(cat.entries()).map(c => c[1])).flat();
 
-		let iconlist = fs.readdirSync(path.join(global.pathDirectory, 'website', 'public', 'icons'));
+		let iconlist = fs.readdirSync(path.join(__dirname, '..', '..', 'icons'));
 
 		function iconExist(cmd) {
 			return iconlist.filter(item => item === `${cmd.id}.png`).length;

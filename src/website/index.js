@@ -37,9 +37,9 @@ export default (client) => {
 		.use(json())
 		.use(urlencoded({extended : true}))
 		.engine("ejs", require("ejs").renderFile)
-		.use(express.static(join(__dirname, "/public")))
+		.use(express.static(join(process.cwd(), "assets", "website", "public")))
 		.set("view engine", "ejs")
-		.set("views", join(__dirname, "pages"))
+		.set("views", join(process.cwd(), "assets", "website", "templates", "pages"))
 		.set('trust proxy', 1)
 		.use(session({
 			secret: 'Yamamura Dashboard',
