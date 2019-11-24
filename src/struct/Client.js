@@ -5,7 +5,6 @@ import * as types from '../utils/types';
 import * as AudioModule from '../utils/audio';
 import * as DatabaseModule from '../utils/database';
 import * as ModerationModule from '../utils/moderation/index';
-import * as ReadyClass from '../events/botHandler/ready';
 
 export default class YamamuraClient extends AkairoClient {
 	constructor() {
@@ -68,7 +67,7 @@ export default class YamamuraClient extends AkairoClient {
 		});
 
 		this.commandHandler.useListenerHandler(this.listenerHandler);
-		this.listenerHandler.load(ReadyClass);
+		this.listenerHandler.load('../events/botHandler/ready');
 
 		this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
 		this.inhibitorHandler.loadAll();
