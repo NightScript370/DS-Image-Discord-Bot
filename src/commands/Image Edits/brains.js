@@ -35,7 +35,6 @@ export default class BrainsCommand extends Command {
 		let loadimage;
 
 		if (items.length < 2) return message.channel.send(global.translate(message.author.lang, "There are not enough arguments to this command. The minimum is {0}.", 2));
-		if (items.length > 11) items.length = 11;
 
 		let base = await loadImage(join(__dirname, '..', '..', '..', 'assets', 'images', 'brain-template.png'));
 		let tabuu = await loadImage(join(__dirname, '..', '..', '..', 'assets', 'images', 'tabuu.png'));

@@ -76,7 +76,7 @@ export default class CourseCommand extends Command {
 	}
 
 	async handleLevel(msg, ID) {
-		const __ = (k, ...v) => global.translate(message.author.lang, k, ...v);
+		const __ = (k, ...v) => global.translate(msg.author.lang, k, ...v);
 		let levelinfo = await bookmarkAPI(ID)
 
 		let clears = `**__${levelinfo.clears}/${levelinfo.attempts} (${levelinfo.clear_rate}%)__** \n`;

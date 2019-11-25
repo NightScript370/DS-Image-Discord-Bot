@@ -20,10 +20,11 @@ export default class DeleteCommand extends Command {
 	}
 
 	exec(message, { images }) {
+		const __ = (k, ...v) => global.translate(message.author.lang, k, ...v)
 		let currentimage, widthpad, heightpad;
 
 		if (!this.isGood(images))
-			return message.util.reply('No images were found. Please try again.')
+			return message.util.reply(__('No images were found. Please try again.'))
 
 		let deleteimage = loadImage(join(__dirname, '..', '..', '..', 'assets', 'images', 'delete.png'));
 
@@ -47,7 +48,7 @@ export default class DeleteCommand extends Command {
 		ctx.drawImage(tempcanvas, 120, 135, 195, 195)
 
 		const attachment = canvas.toBuffer();
-		if (Buffer.byteLength(attachment) > 8e+6) return message.util.reply('Resulting image was above 8 MB.');
-		return message.util.send({ files: [{ attachment, name: 'delet.png' }] });
+		if (Buffer.byteLength(attachment) > 8e+6) return message.util.reply(__('Resulting image was above 8 MB.'));
+		return message.util.send(__("{0}, don't forget to take a backup.", message.guild ? message.member.displayName : message.author.username), { files: [{ attachment, name: 'delet.png' }] });
 	}
 }
