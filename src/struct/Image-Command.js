@@ -1,6 +1,7 @@
 import Command from './Command.js';
 import { createCanvas, loadImage } from 'canvas';
 import path from 'path';
+import { deflateRawSync } from 'zlib';
 
 export default class ImageCommand extends Command {
 	constructor(...args) {
@@ -13,43 +14,92 @@ export default class ImageCommand extends Command {
 		let height = 0;
 		let width = 0;
 
-		for (var image of images) {
-			currentimage = loadImage(image);
+		if (Array.isArray(images))
+			for (var image of images) {
+				currentimage = loadImage(image);
 
-			if (height < currentimage.height)
-				height = currentimage.height;
+				if (height < currentimage.height)
+					height = currentimage.height;
 
-			if (width < currentimage.width)
-				width = currentimage.width;
+				if (width < currentimage.width)
+					width = currentimage.width;
+			}
+		else {
+			currentimage = loadImage(images);
+
+			height = currentimage.height;
+			width = currentimage.width;
 		}
 
-		return {width: width, height: height};
+		return { width, height };
 	}
 
-	greyscale(ctx, x, y, width, height) {
+	greyscale(ctx, unbluered=false, x=0, y=0, width=null, height=null) {
+		if (width == null)
+			width = ctx.width;
+
+		if (height == null)
+			height = ctx.height;
+
 		const data = ctx.getImageData(x, y, width, height);
+		let brightness;
+
 		for (let i = 0; i < data.data.length; i += 4) {
-			const brightness = (0.34 * data.data[i]) + (0.5 * data.data[i + 1]) + (0.16 * data.data[i + 2]);
-			data.data[i] = brightness;
-			data.data[i + 1] = brightness;
-			data.data[i + 2] = brightness;
+			if (!unbluered)
+				brightness = (0.34 * data.data[i]) + (0.5 * data.data[i + 1]) + (0.16 * data.data[i + 2]);
+			else
+				brightness = (0.2126 * data.data[i]) + (0.7152 * data.data[i + 1]) + (0.0722 * data.data[i + 2]);
+
+			data.data[i] = data.data[i + 1] = data.data[i + 2] = brightness;
 		}
 		ctx.putImageData(data, x, y);
 		return ctx;
 	}
 
-	invert(ctx, x, y, width, height) {
+	threshold(ctx, threshold, x=0, y=0, width=null, height=null) {
+		if (width == null)
+			width = ctx.width;
+
+		if (height == null)
+			height = ctx.height;
+
+		const data = ctx.getImageData(x, y, width, height);
+		let changedValue;
+
+		for (let i = 0; i < data.data.length; i += 4) {
+			changedValue = (((0.2126 * data.data[i]) + (0.7152 * data.data[i + 1]) + (0.0722 * data.data[i + 2])) >= threshold) ? 255 : 0;
+			data.data[i] = data.data[i + 1] = data.data[i + 2] = changedValue;
+		}
+
+		ctx.putImageData(data, x, y);
+		return ctx;
+	}
+
+	invert(ctx, x=0, y=0, width=null, height=null) {
+		if (width == null)
+			width = ctx.width;
+
+		if (height == null)
+			height = ctx.height;
+
 		const data = ctx.getImageData(x, y, width, height);
 		for (let i = 0; i < data.data.length; i += 4) {
 			data.data[i] = 255 - data.data[i];
 			data.data[i + 1] = 255 - data.data[i + 1];
 			data.data[i + 2] = 255 - data.data[i + 2];
 		}
+
 		ctx.putImageData(data, x, y);
 		return ctx;
 	}
 
-	silhouette(ctx, x, y, width, height) {
+	silhouette(ctx, x=0, y=0, width=null, height=null) {
+		if (width == null)
+			width = ctx.width;
+
+		if (height == null)
+			height = ctx.height;
+
 		const data = ctx.getImageData(x, y, width, height);
 		for (let i = 0; i < data.data.length; i += 4) {
 			data.data[i] = 0;
@@ -60,7 +110,13 @@ export default class ImageCommand extends Command {
 		return ctx;
 	}
 
-	sepia(ctx, x, y, width, height) {
+	sepia(ctx, x=0, y=0, width=null, height=null) {
+		if (width == null)
+			width = ctx.width;
+
+		if (height == null)
+			height = ctx.height;
+
 		const data = ctx.getImageData(x, y, width, height);
 		for (let i = 0; i < data.data.length; i += 4) {
 			const brightness = (0.34 * data.data[i]) + (0.5 * data.data[i + 1]) + (0.16 * data.data[i + 2]);

@@ -1,5 +1,3 @@
-'use strict';
-
 import { Command } from 'discord-akairo';
 import javierInteger from '../../utils/types.js';
 

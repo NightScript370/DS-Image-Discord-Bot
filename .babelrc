@@ -9,5 +9,5 @@
 			}
 	  	]
 	],
-	"plugins": ["@babel/plugin-syntax-dynamic-import", "add-module-exports"]
+	"plugins": ["@babel/plugin-syntax-dynamic-import", "add-module-exports", "transform-remove-strict-mode"]
 }
