@@ -1,26 +1,44 @@
 import 'cache-require-paths'
+console.log('loaded cache-require-path') // This might be the culpret. Hopefully not
 import "./utils/extraFunctions.js";
+console.log('./utils/extraFunctions')
 
 import * as translateModule from './langs/framework.js';
+console.log('loaded translateModule')
 
 import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } from 'discord-akairo';
+console.log('loaded Akairo')
 import { owners, supportServer, prefix as _prefix, website, log as _log, token } from "./config.js";
+console.log('loaded config')
 import { join } from 'path';
+console.log('loaded path')
 import * as BackEmbed from './embed.js';
+console.log('loaded BackEmbed')
 import * as types from './utils/types.js';
+console.log('loaded Types')
 import * as AudioModule from './utils/audio.js';
+console.log('loaded Audio Module')
 import * as DatabaseModule from './utils/database.js';
+console.log('loaded database module')
 import * as ModerationModule from './utils/moderation/index.js';
+console.log('loaded Moderation module')
 import * as List from "list-array";
+console.log('loaded list-array module')
 
 import "./struct/User.js";
+console.log('loaded User module')
 import "./struct/Guild.js";
+console.log('loaded Guild module')
 import "./struct/DMChannel.js";
+console.log('loaded DMChannel module')
 import "./struct/TextChannel.js";
+console.log('loaded TextChannel module')
 import "./struct/GuildMember.js";
+console.log('loaded GuildMember module')
 
 // This is used to debug the errors.
 import { format } from 'util';
+console.log('loaded Util module')
 const maxLog = 20;
 
 global.translate = translateModule;
