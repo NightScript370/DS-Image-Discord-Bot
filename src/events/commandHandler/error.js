@@ -1,5 +1,5 @@
 const Listener = require('discord-akairo')
-const { error: _error }  = require('../../utils/Logger')
+const error as _error, stacktrace  = require('../../utils/Logger')
 
 module.exports = class errorListener extends Listener {
 	constructor() {
@@ -16,7 +16,7 @@ module.exports = class errorListener extends Listener {
 
 		const tag = message.guild ? message.guild.name : `${message.author.tag}/PM`;
 		_error(message.content, { tag });
-		// stacktrace(error);
+		stacktrace(error);
 
 		if (command) {
 			const current = this.client.commandHandler.games.get(message.author.id);

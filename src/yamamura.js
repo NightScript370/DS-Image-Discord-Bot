@@ -4,7 +4,7 @@ import "./utils/extraFunctions.js";
 const translateModule = require('./langs/framework.js')
 
 const AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler  = require('discord-akairo')
-const { owners, supportServer, prefix: _prefix, website, log: _log, token } = require("./config.js")
+const owners, supportServer, prefix as _prefix, website, log as _log, token  = require("./config.js")
 const join = require('path')
 const BackEmbed = require('./embed.js')
 const types = require('./utils/types.js')

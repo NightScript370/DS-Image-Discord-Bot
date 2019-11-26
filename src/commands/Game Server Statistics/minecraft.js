@@ -1,4 +1,4 @@
-const Command = require("./../../struct/Command.js")
+import Command from '../../struct/Command.js';
 const promisify = require("util")
 
 module.exports = class MinecraftServerCommand extends Command {

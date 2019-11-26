@@ -1,4 +1,4 @@
-const Command = require("./../../struct/Command.js")
+import Command from '../../struct/Command.js';
 
 module.exports = class COD4Command extends Command {
 	constructor() {

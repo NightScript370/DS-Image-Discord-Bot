@@ -1,4 +1,4 @@
-const Command = require('./Command.js');
+import Command from './Command.js';
 const createCanvas, loadImage  = require('canvas')
 import path from 'path';
 const deflateRawSync = require('zlib')

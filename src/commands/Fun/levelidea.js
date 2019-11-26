@@ -1,4 +1,4 @@
-const Command = require("./../../struct/Command.js")
+import Command from '../../struct/Command.js';
 const fromArray = require('list-array')
 
 module.exports = class LevelIdeaCommand extends Command {

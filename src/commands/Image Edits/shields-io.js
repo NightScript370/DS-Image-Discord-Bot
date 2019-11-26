@@ -1,4 +1,4 @@
-const Command = require("discord-akairo");
+import Command from "discord-akairo";
 import get from 'node-superfetch';
 
 module.exports = class ShieldsIoBadgeCommand extends Command {

@@ -1,4 +1,4 @@
-const Command = require("./../../struct/Command.js")
+import Command from '../../struct/Command.js';
 const exec = require("util").promisify(require("child_process").exec);
 
 module.exports = class ExecCommand extends Command {

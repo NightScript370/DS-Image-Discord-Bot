@@ -1,7 +1,7 @@
 const Structures = require("discord.js")
 const findType = require('../settings/index.js')
 const serverconfig = require('../utils/database.js')
-const defaultPrefix = require("../config.js")
+const prefix as defaultPrefix  = require("../config.js")
 
 // This extends Discord's native Guild class with our own methods and properties
 module.exports = Structures.extend("Guild", Guild => class extends Guild {

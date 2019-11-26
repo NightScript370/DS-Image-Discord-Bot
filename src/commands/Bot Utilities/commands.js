@@ -1,5 +1,5 @@
-const Command = require("./../../struct/Command.js")
-const Command = require('discord-akairo')
+import Command from '../../struct/Command.js';
+const Command as akairoCommand  = require('discord-akairo')
 
 const readdirSync = require('fs')
 const join = require('path')

@@ -1,4 +1,4 @@
-const { uptime: systemUptime, freemem, totalmem, loadavg: osLoadAvg, cpus: _cpus } = require('os')
+const uptime as systemUptime, freemem, totalmem, loadavg as osLoadAvg, cpus as _cpus  = require('os')
 const exec = require('child_process')
 
 export const platform = process.platform;

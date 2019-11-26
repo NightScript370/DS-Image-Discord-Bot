@@ -1,5 +1,5 @@
-const chalk, { cyan, bold } = require('chalk')
-const moment =  requrie('moment');
+const chalk, { cyan, bold  = require('chalk')
+import moment from 'moment';
 const inspect = require('util')
 
 module.exports = class Logger {

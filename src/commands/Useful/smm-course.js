@@ -1,4 +1,4 @@
-const Command = require("./../../struct/Command.js")
+import Command from '../../struct/Command.js';
 import bookmarkAPI from 'super-maker-api';
 
 const request = require('util').promisify(require('request'))

@@ -1,4 +1,4 @@
-const Command = require("./../../struct/Command.js")
+import Command from '../../struct/Command.js';
 
 module.exports = class TF2Command extends Command {
 	constructor() {

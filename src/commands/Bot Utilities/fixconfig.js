@@ -1,4 +1,4 @@
-const Command = require("./../../struct/Command.js")
+import Command from '../../struct/Command.js';
 const findType, settingProps  = require("../../settings/index.js")
 
 const isObject = (val) => typeof val === 'object' && !(val instanceof Array) && val !== null;
