@@ -1,4 +1,4 @@
-import MessageEmbed from 'discord.js';
+import { MessageEmbed } from 'discord.js';
 
 export default class YamamuraEmbed extends MessageEmbed {
 	constructor(...args) {
