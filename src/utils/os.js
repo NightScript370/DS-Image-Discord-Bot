@@ -1,5 +1,5 @@
-import { uptime as systemUptime, freemem, totalmem, loadavg as osLoadAvg, cpus as _cpus } from 'os';
-import { exec } from 'child_process';
+const uptime as systemUptime, freemem, totalmem, loadavg as osLoadAvg, cpus as _cpus  = require('os')
+const exec = require('child_process')
 
 export const platform = process.platform;
 

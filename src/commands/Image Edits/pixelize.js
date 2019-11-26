@@ -1,7 +1,7 @@
 import Command from '../../struct/Image-Command.js';
-import { createCanvas, loadImage } from 'canvas';
+const createCanvas, loadImage  = require('canvas')
 
-export default class PixelizeCommand extends Command {
+module.exports = class PixelizeCommand extends Command {
 	constructor() {
 		super('pixelize', {
 			aliases: ["pixelize", "censor"],

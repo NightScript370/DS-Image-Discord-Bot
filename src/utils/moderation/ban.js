@@ -1,4 +1,4 @@
-export default async (client, member, moderator, reason=null, msg = null, days = null) => {
+module.exports = async (client, member, moderator, reason=null, msg = null, days = null) => {
 	let container;
 
 	if (msg)  container = msg;

@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+const { Command } = require('discord-akairo')
 
-export default class UnicodeCommand extends Command {
+module.exports = class UnicodeCommand extends Command {
 	constructor() {
 		super('unicode', {
 			aliases: ['unicode'],

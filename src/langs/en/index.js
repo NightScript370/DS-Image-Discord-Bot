@@ -1,3 +1,3 @@
 // Keep empty
 const json = {};
-export default json;
+module.exports = json;

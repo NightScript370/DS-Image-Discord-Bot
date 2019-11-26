@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+const Listener = require('discord-akairo')
 
-export default class guildDeleteListener extends Listener {
+module.exports = class guildDeleteListener extends Listener {
 	constructor() {
 		super('guildDelete', {
 			emitter: 'client',

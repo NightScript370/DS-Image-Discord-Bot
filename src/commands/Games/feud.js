@@ -1,8 +1,8 @@
-import { Command } from 'discord-akairo';
+const { Command } = require('discord-akairo')
 import get from 'node-superfetch';
 import questions from '../../../assets/JSON/feud.json';
 
-export default class FeudCommand extends Command {
+module.exports = class FeudCommand extends Command {
 	constructor() {
 		super('feud', {
 			aliases: ['feud', "google-feud", "googlefeud"],

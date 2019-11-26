@@ -1,8 +1,8 @@
-import { Command } from 'discord-akairo';
+const { Command } = require('discord-akairo')
 import List from 'list-array';
-import { query } from 'gamedig';
+const query = require('gamedig')
 
-export default class SpecialYamamuraCommand extends Command {
+module.exports = class SpecialYamamuraCommand extends Command {
 	constructor(...args) {
 		super(...args);
 	}

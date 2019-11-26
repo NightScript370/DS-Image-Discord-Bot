@@ -1,7 +1,7 @@
 import Command from "discord-akairo";
 import get from 'node-superfetch';
 
-export default class ShieldsIoBadgeCommand extends Command {
+module.exports = class ShieldsIoBadgeCommand extends Command {
 	constructor() {
 		super('shields-io-badge', {
 			aliases: ['shields-io', 'shields-io-badge'],

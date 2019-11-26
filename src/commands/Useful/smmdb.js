@@ -3,7 +3,7 @@ import Command from '../../struct/Command.js';
 import smmdb_api from '../../utils/smmdb.js';
 const SMMDB = new smmdb_api()
 
-export default class SMMDBCourseCommand extends Command {
+module.exports = class SMMDBCourseCommand extends Command {
 	constructor() {
 		super('smmdb', {
 			aliases: ['smmdb'],

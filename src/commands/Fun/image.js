@@ -1,7 +1,7 @@
-import { Command } from 'discord-akairo';
+const { Command } = require('discord-akairo')
 const req = require("util").promisify(require("request"));
 
-export default class ImageCommand extends Command {
+module.exports = class ImageCommand extends Command {
 	constructor() {
 		super('image', {
 			aliases: ["image", "img", "イメージ", "画像"],

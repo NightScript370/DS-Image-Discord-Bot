@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+const { Command } = require('discord-akairo')
 
-export default class PickCommand extends Command {
+module.exports = class PickCommand extends Command {
 	constructor() {
 		super('pick', {
 			aliases: ['pick'],

@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+const { Command } = require('discord-akairo')
 
-export default class ReloadCommand extends Command {
+module.exports = class ReloadCommand extends Command {
 	constructor() {
 		super('reload', {
 			aliases: ['reload'],

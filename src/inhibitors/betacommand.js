@@ -1,6 +1,6 @@
-import { Inhibitor } from 'discord-akairo';
+const Inhibitor = require('discord-akairo')
 
-export default class BetaCommandInhibitor extends Inhibitor {
+module.exports = class BetaCommandInhibitor extends Inhibitor {
     constructor() {
         super('beta', {
             reason: 'beta'

@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js'
+const MessageEmbed = require('discord.js')
 
 let socialLinks = [
     "[GBATemp Thread](https://gbatemp.net/threads/nds-bootstrap-loader-run-commercial-nds-backups-from-an-sd-card.454323/)",

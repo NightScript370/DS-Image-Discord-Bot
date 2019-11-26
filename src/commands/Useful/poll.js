@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+const { Command } = require('discord-akairo')
 
-export default class PollCommand extends Command {
+module.exports = class PollCommand extends Command {
 	constructor() {
 		super("poll", {
 			aliases: ['poll', 'vote'],

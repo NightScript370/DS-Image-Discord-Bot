@@ -1,7 +1,7 @@
-import { Command } from 'discord-akairo';
-import { createCanvas, loadImage } from 'canvas';
+const { Command } = require('discord-akairo')
+const createCanvas, loadImage  = require('canvas')
 
-export default class AmiiboCommand extends Command {
+module.exports = class AmiiboCommand extends Command {
 	constructor() {
 		super('avatar', {
 			aliases: ['ava', 'av', 'avat', 'profilepic', 'profilepicture', 'avatars', 'profilepictures', 'avata', 'avatar', 'pfp', 'avy'],

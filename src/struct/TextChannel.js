@@ -1,7 +1,7 @@
-import { Structures } from "discord.js";
+const Structures = require("discord.js")
 
 // This extends Discord's native TextChannel class with our own methods and properties
-export default Structures.extend("TextChannel", TextChannel => class extends TextChannel {
+module.exports = Structures.extend("TextChannel", TextChannel => class extends TextChannel {
 	constructor(...args) {
 		super(...args);
 	}

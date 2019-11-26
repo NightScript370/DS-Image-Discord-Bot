@@ -1,8 +1,8 @@
-import { Command } from 'discord-akairo';
+const { Command } = require('discord-akairo')
 import numerals from '../../../assets/JSON/roman.json';
-import { javierInteger } from '../../utils/types.js';
+const javierInteger = require('../../utils/types.js')
 
-export default class RomanCommand extends Command {
+module.exports = class RomanCommand extends Command {
 	constructor() {
 		super('roman', {
 			aliases: ['roman-numeral', 'roman'],

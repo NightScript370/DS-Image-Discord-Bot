@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+const Listener = require('discord-akairo')
 
-export default class httpListeningListener extends Listener {
+module.exports = class httpListeningListener extends Listener {
 	constructor() {
 		super('httpListening', {
 			emitter: 'httpServer',

@@ -1,6 +1,6 @@
 import Command from '../../struct/Command.js';
 
-export default class MCBedrockCommand extends Command {
+module.exports = class MCBedrockCommand extends Command {
 	constructor() {
 		super('minecraft-be', {
 			category: 'Game Statistics',

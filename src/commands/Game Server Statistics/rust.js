@@ -1,6 +1,6 @@
 import Command from '../../struct/Command.js';
 
-export default class RustCommand extends Command {
+module.exports = class RustCommand extends Command {
 	constructor() {
 		super('rust', {
 			category: 'Game Statistics',

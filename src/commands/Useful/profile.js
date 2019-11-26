@@ -1,5 +1,5 @@
 import Command from '../../struct/Image-Command.js';
-import { utc } from 'moment';
+const utc = require('moment')
 
 const activities = {
 	PLAYING: 'Playing',
@@ -8,7 +8,7 @@ const activities = {
 	LISTENING: 'Listening to'
 };
 
-export default class DiscordProfileCommand extends Command {
+module.exports = class DiscordProfileCommand extends Command {
 	constructor() {
 		super('profile', {
 			aliases: ['user', 'member', 'profile', 'user-profile', 'member-profile', 'userinfo', 'memberinfo', 'profileinfo'],

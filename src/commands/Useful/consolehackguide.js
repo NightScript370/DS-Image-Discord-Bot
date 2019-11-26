@@ -1,8 +1,8 @@
-import { Command } from 'discord-akairo';
-import * as consoleList from '../../mod/index.js'
+const { Command } = require('discord-akairo')
+const consoleList = require('../../mod/index.js')
 import readdirSync from 'fs';
 
-export default class moddingGuidesCommand extends Command {
+module.exports = class moddingGuidesCommand extends Command {
 	constructor() {
 		super('mod', {
 			aliases: ["mod", "consolemod", 'consolehackguide', 'consolehackingguide', 'consolehackinguide', 'consolemodguide', 'consolemoddingguide', 'consolemodificationguide'],

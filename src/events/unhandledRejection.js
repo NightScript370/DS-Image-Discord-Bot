@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+const Listener = require('discord-akairo')
 
-export default class UnhandledRejectionListener extends Listener {
+module.exports = class UnhandledRejectionListener extends Listener {
 	constructor() {
 		super('unhandledRejection', {
 			event: 'unhandledRejection',

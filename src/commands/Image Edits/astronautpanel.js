@@ -1,8 +1,8 @@
-import { Command } from 'discord-akairo';
-import { createCanvas, loadImage } from 'canvas';
-import { join } from 'path';
+const { Command } = require('discord-akairo')
+const createCanvas, loadImage  = require('canvas')
+const join = require('path')
 
-export default class AstronautCommand extends Command {
+module.exports = class AstronautCommand extends Command {
 	constructor() {
 		super('astronautpanel', {
 			category: 'Image Edits',

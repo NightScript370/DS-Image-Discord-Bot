@@ -1,6 +1,6 @@
 import json from "../../assets/JSON/CommandCategories";
 
-export default (categories) => {
+module.exports = (categories) => {
 	let JSONdata;
 
 	Array.from(categories.keys()).forEach(catName => {

@@ -262,5 +262,5 @@ const language = {
   + 'The command will be automatically canceled canceled in 30 seconds if no selection has been made.'
   + 'Alternatively, type `cancel` to manually cancel the command, skipping the countdown'] = 'Nei prossimi 30 secondi, dovrai selezionare un numero tra 1 e {0}. Il comando verrà automaticamente annullato in 30 secondi se nessuna selezione verrà effettuata. In alternativa, scrivi `cancel` per annullare il comando, saltando il conto alla rovescia.';
   
-  export default language;
+  module.exports = language;
   

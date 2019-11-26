@@ -1,7 +1,7 @@
-import { Listener } from 'discord-akairo';
-import { random } from "including-range-array";
+const Listener = require('discord-akairo')
+const random = require("including-range-array")
 
-export default class MessageDeleteListener extends Listener {
+module.exports = class MessageDeleteListener extends Listener {
 	constructor() {
 		super('messageDelete', {
 			emitter: 'client',

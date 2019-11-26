@@ -1,4 +1,4 @@
-import { Listener } from 'discord-akairo';
+const Listener = require('discord-akairo')
 
 export class CommandLoadListener extends Listener {
 	constructor() {

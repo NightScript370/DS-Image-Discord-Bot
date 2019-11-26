@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+const { Command } = require('discord-akairo')
 
-export default class aboutCommand extends Command {
+module.exports = class aboutCommand extends Command {
 	constructor() {
 		super('about', {
 			aliases: ["info", 'about', 'help', 'ヘルプ'],

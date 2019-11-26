@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js'
+const MessageEmbed = require('discord.js')
 
 let features = [
 	"Use recreated services such as Wiimifi and RiiConnect24 to replace the discontinued Nintendo Wi-fi Connection & WiiConnect24",

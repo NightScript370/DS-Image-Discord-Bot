@@ -1,10 +1,10 @@
 import Command from '../../struct/Command.js';
-import { Command as akairoCommand } from 'discord-akairo';
+const Command as akairoCommand  = require('discord-akairo')
 
-import { readdirSync } from 'fs';
-import { join } from 'path';
+const readdirSync = require('fs')
+const join = require('path')
 
-export default class CommandsCommand extends Command {
+module.exports = class CommandsCommand extends Command {
 	constructor() {
 		super('commands', {
 			aliases: ['commands', "cmds", 'コマンド'],

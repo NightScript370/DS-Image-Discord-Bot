@@ -1,11 +1,11 @@
-import { createWriteStream } from 'fs';
-import { stringify } from 'querystring';
+const createWriteStream = require('fs')
+const stringify = require('querystring')
 let request = require('request').defaults({ encoding: null });
 
-import { promisify } from "util";
+const promisify = require("util")
 const promiseRequest = promisify(request);
 
-export default class SMMDB {
+module.exports = class SMMDB {
     constructor(api_key) {
 		this.url = 'https://smmdb.ddns.net/api/';
         this.apiKey = api_key;

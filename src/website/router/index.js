@@ -1,6 +1,6 @@
-import { Router } from 'express';
+const Router = require('express')
 const router = Router();
-import { parameters } from "../extraFunctions";
+const parameters = require("../extraFunctions")
 
 export const id = '/';
 const _router = (client) => router

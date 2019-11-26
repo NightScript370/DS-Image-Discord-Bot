@@ -1,7 +1,7 @@
-import { Command } from 'discord-akairo';
-import { javierInteger } from '../../utils/types.js';
+const { Command } = require('discord-akairo')
+const javierInteger = require('../../utils/types.js')
 
-export default class PurgeCommand extends Command {
+module.exports = class PurgeCommand extends Command {
 	constructor() {
 		super('purge', {
 			aliases: ["purge", "prune", 'clean', 'cleanup', 'clean-up'],

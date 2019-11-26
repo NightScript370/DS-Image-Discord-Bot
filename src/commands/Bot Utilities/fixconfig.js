@@ -1,9 +1,9 @@
 import Command from '../../struct/Command.js';
-import { findType, settingProps } from "../../settings/index.js";
+const findType, settingProps  = require("../../settings/index.js")
 
 const isObject = (val) => typeof val === 'object' && !(val instanceof Array) && val !== null;
 
-export default class FixConfigCommand extends Command {
+module.exports = class FixConfigCommand extends Command {
 	constructor() {
 		super('fixconfig', {
 			aliases: ['fixconfig', 'fixconf'],

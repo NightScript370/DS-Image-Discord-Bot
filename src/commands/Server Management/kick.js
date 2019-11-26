@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+const { Command } = require('discord-akairo')
 
-export default class KickCommand extends Command {
+module.exports = class KickCommand extends Command {
 	constructor() {
 		super('kick', {
 			aliases: ["boot", 'kick'],

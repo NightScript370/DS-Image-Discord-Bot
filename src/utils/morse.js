@@ -88,7 +88,7 @@ const morseCode = {
     'ż': dah + dah + dit + dit + dah,
     ' ': '\u2007'
 }
-export default morseCode
+module.exports = morseCode
   /*{
   'A': '.-',
   'B': '-...',

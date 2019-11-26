@@ -1,7 +1,7 @@
 import Command from '../../struct/Command.js';
 const exec = require("util").promisify(require("child_process").exec);
 
-export default class ExecCommand extends Command {
+module.exports = class ExecCommand extends Command {
 	constructor() {
 		super('exec', {
 			aliases: ['exec'],

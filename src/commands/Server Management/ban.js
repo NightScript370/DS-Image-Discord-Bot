@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+const { Command } = require('discord-akairo')
 
-export default class BanCommand extends Command {
+module.exports = class BanCommand extends Command {
 	constructor() {
 		super('ban', {
 			aliases: ["ban-hammer", "b-h", 'ban'],

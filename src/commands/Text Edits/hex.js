@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+const { Command } = require('discord-akairo')
 
-export default class HexCommand extends Command {
+module.exports = class HexCommand extends Command {
 	constructor() {
 		super('hex', {
 			category: 'Text Fun',

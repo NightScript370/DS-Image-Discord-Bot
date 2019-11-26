@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+const Listener = require('discord-akairo')
 
-export default class inhibitorLoadListener extends Listener {
+module.exports = class inhibitorLoadListener extends Listener {
 	constructor() {
 		super('inhibitorHandlerLoad', {
 			emitter: 'inhibitorHandler',

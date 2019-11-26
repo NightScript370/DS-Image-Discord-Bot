@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+const { Command } = require('discord-akairo')
 
-export default class BinaryCommand extends Command {
+module.exports = class BinaryCommand extends Command {
 	constructor() {
 		super('binary', {
 			category: 'Text Fun',

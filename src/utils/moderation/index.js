@@ -9,4 +9,4 @@ moderationModules.kick = kick
 moderationModules.mute = mute
 moderationModules.warn = warn
 
-export default moderationModules
+module.exports = moderationModules

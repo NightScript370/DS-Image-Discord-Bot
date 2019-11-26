@@ -1,5 +1,5 @@
-import { loadImage } from 'canvas';
-import { join } from 'path';
+const loadImage = require('canvas')
+const join = require('path')
 
 // ***************
 // **** IMAGE ****
@@ -329,4 +329,4 @@ const akairo_types = {
 	'image-nohistoryattachment': async (message, argument) => await imageType(message, argument, false, false)
 }
 
-export default akairo_types;
+module.exports = akairo_types;

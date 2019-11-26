@@ -1,9 +1,9 @@
-import { Inhibitor } from 'discord-akairo';
+const Inhibitor = require('discord-akairo')
 
 const serverblacklist = [];
 const userblacklist = [];
 
-export default class BlacklistInhibitor extends Inhibitor {
+module.exports = class BlacklistInhibitor extends Inhibitor {
     constructor() {
         super('blacklist', {
             reason: 'blacklist'

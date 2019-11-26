@@ -1,7 +1,7 @@
 import Command from '../../struct/Image-Command.js';
-import { createCanvas, loadImage } from 'canvas';
+const createCanvas, loadImage  = require('canvas')
 
-export default class InvertCommand extends Command {
+module.exports = class InvertCommand extends Command {
 	constructor() {
 		super('invert', {
 			aliases: ["invert"],

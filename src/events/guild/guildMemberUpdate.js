@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+const Listener = require('discord-akairo')
 
-export default class guildMemberUpdateListener extends Listener {
+module.exports = class guildMemberUpdateListener extends Listener {
 	constructor() {
 		super('guildMemberUpdate', {
 			emitter: 'client',

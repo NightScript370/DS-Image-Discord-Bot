@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+const Listener = require('discord-akairo')
 
-export default class DBLHookReadyListener extends Listener {
+module.exports = class DBLHookReadyListener extends Listener {
 	constructor() {
 		super('DBLhookReady', {
 			emitter: 'dblwebhook',

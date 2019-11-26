@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+const { Command } = require('discord-akairo')
 
-export default class OwoCommand extends Command {
+module.exports = class OwoCommand extends Command {
 	constructor() {
 		super('owoify', {
 			category: 'Text Fun',

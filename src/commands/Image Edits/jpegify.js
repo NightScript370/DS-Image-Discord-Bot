@@ -1,7 +1,7 @@
 import Command from '../../struct/Image-Command.js';
-import { createCanvas, loadImage } from 'canvas';
+const createCanvas, loadImage  = require('canvas')
 
-export default class JPEGifyCommand extends Command {
+module.exports = class JPEGifyCommand extends Command {
 	constructor() {
 		super('JPEGify', {
 			aliases: ["jpegify", "needs-more-jpeg", "jpeg"],

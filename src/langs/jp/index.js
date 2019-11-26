@@ -1,4 +1,4 @@
-export default {
+module.exports = {
 	// MARK: General purpose
 	"Type `cancel` to cancel this command.": "コマンドをキャンセルするには`cancel`を入力します",
 	"by {0}": "- {0}さん",

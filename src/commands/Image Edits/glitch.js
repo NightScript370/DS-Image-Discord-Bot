@@ -1,7 +1,7 @@
 import Command from '../../struct/Image-Command.js';
-import { createCanvas, loadImage } from 'canvas';
+const createCanvas, loadImage  = require('canvas')
 
-export default class GlitchCommand extends Command {
+module.exports = class GlitchCommand extends Command {
 	constructor() {
 		super('glitch', {
 			aliases: ["glitch"],

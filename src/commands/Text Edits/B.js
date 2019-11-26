@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+const { Command } = require('discord-akairo')
 
-export default class toBCommand extends Command {
+module.exports = class toBCommand extends Command {
 	constructor() {
 		super('b', {
 			category: 'Text Fun',

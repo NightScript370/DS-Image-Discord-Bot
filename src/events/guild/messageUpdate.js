@@ -1,7 +1,7 @@
-import { Listener } from 'discord-akairo';
-import { random } from "including-range-array";
+const Listener = require('discord-akairo')
+const random = require("including-range-array")
 
-export default class messageUpdateListener extends Listener {
+module.exports = class messageUpdateListener extends Listener {
 	constructor() {
 		super('messageUpdate', {
 			emitter: 'client',

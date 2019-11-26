@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+const { Command } = require('discord-akairo')
 
-export default class CoinFlipCommand extends Command {
+module.exports = class CoinFlipCommand extends Command {
 	constructor() {
 		super('coin', {
 			aliases: ['coinflip', "coin-flip", "coin"],

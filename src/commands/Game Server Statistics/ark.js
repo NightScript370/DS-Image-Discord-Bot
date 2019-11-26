@@ -1,6 +1,6 @@
 import Command from '../../struct/Command.js';
 
-export default class ARKCommand extends Command {
+module.exports = class ARKCommand extends Command {
 	constructor() {
 		super('ark', {
 			category: 'Game Statistics',

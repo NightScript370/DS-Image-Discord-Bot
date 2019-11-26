@@ -1,7 +1,7 @@
 import Command from '../../struct/Image-Command.js';
-import { createCanvas } from 'canvas';
+const createCanvas = require('canvas')
 
-export default class GravatarGeneratorCommand extends Command {
+module.exports = class GravatarGeneratorCommand extends Command {
 	constructor() {
 		super('gravatar-generator', {
 			aliases: ["gravatar-generate", "gravatar-generator"],

@@ -1,16 +1,16 @@
-import { website as websiteConfig } from "../config.js";
-import * as List from "list-array";
-import { join } from "path";
-import { readdirSync } from 'fs';
+const website as websiteConfig  = require("../config.js")
+const List = require("list-array")
+const join = require("path")
+const readdirSync = require('fs')
 const routers = readdirSync(join(__dirname, 'router'));
 
-import * as express from 'express';
+const express = require('express')
 import session from 'express-session';
-import { json, urlencoded } from 'body-parser';
-import { createServer } from 'http';
-import { Strategy } from "passport-discord";
+const json, urlencoded  = require('body-parser')
+const createServer = require('http')
+const Strategy = require("passport-discord")
 
-export default (client) => {
+module.exports = (client) => {
 	let website = {};
 	website.URL = websiteConfig.url;
 

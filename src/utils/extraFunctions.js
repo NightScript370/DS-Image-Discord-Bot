@@ -1,4 +1,4 @@
-import { length, nth, List } from "list";
+const length, nth, List  = require("list")
 
 String.prototype.replaceAll = function (search, replacement) {
 	var target = this;

@@ -1,6 +1,6 @@
-import { list } from "list";
+const list = require("list")
 
-export default list(
+module.exports = list(
 	"about",
 	"search",
 	"other",

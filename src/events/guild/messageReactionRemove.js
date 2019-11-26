@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+const Listener = require('discord-akairo')
 
-export default class messageReactionRemoveListener extends Listener {
+module.exports = class messageReactionRemoveListener extends Listener {
 	constructor() {
 		super('messageReactionRemove', {
 			emitter: 'client',

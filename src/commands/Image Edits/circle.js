@@ -1,7 +1,7 @@
 import Command from '../../struct/Image-Command.js';
-import { createCanvas, loadImage } from 'canvas';
+const createCanvas, loadImage  = require('canvas')
 
-export default class CircleCommand extends Command {
+module.exports = class CircleCommand extends Command {
 	constructor() {
 		super('circle', {
 			aliases: ["circle"],
