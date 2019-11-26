@@ -70,7 +70,7 @@
 		"zlib-sync": "^0.1.6"
 	},
 	"engines": {
-		"node": "10"
+		"node": "13"
 	},
 	"repository": {
 		"url": "https://gitlab.com/Samplasion/yamamura-discord-bot"
