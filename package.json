@@ -2,6 +2,7 @@
 	"name": "yamamura-discord-bot",
 	"version": "0.0.1",
 	"description": "A simple Discord Bot made for hacking communities.",
+	"type": "module",
 	"main": "src/yamamura.js",
 	"scripts": {
 		"start": "npm run prod",
