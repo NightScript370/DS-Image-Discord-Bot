@@ -1,22 +1,20 @@
 import { MessageEmbed } from 'discord.js';
-import { user } from './yamamura.js';
 
 export default class YamamuraEmbed extends MessageEmbed {
 	constructor(...args) {
 		super(args)
 	}
 
-  setColor(color) {
-    switch (color) {
-      case 'thanos':
-        return super.setColor(0x71368A);
-        // Break not needed when you return
-      case 'DARK_MODE_INVISIBLE':
-        return super.setColor(0x36393F);
-      default:
-        return super.setColor(color);
-    }
-  }
+	setColor(color) {
+		switch (color) {
+			case 'thanos':
+				return super.setColor(0x71368A);
+			case 'DARK_MODE_INVISIBLE':
+				return super.setColor(0x36393F);
+			default:
+				return super.setColor(color);
+		}
+	}
 
     /**
    * Resets an embed.
@@ -70,27 +68,19 @@ export default class YamamuraEmbed extends MessageEmbed {
 	}
 
 	setYamamuraCredits(icon = true) {
-    try {
-		  if (icon == true) {
-			  return super.setFooter(user.username + " - by NightScript & Samplasion", user.displayAvatarURL({format: 'png'}));
-		  } else {
-			  return super.setFooter(user.username + " - by NightScript & Samplasion");
-		  }
-    } catch(e) {
-      return super.setFooter("Yamamura - by NightScript & Samplasion")
-    }
+    	return super.setFooter("Yamamura - by NightScript & Samplasion")
 	}
 
 	setServerFooter(msg, icon) {
 		try {
-      if (icon == true) {
-			  return super.setFooter(msg.guild.name, msg.guild.iconURL({format: 'png'}))
-		  } else {
-			  return super.setFooter(msg.guild.name)
-		  }
-    } catch(e) {
-      console.error(e);
-      console.log(msg);
-    }
+			if (icon == true) {
+				return super.setFooter(msg.guild.name, msg.guild.iconURL({format: 'png'}))
+			} else {
+				return super.setFooter(msg.guild.name)
+			}
+		} catch(e) {
+			console.error(e);
+			console.log(msg);
+    	}
 	}
 }
