@@ -1,4 +1,4 @@
-const website as websiteConfig  = require("../config.js")
+const { website: websiteConfig } = require("../config.js")
 const List = require("list-array")
 const join = require("path")
 const readdirSync = require('fs')

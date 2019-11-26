@@ -1,4 +1,4 @@
-import Command from '../../struct/Command.js';
+const Command = require("./../../struct/Command.js")
 
 module.exports = class BF1942Command extends Command {
 	constructor() {

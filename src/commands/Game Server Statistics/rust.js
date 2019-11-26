@@ -1,4 +1,4 @@
-import Command from '../../struct/Command.js';
+const Command = require("./../../struct/Command.js")
 
 module.exports = class RustCommand extends Command {
 	constructor() {

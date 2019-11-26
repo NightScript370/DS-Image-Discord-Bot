@@ -1,4 +1,4 @@
-import Command from '../../struct/Command.js';
+const Command = require("./../../struct/Command.js")
 const execSync = require('child_process')
 
 module.exports = class UpdateCommand extends Command {

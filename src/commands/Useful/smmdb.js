@@ -1,4 +1,4 @@
-import Command from '../../struct/Command.js';
+const Command = require("./../../struct/Command.js")
 
 import smmdb_api from '../../utils/smmdb.js';
 const SMMDB = new smmdb_api()

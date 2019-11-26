@@ -1,4 +1,4 @@
-import Command from '../../struct/Image-Command.js';
+const Command = require('../../struct/Image-Command.js');
 const utc = require('moment')
 
 const activities = {

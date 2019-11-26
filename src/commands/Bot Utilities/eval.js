@@ -1,5 +1,5 @@
 const inspect = require('util')
-import Command from '../../struct/Command.js';
+const Command = require("./../../struct/Command.js")
 
 const splitMessage = require('discord.js')
 const escapeRegex = (str) => str.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&');

@@ -1,5 +1,5 @@
 const Structures = require("discord.js")
-const points as pointsTable, infractions  = require('../utils/database.js')
+const { points: pointsTable, infractions } = require('../utils/database.js')
 
 function getDateTime(date) {
 	var hour = date.getHours();
