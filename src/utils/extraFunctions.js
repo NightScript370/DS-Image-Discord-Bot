@@ -1,4 +1,4 @@
-import { length, nth, List } from "list";
+import * as List from "list";
 
 String.prototype.replaceAll = function (search, replacement) {
 	var target = this;
@@ -16,7 +16,7 @@ String.prototype.replaceAll = function (search, replacement) {
 };
 
 List.prototype.random = function () {
-	return nth(Math.floor(Math.random() * length(this)), this)
+	return List.nth(Math.floor(Math.random() * this.length))
 }
 
 Array.prototype.random = function() {
