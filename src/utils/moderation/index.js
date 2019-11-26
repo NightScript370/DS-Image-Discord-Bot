@@ -1,7 +1,7 @@
-import ban from './ban'
-import kick from './kick'
-import mute from './mute'
-import warn from './warn'
+import ban from './ban.js'
+import kick from './kick.js'
+import mute from './mute.js'
+import warn from './warn.js'
 
 let moderationModules = {}
 moderationModules.ban = ban

@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import answers from '../../assets/JSON/8-ball';
+import answers from '../../../assets/JSON/8-ball.json';
 
 export default class Number8ballCommand extends Command {
 	constructor() {

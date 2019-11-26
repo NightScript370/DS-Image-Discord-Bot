@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import questions from '../../assets/JSON/wouldyourather';
+import questions from '../../../assets/JSON/wouldyourather.json';
 
 export default class WouldYouRatherCommand extends Command {
 	constructor() {

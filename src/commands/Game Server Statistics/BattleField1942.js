@@ -1,4 +1,4 @@
-import Command from '../../struct/Command';
+import Command from '../../struct/Command.js';
 
 export default class BF1942Command extends Command {
 	constructor() {

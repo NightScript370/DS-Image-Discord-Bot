@@ -1,5 +1,5 @@
 import { inspect } from 'util';
-import Command from '../../struct/Command';
+import Command from '../../struct/Command.js';
 
 import { splitMessage } from 'discord.js';
 const escapeRegex = (str) => str.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&');

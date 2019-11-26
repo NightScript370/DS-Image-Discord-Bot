@@ -1,4 +1,4 @@
-import { website as websiteConfig } from "../config";
+import { website as websiteConfig } from "../config.js";
 import * as List from "list-array";
 import { join } from "path";
 import { readdirSync } from 'fs';

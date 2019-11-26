@@ -1,7 +1,7 @@
 import { Structures } from "discord.js";
-import { userconfig } from '../utils/database';
+import { userconfig } from '../utils/database.js';
 
-import { defaultLang } from "../langs/framework";
+import { defaultLang } from "../langs/framework.js";
 
 // This extends Discord's native User class with our own methods and properties
 export default Structures.extend("User", User => class extends User {

@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo';
 import get from 'node-superfetch';
-import questions from '../../assets/JSON/feud';
+import questions from '../../../assets/JSON/feud.json';
 
 export default class FeudCommand extends Command {
 	constructor() {

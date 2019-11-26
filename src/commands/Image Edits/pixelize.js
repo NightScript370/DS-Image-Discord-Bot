@@ -1,4 +1,4 @@
-import Command from '../../struct/Image-Command';
+import Command from '../../struct/Image-Command.js';
 import { createCanvas, loadImage } from 'canvas';
 
 export default class PixelizeCommand extends Command {

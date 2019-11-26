@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import langs, { map, indexOf, filter } from "../../langs/index";
+import langs, { map, indexOf, filter } from "../../langs/index.js";
 
 export default class LanguageCommand extends Command {
 	constructor() {

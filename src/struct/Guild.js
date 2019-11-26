@@ -1,7 +1,7 @@
 import { Structures } from "discord.js";
-import { findType } from '../settings/index';
-import { serverconfig } from '../utils/database';
-import { prefix as defaultPrefix } from "../config";
+import { findType } from '../settings/index.js';
+import { serverconfig } from '../utils/database.js';
+import { prefix as defaultPrefix } from "../config.js";
 
 // This extends Discord's native Guild class with our own methods and properties
 export default Structures.extend("Guild", Guild => class extends Guild {

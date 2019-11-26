@@ -1,4 +1,4 @@
-import Command from '../../struct/Command';
+import Command from '../../struct/Command.js';
 const weather = require("util").promisify(require('weather-js').find);
 
 export default class weatherCommand extends Command {

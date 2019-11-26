@@ -1,4 +1,4 @@
-import Command from '../../struct/Command';
+import Command from '../../struct/Command.js';
 import { promisify } from "util";
 
 export default class MinecraftServerCommand extends Command {

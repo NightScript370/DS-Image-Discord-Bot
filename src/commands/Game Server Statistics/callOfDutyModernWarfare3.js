@@ -1,4 +1,4 @@
-import Command from '../../struct/Command';
+import Command from '../../struct/Command.js';
 
 export default class CODMW3Command extends Command {
 	constructor() {

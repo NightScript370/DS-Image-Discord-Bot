@@ -1,5 +1,5 @@
 import { Structures } from "discord.js";
-import { points as pointsTable, infractions } from '../utils/database';
+import { points as pointsTable, infractions } from '../utils/database.js';
 
 function getDateTime(date) {
 	var hour = date.getHours();

@@ -1,4 +1,4 @@
-import Command from '../../struct/Command';
+import Command from '../../struct/Command.js';
 import { Command as akairoCommand } from 'discord-akairo';
 
 import { readdirSync } from 'fs';

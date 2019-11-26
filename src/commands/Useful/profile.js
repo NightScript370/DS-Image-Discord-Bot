@@ -1,4 +1,4 @@
-import Command from '../../struct/Image-Command';
+import Command from '../../struct/Image-Command.js';
 import { utc } from 'moment';
 
 const activities = {
@@ -15,9 +15,7 @@ export default class DiscordProfileCommand extends Command {
 			category: 'Useful',
 			clientPermissions: ['ATTACH_FILES'],
 			description: {
-				content: 'Returns your user ID.',
-				usage: '',
-				example: ''
+				content: 'Returns information on a certain user.'
 			},
 			args: [
 				{

@@ -1,23 +1,23 @@
 import 'cache-require-paths'
-import "./utils/extraFunctions";
+import "./utils/extraFunctions.js";
 
-import * as translateModule from './langs/framework';
+import * as translateModule from './langs/framework.js';
 
 import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } from 'discord-akairo';
-import { owners, supportServer, prefix as _prefix, website, log as _log, token } from "./config";
+import { owners, supportServer, prefix as _prefix, website, log as _log, token } from "./config.js";
 import { join } from 'path';
-import * as BackEmbed from './embed';
-import * as types from './utils/types';
-import * as AudioModule from './utils/audio';
-import * as DatabaseModule from './utils/database';
-import * as ModerationModule from './utils/moderation/index';
+import * as BackEmbed from './embed.js';
+import * as types from './utils/types.js';
+import * as AudioModule from './utils/audio.js';
+import * as DatabaseModule from './utils/database.js';
+import * as ModerationModule from './utils/moderation/index.js';
 import * as List from "list-array";
 
-import "./struct/User";
-import "./struct/Guild";
-import "./struct/DMChannel";
-import "./struct/TextChannel";
-import "./struct/GuildMember";
+import "./struct/User.js";
+import "./struct/Guild.js";
+import "./struct/DMChannel.js";
+import "./struct/TextChannel.js";
+import "./struct/GuildMember.js";
 
 // This is used to debug the errors.
 import { format } from 'util';

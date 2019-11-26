@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import * as consoleList from '../../mod/index'
+import * as consoleList from '../../mod/index.js'
 import readdirSync from 'fs';
 
 export default class moddingGuidesCommand extends Command {

@@ -1,6 +1,6 @@
 import { createWriteStream } from 'fs';
-let request = require('request').defaults({ encoding: null });
 import { stringify } from 'querystring';
+let request = require('request').defaults({ encoding: null });
 
 import { promisify } from "util";
 const promiseRequest = promisify(request);

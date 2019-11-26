@@ -1,4 +1,4 @@
-import Command from '../../struct/Command';
+import Command from '../../struct/Command.js';
 import { fromArray } from 'list-array';
 
 export default class LevelIdeaCommand extends Command {

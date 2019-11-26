@@ -1,5 +1,4 @@
-import { inspect } from 'util';
-import Command from '../../struct/Command';
+import Command from '../../struct/Command.js';
 const exec = require("util").promisify(require("child_process").exec);
 
 export default class ExecCommand extends Command {

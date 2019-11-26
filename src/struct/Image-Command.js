@@ -1,4 +1,4 @@
-import Command from './Command';
+import Command from './Command.js';
 import { createCanvas, loadImage } from 'canvas';
 import path from 'path';
 

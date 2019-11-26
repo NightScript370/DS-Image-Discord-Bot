@@ -1,4 +1,4 @@
-import Command from '../../struct/Command';
+import Command from '../../struct/Command.js';
 import { execSync } from 'child_process';
 
 export default class UpdateCommand extends Command {

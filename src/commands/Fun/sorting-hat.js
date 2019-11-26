@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import questions from "./../../assets/JSON/sort-hat";
+import questions from "../../../assets/JSON/sort-hat.json";
 
 export default class SortingHatCommand extends Command {
 	constructor() {

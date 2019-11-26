@@ -1,5 +1,5 @@
-import Command from '../../struct/Image-Command';
-import { createCanvas, loadImage } from 'canvas';
+import Command from '../../struct/Image-Command.js';
+import { createCanvas } from 'canvas';
 
 export default class GravatarGeneratorCommand extends Command {
 	constructor() {

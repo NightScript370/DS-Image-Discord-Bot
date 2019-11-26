@@ -1,11 +1,11 @@
 import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } from 'discord-akairo';
-import { owners, supportServer, prefix as _prefix, website, log as _log } from "../config";
+import { owners, supportServer, prefix as _prefix, website, log as _log } from "../config.js";
 import { join } from 'path';
-import * as BackEmbed from '../embed';
-import * as types from '../utils/types';
-import * as AudioModule from '../utils/audio';
-import * as DatabaseModule from '../utils/database';
-import * as ModerationModule from '../utils/moderation/index';
+import * as BackEmbed from '../embed.js';
+import * as types from '../utils/types.js';
+import * as AudioModule from '../utils/audio.js';
+import * as DatabaseModule from '../utils/database.js';
+import * as ModerationModule from '../utils/moderation/index.js';
 
 export default class YamamuraClient extends AkairoClient {
 	constructor() {
