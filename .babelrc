@@ -1,6 +1,7 @@
 {
 	"presets": [
-	  ["@babel/preset-env", { "targets": { "node": "10" } }],
+	  ["@babel/preset-env", { "targets": { "node": "current"
+		} }],
 	  "@babel/preset-react"
 	],
 	"plugins": [
@@ -8,6 +9,8 @@
 	  "@babel/plugin-transform-modules-commonjs",
 	  "@babel/plugin-proposal-export-default-from",
 	  "@babel/plugin-proposal-export-namespace-from",
+	  "add-module-exports",
+	  "transform-remove-strict-mode",
 	  ["@babel/plugin-proposal-decorators", { "legacy": true }],
 	  ["@babel/plugin-proposal-class-properties", { "loose": true }]
 	],
