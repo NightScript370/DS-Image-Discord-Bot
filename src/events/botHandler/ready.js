@@ -1,11 +1,11 @@
-const Listener = require('discord-akairo')
+import { Listener } from 'discord-akairo';
 import post from 'node-superfetch';
 
 import botLists from "../../config";
-const catSetup = require("../../utils/commandCategories")
+import * as catSetup from "../../utils/commandCategories";
 
-const ListenerLoadModule = require("../commandHandler/load")
-const WebsiteModule = require("../../website/index")
+import * as ListenerLoadModule from "../commandHandler/load"
+import * as WebsiteModule from "../../website/index"
 
 export class ReadyListener extends Listener {
 	constructor() {

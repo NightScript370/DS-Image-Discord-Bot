@@ -1,7 +1,7 @@
-const { Command } = require('discord-akairo')
+import { Command } from 'discord-akairo';
 import answers from '../../../assets/JSON/8-ball.json';
 
-module.exports = class Number8ballCommand extends Command {
+export default class Number8ballCommand extends Command {
 	constructor() {
 		super('8-ball', {
 			aliases: ['8-ball', "8ball"],

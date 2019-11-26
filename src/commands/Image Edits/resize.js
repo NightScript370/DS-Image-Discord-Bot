@@ -1,7 +1,7 @@
 import Command from '../../struct/Image-Command.js';
-const createCanvas, loadImage  = require('canvas')
+import { createCanvas, loadImage } from 'canvas';
 
-module.exports = class ResizeCommand extends Command {
+export default class ResizeCommand extends Command {
 	constructor() {
 		super('resize', {
 			aliases: ["resize", 'stretch'],

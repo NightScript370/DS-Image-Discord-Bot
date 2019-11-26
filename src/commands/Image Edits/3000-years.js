@@ -1,8 +1,8 @@
 import Command from '../../struct/Image-Command.js';
-const createCanvas, loadImage  = require('canvas')
-const join = require('path')
+import { createCanvas, loadImage } from 'canvas';
+import { join } from 'path';
 
-module.exports = class ThreeThousandYearsCommand extends Command {
+export default class ThreeThousandYearsCommand extends Command {
 	constructor() {
 		super('3000-years', {
 			aliases: ['3ky', '3k-years', '3000-years'],

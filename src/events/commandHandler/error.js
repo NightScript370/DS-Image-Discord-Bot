@@ -1,7 +1,7 @@
-const Listener = require('discord-akairo')
-const error as _error, stacktrace  = require('../../utils/Logger')
+import { Listener } from 'discord-akairo';
+import { error as _error, stacktrace } from '../../utils/Logger';
 
-module.exports = class errorListener extends Listener {
+export default class errorListener extends Listener {
 	constructor() {
 		super('error', {
 			emitter: 'commandHandler',

@@ -1,6 +1,6 @@
-const { Command } = require('discord-akairo')
+import { Command } from 'discord-akairo';
 
-module.exports = class MuteCommand extends Command {
+export default class MuteCommand extends Command {
 	constructor() {
 		super('mute', {
 			aliases: ["mute", "unmute"],

@@ -1,8 +1,8 @@
-const { Command } = require('discord-akairo')
-const createCanvas, loadImage  = require('canvas')
-const join = require('path')
+import { Command } from 'discord-akairo';
+import { createCanvas, loadImage } from 'canvas';
+import { join } from 'path';
 
-module.exports = class BrainsCommand extends Command {
+export default class BrainsCommand extends Command {
 	constructor() {
 		super('brains', {
 			category: 'Image Edits',

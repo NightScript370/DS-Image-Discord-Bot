@@ -1,10 +1,10 @@
-const Command = require("discord-akairo")
+import { Command } from "discord-akairo";
 const request = require("util").promisify(require("request"));
 
-const utc = require("moment")
+import { utc } from "moment";
 import "moment-duration-format";
 
-module.exports = class NPMCommand extends Command {
+export default class NPMCommand extends Command {
 	constructor() {
 		super("npm", {
 			aliases: ["npm", "npm-package"],

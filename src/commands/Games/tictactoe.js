@@ -1,7 +1,7 @@
-const { Command } = require('discord-akairo')
-const TicTacToe = require('tictactoejs')
+import { Command } from 'discord-akairo';
+import { TicTacToe } from 'tictactoejs';
 
-module.exports = class TTTCommand extends Command {
+export default class TTTCommand extends Command {
 	constructor() {
 		super("tictactoe", {
 			category: 'Games',

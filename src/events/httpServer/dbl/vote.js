@@ -1,6 +1,6 @@
-const Listener = require('discord-akairo')
+import { Listener } from 'discord-akairo';
 
-module.exports = class DBLVotedListener extends Listener {
+export default class DBLVotedListener extends Listener {
 	constructor() {
 		super('vote', {
 			emitter: 'dblwebhook',

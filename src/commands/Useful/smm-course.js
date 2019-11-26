@@ -3,7 +3,7 @@ import bookmarkAPI from 'super-maker-api';
 
 const request = require('util').promisify(require('request'))
 
-module.exports = class CourseCommand extends Command {
+export default class CourseCommand extends Command {
 	constructor() {
 		super('smm-course', {
 			aliases: ['smm-course'],

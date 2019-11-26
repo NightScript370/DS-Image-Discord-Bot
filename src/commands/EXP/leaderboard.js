@@ -1,7 +1,7 @@
-const { Command } = require('discord-akairo')
+import { Command } from 'discord-akairo';
 import javierInteger from '../../utils/types.js';
 
-module.exports = class LeaderboardCommand extends Command {
+export default class LeaderboardCommand extends Command {
 	constructor() {
 		super('leaderboard', {
 			aliases: ['leaderboard', "lb", 'top'],

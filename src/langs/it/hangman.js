@@ -1,6 +1,6 @@
-const list = require("list")
+import { list } from "list";
 
-module.exports = list(
+export default list(
     "cosa",
 	"anno",
 	"uomo",

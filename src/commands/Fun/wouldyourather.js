@@ -1,7 +1,7 @@
-const { Command } = require('discord-akairo')
+import { Command } from 'discord-akairo';
 import questions from '../../../assets/JSON/wouldyourather.json';
 
-module.exports = class WouldYouRatherCommand extends Command {
+export default class WouldYouRatherCommand extends Command {
 	constructor() {
 		super('would-you-rather', {
 			aliases: ['would-you-rather', 'wy-rather', 'wyr'],

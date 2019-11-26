@@ -1,6 +1,6 @@
 import Command from '../../struct/Command.js';
 
-module.exports = class COD4Command extends Command {
+export default class COD4Command extends Command {
 	constructor() {
 		super('callOfDuty4', {
 			category: 'Game Statistics',

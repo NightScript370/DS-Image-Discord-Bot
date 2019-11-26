@@ -1,8 +1,8 @@
 import Command from '../../struct/Image-Command.js';
-const createCanvas, loadImage  = require('canvas')
-const join = require('path')
+import { createCanvas, loadImage } from 'canvas';
+import { join } from 'path';
 
-module.exports = class NintendoDSCommand extends Command {
+export default class NintendoDSCommand extends Command {
 	constructor() {
 		super('ds', {
 			aliases: ['ds'],

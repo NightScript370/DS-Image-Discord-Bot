@@ -1,6 +1,6 @@
-const { Command } = require('discord-akairo')
+import { Command } from 'discord-akairo';
 
-module.exports = class NameCheckCommand extends Command {
+export default class NameCheckCommand extends Command {
 	constructor() {
 		super('namecheck', {
 			aliases: ['namecheck'],

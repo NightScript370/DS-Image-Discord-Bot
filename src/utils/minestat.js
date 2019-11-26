@@ -31,7 +31,7 @@ let current_players = null;    // current number of players online
 let max_players = null;        // maximum player capacity
 let latency = null;            // ping time to server in milliseconds
 
-module.exports = (address, port, callback, timeout=DEFAULT_TIMEOUT) => {
+export default (address, port, callback, timeout=DEFAULT_TIMEOUT) => {
     this.address = address;
     this.port = port;
 

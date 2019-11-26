@@ -1,4 +1,4 @@
-module.exports = (client, member, reason, moderator, msg) => {
+export default (client, member, reason, moderator, msg) => {
 	member.warn(reason, moderator);
 
 	const logs = member.guild.config.render("logchan")

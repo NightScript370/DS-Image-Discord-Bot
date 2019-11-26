@@ -1,10 +1,10 @@
-const { Command } = require('discord-akairo')
-const cpu = require('../../utils/os')
+import { Command } from 'discord-akairo';
+import { cpu } from '../../utils/os';
 
 import moment from "moment";
 import "moment-duration-format";
 
-module.exports = class StatsCommand extends Command {
+export default class StatsCommand extends Command {
 	constructor() {
 		super('stats', {
 			aliases: ['stats', 'statistics', 'status'],

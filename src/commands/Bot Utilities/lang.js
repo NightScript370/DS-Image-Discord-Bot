@@ -1,7 +1,7 @@
-const { Command } = require('discord-akairo')
-const langs, { map, indexOf, filter  = require("../../langs/index.js")
+import { Command } from 'discord-akairo';
+import langs, { map, indexOf, filter } from "../../langs/index.js";
 
-module.exports = class LanguageCommand extends Command {
+export default class LanguageCommand extends Command {
 	constructor() {
 		super("language", {
 			category: 'Bot Utilities',

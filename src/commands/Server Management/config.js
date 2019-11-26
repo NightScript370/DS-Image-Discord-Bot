@@ -1,7 +1,7 @@
-const { Command } = require('discord-akairo')
-const findType, settingProps  = require('../../settings/index.js')
+import { Command } from 'discord-akairo';
+import { findType, settingProps } from '../../settings/index.js';
 
-module.exports = class ConfigCommand extends Command {
+export default class ConfigCommand extends Command {
 	constructor() {
 		super("config", {
 			category: 'Server Management',

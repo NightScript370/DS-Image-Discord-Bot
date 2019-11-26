@@ -1,5 +1,5 @@
-const Structures = require("discord.js")
-const points as pointsTable, infractions  = require('../utils/database.js')
+import { Structures } from "discord.js";
+import { points as pointsTable, infractions } from '../utils/database.js';
 
 function getDateTime(date) {
 	var hour = date.getHours();
@@ -23,7 +23,7 @@ function getDateTime(date) {
 }
 
 // This extends Discord's native Member class with our own methods and properties
-module.exports = Structures.extend("GuildMember", GuildMember => class extends GuildMember {
+export default Structures.extend("GuildMember", GuildMember => class extends GuildMember {
 	constructor(...args) {
 		super(...args)
 	}

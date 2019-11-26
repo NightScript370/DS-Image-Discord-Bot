@@ -1,4 +1,4 @@
-module.exports = async (client, member, reason, moderator, msg=null) => {
+export default async (client, member, reason, moderator, msg=null) => {
 	//Setup some backend security. This is just a backup.
 	if (!member.guild) return;
 	if (!member.guild.me.hasPermission('KICK_MEMBERS')) return;

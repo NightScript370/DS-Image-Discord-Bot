@@ -1,4 +1,4 @@
-const MessageEmbed = require('discord.js')
+import { MessageEmbed } from 'discord.js'
 
 let socialLinks = [
 	"[Github Repository](https://github.com/Universal-Team/Relaunch)",

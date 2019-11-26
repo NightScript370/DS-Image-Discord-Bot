@@ -1,8 +1,8 @@
-const chalk, { cyan, bold  = require('chalk')
+import chalk, { cyan, bold } from 'chalk';
 import moment from 'moment';
-const inspect = require('util')
+import { inspect } from 'util';
 
-module.exports = class Logger {
+export default class Logger {
 	static log(content, { color = 'grey', tag = 'Log' } = {}) {
 		this.write(content, { color, tag });
 	}

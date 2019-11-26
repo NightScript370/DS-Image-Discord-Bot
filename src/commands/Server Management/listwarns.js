@@ -1,6 +1,6 @@
-const { Command } = require('discord-akairo')
+import { Command } from 'discord-akairo';
 
-module.exports = class WarnCommand extends Command {
+export default class WarnCommand extends Command {
 	constructor() {
 		super('listwarns', {
 			aliases: ["listwarns", "listwarn", "warns"],

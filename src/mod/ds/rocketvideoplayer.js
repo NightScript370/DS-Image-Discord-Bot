@@ -1,4 +1,4 @@
-const MessageEmbed = require('discord.js')
+import { MessageEmbed } from 'discord.js'
 
 let socialLinks = [
     "[GBAtemp Thread](https://gbatemp.net/threads/release-rocket-video-player-play-videos-with-the-ultimate-in-picture-quality.539163/)",

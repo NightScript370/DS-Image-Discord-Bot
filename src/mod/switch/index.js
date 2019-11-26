@@ -1,4 +1,4 @@
-const MessageEmbed = require('discord.js')
+import { MessageEmbed } from 'discord.js'
 
 let features = [
 	"Customize your HOME Menu with user-created themes and splash screens",

@@ -1,10 +1,10 @@
-const inspect = require('util')
+import { inspect } from 'util';
 import Command from '../../struct/Command.js';
 
-const splitMessage = require('discord.js')
+import { splitMessage } from 'discord.js';
 const escapeRegex = (str) => str.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&');
 
-module.exports = class EvalCommand extends Command {
+export default class EvalCommand extends Command {
 	constructor() {
 		super('eval', {
 			aliases: ['eval'],

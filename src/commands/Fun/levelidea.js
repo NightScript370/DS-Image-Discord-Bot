@@ -1,7 +1,7 @@
 import Command from '../../struct/Command.js';
-const fromArray = require('list-array')
+import { fromArray } from 'list-array';
 
-module.exports = class LevelIdeaCommand extends Command {
+export default class LevelIdeaCommand extends Command {
 	constructor() {
 		super('level-idea', {
 			aliases: ['levelidea', 'level-idea'],

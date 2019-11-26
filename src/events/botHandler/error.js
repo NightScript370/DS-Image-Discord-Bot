@@ -1,6 +1,6 @@
-const Listener = require('discord-akairo')
+import { Listener } from 'discord-akairo';
 
-module.exports = class discordErrorListener extends Listener {
+export default class discordErrorListener extends Listener {
 	constructor() {
 		super('discorderror', {
 			emitter: 'client',

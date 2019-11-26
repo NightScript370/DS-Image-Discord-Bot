@@ -1,4 +1,4 @@
-const MessageEmbed = require('discord.js')
+import { MessageEmbed } from 'discord.js'
 
 export const message = "**nesDS** is an open-source Nintendo Enterntainment System (NES for short) emulator for a Nintendo DS flashcard or a DSi/3DS SD card."
 export const embed = new MessageEmbed()

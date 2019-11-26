@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	// MARK: General purpose
 	"Type `cancel` to cancel this command.": "Напишите `cancel`, чтобы отменить эту команду.",
 	"by {0}": "от {0}",

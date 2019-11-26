@@ -1,4 +1,4 @@
-const readdirSync, lstatSync  = require('fs')
+import { readdirSync, lstatSync } from 'fs';
 
 let mods  = [];
 let array = readdirSync(__dirname).filter(item =>
@@ -17,4 +17,4 @@ for (let i = 0; i < array.length; i++) {
 			mods[i].push(require(`${path}/alias.json`));
 };
 
-module.exports = mods;
+export default mods;

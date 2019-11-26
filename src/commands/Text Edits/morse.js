@@ -1,7 +1,7 @@
-const { Command } = require('discord-akairo')
+import { Command } from 'discord-akairo';
 import data from "../../utils/morse.js";
 
-module.exports = class MorseCommand extends Command {
+export default class MorseCommand extends Command {
 	constructor() {
 		super('morse', {
 			category: 'Text Fun',

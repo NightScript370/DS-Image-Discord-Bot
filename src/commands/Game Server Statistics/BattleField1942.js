@@ -1,6 +1,6 @@
 import Command from '../../struct/Command.js';
 
-module.exports = class BF1942Command extends Command {
+export default class BF1942Command extends Command {
 	constructor() {
 		super('BattleField1942', {
 			category: 'Game Statistics',

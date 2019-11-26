@@ -1,7 +1,7 @@
-const { Command } = require('discord-akairo')
+import { Command } from 'discord-akairo';
 const request = require('util').promisify(require('request'));
 
-module.exports = class AmiiboCommand extends Command {
+export default class AmiiboCommand extends Command {
 	constructor() {
 		super('amiibo', {
 			aliases: ['amiibo'],

@@ -1,7 +1,7 @@
 import Command from '../../struct/Command.js';
-const promisify = require("util")
+import { promisify } from "util";
 
-module.exports = class MinecraftServerCommand extends Command {
+export default class MinecraftServerCommand extends Command {
 	constructor() {
 		super('minecraft', {
 			category: 'Game Statistics',

@@ -1,7 +1,7 @@
-const { Command } = require('discord-akairo')
+import { Command } from 'discord-akairo';
 import get from 'node-superfetch';
 
-module.exports = class GenderGuessCommand extends Command {
+export default class GenderGuessCommand extends Command {
 	constructor() {
 		super('gender-guess', {
 			aliases: ["gender-guess", 'guess-gender', 'gender'],

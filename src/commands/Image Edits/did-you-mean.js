@@ -1,7 +1,7 @@
-const { Command } = require('discord-akairo')
+import { Command } from 'discord-akairo';
 import get from 'node-superfetch';
 
-module.exports = class DidYouMeanCommand extends Command {
+export default class DidYouMeanCommand extends Command {
 	constructor() {
 		super('didyoumean', {
 			category: 'Image Edits',

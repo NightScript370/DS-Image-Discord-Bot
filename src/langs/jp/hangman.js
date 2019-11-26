@@ -1,6 +1,6 @@
-const list = require("list")
+import { list } from "list";
 
-module.exports = list(
+export default list(
 	"にんげん", // 人間 – human (ningen)
 	"じんるい", // 人類 – humanity (jinrui)
 	"ひと", // 人 – person (hito)

@@ -1,7 +1,7 @@
-const { Command } = require('discord-akairo')
+import { Command } from 'discord-akairo';
 import Hangman from 'hangman-game-engine';
 
-module.exports = class HangmanCommand extends Command {
+export default class HangmanCommand extends Command {
     constructor() {
         super('hangman', {
             aliases: ['hangman', 'hman'],

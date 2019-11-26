@@ -1,9 +1,9 @@
 import Command from './Command.js';
-const createCanvas, loadImage  = require('canvas')
+import { createCanvas, loadImage } from 'canvas';
 import path from 'path';
-const deflateRawSync = require('zlib')
+import { deflateRawSync } from 'zlib';
 
-module.exports = class ImageCommand extends Command {
+export default class ImageCommand extends Command {
 	constructor(...args) {
 		super(args);
 	}

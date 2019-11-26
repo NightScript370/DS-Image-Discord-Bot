@@ -1,17 +1,17 @@
 import 'cache-require-paths'
 import "./utils/extraFunctions.js";
 
-const translateModule = require('./langs/framework.js')
+import * as translateModule from './langs/framework.js';
 
-const AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler  = require('discord-akairo')
-const owners, supportServer, prefix as _prefix, website, log as _log, token  = require("./config.js")
-const join = require('path')
-const BackEmbed = require('./embed.js')
-const types = require('./utils/types.js')
-const AudioModule = require('./utils/audio.js')
-const DatabaseModule = require('./utils/database.js')
-const ModerationModule = require('./utils/moderation/index.js')
-const List = require("list-array")
+import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } from 'discord-akairo';
+import { owners, supportServer, prefix as _prefix, website, log as _log, token } from "./config.js";
+import { join } from 'path';
+import * as BackEmbed from './embed.js';
+import * as types from './utils/types.js';
+import * as AudioModule from './utils/audio.js';
+import * as DatabaseModule from './utils/database.js';
+import * as ModerationModule from './utils/moderation/index.js';
+import * as List from "list-array";
 
 import "./struct/User.js";
 import "./struct/Guild.js";
@@ -20,7 +20,7 @@ import "./struct/TextChannel.js";
 import "./struct/GuildMember.js";
 
 // This is used to debug the errors.
-const format = require('util')
+import { format } from 'util';
 const maxLog = 20;
 
 global.translate = translateModule;

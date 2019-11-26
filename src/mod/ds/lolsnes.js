@@ -1,4 +1,4 @@
-const MessageEmbed = require('discord.js')
+import { MessageEmbed } from 'discord.js'
 
 let socialLinks = [
 	"[Website](http://lolsnes.kuribo64.net/)",

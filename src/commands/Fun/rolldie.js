@@ -1,7 +1,7 @@
-const { Command } = require('discord-akairo')
-const random = require("including-range-array")
+import { Command } from 'discord-akairo';
+import { random } from "including-range-array";
 
-module.exports = class RollDieCommand extends Command {
+export default class RollDieCommand extends Command {
 	constructor() {
 		super('rolldie', {
 			aliases: ['rolldie'],

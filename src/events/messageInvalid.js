@@ -1,9 +1,9 @@
-const Listener = require('discord-akairo')
-const random = require("including-range-array")
-const get as getDistance  = require("fast-levenshtein")
-const inhibit as pointInhibit  = require("../point-inhibit.js")
+import { Listener } from 'discord-akairo';
+import { random } from "including-range-array";
+import { get as getDistance } from "fast-levenshtein";
+import { inhibit as pointInhibit } from "../point-inhibit.js"
 
-module.exports = class messageInavlidListener extends Listener {
+export default class messageInavlidListener extends Listener {
     constructor() {
         super('messageInvalid', {
             emitter: 'commandHandler',

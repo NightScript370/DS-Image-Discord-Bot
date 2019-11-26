@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	/* ###Mark: General Usage### */
 	"Type `cancel` to cancel this command.": "Napisz `cancel` (anuluj), żeby anulować tą komendę.",
 	"There are not enough arguments to this command. The minimum is {0}.": "Nie ma odpowiednio dużo argumentów do tej komendy. Minimum to {0}.",

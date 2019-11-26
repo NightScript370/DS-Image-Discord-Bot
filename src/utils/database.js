@@ -16,4 +16,4 @@ function loadCollections () {
 	})
 }
 
-module.exports = db
+export default db

@@ -1,6 +1,6 @@
-const Listener = require('discord-akairo')
+import { Listener } from 'discord-akairo';
 
-module.exports = class DBLPostedListener extends Listener {
+export default class DBLPostedListener extends Listener {
 	constructor() {
 		super('posted', {
 			emitter: 'dbl',
