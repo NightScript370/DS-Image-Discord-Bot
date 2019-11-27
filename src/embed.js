@@ -1,7 +1,6 @@
-import * as discordJS from 'discord.js'
-const { MessageEmbed } = discordJS;
+import discord from 'discord.js'
 
-export default class YamamuraEmbed extends MessageEmbed {
+export default class YamamuraEmbed extends discord.MessageEmbed {
 	constructor(...args) {
 		super(args)
 	}
