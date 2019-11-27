@@ -1,5 +1,6 @@
 import { Command } from 'discord-akairo';
-import { createCanvas, loadImage } from 'canvas';
+import * as canvas from 'canvas';
+const { createCanvas, loadImage } = canvas
 import { join } from 'path';
 
 export default class SurprisedPikaPanelCommand extends Command {

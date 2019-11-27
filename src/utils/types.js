@@ -1,4 +1,5 @@
-import { loadImage } from 'canvas';
+import * as canvas from 'canvas';
+const { loadImage } = canvas
 import { join } from 'path';
 
 // ***************

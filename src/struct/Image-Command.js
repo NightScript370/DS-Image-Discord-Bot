@@ -1,5 +1,6 @@
 import Command from './Command.js';
-import { createCanvas, loadImage } from 'canvas';
+import * as canvas from 'canvas';
+const { createCanvas, loadImage } = canvas
 import path from 'path';
 import { deflateRawSync } from 'zlib';
 

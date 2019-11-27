@@ -1,5 +1,6 @@
 import Command from '../../struct/Image-Command.js';
-import { createCanvas, loadImage } from 'canvas';
+import * as canvas from 'canvas';
+const { createCanvas, loadImage } = canvas
 import { join } from 'path';
 
 export default class BobRossCommand extends Command {

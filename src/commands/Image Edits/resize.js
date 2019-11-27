@@ -1,5 +1,6 @@
 import Command from '../../struct/Image-Command.js';
-import { createCanvas, loadImage } from 'canvas';
+import * as canvas from 'canvas';
+const { createCanvas, loadImage } = canvas
 
 export default class ResizeCommand extends Command {
 	constructor() {

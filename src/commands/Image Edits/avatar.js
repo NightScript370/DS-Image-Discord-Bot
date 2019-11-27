@@ -1,5 +1,6 @@
 import { Command } from 'discord-akairo';
-import { createCanvas, loadImage } from 'canvas';
+import * as canvas from 'canvas';
+const { createCanvas, loadImage } = canvas
 
 export default class AmiiboCommand extends Command {
 	constructor() {
