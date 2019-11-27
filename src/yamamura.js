@@ -6,7 +6,8 @@ console.log('loaded ./utils/extraFunctions')
 import * as translateModule from './langs/framework.js';
 console.log('loaded translateModule')
 
-import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } from 'discord-akairo';
+import * as DiscordAkairo from 'discord-akairo'
+const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } = DiscordAkairo;
 console.log('loaded Akairo')
 import { owners, supportServer, prefix as _prefix, website, log as _log, token } from "./config.js";
 console.log('loaded config')
