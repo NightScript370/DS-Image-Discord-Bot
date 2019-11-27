@@ -1,6 +1,7 @@
 import * as discordJS from 'discord.js';
+import * as databaseModule from '../utils/database.js';
 const { Structures } = discordJS
-import { points as pointsTable, infractions } from '../utils/database.js';
+const { points: pointsTable, infractions } = databaseModule;
 
 function getDateTime(date) {
 	var hour = date.getHours();

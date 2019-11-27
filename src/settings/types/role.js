@@ -1,4 +1,4 @@
-module.exports = class RoleType {
+export default class RoleType {
 	static get nullValue() {
 		return null;
 	}

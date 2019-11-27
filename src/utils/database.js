@@ -1,10 +1,10 @@
 import loki from 'lokijs';
 
 const db = new loki('database.db', {
-  autoload: true,
-  autosave: true,
-  autosaveInterval: 25000,
-  autoloadCallback: loadCollections,
+	autoload: true,
+	autosave: true,
+	autosaveInterval: 25000,
+	autoloadCallback: loadCollections,
 })
 
 const collections = ['points', 'infractions', 'serverconfig', 'userconfig', 'multiply', 'rules'];

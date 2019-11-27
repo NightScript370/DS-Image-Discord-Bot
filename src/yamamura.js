@@ -1,5 +1,5 @@
-import 'cache-require-paths'
-console.log('loaded cache-require-path') // This might be the culpret. Hopefully not
+import './utils/cache-require-paths.js';
+console.log('loaded cache-require-path')
 import "./utils/extraFunctions.cjs";
 console.log('loaded ./utils/extraFunctions')
 

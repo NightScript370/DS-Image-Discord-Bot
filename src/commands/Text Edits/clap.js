@@ -20,7 +20,7 @@ export default class ClapCommand extends Command {
 
 	exec(message, { toClap }) {
 		if (!toClap)
-			toClap = global.translate(message.author.lang, "I :clap: need :clap: text :clap: to :clap: clap :clap: to!");
+			toClap = global.translate(message.author.lang, "I need text to clap to!");
 
 		let embed;
 		if (message.guild)

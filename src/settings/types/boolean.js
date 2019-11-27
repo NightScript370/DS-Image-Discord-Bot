@@ -1,4 +1,4 @@
-module.exports = class BoolType {
+export default class BoolType {
 	static get nullValue() {
 		return false;
 	}

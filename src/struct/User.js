@@ -1,6 +1,7 @@
 import * as discordJS from 'discord.js';
+import * as DatabaseModule from '../utils/database.js';
 const { Structures } = discordJS
-import { userconfig } from '../utils/database.js';
+const { userconfig } = DatabaseModule
 
 import { defaultLang } from "../langs/framework.js";
 

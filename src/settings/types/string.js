@@ -1,4 +1,4 @@
-module.exports = class StringType {
+export default class StringType {
 	static get nullValue() {
 		return "";
 	}

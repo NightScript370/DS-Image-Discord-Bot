@@ -1,17 +1,18 @@
-const fs = require('fs');
-const path = require("path");
+import { readdirSync } from 'fs';
+import { join } from "path";
+import * as databaseModule from '../utils/database.js';
 
 let settingProps = {}
 let types = [];
 
-let propertyFileNames = fs.readdirSync(path.join(__dirname, 'properties'))
+let propertyFileNames = readdirSync(join(__dirname, 'properties'))
 for (var propertyFileName of propertyFileNames) {
-	settingProps[propertyFileName.replaceAll('.js', '')] = require(path.join(__dirname, 'properties', propertyFileName))
+	settingProps[propertyFileName.replaceAll('.js', '')] = require(join(__dirname, 'properties', propertyFileName))
 }
 
-let typesFileNames = fs.readdirSync(path.join(__dirname, 'properties'))
+let typesFileNames = readdirSync(join(__dirname, 'properties'))
 for (var typeFileName of typesFileNames) {
-	types.push(require(path.join(__dirname, 'properties', typeFileName)));
+	types.push(require(join(__dirname, 'properties', typeFileName)));
 }
 
 function findType(key) {
@@ -19,12 +20,12 @@ function findType(key) {
 }
 
 function getKey(client, msg, key) {
-	let data = require("../utils/database.js").serverconfig.findOne({guildID: msg.guild.id});
+	let data = databaseModule.serverconfig.findOne({guildID: msg.guild.id});
 
 	let value = data[key];
 	return findType(key).deserialize(client, msg, value);
 }
 
-module.exports = {
+export default {
 	types, findType, getKey, settingProps
 };
