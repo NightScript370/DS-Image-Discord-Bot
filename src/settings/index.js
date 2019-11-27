@@ -1,6 +1,6 @@
 import { readdirSync } from 'fs';
 import { join } from "path";
-import * as databaseModule from '../utils/database.js';
+import databaseModule from '../utils/database.js';
 
 let settingProps = {}
 let types = [];

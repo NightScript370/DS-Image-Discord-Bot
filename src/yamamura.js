@@ -6,7 +6,7 @@ console.log('loaded ./utils/extraFunctions')
 import * as translateModule from './langs/framework.js';
 console.log('loaded translateModule')
 
-import * as DiscordAkairo from 'discord-akairo'
+import DiscordAkairo from 'discord-akairo'
 const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } = DiscordAkairo;
 console.log('loaded Akairo')
 import { owners, supportServer, prefix as _prefix, website, log as _log, token } from "./config.js";
@@ -19,7 +19,7 @@ import * as types from './utils/types.js';
 console.log('loaded Types')
 import * as AudioModule from './utils/audio.js';
 console.log('loaded Audio Module')
-import * as DatabaseModule from './utils/database.js';
+import DatabaseModule from './utils/database.js';
 console.log('loaded database module')
 import * as ModerationModule from './utils/moderation/index.js';
 console.log('loaded Moderation module')

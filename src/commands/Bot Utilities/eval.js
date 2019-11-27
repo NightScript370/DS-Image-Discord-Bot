@@ -1,7 +1,7 @@
 import { inspect } from 'util';
 import Command from '../../struct/Command.js';
 
-import * as discordJS from 'discord.js';
+import discordJS from 'discord.js';
 const { splitMessage } = discordJS
 const escapeRegex = (str) => str.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&');
 

@@ -1,5 +1,5 @@
-import * as discordJS from 'discord.js';
-import * as DatabaseModule from '../utils/database.js';
+import discordJS from 'discord.js';
+import DatabaseModule from '../utils/database.js';
 import * as languageModule from "../langs/framework.js";
 const { Structures } = discordJS
 const { userconfig } = DatabaseModule

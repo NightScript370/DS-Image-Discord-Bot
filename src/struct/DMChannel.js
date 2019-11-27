@@ -1,4 +1,4 @@
-import * as discordJS from 'discord.js';
+import discordJS from 'discord.js';
 const { Structures } = discordJS
 
 // This extends Discord's native TextChannel class with our own methods and properties

@@ -4,7 +4,7 @@ import { join } from 'path';
 import * as BackEmbed from '../embed.js';
 import * as types from '../utils/types.js';
 import * as AudioModule from '../utils/audio.js';
-import * as DatabaseModule from '../utils/database.js';
+import databaseModule from '../utils/database.js';
 import * as ModerationModule from '../utils/moderation/index.js';
 
 export default class YamamuraClient extends AkairoClient {

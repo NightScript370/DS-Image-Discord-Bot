@@ -1,6 +1,6 @@
-import * as discordJS from 'discord.js';
+import discordJS from 'discord.js';
 import { findType } from '../settings/index.js';
-import * as databaseModule from '../utils/database.js';
+import databaseModule from '../utils/database.js';
 import { prefix as defaultPrefix } from "../config.js";
 const { Structures } = discordJS
 const { serverconfig } = databaseModule
