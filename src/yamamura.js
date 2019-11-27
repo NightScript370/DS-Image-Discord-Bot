@@ -1,7 +1,7 @@
 import 'cache-require-paths'
 console.log('loaded cache-require-path') // This might be the culpret. Hopefully not
-import "./utils/extraFunctions.js";
-console.log('./utils/extraFunctions')
+import "./utils/extraFunctions.cjs";
+console.log('loaded ./utils/extraFunctions')
 
 import * as translateModule from './langs/framework.js';
 console.log('loaded translateModule')
