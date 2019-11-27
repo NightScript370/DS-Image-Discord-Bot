@@ -1,4 +1,5 @@
-import { MessageEmbed } from 'discord.js'
+import * as discordJS from 'discord.js'
+const { MessageEmbed } = discordJS
 
 let features = [
 	"Run unsigned software (such as homebrew)",

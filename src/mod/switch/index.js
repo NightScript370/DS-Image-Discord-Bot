@@ -1,4 +1,5 @@
-import { MessageEmbed } from 'discord.js'
+import * as discordJS from 'discord.js'
+const { MessageEmbed } = discordJS
 
 let features = [
 	"Customize your HOME Menu with user-created themes and splash screens",

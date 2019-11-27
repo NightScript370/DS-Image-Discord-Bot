@@ -1,4 +1,5 @@
-import { MessageEmbed } from 'discord.js'
+import * as discordJS from 'discord.js'
+const { MessageEmbed } = discordJS
 
 let features = [
 	"Use recreated services such as Wiimifi and RiiConnect24 to replace the discontinued Nintendo Wi-fi Connection & WiiConnect24",
