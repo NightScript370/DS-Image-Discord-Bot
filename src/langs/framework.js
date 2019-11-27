@@ -100,4 +100,4 @@ translate.getDuration = (lang, duration) => {
 	return `${dayString}${hourString}${minString}${secString}`
 }
 
-export default translate;
+export default translate

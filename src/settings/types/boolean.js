@@ -1,3 +1,5 @@
+import * as translateModule from '../../langs/framework.js'
+
 export default class BoolType {
 	static get nullValue() {
 		return false;
@@ -17,7 +19,7 @@ export default class BoolType {
 	}
 
 	static render(client, msg, val) {
-		return getString(msg.author.lang, val.toString() == "true" ? "Enabled" : "Disabled");
+		return translateModule(msg.author.lang, val.toString() == "true" ? "Enabled" : "Disabled");
 	}
 
 	static validate(client, _, val) {
