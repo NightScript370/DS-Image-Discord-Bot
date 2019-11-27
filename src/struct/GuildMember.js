@@ -1,4 +1,5 @@
-import { Structures } from "discord.js";
+import * as discordJS from 'discord.js';
+const { Structures } = discordJS
 import { points as pointsTable, infractions } from '../utils/database.js';
 
 function getDateTime(date) {

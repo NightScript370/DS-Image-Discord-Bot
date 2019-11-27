@@ -1,4 +1,5 @@
-import { Structures } from "discord.js";
+import * as discordJS from 'discord.js';
+const { Structures } = discordJS
 import { userconfig } from '../utils/database.js';
 
 import { defaultLang } from "../langs/framework.js";

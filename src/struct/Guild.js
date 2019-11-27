@@ -1,4 +1,5 @@
-import { Structures } from "discord.js";
+import * as discordJS from 'discord.js';
+const { Structures } = discordJS
 import { findType } from '../settings/index.js';
 import { serverconfig } from '../utils/database.js';
 import { prefix as defaultPrefix } from "../config.js";
