@@ -33,6 +33,7 @@ export default Structures.extend("Guild", Guild => class extends Guild {
 					makerboard: "",
 					starboardchannel: starboardchannel ? starboardchannel.id : '',
 					levelup: true,
+					leveluplimit: -1,
 					levelupmsgs: !blank ? ["Congratulations {{user}}! You've leveled up to level {{level}}!"] : [],
 					mutedrole: mutedrole ? mutedrole.id : '',
 				};

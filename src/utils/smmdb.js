@@ -4,29 +4,28 @@ import { stringify } from 'querystring';
 const request = import('request').defaults({ encoding: null });
 const promiseRequest = import('util').promisify(request);
 
+const URL = 'https://smmdb.ddns.net/api/';
+const getBody = async (object, callback=null) => {
+	if (callback) {
+		request(object, (error, response, body) => {
+			if (error) return callback(error);
+			if (!response || response.statusCode !== 200) return callback('Invalid response code');
+			return callback(null, body);
+		});
+	} else {
+		let { body, statusCode } = await promiseRequest(object);
+		if (statusCode !== 200) return 'Invalid response code';
+		return body;
+	}
+}
+
 export default class SMMDB {
     constructor(api_key) {
-		this.url = 'https://smmdb.ddns.net/api/';
         this.apiKey = api_key;
-        this.getBody = async (object, callback=null) => {
-            if (callback) {
-		        request(object, (error, response, body) => {
-			        if (error) return callback(error);
-			        if (!response || response.statusCode !== 200) return callback('Invalid response code');
-			        return callback(null, body);
-		        });
-	        } else {
-		        let { body, statusCode } = await promiseRequest(object);
-		        if (statusCode !== 200) return 'Invalid response code';
-		        return body;
-	        }
-        }
     }
 
 	getStats (callback=null) {
-		let APIURL = this.url;
-		APIURL += 'getStats';
-		return this.getBody({ url: APIURL, json: true }, callback);
+		return getBody({ url: URL + 'getStats', json: true }, callback);
 	}
 
 	searchCourses (version, args, callback=null) {
@@ -37,11 +36,11 @@ export default class SMMDB {
 				return Promise.reject(new Error('Not a valid version'));
 		}
 
-		let APIURL = this.url;
+		let APIURL = URL;
 		APIURL += version == "smm64" ? 'getcourses64?' : 'getcourses?';
 		APIURL += stringify(args);
 
-		return this.getBody({ url: APIURL, json: true }, callback);
+		return getBody({ url: APIURL, json: true }, callback);
 	}
 
 	downloadCourse (type, courseId, target, callback) {
@@ -52,7 +51,7 @@ export default class SMMDB {
 				return Promise.reject(new Error('Not a valid type'));
 		}
 
-		let APIURL = this.url;
+		let APIURL = URL;
 		APIURL += type == 'smm64' ? 'downloadcourse64?id=' : 'downloadcourse?id=';
 		APIURL += courseId;
 		APIURL += '&type=';
@@ -70,7 +69,7 @@ export default class SMMDB {
 		APIURL += format;
 		let req = request({ method: 'GET', uri: APIURL });
 
-		var out = createWriteStream(target + '/smm' + type + '-course-' + courseId + '.' + format);
+		const out = createWriteStream(target + '/smm' + type + '-course-' + courseId + '.' + format);
 		req.pipe(out);
 
 		req.on('error', (error) => {
@@ -90,12 +89,9 @@ export default class SMMDB {
 				return Promise.reject(new Error('No API key provided'));
 		}
 
-		let APIURL = this.url;
-		APIURL += 'uploadcourse';
-
 		let object = {
 			method: 'POST',
-			url: APIURL,
+			url: URL + 'uploadcourse',
 			useElectronNet: false,
 			body: buffer,
 			headers: {
@@ -105,7 +101,7 @@ export default class SMMDB {
 			json: true
 		};
 
-		return this.getBody(object, callback);
+		return getBody(object, callback);
 	}
 
 	toggleStar (courseId, callback=null) {
@@ -118,14 +114,12 @@ export default class SMMDB {
 
 		let object = {
 			method: 'POST',
-			url: API_BASE + 'starcourse?id=' + courseId,
+			url: URL + 'starcourse?id=' + courseId,
 			useElectronNet: false,
-			headers: {
-				'Authorization': 'APIKEY ' + this.apiKey
-			},
+			headers: {'Authorization': 'APIKEY ' + this.apiKey },
 			json: true
 		};
 
-		return this.getBody(object, callback);
+		return getBody(object, callback);
 	}
 }

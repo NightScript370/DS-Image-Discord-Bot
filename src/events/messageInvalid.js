@@ -132,11 +132,8 @@ export default class messageInavlidListener extends discordAkairo.Listener {
 		 * level = 4 => limit = 180 * 5 + 40 =  900 + 40 =  940;
 		 * level = 5 => limit = 180 * 6 + 50 = 1080 + 50 = 1130;
 		*/
-		var limit = 180 * (user.level+1) + (10*user.level);
-		//// ((limit-10*user.level)/180)-1;
-		let levelUp = user.xp >= limit;
-
-		if (levelUp) {
+		let limit = 180 * (user.level+1) + (10*user.level);
+		if (user.xp >= limit && (message.guild.config.data.leveluplimit == -1 || user.level !== message.guild.config.data.leveluplimit)) {
 			user.level = user.level + 1;
 
 			if (!message.channel.sendable || !message.guild.config.render('levelup')) return;
