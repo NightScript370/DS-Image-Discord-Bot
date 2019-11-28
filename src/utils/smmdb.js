@@ -1,9 +1,8 @@
 import { createWriteStream } from 'fs';
 import { stringify } from 'querystring';
-let request = require('request').defaults({ encoding: null });
 
-import { promisify } from "util";
-const promiseRequest = promisify(request);
+const request = import('request').defaults({ encoding: null });
+const promiseRequest = import('util').promisify(request);
 
 export default class SMMDB {
     constructor(api_key) {
@@ -11,7 +10,7 @@ export default class SMMDB {
         this.apiKey = api_key;
         this.getBody = async (object, callback=null) => {
             if (callback) {
-		        await request(object, (error, response, body) => {
+		        request(object, (error, response, body) => {
 			        if (error) return callback(error);
 			        if (!response || response.statusCode !== 200) return callback('Invalid response code');
 			        return callback(null, body);

@@ -24,8 +24,8 @@ export default class MinecraftServerCommand extends Command {
 				},
 				{
 					id: 'API',
-					description: 'Due to the many different version of minecraft, some of them are incompatible with gamedig. Therefore, we have three options for APIs: minestat (for older versions), gamedig (default) and mcsrvstat.us (most compatible but slowest)',
-					type: ['minestat', 'gamedig', 'mcsrvstat.us'],
+					description: 'Due to the many different version of minecraft, some of them are incompatible with gamedig. Therefore, we have three options for APIs: minestat (for older versions), gamedig (default) alongside mcsrvstat.us (most compatible) & mcapi.us (both of these are slow)',
+					type: ['minestat', 'gamedig', 'mcsrvstat.us', 'mcapi.us'],
 					match: 'option',
 					flag: 'API:',
 					default: 'gamedig'
@@ -63,9 +63,8 @@ export default class MinecraftServerCommand extends Command {
 					if (this.isGood(this.rvMColor(result.motd))) {
 						MineEmbed.addField("Message of the Day", this.rvMColor(result.motd));
 					}
-				} else {
+				} else
 					MineEmbed.setDescription(`:red_circle: Server is offline`);
-				}
 
 				message.util.send(`Minecraft Server Stats: ${result.address}:${result.port}`, {embed: MineEmbed});
 				break;
@@ -80,9 +79,10 @@ export default class MinecraftServerCommand extends Command {
 				message.util.send(text, {embed});
 				break;
 			case 'mcsrvstat.us':
+			case 'mcapi.us':
 				const request = promisify(import("request"));
 
-				let { body, statusCode } = await request({ url: 'https://api.mcsrvstat.us/2/'+encodeURIComponent(host), json: true });
+				let { body, statusCode } = await request({ url: ('https://api.mcsrvstat.us/2/'+encodeURIComponent(host)), json: true });
 				if (statusCode !== 200) {
 					console.error(`[ERROR][Minecraft Command][api.mcsrvstat.us] statusCode: ${statusCode}`)
 					return msg.reply('An error has occured replating to the API selected. Please try again with a different API, or contact the Yamamura developers');

@@ -131,13 +131,13 @@ function getCPUInfo() {
 	let idle = 0;
 	let irq = 0;
 
-	Object.values(cpus).forEach((cpu) => {
+	for(let cpu of Object.values(cpus)) {
 		user += cpu.times.user;
 		nice += cpu.times.nice;
 		sys += cpu.times.sys;
 		irq += cpu.times.irq;
 		idle += cpu.times.idle;
-	});
+	}
 
 	const total = user + nice + sys + idle + irq;
 
@@ -147,7 +147,7 @@ function getCPUInfo() {
 	};
 }
 
-export function cpu() { return new Promise((resolve) => {
+export const cpu = () => new Promise((resolve) => {
 	const stats1 = getCPUInfo();
 	const startIdle = stats1.idle;
 	const startTotal = stats1.total;
@@ -167,4 +167,4 @@ export function cpu() { return new Promise((resolve) => {
 			count: _cpus().length
 		});
 	}, 1000);
-}); 	}
+});

@@ -20,82 +20,44 @@
 
 // For use with Node.js
 
+import { connect } from 'net';
+
 const NUM_FIELDS = 6;      // number of values expected from server
 const DEFAULT_TIMEOUT = 5; // default TCP timeout in seconds
-let address = null;
-let port = null;
-let online = null;             // online or offline?
-let version = null;            // server version
-let motd = null;               // message of the day
-let current_players = null;    // current number of players online
-let max_players = null;        // maximum player capacity
-let latency = null;            // ping time to server in milliseconds
 
-export default (address, port, callback, timeout=DEFAULT_TIMEOUT) => {
-    this.address = address;
-    this.port = port;
+export default (address, port, timeout=DEFAULT_TIMEOUT) => {
+	let information = { address, port };
 
-    const net = require('net');
-    var start_time = new Date();
-    const client = net.connect(port, address, () => {
-		this.latency = Math.round(new Date() - start_time);
-		var buff = Buffer.from([ 0xFE, 0x01 ]);
-		client.write(buff);
-    });
+	const start_time = new Date();
+	const client = connect(port, address);
 
-    client.setTimeout(timeout * 1000);
+	client.setTimeout(timeout * 1000);
 
-	client.on('data', (data) => {
-		if(data != null && data != '') {
-			var server_info = data.toString().split("\x00\x00\x00");
-			if (server_info != null && server_info.length >= NUM_FIELDS) {
-				this.online = true;
-				this.version = server_info[2].replace(/\u0000/g,'');
-				this.motd = server_info[3].replace(/\u0000/g,'');
-				this.current_players = server_info[4].replace(/\u0000/g,'');
-				this.max_players = server_info[5].replace(/\u0000/g,'');
-			} else
-				this.online = false;
-		}
+	client
+		.on('connection', () => {
+			information.latency = Math.round(new Date() - start_time);
+			let buff = Buffer.from([ 0xFE, 0x01 ]);
+			client.write(buff);
+		})
+		.on('data', (data) => {
+			if(data != null && data != '') {
+				let server_info = data.toString().split("\x00\x00\x00");
+				if (server_info != null && server_info.length >= NUM_FIELDS) {
+					information.online = true;
+					information.version = server_info[2].replace(/\u0000/g,'');
+					information.motd = server_info[3].replace(/\u0000/g,'');
+					information.current_players = server_info[4].replace(/\u0000/g,'');
+					information.max_players = server_info[5].replace(/\u0000/g,'');
+				} else
+					information.online = false;
+			}
 
-		callback();
-		client.end();
-    });
-
-    client.on('timeout', () =>
-    {
-      callback();
-      client.end();
-      process.exit();
-    });
-
-    client.on('end', () =>
-    {
-      // nothing needed here
-    });
-
-    client.on('error', (err) =>
-    {
-      // Uncomment the lines below to handle error codes individually. Otherwise,
-      // call callback() and simply report the remote server as being offline.
-
-      /*
-      if(err.code == "ENOTFOUND")
-      {
-        console.log("Unable to resolve " + this.address + ".");
-        return;
-      }
-
-      if(err.code == "ECONNREFUSED")
-      {
-        console.log("Unable to connect to port " + this.port + ".");
-        return;
-      }
-      */
-
-      callback();
-
-      // Uncomment the line below for more details pertaining to network errors.
-      //console.log(err);
-    });
+			client.end();
+			return information;
+		})
+		.on('timeout', () => {
+			client.end();
+			Promise.reject(new Error(`Timeout on ${address} using MineStat-API`))
+		})
+		.on('error', (err) => Promise.reject(new Error(err)));
 };
