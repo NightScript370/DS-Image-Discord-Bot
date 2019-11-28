@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class messageReactionAddListener extends Listener {
+export default class messageReactionAddListener extends discordAkairo.Listener {
 	constructor() {
 		super('messageReactionAdd', {
 			emitter: 'client',

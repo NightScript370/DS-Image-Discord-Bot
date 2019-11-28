@@ -1,5 +1,5 @@
 import Command from '../../struct/Image-Command.js';
-import * as canvas from 'canvas';
+import canvas from 'canvas';
 const { createCanvas, loadImage } = canvas
 import { join } from 'path';
 
@@ -62,7 +62,7 @@ export default class PlayStationCommand extends Command {
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.');
 
-		const base = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'playstation', gloss ? 'gloss.png' : 'nogloss.png'));
+		const base = await loadImage(join(process.cwd(), 'assets', 'images', 'playstation', gloss ? 'gloss.png' : 'nogloss.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 
@@ -76,7 +76,7 @@ export default class PlayStationCommand extends Command {
 		}
 
 		if (funky) {
-			let funkyImg = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'funky.png'));
+			let funkyImg = await loadImage(join(process.cwd(), 'assets', 'images', 'funky.png'));
 			await ctx.drawImage(funkyImg, 147, 7, 125, 88);
 		}
 

@@ -1,7 +1,7 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import questions from "../../../assets/JSON/sort-hat.json";
 
-export default class SortingHatCommand extends Command {
+export default class SortingHatCommand extends discordAkairo.Command {
 	constructor() {
 		super('sorting-hat', {
 			aliases: ['sorting-hat', 'sort-hat', "sorthat"],

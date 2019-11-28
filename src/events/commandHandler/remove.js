@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class CommandRemoveListener extends Listener {
+export default class CommandRemoveListener extends discordAkairo.Listener {
 	constructor() {
 		super('commandHandlerRemove', {
 			emitter: 'commandHandler',

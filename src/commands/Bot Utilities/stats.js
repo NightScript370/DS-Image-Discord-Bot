@@ -1,10 +1,10 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import { cpu } from '../../utils/os';
 
 import moment from "moment";
 import "moment-duration-format";
 
-export default class StatsCommand extends Command {
+export default class StatsCommand extends discordAkairo.Command {
 	constructor() {
 		super('stats', {
 			aliases: ['stats', 'statistics', 'status'],

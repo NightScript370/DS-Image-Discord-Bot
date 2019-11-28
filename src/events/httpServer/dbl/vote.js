@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class DBLVotedListener extends Listener {
+export default class DBLVotedListener extends discordAkairo.Listener {
 	constructor() {
 		super('vote', {
 			emitter: 'dblwebhook',

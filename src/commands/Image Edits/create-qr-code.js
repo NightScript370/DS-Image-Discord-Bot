@@ -1,7 +1,7 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import get from 'node-superfetch';
 
-export default class CreateQRCodeCommand extends Command {
+export default class CreateQRCodeCommand extends discordAkairo.Command {
 	constructor() {
 		super('create-qr-code', {
 			aliases: ["qr-code", 'create-qr', 'create-qr-code', "qrcode", "createqr", "createqrcode"],

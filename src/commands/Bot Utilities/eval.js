@@ -2,7 +2,6 @@ import { inspect } from 'util';
 import Command from '../../struct/Command.js';
 
 import discordJS from 'discord.js';
-const { splitMessage } = discordJS
 const escapeRegex = (str) => str.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&');
 
 export default class EvalCommand extends Command {
@@ -97,7 +96,7 @@ export default class EvalCommand extends Command {
 		replyMessage = "*" + replyMessage + ".*";
 		replyMessage += "```javascript\n" + inspected + "```"
 
-		return splitMessage(replyMessage, { maxLength: 1950, prepend, append });
+		return discordJS.splitMessage(replyMessage, { maxLength: 1950, prepend, append });
 	}
 
 	get sensitivePattern() {

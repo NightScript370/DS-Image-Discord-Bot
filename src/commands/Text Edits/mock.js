@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class MockCommand extends Command {
+export default class MockCommand extends discordAkairo.Command {
 	constructor() {
 		super('mock', {
 			aliases: ['mock'],

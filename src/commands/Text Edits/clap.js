@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class ClapCommand extends Command {
+export default class ClapCommand extends discordAkairo.Command {
 	constructor() {
 		super('clap', {
 			category: 'Text Fun',

@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class listenerLoadListener extends Listener {
+export default class listenerLoadListener extends discordAkairo.Listener {
 	constructor() {
 		super('listenerHandlerLoad', {
 			emitter: 'listenerHandler',

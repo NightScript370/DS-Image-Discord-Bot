@@ -1,5 +1,5 @@
 import Command from '../../struct/Image-Command.js';
-import * as canvas from 'canvas';
+import canvas from 'canvas';
 const { createCanvas, loadImage } = canvas
 import { join } from 'path';
 
@@ -63,7 +63,7 @@ export default class NintendoDSCommand extends Command {
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.');
 
-		const base = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'ds', 'DS_Case.png'));
+		const base = await loadImage(join(process.cwd(), 'assets', 'images', 'ds', 'DS_Case.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 
@@ -80,14 +80,14 @@ export default class NintendoDSCommand extends Command {
 			// await ctx.drawImage(rating, 0, 0, base.width, base.height);
 
 		if (funky) {
-			let funkyImg = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'funkymode.png'));
+			let funkyImg = await loadImage(join(process.cwd(), 'assets', 'images', 'funkymode.png'));
 			await ctx.drawImage(funkyImg, 455, 18, 321, 193);
 		}
 
 		await ctx.drawImage(base, 0, 0, base.width, base.height);
 
 		if (internet) {
-			let internetImg = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'ds', 'wfc.png'));
+			let internetImg = await loadImage(join(process.cwd(), 'assets', 'images', 'ds', 'wfc.png'));
 			await ctx.drawImage(internetImg, 0, 0, base.width, base.height);
 		}
 

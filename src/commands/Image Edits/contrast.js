@@ -1,5 +1,5 @@
 import Command from '../../struct/Image-Command.js';
-import * as canvas from 'canvas';
+import canvas from 'canvas';
 const { createCanvas, loadImage } = canvas
 
 export default class ContrastCommand extends Command {

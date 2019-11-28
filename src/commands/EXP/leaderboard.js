@@ -1,4 +1,4 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import javierInteger from '../../utils/types.js';
 
 export default class LeaderboardCommand extends Command {

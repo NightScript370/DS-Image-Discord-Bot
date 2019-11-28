@@ -1,7 +1,7 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import langs, { map, indexOf, filter } from "../../langs/index.js";
 
-export default class LanguageCommand extends Command {
+export default class LanguageCommand extends discordAkairo.Command {
 	constructor() {
 		super("language", {
 			category: 'Bot Utilities',

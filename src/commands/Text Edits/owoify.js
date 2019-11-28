@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class OwoCommand extends Command {
+export default class OwoCommand extends discordAkairo.Command {
 	constructor() {
 		super('owoify', {
 			category: 'Text Fun',

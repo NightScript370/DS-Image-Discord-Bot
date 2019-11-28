@@ -12,7 +12,7 @@ for (var propertyFileName of propertyFileNames) {
 
 let typesFileNames = readdirSync(join(resolve(), 'properties'))
 for (var typeFileName of typesFileNames) {
-	types.push(require(join(resolve(), 'properties', typeFileName)));
+	types.push(import(join(resolve(), 'properties', typeFileName)));
 }
 
 export const findType = (key) => types.filter(type => type.id == settingProps[key].type)[0];

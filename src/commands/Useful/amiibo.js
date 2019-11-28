@@ -1,7 +1,7 @@
-import { Command } from 'discord-akairo';
-const request = require('util').promisify(require('request'));
+import discordAkairo from 'discord-akairo';
+const request = import('util').promisify(import('request'));
 
-export default class AmiiboCommand extends Command {
+export default class AmiiboCommand extends discordAkairo.Command {
 	constructor() {
 		super('amiibo', {
 			aliases: ['amiibo'],
@@ -28,7 +28,7 @@ export default class AmiiboCommand extends Command {
 	}
 
 	async exec(msg, { name }) {
-		let { body, statusCode } = await req({ url: 'http://www.amiiboapi.com/api/amiibo/?name='+encodeURIComponent(name), json: true });
+		let { body, statusCode } = await request({ url: 'http://www.amiiboapi.com/api/amiibo/?name='+encodeURIComponent(name), json: true });
 
 		if (statusCode == 404)
 			return msg.util.reply("The amiibo was not found. Please check your spelling and try again");

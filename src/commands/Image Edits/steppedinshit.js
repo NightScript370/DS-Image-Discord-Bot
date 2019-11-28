@@ -1,7 +1,7 @@
 import Command from '../../struct/Image-Command.js';
-import * as canvas from 'canvas';
+import canvas from 'canvas';
 const { createCanvas, loadImage } = canvas
-import { join } from 'path';
+import { join, resolve } from 'path';
 
 export default class SteppedInShitCommand extends Command {
 	constructor() {
@@ -39,7 +39,7 @@ export default class SteppedInShitCommand extends Command {
 	}
 
 	async stepInShit(images, overlay) {
-		const base = await loadImage(join(__dirname, '..', '..', '..', 'assets', 'images', 'stepinshit.png'));
+		const base = await loadImage(join(resolve(), '..', '..', '..', 'assets', 'images', 'stepinshit.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 

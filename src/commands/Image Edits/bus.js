@@ -1,7 +1,7 @@
 import Command from '../../struct/Image-Command.js';
-import * as canvas from 'canvas';
+import canvas from 'canvas';
 const { createCanvas, loadImage } = canvas
-import { join } from 'path';
+import { join, resolve } from 'path';
 
 export default class BusCommand extends Command {
 	constructor() {
@@ -67,7 +67,7 @@ export default class BusCommand extends Command {
 			ctxthrown.drawImage(currentimage, widthpadthrown, heightpadthrown, currentimage.width, currentimage.height);
 		}
 
-		const deleteimage = loadImage(join(__dirname, '..', '..', '..', 'assets', 'images', 'bus.png'));
+		const deleteimage = loadImage(join(resolve(), '..', '..', '..', 'assets', 'images', 'bus.png'));
 		const maincanvas = createCanvas(deleteimage.width, deleteimage.height);
 		const mainctx = maincanvas.getContext('2d');
 

@@ -1,7 +1,7 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import questions from '../../../assets/JSON/wouldyourather.json';
 
-export default class WouldYouRatherCommand extends Command {
+export default class WouldYouRatherCommand extends discordAkairo.Command {
 	constructor() {
 		super('would-you-rather', {
 			aliases: ['would-you-rather', 'wy-rather', 'wyr'],

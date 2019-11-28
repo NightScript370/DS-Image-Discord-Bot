@@ -1,7 +1,7 @@
-import { Command } from 'discord-akairo';
-import * as canvas from 'canvas';
+import discordAkairo from 'discord-akairo';
+import canvas from 'canvas';
 const { createCanvas, loadImage } = canvas
-import { join } from 'path';
+import { join, resolve } from 'path';
 
 export default class SurprisedPikaPanelCommand extends Command {
 	constructor() {
@@ -38,7 +38,7 @@ export default class SurprisedPikaPanelCommand extends Command {
 		if (items.length < 1)
 			return message.util.send(global.translate(message.author.lang, "There are not enough arguments to this command. The minimum is {0}.", 1));
 
-		let base = await loadImage(join(__dirname, '..', '..', '..', 'assets', 'images', 'surprisedpika.png'));
+		let base = await loadImage(join(resolve(), '..', '..', '..', 'assets', 'images', 'surprisedpika.png'));
 		let y = [0, 148, 295, 442, 588];
 
 		let canvas;

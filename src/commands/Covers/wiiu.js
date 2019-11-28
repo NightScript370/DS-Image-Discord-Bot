@@ -1,5 +1,5 @@
 import Command from '../../struct/Image-Command.js';
-import * as canvas from 'canvas';
+import canvas from 'canvas';
 const { createCanvas, loadImage } = canvas
 import { join } from 'path';
 
@@ -63,7 +63,7 @@ export default class NintendoWiiUCommand extends Command {
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.');
 
-		const base = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'WiiU_Case.png'));
+		const base = await loadImage(join(process.cwd(), 'assets', 'images', 'WiiU_Case.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 
@@ -84,7 +84,7 @@ export default class NintendoWiiUCommand extends Command {
 		}
 
 		if (nintendonetwork) {
-			let nintendonetworkImage = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'NintendoNetwork.png'));
+			let nintendonetworkImage = await loadImage(join(process.cwd(), 'assets', 'images', 'NintendoNetwork.png'));
 			ctx.drawImage(nintendonetworkImage, 1368, 156, 139, 175)
 		}
 

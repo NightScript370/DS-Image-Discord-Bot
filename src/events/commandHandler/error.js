@@ -1,7 +1,7 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import { error as _error, stacktrace } from '../../utils/Logger';
 
-export default class errorListener extends Listener {
+export default class errorListener extends discordAkairo.Listener {
 	constructor() {
 		super('error', {
 			emitter: 'commandHandler',

@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class PickCommand extends Command {
+export default class PickCommand extends discordAkairo.Command {
 	constructor() {
 		super('pick', {
 			aliases: ['pick'],
@@ -29,8 +29,13 @@ export default class PickCommand extends Command {
 		const picked = items[Math.floor(Math.random() * items.length)];
 
 		if (message.channel.sendable)
-			message.util.reply(`I picked ${picked.trim()}!`);
-		else
-			message.author.send(`I pick ${picked.trim()}!`).catch();
+			message.util.reply(`I pick ${picked.trim()}!`);
+		else {
+			let addon = {}
+			if (message.guild)
+				addon = this.client.util.embed().setFooter(`This command was executed on ${message.guild.name}`);
+
+			message.author.send(`I pick ${picked.trim()}!`, addon).catch();
+		}
 	}
 }

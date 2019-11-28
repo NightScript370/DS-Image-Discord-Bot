@@ -1,7 +1,7 @@
-import { Command } from 'discord-akairo';
-const request = require('util').promisify(require('request'));
+import discordAkairo from 'discord-akairo';
+const request = import('util').promisify(import('request'));
 
-export default class NDSBCompatCommand extends Command {
+export default class NDSBCompatCommand extends discordAkairo.Command {
 	constructor() {
 		super('nds-bootstrap-compatibility', {
 			aliases: ['nds-bootstrap-compatibility', 'nds-bootstrap-compatible', "ndsbcompat"],
@@ -20,7 +20,7 @@ export default class NDSBCompatCommand extends Command {
 							return null;
 
 						try {
-							let { body, statusCode } = await req({ url: `http://nds-library-api.glitch.me/${encodeURIComponent(gametitle)}`, json: true });
+							let { body, statusCode } = await request({ url: `http://nds-library-api.glitch.me/${encodeURIComponent(gametitle)}`, json: true });
 							if (statusCode !== 200) {
 								if (statusCode == 404 && body.message == "invalid title provided")
 									return null;

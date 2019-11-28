@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class BinaryCommand extends Command {
+export default class BinaryCommand extends discordAkairo.Command {
 	constructor() {
 		super('binary', {
 			category: 'Text Fun',

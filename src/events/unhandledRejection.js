@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class UnhandledRejectionListener extends Listener {
+export default class UnhandledRejectionListener extends discordAkairo.Listener {
 	constructor() {
 		super('unhandledRejection', {
 			event: 'unhandledRejection',

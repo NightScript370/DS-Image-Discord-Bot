@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class rateLimitListener extends Listener {
+export default class rateLimitListener extends discordAkairo.Listener {
     constructor() {
         super('rateLimit', {
             emitter: 'client',

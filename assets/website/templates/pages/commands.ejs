@@ -4,17 +4,17 @@
 	<!-- Start content -->
 
 	<% 
-		const fs = require('fs')
-		const path = require('path')
+		const fs = import('fs')
+		const path = import('path')
 
-		const { Command: akairoCommand } = require('discord-akairo');
+		const { Command: akairoCommand } = import('discord-akairo');
 
 		let categories = Array.from(client.commandHandler.categories.entries());
 		let cats = categories.map(arr => arr[1]).sort((c1, c2) => c1.id.localeCompare(c2.id));
 
 		let cmds = cats.map(cat => Array.from(cat.entries()).map(c => c[1])).flat();
 
-		let iconlist = fs.readdirSync(path.join(__dirname, '..', '..', 'icons'));
+		let iconlist = fs.readdirSync(path.join(path.resolve(), '..', '..', 'icons'));
 
 		function iconExist(cmd) {
 			return iconlist.filter(item => item === `${cmd.id}.png`).length;

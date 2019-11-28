@@ -1,10 +1,11 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class PollCommand extends Command {
+export default class PollCommand extends discordAkairo.Command {
 	constructor() {
 		super("poll", {
 			aliases: ['poll', 'vote'],
 			category: 'Useful',
+			clientPermissions: ['EMBED_LINKS'],
 			description: {
 				content: 'Creates a poll with up to 10 choices.',
 				examples: ["What's your favourite food? time:10"]
@@ -30,7 +31,7 @@ export default class PollCommand extends Command {
 							'Type them in separate messages.',
 							'Type `stop` when you are done.'
 						],
-						infinite: true
+						limit: 14
 					},
 				},
 				{
@@ -45,74 +46,79 @@ export default class PollCommand extends Command {
 	}
 
 	async exec(AuthorMessage, { question, pollOptions, time }) {
-		let description = ''; // placeholder for now
+		let pollOptionsLength = pollOptions.length;
+		let i = 0;
 
 		let simpleResponce = false;
-		let emojiList = ['1⃣','2⃣','3⃣','4⃣','5⃣','6⃣','7⃣','8⃣','9⃣','🔟'];
+		let emojiList = ['🇦', '🇧', '🇨', '🇩', '🇪', '🇫', '🇬', '🇭', '🇮', '🇯', '🇰', '🇱', '🇲', '🇳', '🇴', '🇵'];
 
 		if (pollOptions[0] == "yesno") {
 			simpleResponce = true;
 			emojiList = ['👍','👎','🤷'];
 			pollOptions = ['Yes', 'No', 'Shrug'];
-		} else if (pollOptions.length <= 1) {
+		} else if (pollOptionsLength <= 1) {
 			return AuthorMessage.channel.send('Polling options must be greater than one.');
 		}
 
 		let PollEmbed = this.client.util.embed()
-			.setTitle(question)
-			.setDescription(description)
-			.setAuthor(AuthorMessage.author.username, AuthorMessage.author.displayAvatarURL({format: 'png'}))
+			.setTitle("Options")
 			.setColor(0xD53C55)
 			.setTimestamp(new Date());
 
 		let optionsField = '';
 		if (!simpleResponce) {
-			for (var i = 0; i < pollOptions.length; i++) { 
+			for (i = 0; i < pollOptionsLength; i++) { 
 				optionsField += emojiList[i] + " " + pollOptions[i] + "\n";
 			}
-			PollEmbed.addField('Options', optionsField)
+			PollEmbed.setDescription(optionsField)
 		}
 
-		if (time)		PollEmbed.setFooter(`The poll has started and will last ${time} minute(s)`);
-		else				 PollEmbed.setFooter(`The poll has started and has no end time`);
+		if (time)
+			PollEmbed.setFooter(`The poll has started and will last ${time} minute${time !== 1 ? 's' : ''}`);
+		else
+			PollEmbed.setFooter(`The poll has started and has no end time`);
 
-		let PollMessage = await AuthorMessage.channel.send({embed: PollEmbed});
+		let PollMessage = await AuthorMessage.channel.send(`**${question}** - by ${AuthorMessage.guild ? AuthorMessage.member.displayName : AuthorMessage.author.username}`, {embed: PollEmbed});
 
-		var reactionArray = [];
-		for (var i = 0; i < pollOptions.length; i++) { 
+		let reactionArray = [];
+		for (i = 0; i < pollOptionsLength; i++) { 
 			reactionArray[i] = await PollMessage.react(emojiList[i]);
 		}
 
 		if (time) {
-			setTimeout(async () => {
-				// Re-fetch the message and get reaction counts
-				PollMessage = await AuthorMessage.channel.messages.fetch(PollMessage.id)
-				var reactionCountsArray = [];
-				for (var i = 0; i < pollOptions.length; i++) {
-					reactionCountsArray[i] = PollMessage.reactions.get(emojiList[i]).count-1;
-				}
+			const wait = import('util').promisify(setTimeout);
+			await wait(time * 60 * 1000);
 
-				// Find winner(s)
-				var max = -Infinity, indexMax = [];
-				for(var i = 0; i < reactionCountsArray.length; ++i) {
-					if(reactionCountsArray[i] > max) max = reactionCountsArray[i], indexMax = [i];
-					else if(reactionCountsArray[i] === max) indexMax.push(i);
-				}
+			// Re-fetch the message and get reaction counts
+			PollMessage = await AuthorMessage.channel.messages.fetch(PollMessage.id)
+			var reactionCountsArray = [];
+			for (i = 0; i < pollOptions.length; i++) {
+				reactionCountsArray[i] = PollMessage.reactions.get(emojiList[i]).count-1;
+			}
 
-				// Display winner(s)
-				let winnersText = "";
-				if (reactionCountsArray[indexMax[0]] == 0) {
-					winnersText = "No one voted!"
-				} else {
-					for (var i = 0; i < indexMax.length; i++) {
-						winnersText += emojiList[indexMax[i]] + " " + pollOptions[indexMax[i]] + " (" + reactionCountsArray[indexMax[i]] + " vote(s))\n";
-					}
-				}
+			// Find winner(s)
+			var max = -Infinity, indexMax = [];
+			for(i = 0; i < reactionCountsArray.length; ++i) {
+				if (reactionCountsArray[i] > max) {
+					max = reactionCountsArray[i];
+					indexMax = [i];
+				} else if(reactionCountsArray[i] === max)
+					indexMax.push(i);
+			}
 
-				PollEmbed.addField("**Winner(s):**", winnersText);
-				PollEmbed.setFooter(`The poll is now closed! It lasted ${time} minute(s)`);
-				PollMessage.edit({embed: PollEmbed});
-			}, time * 60 * 1000);
+			// Display winner(s)
+			let winnersText = "";
+			if (reactionCountsArray[indexMax[0]] == 0) {
+				winnersText = "No one voted!"
+			} else {
+				for (var i = 0; i < indexMax.length; i++) {
+					winnersText += `${emojiList[indexMax[i]]} ${pollOptions[indexMax[i]]} (${reactionCountsArray[indexMax[i]]} vote${reactionCountsArray[indexMax[i]] !== 1 ? 's' : ''})\n`;
+				}
+			}
+
+			PollEmbed.addField("**Winner(s):**", winnersText);
+			PollEmbed.setFooter(`The poll is now closed! It lasted ${time} minute${time !== 1 ? 's' : ''}`);
+			PollMessage.edit({embed: PollEmbed});
 		}
 	}
 };

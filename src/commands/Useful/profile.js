@@ -1,4 +1,4 @@
-import Command from '../../struct/Image-Command.js';
+import discordAkairo from 'discord-akairo';
 import { utc } from 'moment';
 
 const activities = {
@@ -8,7 +8,7 @@ const activities = {
 	LISTENING: 'Listening to'
 };
 
-export default class DiscordProfileCommand extends Command {
+export default class DiscordProfileCommand extends discordAkairo.Command {
 	constructor() {
 		super('profile', {
 			aliases: ['user', 'member', 'profile', 'user-profile', 'member-profile', 'userinfo', 'memberinfo', 'profileinfo'],

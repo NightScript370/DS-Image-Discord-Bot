@@ -1,6 +1,6 @@
-import { Inhibitor } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class BetaCommandInhibitor extends Inhibitor {
+export default class BetaCommandInhibitor extends discordAkairo.Inhibitor {
     constructor() {
         super('beta', {
             reason: 'beta'

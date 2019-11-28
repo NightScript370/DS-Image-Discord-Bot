@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class HexCommand extends Command {
+export default class HexCommand extends discordAkairo.Command {
 	constructor() {
 		super('hex', {
 			category: 'Text Fun',

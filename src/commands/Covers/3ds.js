@@ -1,5 +1,5 @@
 import Command from '../../struct/Image-Command.js';
-import * as canvas from 'canvas';
+import canvas from 'canvas';
 const { createCanvas, loadImage } = canvas
 import { join } from 'path';
 
@@ -68,7 +68,7 @@ export default class Nintendo3DSCommand extends Command {
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.');
 
-		const base = await loadImage(join(__dirname, '..', '..', 'assets', 'images', '3ds.png'));
+		const base = await loadImage(join(process.cwd(), 'assets', 'images', '3ds.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 	  
@@ -82,19 +82,19 @@ export default class Nintendo3DSCommand extends Command {
 		}
 
 		/* if (funky) {
-			let funkyImg = await loadImage(path.join(__dirname, '..', '..', 'assets', 'images', 'ds', 'funkymode.png'));
+			let funkyImg = await loadImage(path.join(process.cwd(), 'assets', 'images', 'ds', 'funkymode.png'));
 			await ctx.drawImage(funkyImg, 0, 0, base.width, base.height);
 		} */
 
 		await ctx.drawImage(base, 0, 0, base.width, base.height);
 
 		if (nintendologo) {
-			let nintendologoImage = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'nintendologo.png'));
+			let nintendologoImage = await loadImage(join(process.cwd(), 'assets', 'images', 'nintendologo.png'));
 			ctx.drawImage(nintendologoImage, 366, 429, 71, 18)
 		}
 
 		if (nintendonetwork) {
-			let nintendonetworkImage = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'NintendoNetwork.png'));
+			let nintendonetworkImage = await loadImage(join(process.cwd(), 'assets', 'images', 'NintendoNetwork.png'));
 			ctx.drawImage(nintendonetworkImage, 460, 25, 32, 43)
 		}
 

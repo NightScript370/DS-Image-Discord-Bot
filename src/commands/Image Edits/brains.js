@@ -1,7 +1,7 @@
-import { Command } from 'discord-akairo';
-import * as canvas from 'canvas';
+import discordAkairo from 'discord-akairo';
+import canvas from 'canvas';
 const { createCanvas, loadImage } = canvas
-import { join } from 'path';
+import { join, resolve } from 'path';
 
 export default class BrainsCommand extends Command {
 	constructor() {
@@ -37,8 +37,8 @@ export default class BrainsCommand extends Command {
 
 		if (items.length < 2) return message.channel.send(global.translate(message.author.lang, "There are not enough arguments to this command. The minimum is {0}.", 2));
 
-		let base = await loadImage(join(__dirname, '..', '..', '..', 'assets', 'images', 'brain-template.png'));
-		let tabuu = await loadImage(join(__dirname, '..', '..', '..', 'assets', 'images', 'tabuu.png'));
+		let base = await loadImage(join(resolve(), '..', '..', '..', 'assets', 'images', 'brain-template.png'));
+		let tabuu = await loadImage(join(resolve(), '..', '..', '..', 'assets', 'images', 'tabuu.png'));
 		let y = [0, 195, 376, 565, 753, 918, 1097, 1287, 1497, 1693, 1877];
 
 		let canvas;

@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class httpListeningListener extends Listener {
+export default class httpListeningListener extends discordAkairo.Listener {
 	constructor() {
 		super('httpListening', {
 			emitter: 'httpServer',

@@ -1,4 +1,4 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import { random } from "including-range-array";
 
 const availableMoves = [
@@ -11,7 +11,7 @@ const rocks = ['rock', 'r', '🤜'];
 const scissors = ['🖖', '✌', '✂', 'scissors', 's'];
 const paper = ['🤚', '✋', '🙌', '📰', '🗞', 'p', 'paper', '🙋', '🖐'];
 
-export default class RockPaperScissorsCommand extends Command {
+export default class RockPaperScissorsCommand extends discordAkairo.Command {
 	constructor() {
 		super('rps', {
 			aliases: ['rps'],

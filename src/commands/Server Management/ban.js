@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class BanCommand extends Command {
+export default class BanCommand extends discordAkairo.Command {
 	constructor() {
 		super('ban', {
 			aliases: ["ban-hammer", "b-h", 'ban'],

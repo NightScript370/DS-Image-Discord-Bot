@@ -1,8 +1,8 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import * as consoleList from '../../mod/index.js'
 import readdirSync from 'fs';
 
-export default class moddingGuidesCommand extends Command {
+export default class moddingGuidesCommand extends discordAkairo.Command {
 	constructor() {
 		super('mod', {
 			aliases: ["mod", "consolemod", 'consolehackguide', 'consolehackingguide', 'consolehackinguide', 'consolemodguide', 'consolemoddingguide', 'consolemodificationguide'],
@@ -37,12 +37,12 @@ export default class moddingGuidesCommand extends Command {
 	async exec(msg, { console, field2 }) {
 
 		let choosen;
-		let path = require('path').join(__dirname, '..', '..', 'mod', console);
+		let path = import('path').join(resolve(), '..', '..', 'mod', console);
 
 		if (!field2 || field2 !== "index")
 			for (let file of readdirSync(path)) {
-				let imported = require(path + file);
-			
+				let imported = import(path + file);
+
 				if (imported.alias && (imported.alias.includes(field2))) {
 					choosen = imported;
 					break;

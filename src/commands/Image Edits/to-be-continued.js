@@ -1,7 +1,7 @@
 import Command from '../../struct/Image-Command.js';
-import * as canvas from 'canvas';
+import canvas from 'canvas';
 const { createCanvas, loadImage } = canvas
-import { join } from 'path';
+import { join, resolve } from 'path';
 
 export default class ToBeContinuedCommand extends Command {
 	constructor() {
@@ -47,7 +47,7 @@ export default class ToBeContinuedCommand extends Command {
 			this.drawImageWithTint(ctx, currentimage, '#704214', widthpad, heightpad, currentimage.width, currentimage.height);
 		}
 
-		const base = await loadImage(join(__dirname, '..', '..', '..', 'assets', 'images', 'to-be-continued.png'));
+		const base = await loadImage(join(resolve(), '..', '..', '..', 'assets', 'images', 'to-be-continued.png'));
 		const ratio = base.width / base.height;
 		const width = canvas.width / 2;
 		const height = Math.round(width / ratio);

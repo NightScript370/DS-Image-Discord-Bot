@@ -1,12 +1,12 @@
 import { readdirSync, lstatSync } from 'fs';
 
 let mods  = [];
-let array = readdirSync(__dirname).filter(item =>
-	lstatSync(__dirname + '/' + item).isDirectory()
+let array = readdirSync(resolve()).filter(item =>
+	lstatSync(resolve() + '/' + item).isDirectory()
 );
 
 for (let i = 0; i < array.length; i++) {
-	let path = __dirname + '/' + array[i];
+	let path = resolve() + '/' + array[i];
 	mods[i]  = [ array[i] ];
 
 	if (readdirSync(path).includes('alias.json'))

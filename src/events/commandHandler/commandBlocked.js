@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class CommandBlockedListener extends Listener {
+export default class CommandBlockedListener extends discordAkairo.Listener {
 	constructor() {
 		super('commandBlocked', {
 			emitter: 'commandHandler',

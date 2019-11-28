@@ -52,7 +52,7 @@ export default class MinecraftServerCommand extends Command {
 
 		switch (API) {
 			case 'minestat':
-				const minestat = promisify(require('../../utils/minestat'))
+				const minestat = promisify(import('../../utils/minestat'))
 				let result = await minestat(host, port);
 
 				if(result.online) {
@@ -80,7 +80,7 @@ export default class MinecraftServerCommand extends Command {
 				message.util.send(text, {embed});
 				break;
 			case 'mcsrvstat.us':
-				const request = promisify(require("request"));
+				const request = promisify(import("request"));
 
 				let { body, statusCode } = await request({ url: 'https://api.mcsrvstat.us/2/'+encodeURIComponent(host), json: true });
 				if (statusCode !== 200) {

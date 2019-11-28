@@ -1,9 +1,9 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import { random } from "including-range-array";
 import { get as getDistance } from "fast-levenshtein";
 import { inhibit as pointInhibit } from "../point-inhibit.js"
 
-export default class messageInavlidListener extends Listener {
+export default class messageInavlidListener extends discordAkairo.Listener {
     constructor() {
         super('messageInvalid', {
             emitter: 'commandHandler',

@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class httpErrorListener extends Listener {
+export default class httpErrorListener extends discordAkairo.Listener {
 	constructor() {
 		super('httpError', {
 			emitter: 'httpServer',

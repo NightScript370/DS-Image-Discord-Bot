@@ -1,7 +1,7 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import { random } from "including-range-array";
 
-export default class messageUpdateListener extends Listener {
+export default class messageUpdateListener extends discordAkairo.Listener {
 	constructor() {
 		super('messageUpdate', {
 			emitter: 'client',

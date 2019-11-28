@@ -1,7 +1,7 @@
 import Command from '../../struct/Command.js';
 import bookmarkAPI from 'super-maker-api';
 
-const request = require('util').promisify(require('request'))
+const request = import('util').promisify(import('request'))
 
 export default class CourseCommand extends Command {
 	constructor() {

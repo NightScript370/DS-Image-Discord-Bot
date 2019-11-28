@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class guildMemberAddListener extends Listener {
+export default class guildMemberAddListener extends discordAkairo.Listener {
 	constructor() {
 		super('guildMemberAdd', {
 			emitter: 'client',

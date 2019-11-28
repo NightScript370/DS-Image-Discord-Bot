@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class CooldownListener extends Listener {
+export default class CooldownListener extends discordAkairo.Listener {
 	constructor() {
 		super('cooldown', {
 			emitter: 'commandHandler',

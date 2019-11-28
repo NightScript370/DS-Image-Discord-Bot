@@ -1,7 +1,7 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import { random } from "including-range-array";
 
-export default class RollDieCommand extends Command {
+export default class RollDieCommand extends discordAkairo.Command {
 	constructor() {
 		super('rolldie', {
 			aliases: ['rolldie'],

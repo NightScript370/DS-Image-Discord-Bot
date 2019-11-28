@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class DBLErrorListener extends Listener {
+export default class DBLErrorListener extends discordAkairo.Listener {
 	constructor() {
 		super('DBLerror', {
 			emitter: 'dbl',

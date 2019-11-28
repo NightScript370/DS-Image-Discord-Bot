@@ -1,4 +1,4 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import get from 'node-superfetch';
 
 export default class GenderGuessCommand extends Command {

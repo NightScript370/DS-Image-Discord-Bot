@@ -1,4 +1,4 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import post from 'node-superfetch';
 
 import botLists from "../../config";
@@ -7,7 +7,7 @@ import * as catSetup from "../../utils/commandCategories";
 import * as ListenerLoadModule from "../commandHandler/load"
 import * as WebsiteModule from "../../website/index"
 
-export class ReadyListener extends Listener {
+export class ReadyListener extends discordAkairo.Listener {
 	constructor() {
 		super('ready', {
 			emitter: 'client',
@@ -18,7 +18,7 @@ export class ReadyListener extends Listener {
 	}
 
 	async exec() {
-		const wait = require('util').promisify(setTimeout);
+		const wait = import('util').promisify(setTimeout);
 		await wait(6000);
 
 		this.client.listenerHandler.setEmitters({
@@ -69,7 +69,7 @@ export class ReadyListener extends Listener {
 
 		const fs = require("fs");
 		try {
-			const { id: rebootMsgID, channel: rebootMsgChan, cmd, lang } = require('../../reboot.json');
+			const { id: rebootMsgID, channel: rebootMsgChan } = import('../../reboot.json');
 			const m = await this.client.channels.get(rebootMsgChan).messages.fetch(rebootMsgID);
 			await m.edit(`Done rebooting; it took ${((Date.now() - m.createdTimestamp) / 1000).toFixed(1)}s`);
 			fs.unlink('./reboot.json', ()=>{});

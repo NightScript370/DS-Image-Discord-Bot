@@ -1,7 +1,7 @@
 import Command from '../../struct/Image-Command.js';
-import * as canvas from 'canvas';
+import canvas from 'canvas';
 const { createCanvas, loadImage } = canvas
-import { join } from 'path';
+import { join, resolve } from 'path';
 
 export default class ReverseCommand extends Command {
 	constructor() {
@@ -39,7 +39,7 @@ export default class ReverseCommand extends Command {
 			layeredCtx = layeredCanvas.getContext('2d');
 		}
 
-		const baseImage = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'reverse.png'));
+		const baseImage = await loadImage(join(resolve(), '..', '..', 'assets', 'images', 'reverse.png'));
 		const baseCanvas = createCanvas(baseImage.width, baseImage.height);
 		const baseCtx = baseCanvas.getContext('2d');
 

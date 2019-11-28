@@ -1,7 +1,7 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import { findType, settingProps } from '../../settings/index.js';
 
-export default class ConfigCommand extends Command {
+export default class ConfigCommand extends discordAkairo.Command {
 	constructor() {
 		super("config", {
 			category: 'Server Management',
@@ -118,7 +118,7 @@ export default class ConfigCommand extends Command {
 				} else
 					msg.guild.config.set(key, t.nullValue);
 
-				return msg.util.send(require("util").inspect(data[key]), {code: 'js'});
+				return msg.util.send(import("util").inspect(data[key]), {code: 'js'});
 				break;
 			case 'clear':
 			case 'reset':

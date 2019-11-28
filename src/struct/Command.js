@@ -1,4 +1,4 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import List from 'list-array';
 import { query } from 'gamedig';
 

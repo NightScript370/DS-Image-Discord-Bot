@@ -1,7 +1,7 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import get from 'node-superfetch';
 
-export default class DidYouMeanCommand extends Command {
+export default class DidYouMeanCommand extends discordAkairo.Command {
 	constructor() {
 		super('didyoumean', {
 			category: 'Image Edits',

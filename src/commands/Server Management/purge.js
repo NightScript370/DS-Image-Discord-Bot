@@ -1,7 +1,7 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import { javierInteger } from '../../utils/types.js';
 
-export default class PurgeCommand extends Command {
+export default class PurgeCommand extends discordAkairo.Command {
 	constructor() {
 		super('purge', {
 			aliases: ["purge", "prune", 'clean', 'cleanup', 'clean-up'],

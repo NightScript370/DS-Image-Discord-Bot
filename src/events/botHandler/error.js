@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class discordErrorListener extends Listener {
+export default class discordErrorListener extends discordAkairo.Listener {
 	constructor() {
 		super('discorderror', {
 			emitter: 'client',

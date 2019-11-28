@@ -2,7 +2,7 @@ import { website as websiteConfig } from "../config.js";
 import * as List from "list-array";
 import { join } from "path";
 import { readdirSync } from 'fs';
-const routers = readdirSync(join(__dirname, 'router'));
+const routers = readdirSync(join(resolve(), 'router'));
 
 import * as express from 'express';
 import session from 'express-session';
@@ -65,21 +65,21 @@ export default (client) => {
 		.set('port', process.env.PORT || 3000);
 
 	try {
-		const helmet = require('helmet');
+		const helmet = import('helmet');
 		website.express.use(helmet());
 	} catch (e) {
 		console.error("[WEBSITE] Failed to load Helmet!");
 	}
 
 	try {
-		const compression = require('compression');
+		const compression = import('compression');
 		website.express.use(compression())
 	} catch (e) {
 		console.error("[WEBSITE] Failed to load compression!");
 	}
 
 	try {
-		const morgan = require('morgan');
+		const morgan = import('morgan');
 		website.express.use(morgan('dev'))
 	} catch (e) {
 		console.error("[WEBSITE] Failed to load Morgan!");
@@ -87,7 +87,7 @@ export default (client) => {
 
 	let routerModule
 	for (let router of routers) {
-		routerModule = require("./router/" + router);
+		routerModule = import("./router/" + router);
 		website.express.use(routerModule.id, routerModule.router(client))
 	}
 	

@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class MuteCommand extends Command {
+export default class MuteCommand extends discordAkairo.Command {
 	constructor() {
 		super('mute', {
 			aliases: ["mute", "unmute"],

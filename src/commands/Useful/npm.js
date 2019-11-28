@@ -1,10 +1,10 @@
-import { Command } from "discord-akairo";
-const request = require("util").promisify(require("request"));
+import discordAkairo from 'discord-akairo';
+const request = import("util").promisify(import("request"));
 
 import { utc } from "moment";
 import "moment-duration-format";
 
-export default class NPMCommand extends Command {
+export default class NPMCommand extends discordAkairo.Command {
 	constructor() {
 		super("npm", {
 			aliases: ["npm", "npm-package"],

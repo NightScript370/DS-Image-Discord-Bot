@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class MissingPermissionsListener extends Listener {
+export default class MissingPermissionsListener extends discordAkairo.Listener {
 	constructor() {
 		super('missingPermissions', {
 			event: 'missingPermissions',

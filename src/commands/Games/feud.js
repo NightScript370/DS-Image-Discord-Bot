@@ -1,8 +1,8 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import get from 'node-superfetch';
 import questions from '../../../assets/JSON/feud.json';
 
-export default class FeudCommand extends Command {
+export default class FeudCommand extends discordAkairo.Command {
 	constructor() {
 		super('feud', {
 			aliases: ['feud', "google-feud", "googlefeud"],

@@ -1,7 +1,7 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import data from "../../utils/morse.js";
 
-export default class MorseCommand extends Command {
+export default class MorseCommand extends discordAkairo.Command {
 	constructor() {
 		super('morse', {
 			category: 'Text Fun',

@@ -1,7 +1,7 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import { random } from "including-range-array";
 
-export default class MessageDeleteListener extends Listener {
+export default class MessageDeleteListener extends discordAkairo.Listener {
 	constructor() {
 		super('messageDelete', {
 			emitter: 'client',

@@ -1,4 +1,4 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
 export default class ServerPointsCommand extends Command {
 	constructor() {

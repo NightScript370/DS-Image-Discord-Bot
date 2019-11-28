@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class inhibitorLoadListener extends Listener {
+export default class inhibitorLoadListener extends discordAkairo.Listener {
 	constructor() {
 		super('inhibitorHandlerLoad', {
 			emitter: 'inhibitorHandler',

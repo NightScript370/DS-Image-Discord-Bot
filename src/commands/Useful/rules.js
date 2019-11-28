@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class rulesCommand extends Command {
+export default class rulesCommand extends discordAkairo.Command {
 	constructor() {
 		super("rules", {
 			category: 'Useful',

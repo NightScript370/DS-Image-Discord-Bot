@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class ReloadCommand extends Command {
+export default class ReloadCommand extends discordAkairo.Command {
 	constructor() {
 		super('reload', {
 			aliases: ['reload'],
@@ -62,6 +62,6 @@ export default class ReloadCommand extends Command {
 
 	requireModule(module) {
 		delete require.cache[require.resolve(module)]
-		return require('../../'+module);
+		return import('../../'+module);
 	}
 };

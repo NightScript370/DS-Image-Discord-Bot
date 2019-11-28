@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class DBLHookReadyListener extends Listener {
+export default class DBLHookReadyListener extends discordAkairo.Listener {
 	constructor() {
 		super('DBLhookReady', {
 			emitter: 'dblwebhook',

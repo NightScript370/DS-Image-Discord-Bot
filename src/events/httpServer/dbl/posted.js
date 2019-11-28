@@ -1,6 +1,6 @@
-import { Listener } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class DBLPostedListener extends Listener {
+export default class DBLPostedListener extends discordAkairo.Listener {
 	constructor() {
 		super('posted', {
 			emitter: 'dbl',

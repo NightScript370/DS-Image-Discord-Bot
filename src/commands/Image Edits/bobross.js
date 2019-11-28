@@ -1,7 +1,7 @@
 import Command from '../../struct/Image-Command.js';
-import * as canvas from 'canvas';
+import canvas from 'canvas';
 const { createCanvas, loadImage } = canvas
-import { join } from 'path';
+import { join, resolve } from 'path';
 
 export default class BobRossCommand extends Command {
 	constructor() {
@@ -26,7 +26,7 @@ export default class BobRossCommand extends Command {
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.')
 
-		const base = loadImage(join(__dirname, '..', '..', '..', 'assets', 'images', 'bob-ross.png'));
+		const base = loadImage(join(resolve(), '..', '..', '..', 'assets', 'images', 'bob-ross.png'));
 		const canvas = createCanvas(base.width, base.height);
 		const ctx = canvas.getContext('2d');
 

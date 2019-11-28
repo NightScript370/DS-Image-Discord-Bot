@@ -1,7 +1,7 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import answers from '../../../assets/JSON/8-ball.json';
 
-export default class Number8ballCommand extends Command {
+export default class Number8ballCommand extends discordAkairo.Command {
 	constructor() {
 		super('8-ball', {
 			aliases: ['8-ball', "8ball"],

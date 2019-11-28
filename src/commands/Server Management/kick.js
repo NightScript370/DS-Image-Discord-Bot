@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class KickCommand extends Command {
+export default class KickCommand extends discordAkairo.Command {
 	constructor() {
 		super('kick', {
 			aliases: ["boot", 'kick'],

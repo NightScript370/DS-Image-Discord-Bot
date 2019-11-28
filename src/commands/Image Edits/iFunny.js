@@ -1,7 +1,7 @@
 import Command from '../../struct/Image-Command.js';
-import * as canvas from 'canvas';
+import canvas from 'canvas';
 const { createCanvas, loadImage } = canvas
-import { join } from 'path';
+import { join, resolve } from 'path';
 
 export default class IfunnyCommand extends Command {
 	constructor() {
@@ -34,7 +34,7 @@ export default class IfunnyCommand extends Command {
 		if (!this.isGood(images))
 			return message.util.reply('No images were found. Please try again.')
 
-		const base = await loadImage(join(__dirname, '..', '..', '..', 'assets', 'images', 'ifunny.png'));
+		const base = await loadImage(join(resolve(), '..', '..', '..', 'assets', 'images', 'ifunny.png'));
 
 		const imagessize = await this.largestSize(images);
 		const canvas = await createCanvas(imagessize.width, imagessize.height);

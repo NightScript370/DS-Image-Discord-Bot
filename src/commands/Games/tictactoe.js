@@ -1,7 +1,7 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 import { TicTacToe } from 'tictactoejs';
 
-export default class TTTCommand extends Command {
+export default class TTTCommand extends discordAkairo.Command {
 	constructor() {
 		super("tictactoe", {
 			category: 'Games',

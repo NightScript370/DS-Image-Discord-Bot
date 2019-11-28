@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class UnicodeCommand extends Command {
+export default class UnicodeCommand extends discordAkairo.Command {
 	constructor() {
 		super('unicode', {
 			aliases: ['unicode'],

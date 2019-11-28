@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+import discordAkairo from 'discord-akairo';
 
-export default class InviteCheckCommand extends Command {
+export default class InviteCheckCommand extends discordAkairo.Command {
 	constructor() {
 		super('invitecheck', {
 			aliases: ['invitecheck'],

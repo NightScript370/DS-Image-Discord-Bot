@@ -1,7 +1,7 @@
-import { Command } from 'discord-akairo';
-import * as canvas from 'canvas';
+import discordAkairo from 'discord-akairo';
+import canvas from 'canvas';
 const { createCanvas, loadImage } = canvas
-import { join } from 'path';
+import { join, resolve } from 'path';
 
 export default class AstronautCommand extends Command {
 	constructor() {
@@ -37,7 +37,7 @@ export default class AstronautCommand extends Command {
 
 		if (items.length < 1) return message.util.send(global.translate(message.author.lang, "There are not enough arguments to this command. The minimum is {0}.", 1));
 
-		let base = await loadImage(join(__dirname, '..', '..', '..', 'assets', 'images', 'astronautpanel.png'));
+		let base = await loadImage(join(resolve(), '..', '..', '..', 'assets', 'images', 'astronautpanel.png'));
 		let y = [0, 194, 392];
 
 		let canvas;

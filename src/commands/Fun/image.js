@@ -1,5 +1,5 @@
-import { Command } from 'discord-akairo';
-const req = require("util").promisify(require("request"));
+import discordAkairo from 'discord-akairo';
+const req = import("util").promisify(import("request"));
 
 export default class ImageCommand extends Command {
 	constructor() {
