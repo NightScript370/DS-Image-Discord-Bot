@@ -1,7 +1,8 @@
 import Command from '../../struct/Image-Command.js';
 import canvas from 'canvas';
 const { createCanvas, loadImage } = canvas
-import { join, resolve } from 'path';
+import { join } from "path";
+import dirname from 'es-dirname';;
 
 export default class BowserMemeCommand extends Command {
 	constructor() {
@@ -31,7 +32,7 @@ export default class BowserMemeCommand extends Command {
 		if (!this.isGood(watches))
 			return message.util.reply('No images were found. Please try again.')
 
-		const bowserhide = await loadImage(join(resolve(), '..', '..', '..', 'assets', 'images', 'bowsermeme.png'));
+		const bowserhide = await loadImage(join(dirname(), '..', '..', '..', 'assets', 'images', 'bowsermeme.png'));
 		const canvas = createCanvas(bowserhide.width, bowserhide.height);
 		const ctx = canvas.getContext('2d');
 

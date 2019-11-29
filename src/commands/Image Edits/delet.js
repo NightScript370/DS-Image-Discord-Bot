@@ -1,7 +1,8 @@
 import Command from '../../struct/Image-Command.js';
 import canvas from 'canvas';
 const { createCanvas, loadImage } = canvas
-import { join, resolve } from 'path';
+import { join } from "path";
+import dirname from 'es-dirname';;
 
 export default class DeleteCommand extends Command {
 	constructor() {
@@ -27,7 +28,7 @@ export default class DeleteCommand extends Command {
 		if (!this.isGood(images))
 			return message.util.reply(__('No images were found. Please try again.'))
 
-		let deleteimage = loadImage(join(resolve(), '..', '..', '..', 'assets', 'images', 'delete.png'));
+		let deleteimage = loadImage(join(dirname(), '..', '..', '..', 'assets', 'images', 'delete.png'));
 
 		const canvas = createCanvas(deleteimage.width, deleteimage.height);
 		const ctx = canvas.getContext('2d');

@@ -1,5 +1,6 @@
 import discordAkairo from 'discord-akairo';
 import * as consoleList from '../../mod/index.js'
+import dirname from 'es-dirname';
 import readdirSync from 'fs';
 
 export default class moddingGuidesCommand extends discordAkairo.Command {
@@ -37,7 +38,7 @@ export default class moddingGuidesCommand extends discordAkairo.Command {
 	async exec(msg, { console, field2 }) {
 
 		let choosen;
-		let path = import('path').join(resolve(), '..', '..', 'mod', console);
+		let path = import('path').join(dirname(), '..', '..', 'mod', console);
 
 		if (!field2 || field2 !== "index")
 			for (let file of readdirSync(path)) {
@@ -53,13 +54,15 @@ export default class moddingGuidesCommand extends discordAkairo.Command {
 			};
 
 		if (!choosen)
-			choosen = require(path + 'index.js');
+			choosen = import(path + 'index.js');
 
 		if (!choosen.message)
 			choosen.message = '';
 		if (!choosen.embed)
 			choosen.embed = {};
 
+		if (choosen.message == '' && choosen.embed == {})
+			throw(new Error(`Module ${console} was empty`))
 		return msg.utils.send(choosen.message, choosen.embed);
 	}
 };

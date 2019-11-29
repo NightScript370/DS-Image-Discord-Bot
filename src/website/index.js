@@ -2,13 +2,15 @@ import { website as websiteConfig } from "../config.js";
 import * as List from "list-array";
 import { join } from "path";
 import { readdirSync } from 'fs';
-const routers = readdirSync(join(resolve(), 'router'));
 
 import * as express from 'express';
 import session from 'express-session';
 import { json, urlencoded } from 'body-parser';
 import { createServer } from 'http';
 import { Strategy } from "passport-discord";
+
+import dirname from 'es-dirname';
+const routers = readdirSync(join(dirname(), 'router'));
 
 export default (client) => {
 	let website = {};

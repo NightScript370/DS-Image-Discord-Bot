@@ -11,7 +11,8 @@ const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } = Disc
 console.log('loaded Akairo')
 import { owners, supportServer, prefix as _prefix, website, log as _log, token } from "./config.js";
 console.log('loaded config')
-import { join, resolve } from 'path';
+import { join } from "path";
+import dirname from 'es-dirname';;
 console.log('loaded path')
 import * as BackEmbed from './embed.js';
 console.log('loaded BackEmbed')
@@ -82,7 +83,7 @@ class BotClient extends AkairoClient {
 		this.supportServer = supportServer;
 
 		this.commandHandler = new CommandHandler(this, {
-			directory: join(resolve(), 'commands'),
+			directory: join(dirname(), 'commands'),
 			prefix: msg => {
 				let prefix;
 
@@ -126,15 +127,15 @@ class BotClient extends AkairoClient {
 		this.commandHandler.resolver.addTypes(types);
 		this.commandHandler.games = new Map();
 
-		this.inhibitorHandler = new InhibitorHandler(this, { directory: join(resolve(), 'inhibitors') });
-		this.listenerHandler = new ListenerHandler(this, { directory: join(resolve(), 'events') });
+		this.inhibitorHandler = new InhibitorHandler(this, { directory: join(dirname(), 'inhibitors') });
+		this.listenerHandler = new ListenerHandler(this, { directory: join(dirname(), 'events') });
 		this.listenerHandler.setEmitters({
 			process: process,
 			inhibitorHandler: this.inhibitorHandler
 		});
 
 		this.commandHandler.useListenerHandler(this.listenerHandler);
-		this.listenerHandler.load(join(resolve(), 'events', 'botHandler', 'ready'));
+		this.listenerHandler.load(join(dirname(), 'events', 'botHandler', 'ready'));
 
 		this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
 		this.inhibitorHandler.loadAll();

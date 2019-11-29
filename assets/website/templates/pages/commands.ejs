@@ -6,6 +6,7 @@
 	<% 
 		const fs = import('fs')
 		const path = import('path')
+		const dirname = import('es-dirname');
 
 		const { Command: akairoCommand } = import('discord-akairo');
 
@@ -14,7 +15,7 @@
 
 		let cmds = cats.map(cat => Array.from(cat.entries()).map(c => c[1])).flat();
 
-		let iconlist = fs.readdirSync(path.join(path.resolve(), '..', '..', 'icons'));
+		let iconlist = fs.readdirSync(path.join(dirname(), '..', '..', 'icons'));
 
 		function iconExist(cmd) {
 			return iconlist.filter(item => item === `${cmd.id}.png`).length;

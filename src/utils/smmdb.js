@@ -5,6 +5,8 @@ const request = import('request').defaults({ encoding: null });
 const promiseRequest = import('util').promisify(request);
 
 const URL = 'https://smmdb.ddns.net/api/';
+const URL2 = 'https://api.smmdb.net/api/';
+
 const getBody = async (object, callback=null) => {
 	if (callback) {
 		request(object, (error, response, body) => {
@@ -28,17 +30,21 @@ export default class SMMDB {
 		return getBody({ url: URL + 'getStats', json: true }, callback);
 	}
 
-	searchCourses (version, args, callback=null) {
-		if (version !== "smm" && version !== "smm64") {
-			if (callback)
-				return callback('Not a valid version');
-			else
-				return Promise.reject(new Error('Not a valid version'));
+	searchCourses (args, version, callback=null) {
+		let APIURL = '';
+		switch (version) {
+			case 'smm64':
+				APIURL = URL + 'getcourses64?' + stringify(args);
+				break;
+			case 'smm':
+				APIURL = URL + 'getcourses?' + stringify(args);
+				break;
+			case 'smm2':
+				APIURL = URL2 + 'courses2?' + stringify(args);
+				break;
+			default:
+				return callback ? callback('Not a valid version') : Promise.reject(new Error('Not a valid version'));
 		}
-
-		let APIURL = URL;
-		APIURL += version == "smm64" ? 'getcourses64?' : 'getcourses?';
-		APIURL += stringify(args);
 
 		return getBody({ url: APIURL, json: true }, callback);
 	}

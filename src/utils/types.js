@@ -1,6 +1,6 @@
 import canvas from 'canvas';
 const { loadImage } = canvas
-import { join, resolve } from 'path';
+import { join } from "path";
 
 // ***************
 // **** IMAGE ****
@@ -251,54 +251,54 @@ const akairo_types = {
 		switch (rating ? rating.toUpperCase() : null) {
 			case 'ESRB:CHILDHOOD':
 			case 'ESRB:EC':
-				boxrating = await loadImage(join(resolve(), '..', '..', 'assets', 'images', 'esrb', 'earlyChildhood.png'));
+				boxrating = await loadImage(join(process.cwd(), 'assets', 'images', 'esrb', 'earlyChildhood.png'));
 				break;
 			case 'ESRB:E':
 			case 'ESRB:EVERYONE':
-				boxrating = await loadImage(join(resolve(), '..', '..', 'assets', 'images', 'esrb', 'everyone.png'));
+				boxrating = await loadImage(join(process.cwd(), 'assets', 'images', 'esrb', 'everyone.png'));
 				break;
 			case 'ESRB:EVERYONE10':
 			case 'ESRB:EVERYONE10+':
 			case 'ESRB:E10':
 			case 'ESRB:E10+':
-				boxrating = await loadImage(join(resolve(), '..', '..', 'assets', 'images', 'esrb', 'e10.png'));
+				boxrating = await loadImage(join(process.cwd(), 'assets', 'images', 'esrb', 'e10.png'));
 				break;
 			case 'ESRB:MATURE':
 			case 'ESRB:MATURE17':
 			case 'ESRB:M':
 			case 'ESRB:M17':
-				boxrating = await loadImage(join(resolve(), '..', '..', 'assets', 'images', 'esrb', 'mature.png'));
+				boxrating = await loadImage(join(process.cwd(), 'assets', 'images', 'esrb', 'mature.png'));
 				break;
 			case 'ESRB:T':
 			case 'ESRB:TEEN':
 			case 'ESRB:TEENS':
 			case 'ESRB:TEENAGERS':
-				boxrating = await loadImage(join(resolve(), '..', '..', 'assets', 'images', 'esrb', 'teen.png'));
+				boxrating = await loadImage(join(process.cwd(), 'assets', 'images', 'esrb', 'teen.png'));
 				break;
 			case 'ESRB:A':
 			case 'ESRB:AO':
 			case 'ESRB:ADULTS':
 			case 'ESRB:ADULTS18':
-				boxrating = await loadImage(join(resolve(), '..', '..', 'assets', 'images', 'esrb', 'adultsOnly.png'));
+				boxrating = await loadImage(join(process.cwd(), 'assets', 'images', 'esrb', 'adultsOnly.png'));
 				break;
 			case 'ESRB:RP':
 			case 'ESRB:RATING_PENDING':
-				boxrating = await loadImage(join(resolve(), '..', '..', 'assets', 'images', 'esrb', 'ratingPending.png'));
+				boxrating = await loadImage(join(process.cwd(), 'assets', 'images', 'esrb', 'ratingPending.png'));
 				break;
 			case 'PEGI:3':
-				boxrating = await loadImage(join(resolve(), '..', '..', 'assets', 'images', 'pegi', '3.png'));
+				boxrating = await loadImage(join(process.cwd(), 'assets', 'images', 'pegi', '3.png'));
 				break;
 			case 'PEGI:7':
-				boxrating = await loadImage(join(resolve(), '..', '..', 'assets', 'images', 'pegi', '7.png'));
+				boxrating = await loadImage(join(process.cwd(), 'assets', 'images', 'pegi', '7.png'));
 				break;
 			case 'PEGI:12':
-				boxrating = await loadImage(join(resolve(), '..', '..', 'assets', 'images', 'pegi', '12.png'));
+				boxrating = await loadImage(join(process.cwd(), 'assets', 'images', 'pegi', '12.png'));
 				break;
 			case 'PEGI:16':
-				boxrating = await loadImage(join(resolve(), '..', '..', 'assets', 'images', 'pegi', '16.png'));
+				boxrating = await loadImage(join(process.cwd(), 'assets', 'images', 'pegi', '16.png'));
 				break;
 			case 'PEGI:18':
-				boxrating = await loadImage(join(resolve(), '..', '..', 'assets', 'images', 'pegi', '18.png'));
+				boxrating = await loadImage(join(process.cwd(), 'assets', 'images', 'pegi', '18.png'));
 				break;
 		}
 
@@ -309,16 +309,16 @@ const akairo_types = {
 
 		switch (pattern ? pattern.toLowerCase() : null) {
 			case 'wifi':
-				BG = await loadImage(join(resolve(), '..', '..', 'assets', 'images', 'switch', 'patterns', 'wifi.png'));
+				BG = await loadImage(join(dirname(), '..', '..', 'assets', 'images', 'switch', 'patterns', 'wifi.png'));
 				break;
 			case 'sponge':
-				BG = await loadImage(join(resolve(), '..', '..', 'assets', 'images', 'switch', 'patterns', 'sponge.png'));
+				BG = await loadImage(join(dirname(), '..', '..', 'assets', 'images', 'switch', 'patterns', 'sponge.png'));
 				break;
 			case 'jungle':
-				BG = await loadImage(join(resolve(), '..', '..', 'assets', 'images', 'switch', 'patterns', 'jungle.png'));
+				BG = await loadImage(join(dirname(), '..', '..', 'assets', 'images', 'switch', 'patterns', 'jungle.png'));
 				break;
 			case 'joker':
-				BG = await loadImage(join(resolve(), '..', '..', 'assets', 'images', 'switch', 'patterns', 'joker.png'));
+				BG = await loadImage(join(dirname(), '..', '..', 'assets', 'images', 'switch', 'patterns', 'joker.png'));
 				break;
 		}
 

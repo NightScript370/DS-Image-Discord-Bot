@@ -14,9 +14,9 @@
 		"prod": "NODE_ENV=production npm-run-all clean build server:prod"
 	},
 	"dependencies": {
-		"@babel/cli": "^7.7.0",
+		"@babel/cli": "^7.7.4",
 		"@babel/core": "^7.7.2",
-		"@babel/node": "^7.7.0",
+		"@babel/node": "^7.7.4",
 		"@babel/plugin-proposal-class-properties": "^7.7.4",
 		"@babel/plugin-proposal-export-default-from": "^7.7.4",
 		"@babel/plugin-proposal-export-namespace-from": "^7.7.4",
@@ -36,8 +36,9 @@
 		"discord-akairo": "github:DiscordBots-Archive/discord-akairo",
 		"discord.js": "github:amishshah/discord.js#voice-pipelining",
 		"dotenv": "^8.2.0",
-		"ejs": "^2.7.4",
+		"ejs": "^3.0.1",
 		"erlpack": "^0.1.3",
+		"es-dirname": "^0.0.1",
 		"express": "^4.16.4",
 		"express-session": "^1.16.1",
 		"fast-levenshtein": "^2.0.6",
@@ -78,12 +79,12 @@
 		"node": "13"
 	},
 	"repository": {
-		"url": "https://gitlab.com/Samplasion/yamamura-discord-bot"
+		"url": "https://gitlab.com/yamamura1/yamamura-discord-bot"
 	},
-	"license": "MIT",
+	"license": "GPL",
 	"keywords": [
 		"node",
-		"glitch",
-		"express"
+		"discord",
+		"website"
 	]
 }
