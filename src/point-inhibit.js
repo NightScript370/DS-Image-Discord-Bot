@@ -1,9 +1,9 @@
-function inhibite (message) {
+export default function inhibite (message) {
     if (message.cleanContent.length <= 2) return true;
 	return spamchannel(message.channel.name) || blockprefix(message);
 }
 
-function blockprefix (message) {
+export function blockprefix (message) {
     // While we're not trying to block all bot prefixes, this function is served to block most bots on its own without the use of a config file
 	// (that would be impossible, cause some of them can be actual words or used in beginning of phrases
 	// plus there are thousands upon thousands of bots out there)
@@ -73,7 +73,7 @@ function blockprefix (message) {
 	return block;
 }
 
-function spamchannel(channelName) {
+export function spamchannel(channelName) {
 	let listNoPointNames = [
 		// First lets block spam channels
     	'featherland', // Mario Making Mods
@@ -176,10 +176,4 @@ function spamchannel(channelName) {
 	}
 
 	return false;
-}
-
-export default {
-	inhibite,
-	blockprefix,
-	spamchannel
 }

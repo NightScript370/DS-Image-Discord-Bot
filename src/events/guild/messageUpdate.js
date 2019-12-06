@@ -1,7 +1,6 @@
-import discordAkairo from 'discord-akairo';
-import { random } from "including-range-array";
+import MessageListener from '../struct/MessageListener';
 
-export default class messageUpdateListener extends discordAkairo.Listener {
+export default class messageUpdateListener extends MessageListener {
 	constructor() {
 		super('messageUpdate', {
 			emitter: 'client',
@@ -19,38 +18,7 @@ export default class messageUpdateListener extends discordAkairo.Listener {
 		this.log(oldMessage, newMessage);
 	}
 
-	async invalidMessage(message) {
-		if (!Object.keys(message.util.parsed).length)
-			return false;
-
-		const attempt = message.util.parsed.alias;
-		if (!attempt)
-			return false;
-
-		return true;
-	}
-
-	async removePoints(message) {
-		if (message.author.bot) return;
-
-		const inhibitor = require("../../point-inhibit").default;
-		if (inhibitor.inhibite(message)) return;
-		if (this.invalidMessage == true) return;
-
-		let channelmultiplier = this.client.db.multiply.findOne({guild: message.guild.id, channel: message.channel.id}) || this.client.db.multiply.insert({channel: message.channel.id, guild: message.guild.id, multiply: 1 });
-		let pointstoadd = random(3) * channelmultiplier.multiply;
-
-		let user = this.client.db.points.findOne({guild: message.guild.id, member: message.author.id});
-		if (!user)
-			return this.client.db.points.insert({guild: message.guild.id, member: message.author.id, points: pointstoadd, level: 0});
-
-		user.points = user.points - pointstoadd;
-		user.level = Math.floor(user.points / 350);
-
-		this.client.db.points.update(user);
-	}
-
-	async log(oldMessage, newMessage) {
+	log(oldMessage, newMessage) {
 		if (!oldMessage) return;
 		let logs = newMessage.guild.config.render("logchan")
 
@@ -68,7 +36,7 @@ export default class messageUpdateListener extends discordAkairo.Listener {
 			text = `${newMessage.member.displayName} updated their message`;
 
 			let oldMessageContent = "Error Field";
-			let newMessageContent = "Error Field"
+			let newMessageContent = "Error Field";
 
 			if (oldMessage.content) {
 				oldMessageContent = oldMessage.content;
@@ -103,6 +71,6 @@ export default class messageUpdateListener extends discordAkairo.Listener {
 			.addField(":bookmark_tabs: Channel", `${newMessage.channel.name} (#${newMessage.channel.id})`)
 	  		.addField(":id: Message ID", `${newMessage.id}`)
 
-		logs.send(text, { embed: messageUpdateEmbed });
+		return logs.send(text, { embed: messageUpdateEmbed });
 	}
 }

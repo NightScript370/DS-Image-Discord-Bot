@@ -1,7 +1,6 @@
-import discordAkairo from 'discord-akairo';
-import { random } from "including-range-array";
+import MessageListener from '../struct/MessageListener';
 
-export default class MessageDeleteListener extends discordAkairo.Listener {
+export default class MessageDeleteListener extends MessageListener {
 	constructor() {
 		super('messageDelete', {
 			emitter: 'client',
@@ -73,37 +72,6 @@ export default class MessageDeleteListener extends discordAkairo.Listener {
 			.setTimestamp(new Date());
 
 		logChannel.send(title, {embed: messageDeleteEmbed});
-	}
-
-	async invalidMessage(message) {
-		if (!Object.keys(message.util.parsed).length)
-			return false;
-
-		const attempt = message.util.parsed.alias;
-		if (!attempt)
-			return false;
-
-		return true;
-	}
-
-	async removePoints(message) {
-		if (message.author.bot) return;
-
-		const inhibitor = require("../../point-inhibit").default;
-		if (inhibitor.inhibite(message)) return;
-		if (this.invalidMessage == true) return;
-
-		let channelmultiplier = this.client.db.multiply.findOne({guild: message.guild.id, channel: message.channel.id}) || this.client.db.multiply.insert({channel: message.channel.id, guild: message.guild.id, multiply: 1 });
-		let pointstoadd = random(3) * channelmultiplier.multiply;
-
-		let user = this.client.db.points.findOne({guild: message.guild.id, member: message.author.id});
-		if (!user)
-			return this.client.db.points.insert({guild: message.guild.id, member: message.author.id, points: pointstoadd, level: 0});
-
-		user.points = user.points - pointstoadd;
-		user.level = Math.floor(user.points / 350);
-
-		this.client.db.points.update(user);
 	}
 }
 

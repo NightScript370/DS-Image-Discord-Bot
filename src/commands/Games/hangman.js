@@ -68,7 +68,7 @@ export default class HangmanCommand extends discordAkairo.Command {
 
         let game;
         if (!current) {
-            let listWords = require(`../../langs/${msg.author.lang}/hangman`);
+            let listWords = import(`../../langs/${msg.author.lang}/hangman`);
             let word = listWords.random()
             game = new Hangman(word, {maxAttempt: 6});
 

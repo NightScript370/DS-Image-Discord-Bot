@@ -40,34 +40,13 @@ export class ReadyListener extends discordAkairo.Listener {
 			console.error('[WEBSITE] Failed to load: ' + e);
 		}
 
-		this.client.botlist = {};
-
-		if (botLists['top.gg']) {
-			try {
-				const TopGG = require("dblapi.js");
-				this.client.botlist.TopGG = new TopGG(botLists['top.gg'].token, {
-					webhookPort: this.client.website.express.get('port'),
-					webhookAuth: botLists['top.gg'].webhookpass,
-					webhookServer: this.client.website.server,
-					statsInterval: 7200000
-				}, this.client)
-
-				this.client.listenerHandler.setEmitters({
-					dbl: this.client.botlist.TopGG,
-					dblwebhook: this.client.botlist.TopGG.webhook
-				});
-			} catch (e) {
-				console.error('[DiscordBots.org] Failed to load: ' + e)
-			}
-		}
-
 		await this.client.listenerHandler.remove('ready');
 		await this.client.listenerHandler.remove('commandHandlerLoad');
 		await this.client.listenerHandler.loadAll();
 
 		console.log(`My body, ${this.client.user.username} is ready to serve ${this.client.users.size} users in ${this.client.guilds.size} servers!`);
 
-		const fs = require("fs");
+		const fs = import("fs");
 		try {
 			const { id: rebootMsgID, channel: rebootMsgChan } = import('../../reboot.json');
 			const m = await this.client.channels.get(rebootMsgChan).messages.fetch(rebootMsgID);
@@ -91,20 +70,6 @@ export class ReadyListener extends discordAkairo.Listener {
 					});
 
 				console.log('[discordbotlist.com] stats updated');
-			} catch(O_o) {
-				console.error(O_o);
-			}
-		}
-
-		if (botLists['discord.boats']) {
-			try {
-				console.log('[discord.boats] Updating stats');
-
-				await post(`https://discord.boats/api/v2/bot/${this.client.user.id}`)
-					.set("Authorization", botLists['discord.boats'].token)
-					.send({server_count: this.client.guilds.size});
-
-				console.log('[discord.boats] stats updated');
 			} catch(O_o) {
 				console.error(O_o);
 			}

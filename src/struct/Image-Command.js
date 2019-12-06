@@ -1,8 +1,5 @@
 import Command from './Command.js';
 import canvas from 'canvas';
-const { createCanvas, loadImage } = canvas
-import path from 'path';
-import { deflateRawSync } from 'zlib';
 
 export default class ImageCommand extends Command {
 	constructor(...args) {
@@ -17,7 +14,7 @@ export default class ImageCommand extends Command {
 
 		if (Array.isArray(images))
 			for (var image of images) {
-				currentimage = loadImage(image);
+				currentimage = canvas.loadImage(image);
 
 				if (height < currentimage.height)
 					height = currentimage.height;
@@ -26,7 +23,7 @@ export default class ImageCommand extends Command {
 					width = currentimage.width;
 			}
 		else {
-			currentimage = loadImage(images);
+			currentimage = canvas.loadImage(images);
 
 			height = currentimage.height;
 			width = currentimage.width;

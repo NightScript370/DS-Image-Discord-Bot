@@ -1,9 +1,6 @@
-import discordAkairo from 'discord-akairo';
-import { random } from "including-range-array";
-import { get as getDistance } from "fast-levenshtein";
-import { inhibit as pointInhibit } from "../point-inhibit.js"
+import MessageListener from '../struct/MessageListener';
 
-export default class messageInavlidListener extends discordAkairo.Listener {
+export default class messageInavlidListener extends MessageListener {
     constructor() {
         super('messageInvalid', {
             emitter: 'commandHandler',
@@ -12,168 +9,29 @@ export default class messageInavlidListener extends discordAkairo.Listener {
     }
 
 	async exec(message) {
-		if (this.invalidMessage(message) == true) return;
-
+		if (await this.invalidMessage(message, true)) return;
 		if (!message.guild) return;
-		if (this.antispam(message) == true) return;
 
-		this.handlePoints(message)
-	}
+		let mod = message.guild.members.get(this.client.user.id);
+		if (mod.hasPermission(['MANAGE_MESSAGES', 'BAN_MEMBERS'])) {
+			if (message.mentions && message.mentions.members) {
+				if(message.mentions.members.size > 11) {
+					return this.client.moderation.ban(client, message.member, 'Mention spamming in #'+message.channel.name, mod, message);
+            	}
 
-	async invalidMessage(message) {
-		if (!Object.keys(message.util.parsed).length)
-			return false;
-
-		const attempt = message.util.parsed.alias;
-
-		if (!attempt)
-			return false;
-
-		if (Array.from(message.util.handler.aliases.keys()).includes(attempt))
-			return true;
-
-		if (!message.channel.sendable) return false;
-		if (message.util.parsed.prefix !== `<@${this.client.user.id}>` && message.guild) {
-			let guildBots = message.guild.members.filter(member => member.user.bot);
-			guildBots.delete(this.client.user.id);
-			if (guildBots.size) {
-				const wait = require('util').promisify(setTimeout);
-				await wait(1700);
-
-				let messages = (await message.channel.messages.fetch({ limit: 50 }))
-					.filter(channelMessage => channelMessage.author.bot)
-					.filter(channelMessage => channelMessage.author.id !== this.client.user.id)
-					.filter(channelMessage => channelMessage.createdAt >= message.createdAt)
-
-				if (messages.size)
-					return true;
-			}
-		}
-
-		let distances = [];
-		let distancebetween;
-		for (const alias of message.util.handler.aliases.keys()) {
-			distancebetween = getDistance(alias, attempt);
-			if (distancebetween > 2) continue;
-
-			distances.push({
-				alias: alias,
-				command: message.util.handler.modules.find(c => c.aliases.includes(alias)),
-				distance: distancebetween
-			});
-		}
-
-		const __ = (k, ...v) => global.translate(message.author.lang, k, ...v);
-
-		let text = __("Hey {0}, {1} is not a command.", message.guild ? message.member.displayName : message.author.username, attempt) + "\n";
-		let suggestedCmds = [];
-		let iterated = [];
-
-		if (distances.length) {
-			distances.sort((a, b) => a.dist - b.dist);
-
-			let currentcmd;
-			let description;
-
-			for (const index in distances) {
-				currentcmd = distances[index].command;
-				if (!currentcmd) continue;
-				if (iterated.includes(currentcmd.id)) continue;
-
-				description = false;
-				if (currentcmd.description) {
-					description = currentcmd.description
-					if (currentcmd.description.content)
-						description = currentcmd.description.content;
+				if(message.mentions.members.size > 6) {
+					this.client.moderation.warn(client, message.author, 'Mention spamming in #'+message.channel.name, mod, message);
+					return message.reply("Do not mass-mention other users.");
 				}
-
-				suggestedCmds.push(`\`${parseInt(index)+1}.\` **${distances[index].alias} ${description ? ':** ' + (description.join ? description.map(d => __(d)).join(" - ") : __(description)) : '**'}`);
-				iterated.push(currentcmd.id);
 			}
 		}
 
-		if (suggestedCmds.length)
-			text = text
-				 + __("However, here are some commands that you might be looking for:")
-				 + "\n\n"
-				 + suggestedCmds.join("\n")
-				 + "\n\n"
+		let levelUpCfg = {
+			levelUp: true,
+			limit: message.guild.config.data.leveluplimit,
+			messages: (!message.channel.sendable || !message.guild.config.render('levelup') ? [] : message.guild.config.data.levelupmsgs)
+		};
 
-		text += __("If you'd like to see more commands, check out the commands command or the page on our website");
-
-		try {
-			let invalidCommandMessage = await message.channel.send(text);
-			invalidCommandMessage.delete({timeout: (suggestedCmds.length ? 12000 : 5000)})
-		} catch (e) {
-			console.error(e);
-		}
-
-		return true;
-	}
-
-	async handlePoints(message) {
-		if (pointInhibit(message)) return;
-
-		let channelmultiplier = this.client.db.multiply.findOne({guild: message.guild.id, channel: message.channel.id}) || this.client.db.multiply.insert({channel: message.channel.id, guild: message.guild.id, multiply: 1 });
-		let pointstoadd = random(3) * channelmultiplier.multiply;
-
-		let user = this.client.db.points.findOne({guild: message.guild.id, member: message.author.id});
-		if (!user)
-			return this.client.db.points.insert({guild: message.guild.id, member: message.author.id, points: pointstoadd, level: 0});
-
-		user.points = pointstoadd + user.points;
-
-		//? let curLevel = Math.floor(user.points / 350);
-		/*
-		 * level = 0 => limit = 180 * 1 +  0 =  180 +  0 =  180;
-		 * level = 1 => limit = 180 * 2 + 10 =  360 + 10 =  370;
-		 * level = 2 => limit = 180 * 3 + 20 =  540 + 20 =  560;
-		 * level = 3 => limit = 180 * 4 + 30 =  720 + 30 =  750;
-		 * level = 4 => limit = 180 * 5 + 40 =  900 + 40 =  940;
-		 * level = 5 => limit = 180 * 6 + 50 = 1080 + 50 = 1130;
-		*/
-		let limit = 180 * (user.level+1) + (10*user.level);
-		if (user.xp >= limit && (message.guild.config.data.leveluplimit == -1 || user.level !== message.guild.config.data.leveluplimit)) {
-			user.level = user.level + 1;
-
-			if (!message.channel.sendable || !message.guild.config.render('levelup')) return;
-
-			let levelups = message.guild.config.data.levelupmsgs;
-			if (!levelups) return console.log(`${server.name} (#${server.id}) does not have level up messages`);
-			let levelupmsg = levelups.random()
-				.replaceAll("{{server}}", message.guild.name)
-				.replaceAll("{{user}}", message.author.username)
-				.replaceAll("{{ping}}", `<@${message.author.id}>`)
-				.replaceAll("{{level}}", curLevel)
-
-			if (levelupmsg) {
-				console.log(`I sent a level up message in ${message.guild.name} (${message.guild.id}) for ${message.author.username} (${message.author.id}): ${levelupmsg}`)
-				const sentLevelUpMessage = await message.channel.send(levelupmsg);
-				await sentLevelUpMessage.delete({timeout: 5000});
-			}
-		}
-
-		this.client.db.points.update(user);
-	}
-
-	antispam(message) {
-		var mod = message.guild.members.get(this.client.user.id);
-		if (!mod.hasPermission(['MANAGE_MESSAGES', 'BAN_MEMBERS'])) return false;
-
-		// Anti mass mention
-		if (message.mentions && message.mentions.members) {
-			if(message.mentions.members.size > 11) {
-				this.client.moderation.ban(client, message.member, 'Mention spamming in #'+message.channel.name, mod, message);
-                return true;
-            }
-
-			if(message.mentions.members.size > 6) {
-				this.client.moderation.warn(client, message.author, 'Mass mentioning', mod, message);
-				message.reply("Do not mass-mention other users.");
-                return true;
-			}
-		}
-
-        return false;
+		this.addPoints(message, levelUpCfg)
 	}
 }

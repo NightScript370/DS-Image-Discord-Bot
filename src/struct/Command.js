@@ -2,7 +2,7 @@ import discordAkairo from 'discord-akairo';
 import List from 'list-array';
 import { query } from 'gamedig';
 
-export default class SpecialYamamuraCommand extends Command {
+export default class SpecialYamamuraCommand extends discordAkairo.Command {
 	constructor(...args) {
 		super(...args);
 	}

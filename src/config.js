@@ -1,4 +1,4 @@
-try { require('dotenv').config() } catch {}
+try { import('dotenv').config() } catch {}
 
 export const token = process.env.TOKEN;
 export const botLists = {

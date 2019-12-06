@@ -2,11 +2,10 @@ import discordJS from 'discord.js';
 import { findType } from '../settings/index.js';
 import databaseModule from '../utils/database.js';
 import { prefix as defaultPrefix } from "../config.js";
-const { Structures } = discordJS
 const { serverconfig } = databaseModule
 
 // This extends Discord's native Guild class with our own methods and properties
-export default Structures.extend("Guild", Guild => class extends Guild {
+export default discordJS.Structures.extend("Guild", Guild => class extends Guild {
 	constructor(...args) {
 		super(...args);
 		this.DBinit();

@@ -1,8 +1,5 @@
 import discordJS from 'discord.js';
-const { Structures } = discordJS
-
-// This extends Discord's native TextChannel class with our own methods and properties
-export default Structures.extend("TextChannel", TextChannel => class extends TextChannel {
+export default discordJS.Structures.extend("TextChannel", TextChannel => class extends TextChannel {
 	constructor(...args) {
 		super(...args);
 	}

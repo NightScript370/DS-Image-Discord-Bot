@@ -1,12 +1,10 @@
 import discordJS from 'discord.js';
 import DatabaseModule from '../utils/database.js';
-import * as languageModule from "../langs/framework.js";
-const { Structures } = discordJS
+import defaultLang from "../langs/framework.js";
 const { userconfig } = DatabaseModule
-const { defaultLang } = languageModule
 
 // This extends Discord's native User class with our own methods and properties
-export default Structures.extend("User", User => class extends User {
+export default discordJS.Structures.extend("User", User => class extends User {
 	constructor(...args) {
 		super(...args)
 	}

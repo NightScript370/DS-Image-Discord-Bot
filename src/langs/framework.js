@@ -1,4 +1,4 @@
-const formatStringWithChoice = (script, k, ...repl) => {
+export const formatStringWithChoice = (script, k, ...repl) => {
 	// inline variables
 	// & variable {key}
 	// k = k.replace(/(?:(?<!\\){)\s*key\s*(?:(?<!\\)})/gmi, key)
@@ -41,15 +41,15 @@ const formatStringWithChoice = (script, k, ...repl) => {
 	return k;
 }
 
-const translate = (lang, key, ...repl) => {
-	let languageFile = require(`./${lang}/index.js`);
+export const translate = (lang, key, ...repl) => {
+	let languageFile = import(`./${lang}/index.js`);
 	key = languageFile[key] || key;
 
 	return formatStringWithChoice(true, key, ...repl);
 }
 
-translate.backwards = (lang, translated, ...repl) => {
-	let languageFile = require(`./${lang}/index.js`);
+export const backwards = (lang, translated, ...repl) => {
+	let languageFile = import(`./${lang}/index.js`);
 
 	let newKeyList = {};
 	for (var key of Object.keys(languageFile))
@@ -59,21 +59,19 @@ translate.backwards = (lang, translated, ...repl) => {
 	return formatStringWithChoice(true, noTrans, ...repl);
 }
 
-translate.defaultLang = "en"
+export const defaultLang = "en"
 
-translate.formatStringWithChoice = formatStringWithChoice;
-translate.formatString = (k, ...v) => formatStringWithChoice(true, k, ...v)
-translate.formatStringObject = (k, obj) => k.replace(new RegExp("(?:(?<!\\\\){)\\s*(.*)\\s*(?:(?<!\\\\)})", "gmi"), (match, key) => obj[key])
+export const formatString = (k, ...v) => formatStringWithChoice(true, k, ...v)
+export const formatStringObject = (k, obj) => k.replace(new RegExp("(?:(?<!\\\\){)\\s*(.*)\\s*(?:(?<!\\\\)})", "gmi"), (match, key) => obj[key])
 
-translate.getStringObject = (lang, key, ...repl) => {
-	let l;
-	if (lang !== 'en') l = require(`./${lang}/index.js`);
-	let k = lang == "en" ? key : l[key] || key;
+export const getStringObject = (lang, key, ...repl) => {
+	let l = import(`./${lang}/index.js`);
+	let k = l[key] || key;
 
-	return translate.formatStringObject(k, ...repl);
+	return formatStringObject(k, ...repl);
 }
 
-translate.getDuration = (lang, duration) => {
+export const getDuration = (lang, duration) => {
 	const __ = k => translate(lang, k)
 
 	let milliseconds = parseInt((duration % 1000) / 100)
@@ -99,5 +97,13 @@ translate.getDuration = (lang, duration) => {
 
 	return `${dayString}${hourString}${minString}${secString}`
 }
+
+translate.backwards = backwards;
+translate.defaultLang = defaultLang
+translate.formatString = formatString
+translate.formatStringObject = formatStringObject
+translate.formatStringWithChoice = formatStringWithChoice;
+translate.getStringObject = getStringObject;
+translate.getDuration = getDuration;
 
 export default translate

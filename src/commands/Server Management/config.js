@@ -178,7 +178,7 @@ export default class ConfigCommand extends discordAkairo.Command {
 			msg.guild.config.set(key, arr.concat(data[key]));
 
 			// await this.client.db.serverconfig.update(data);
-			msg.util.send(require("util").inspect(data[key]), {code: 'js'});
+			msg.util.send(import("util").inspect(data[key]), {code: 'js'});
 		} else {
 			msg.util.send(__("The action must be one of [{0}]!", "add, clear"));
 		}
