@@ -41,25 +41,6 @@ module.exports = class ReadyListener extends Listener {
 
 		this.client.botlist = {};
 
-		if (config.botLists['top.gg']) {
-			try {
-				const TopGG = await require("dblapi.js");
-				this.client.botlist.TopGG = await new TopGG(config.botLists['top.gg'].token, {
-					webhookPort: this.client.website.express.get('port'),
-					webhookAuth: config.botLists['top.gg'].webhookpass,
-					webhookServer: this.client.website.server,
-					statsInterval: 7200000
-				}, this.client)
-
-				this.client.listenerHandler.setEmitters({
-					dbl: this.client.botlist.TopGG,
-					dblwebhook: this.client.botlist.TopGG.webhook
-				});
-			} catch (e) {
-				console.error('[DiscordBots.org] Failed to load: ' + e)
-			}
-		}
-
 		await this.client.listenerHandler.remove('ready');
 		await this.client.listenerHandler.remove('commandHandlerLoad');
 		await this.client.listenerHandler.loadAll();
@@ -91,21 +72,6 @@ module.exports = class ReadyListener extends Listener {
 					});
 
 				console.log('[discordbotlist.com] stats updated');
-			} catch(O_o) {
-				console.error(O_o);
-			}
-		}
-
-		if (config.botLists['discord.boats']) {
-			try {
-				console.log('[discord.boats] Updating stats');
-
-				await request
-					.post(`https://discord.boats/api/v2/bot/${this.client.user.id}`)
-					.set("Authorization", config.botLists['discord.boats'].token)
-					.send({server_count: this.client.guilds.size});
-
-				console.log('[discord.boats] stats updated');
 			} catch(O_o) {
 				console.error(O_o);
 			}

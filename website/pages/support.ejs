@@ -39,7 +39,12 @@
 						<li>Spread the word! The more servers the bot is in, there will be more people to experience the bot.</li>
 						<li>Join our <a href="<%=client.supportServer%>">Discord Server</a>! You can express your opinion about the bot there as well as partake in development.</li>
 						<li>Let us know what you think of the bot, and what we should add or change! We take your opinion seriously.</li>
-						<li>Upvote the bots on <a href="https://discordbotlist.com/bots/<%= client.user.id %>">discordbotlist.com</a>, <a href="https://discordbots.org/bot/<%= client.user.id %>">discordbots.org</a> & <a href="https://discord.boats/bot/<%= client.user.id %>">discord.boats</a>.</li>
+						<li>Upvote the bot on
+							<% for (let i in widgets) { %>
+								<a href="<%=widgets[i].link%>"> <%=widgets[i].website%> </a>
+								<%- i-2 == widgets.length ? ' & ' : i-- == widgets.length ? '' : ', ' %>
+							<% } %>
+						.</li>
 						<li>If you're a programmer, you can help out with <%= client.user.username%> development sending pull requests on our <a href="https://gitlab.com/Samplasion/yamamura-discord-bot">GitLab repository</a>. We're currently looking for help in regards to code cleaning and adding highly requested and complex features. We use Node.JS as the language backend alongside Discord.JS with Discord-Akairo</li>
 						<li>Help <a href="https://jedayoshi.com">JeDaYoshi#7942</a> pay for a server by donating to his <a href="https://paypal.me/Naydire">PayPal</a>. Currently, <%= client.user.username%> is running on a VPS he's borrowing, but by donating, you can help maintain the server and buy a better one.</li>
 						<li>Documentation is quite sparse at the moment. We need you to help fill it out by documenting what each command does and give descriptions to the command parameters. You can do so by Sending a Pull Request on our GitLab repository.</li>

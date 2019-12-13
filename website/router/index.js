@@ -66,14 +66,14 @@ exports.router = (client) => router
 				}
 			},
 			{
-				website: 'discordbots.org',
-				imageurl: `https://discordbots.org/api/widget/${client.user.id}.svg?usernamecolor=FFFFFF&topcolor=7289DA`,
-				link: `https://discordbots.org/bot/${client.user.id}`
+				website: 'bots.ondiscord.xyz',
+				imageurl: `https://bots.ondiscord.xyz/bots/${client.user.id}/embed?theme=dark&showGuilds=true`,
+				link: `https://bots.ondiscord.xyz/bots/${client.user.id}`
 			},
 			{
-				website: 'discord.boats',
-				imageurl: `https://discord.boats/API/V2/widget/${client.user.id}`,
-				link: `https://discord.boats/bot/${client.user.id}`
+				website: 'botlist.space',
+				imageurl: `https://api.botlist.space/widget/${client.user.id}/4`,
+				link: `https://botlist.space/bot/${client.user.id}`
 			}
 		];
 		response.render("support", object)
