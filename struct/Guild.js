@@ -47,7 +47,7 @@ module.exports = Structures.extend("Guild", Guild => class YamamuraGuild extends
 				return db.serverconfig.insert(defaultSettings);
 			},
 			get data() {
-				let data = db.serverconfig.findOne({ guildID: guild.id }) || this.setDefaultSettings();
+				let data = db.serverconfig.findOne({ guildID: guild.id }) || guild.config.setDefaultSettings();
 				return data;
 			},
 			set: (key, newValue, update=true) => {
@@ -58,7 +58,7 @@ module.exports = Structures.extend("Guild", Guild => class YamamuraGuild extends
 					return db.serverconfig.update(currentsettings);
 			},
 			render: (key) => {
-				let data = db.serverconfig.findOne({ guildID: guild.id }) || this.setDefaultSettings();
+				let data = db.serverconfig.findOne({ guildID: guild.id }) || guild.config.setDefaultSettings();
 				let value = data[key];
 
 				return findType(key).deserialize(guild.client, { guild }, value);
