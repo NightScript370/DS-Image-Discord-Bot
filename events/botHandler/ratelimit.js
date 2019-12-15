@@ -10,8 +10,6 @@ module.exports = class rateLimitListener extends Listener {
     }
 
     exec(rateLimitObj) {
-		console.log(`Rate limit reached!\nTimeout: ${rateLimitObj.timeout}\nLimit: ${rateLimitObj.limit}\n` +
-					`TimeDiff: ${rateLimitObj.timeDifference}\nMethod: ${rateLimitObj.method}\nPath: ${rateLimitObj.path}\n` +
-					`Route: ${rateLimitObj.route}`);
+		console.log(`Rate limit reached!\n${require('util').inspect(rateLimitObj)}`);
 	}
 };

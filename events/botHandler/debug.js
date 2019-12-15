@@ -10,7 +10,8 @@ module.exports = class discordDebugistener extends Listener {
 	}
 
 	exec(debug) {
-		let err = debug.toString().toLowerCase();
-		if (err.includes("voice")) console.log("[DISCORD VOICE DEBUG]", debug);
+		if (/(Sending a heartbeat|Latency of)/i.test(message)) return null;
+		if (/voice/i.test(message)) return null;
+		console.log("[DEBUG] " + debug)
 	}
 }
