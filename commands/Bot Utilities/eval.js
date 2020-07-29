@@ -21,8 +21,8 @@ module.exports = class EvalCommand extends Command {
 					id: 'script',
 					description: "This is the code you would like to run",
 					prompt: {
-						start: (msg) => global.translate(msg.author.lang, 'What code would you like to evaluate?'),
-						retry: (msg) => global.translate(msg.author.lang, 'That is not something we can evaluate. Try again')
+						start: 'What code would you like to evaluate?',
+						retry: 'That is not something we can evaluate. Try again'
 					},
 					type: 'string',
 					match: "rest"

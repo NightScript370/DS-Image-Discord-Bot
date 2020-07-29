@@ -17,8 +17,8 @@ module.exports = class ExecCommand extends Command {
 				{
 					id: 'script',
 					prompt: {
-						start: (msg) => global.translate(msg.author.lang, 'What code would you like to execute?'),
-						retry: (msg) => global.translate(msg.author.lang, "That is not code we can execute in the console.")
+						start: 'What code would you like to execute?',
+						retry: "That is not code we can execute in the console."
 					},
 					type: 'string',
 					match: "content"

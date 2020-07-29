@@ -13,8 +13,8 @@ module.exports = class CommandBlockedListener extends Listener {
 		const __ = (k, ...v) => global.translate(message.author.lang, k, ...v);
 
 		const text = {
-			owner: () => __("we're sorry, but the {0} command may only be used by the bot owners.", command.id),
-			guild: () => __("we're sorry, but the {0} command may only be used in a server.", command.id)
+			owner: () => `we're sorry, but the ${command.id} command may only be used by the bot owners.`,
+			guild: () => `we're sorry, but the ${command.id} command may only be used in a server.`
 		}[reason];
 
 		const tag = message.guild ? message.guild.name : `DM`;

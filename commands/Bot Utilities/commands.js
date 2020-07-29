@@ -25,7 +25,6 @@ module.exports = class CommandsCommand extends Command {
 	}
 
 	async exec(msg, { commandName }) {
-		const __ = (k, ...v) => global.translate(msg.author.lang, k, ...v);
 		let embed = this.client.util.embed()
 
 		let description;
@@ -47,17 +46,17 @@ module.exports = class CommandsCommand extends Command {
 				}
 
 				if (command.aliases && command.aliases.filter && command.aliases.filter(al => al !== command.id).length)
-					embed.addField(__("Aliases"), command.aliases.filter(al => al !== command.id).map(alias => `\`${alias}\``).join(", "))
+					embed.addField("Aliases", command.aliases.filter(al => al !== command.id).map(alias => `\`${alias}\``).join(", "))
 
 				if (command.category)
-					embed.addInline(__("Category"), __(command.category.id))
+					embed.addInline("Category", command.category.id)
 
 				let usage;
 				if (command.description && command.description.usage)	usage = command.description.usage;
 				if (command.usage)										usage = command.usage;
 
 				if (usage)
-					embed.addField(__("Usage"), `\`${usage}\``)
+					embed.addField("Usage", `\`${usage}\``)
 
 				if (this.isGood(command.args)) {
 					for (var arg of command.args) {
@@ -86,15 +85,15 @@ module.exports = class CommandsCommand extends Command {
 
 				switch (command.channel) {
 					case 'guild':
-						commandPermissions.push(__('Server Only'));
+						commandPermissions.push('Server Only');
 						break;
 					case 'dm':
-						commandPermissions.push(__('Direct Messages Only'));
+						commandPermissions.push('Direct Messages Only');
 						break;
 				}
 
 				if (command.ownerOnly)
-					commandPermissions.push(__('Owner only'));
+					commandPermissions.push('Owner only');
 
 				if (this.isGood(commandPermissions))
 					embed.addInline('Restrictions', commandPermissions.join(' | '));
@@ -104,23 +103,12 @@ module.exports = class CommandsCommand extends Command {
 				if (command.examples)										examples = command.examples;
 
 				if (examples)
-					embed.addField(__("Examples"), (typeof examples == 'string' ? `\`${examples}\`` : examples.map(example => "`" + example + "`").join("\n")))
-
-				let exmplist = fs.readdirSync(path.join(process.cwd(), 'website', 'public', 'examples'));
-				let iconlist = fs.readdirSync(path.join(process.cwd(), 'website', 'public', 'icons'));
-
-				if (exmplist.filter(item => item === `${command.id}.png`).length)
-					embed.setImage(`${this.client.website.URL}/examples/${command.id}.png`);
-
-				if (iconlist.filter(item => item === `${command.id}.png`).length)
-					embed.setThumbnail(`${this.client.website.URL}/icons/${command.id}.png`);
+					embed.addField("Examples", (typeof examples == 'string' ? `\`${examples}\`` : examples.map(example => "`" + example + "`").join("\n")))
 
 				return msg.channel.send(command.id + (description ? ': ' + (description.join ? description.map(d => __(d)).join(" - ") : __(description)) : ''), {embed});
 			}
 
-			let category = this.client.commandHandler.categories.get(titleCase(global.translate.backwards(msg.author.lang, commandName)))
-			if (!this.isGood(category))
-				category = this.client.commandHandler.categories.get(titleCase(commandName))
+			let category = this.client.commandHandler.categories.get(titleCase(commandName))
 
 			if (!this.isGood(category))
 				return msg.util.send(__("Invalid command/category name. Please try again"));
@@ -178,8 +166,6 @@ module.exports = class CommandsCommand extends Command {
 
 					 + __("Type a command or category name for information on that item") + "\n"
 					 + __("To run a command in {0}, use `{1}command` or `{2} command`. For example, `{1}invite` or `{2} invite`.", msg.guild ? msg.guild.name : "this DM box", this.handler.prefix(msg), `@${this.client.user.username}#${this.client.user.discriminator}`)
-
-					 + (this.client.website ? ("\n\n" + __("A full list of commands can be viewed on our website: {0}", `${this.client.website.URL}/commands`)) : '')
 
 			cats.forEach(category => {
 				let catCmds = cmds.filter(c => c instanceof akairoCommand).filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));

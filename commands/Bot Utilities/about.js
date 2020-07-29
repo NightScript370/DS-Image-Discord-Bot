@@ -17,24 +17,15 @@ module.exports = class aboutCommand extends Command {
 	}
 
 	async exec(authorMessage) {
-		const __ = (k, ...v) => global.translate(authorMessage.author.lang, k, ...v)
 
 		let inviteLink = await this.client.generateInvite();
-		let message = "<:Yamamura:633898611125649418> | " + __("Welcome to {0}", this.client.user.username) + "\n"
-			+ __("{0} is an all-in-one Discord bot dedicated to helping modding communities and more.", this.client.user.username) + "\n"
-			+ __("It can fulfill your server's moderation needs and create fun events for your community to enjoy") + "\n\n"
+		let message = "<:Yamamura:633898611125649418> | " + `Welcome to ${this.client.user.username}` + "\n"
+			+ `${this.client.user.username} is an all-in-one Discord bot dedicated to helping modding communities and more.` + "\n"
+			+ "It can fulfill your server's moderation needs and create fun events for your community to enjoy" + "\n\n"
 
-			+ __("If you'd like to see all the available commands, please take a look at our website or use the `{0}commands` command", authorMessage.guild.config.data.prefix)
+			+ "If you'd like to see all the available commands, use the `time!commands` command"
 
-		let embed = this.client.util.embed()
-			.addField(__('Links'),
-				createBultin(__("Invite {0} to your server", this.client.user.username), inviteLink, __("Requires `MANAGE_SERVER` permissions"))
-			  + createBultin(__("Check out our website"), this.client.website.URL)
-			  + createBultin(__("Run some of these commands"), `${this.client.website.URL}/commands`)
-			  + createBultin(__("Join our Support Server"), this.client.supportServer))
-			.setYamamuraCredits(false)
-
-		authorMessage.util.send(message, (authorMessage.channel.embedable ? {embed: embed} : {}));
+		authorMessage.util.send(message);
 	}
 };
 

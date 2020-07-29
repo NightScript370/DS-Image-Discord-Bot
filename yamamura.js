@@ -1,18 +1,14 @@
 try { require('cache-require-paths'); } catch {}
 
 require("./utils/extraFunctions.js");
-global.translate = require("./langs/framework.js")
 
 const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } = require('discord-akairo');
 const config = require("./config.js");
 const List = require("list-array");
 const BackEmbed = require('./embed.js');
 
-require("./struct/User.js");
-require("./struct/Guild.js");
 require("./struct/DMChannel.js");
 require("./struct/TextChannel.js");
-require("./struct/GuildMember.js");
 
 console.logs = {
 	log: [],
@@ -52,23 +48,7 @@ class YamamuraClient extends AkairoClient {
 
 		this.commandHandler = new CommandHandler(this, {
 			directory: './commands/',
-			prefix: msg => {
-				let prefix;
-
-				if (msg.guild) {
-					try {
-						prefix = msg.guild.config.data.prefix;
-						if (prefix.value)
-							prefix = prefix.value;
-					} catch(e) {
-						console.error(e)
-						prefix = config.prefix;
-					}
-				} else
-					prefix = ['', config.prefix]
-
-				return prefix;
-			},
+			prefix: 'time!',
 			handleEdits: true,
 			commandUtil: true,
 			commandUtilLifetime: 300000,
@@ -76,11 +56,11 @@ class YamamuraClient extends AkairoClient {
 			allowMention: true,
 			argumentDefaults: {
 				prompt: {
-					modifyStart: (message, text) => text && `${message.author} **::** ${global.translate(message.author.lang, text)}\n` + global.translate(message.author.lang, "Type `cancel` to cancel this command."),
-					modifyRetry: (message, text) => text && `${message.author} **::** ${global.translate(message.author.lang, text)}\n` + global.translate(message.author.lang, "Type `cancel` to cancel this command."),
-					timeout: message => `${message.author} **::** ` + global.translate(message.author.lang, "Time ran out, command has been cancelled."),
-					ended: message => `${message.author} **::** ` + global.translate(message.author.lang, "Too many retries, command has been cancelled."),
-					cancel: message => `${message.author} **::** ` + global.translate(message.author.lang, "Command has been cancelled."),
+					modifyStart: (message, text) => text && `${message.author} **::** ${text}\n` + "Type `cancel` to cancel this command.",
+					modifyRetry: (message, text) => text && `${message.author} **::** ${text}\n` + "Type `cancel` to cancel this command.",
+					timeout: message => `${message.author} **::** ` + "Time ran out, command has been cancelled.",
+					ended: message => `${message.author} **::** ` + "Too many retries, command has been cancelled.",
+					cancel: message => `${message.author} **::** ` + "Command has been cancelled.",
 					retries: 4,
 					time: 30000
 				}
@@ -102,22 +82,7 @@ class YamamuraClient extends AkairoClient {
 		this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
 		this.inhibitorHandler.loadAll();
 
-		this.moderation = require('./utils/moderation.js');
-
 		this.util.embed = () => {return new BackEmbed();}
-		this.util.pad = (n) => n < 10 ? "0"+n : ""+n;
-
-		this.util.setDefaultStatus = (client) => {
-			let userActivity = (config.website.url).replaceAll(['https://', 'http://'], '') + ' | Mention me for help information';
-			if (!client.user.presence.activity || (client.user.presence.activity && client.user.presence.activity.name !== userActivity))
-				return client.user.setActivity(userActivity);
-			else
-				return client.user.presence;
-		};
-
-		this.audio = require('./utils/audio.js');
-
-		this.log = config.log;
 	};
 }
 

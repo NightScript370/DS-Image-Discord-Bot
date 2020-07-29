@@ -11,12 +11,7 @@ module.exports = class errorListener extends Listener {
 	}
 
 	exec(error, message, command=null) {
-		const __ = (k, ...v) => global.translate(message.author.lang, k, ...v);
-		Logger.error('An error occured in a command.');
-
 		const tag = message.guild ? message.guild.name : `${message.author.tag}/PM`;
-		Logger.error(message.content, { tag });
-		Logger.stacktrace(error);
 
 		if (command) {
 			const current = this.client.commandHandler.games.get(message.author.id);
@@ -26,22 +21,19 @@ module.exports = class errorListener extends Listener {
 
 		if (message.channel.sendable) {
 			if (error.toString().includes('UDP Watchdog Timeout'))
-				return message.util.reply(__("The game server is offline. Please try connecting at a later date"));
+				return message.util.reply("The game server is offline. Please try connecting at a later date");
 
 			if (error.stack.includes('ENOTFOUND'))
-				return message.util.reply(__("The game server was not found. Please try again."));
+				return message.util.reply("The game server was not found. Please try again.");
 
 			if (error.stack.includes('TCP Connection Refused'))
-				return message.util.reply(__("The game server refused the connection. Please try again."));
+				return message.util.reply("The game server refused the connection. Please try again.");
 
 			const owners = this.client.ownerID.map(id => this.client.users.get(id).tag);
 			const isOwner = owners.filter(owner => message.author.tag == owner).length;
 
 			let cleanError = error.toString()
 				.replaceAll(this.client.token, '"<insert client token here>."')
-			
-			if (this.client.dbl && this.client.dbl.token)
-				cleanError.replaceAll(this.client.dbl.token, '"<insert DiscordBots.org token here>"');
 
 			let errorMessage = 'An error occured';
 			if (!isOwner)

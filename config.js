@@ -2,24 +2,6 @@ try { require('dotenv').config() } catch {}
 
 module.exports = {
 	token: process.env.TOKEN,
-	botLists: {
-		"top.gg": {
-			token: process.env.DBLTOKEN,
-			webhookpass: process.env.DBLPASS
-		},
-		"discord.boats": {
-			token: process.env.DBOATPASS,
-			webhookpass: ''
-		},
-		"discordbotlist.com": {
-			token: process.env.DBLORGTOKEN,
-			webhookpass: ''
-		}
-	},
-	website: {
-		url: "https://yamamura.xyz",
-		client_secret: process.env.CLIENT_SECRET
-	},
 	owners: [
 		"178261738364338177",
 		"305817665082097665",
